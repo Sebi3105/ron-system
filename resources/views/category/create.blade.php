@@ -8,8 +8,13 @@
 <body>
     <h1>Insert a Category</h1>
     <form method = "post" action="">
+    <div class = "category_name">
         <label>Category Name</label>
         <input type = "category_name" name = "category_name" placeholder="Category Name" />
+    </div>
+    <div class = "submit">
+        <input type = "submit" value = "Save Category">
+    </div>
     </form>
 </body>
 </html>

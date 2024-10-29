@@ -43,7 +43,9 @@
         <label>Product Name</label>
         <input type = "text" name = "notes" placeholder="Notes">
     </div>
-
+    <div class = "submit">
+        <input type = "submit" value = "Save Product">
+    </div>
 
 
   <!-- ... -->

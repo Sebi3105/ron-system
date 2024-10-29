@@ -8,8 +8,13 @@
 <body>
     <h1>Insert a Brand</h1>
     <form method = "post" action="">
+    <div class = "brand_name">
         <label>Brand Name</label>
         <input type = "brand_name" name = "brand_name" placeholder="Brand Name" />
+    </div>
+    <div class = "submit">
+        <input type = "submit" value = "Save Brand">
+    </div>
     </form>
 </body>
 </html>

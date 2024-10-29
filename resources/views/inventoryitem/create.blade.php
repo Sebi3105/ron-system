@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Insert a Product</h1>
+    <h1>Insert </h1>
     <form method = "post" action="">
     <div class = "productid_dropdown">
          <select name="productid_id" id="productid_id">
@@ -24,10 +24,10 @@
             <option value="option2">Defective</option>
          </select>
     </div>
+    <div class = "submit">
+        <input type = "submit" value = "Save Serial Number">
+    </div>
     
-
-
-
   <!-- ... -->
 </select>
 
