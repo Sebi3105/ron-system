@@ -6,10 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Insert a Brand</h1>
-    <form method = "post" action="">
-        <label>Brand Name</label>
-        <input type = "brand_name" name = "brand_name" placeholder="Brand Name" />
-    </form>
+    <h1>Inventory Items</h1>
+    <div>index</div>
 </body>
 </html>

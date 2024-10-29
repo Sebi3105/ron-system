@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Create a Product</h1>
+    <h1>Insert a Category</h1>
     <form method = "post" action="">
         <label>Category Name</label>
         <input type = "category_name" name = "category_name" placeholder="Category Name" />

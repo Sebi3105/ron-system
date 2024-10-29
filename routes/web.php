@@ -3,6 +3,7 @@
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\InventoryitemController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,4 +31,6 @@ Route::get('/category/create', [CategoryController::class, 'create'])->name('cat
 Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.index');
 Route::get('/inventory/create', [InventoryController::class, 'create'])->name('inventory.create');
 
+Route::get('/inventoryitem', [InventoryitemController::class, 'index'])->name('inventoryitem.index');
+Route::get('/inventoryitem/create', [InventoryitemController::class, 'create'])->name('inventoryitem.create');
 require __DIR__.'/auth.php';
