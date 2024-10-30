@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Insert a Category</h1>
+    <h1>Update Brands</h1>
     <div class = "error_checking">
         @if($errors->any())
         <ul>
@@ -20,15 +20,15 @@
 
         @endif
     </div>
-    <form method ="post" action="{{route('category.store')}}">
+    <form method = "post" action="{{route('brand.update', ['brand' => $brand])}}">
     @csrf 
-    @method('post')
-    <div class = "category_name">
-        <label>Category Name</label>
-        <input type = "category_name" name = "category_name" placeholder="Category Name" />
+    @method('put')
+    <div class = "brand_name">
+        <label>Update Brand</label>
+        <input type = "brand_name" name = "brand_name" placeholder="Brand Name" value = "{{$brand->brand_name}}"/>
     </div>
     <div class = "submit">
-        <input type = "submit" value = "Save Category">
+        <input type = "submit" value = "Update Brand">
     </div>
     </form>
 </body>

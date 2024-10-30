@@ -8,8 +8,9 @@ use App\Models\Brand;
 class BrandController extends Controller
 {
     //
-    public function index(){
-        return view('brand.index');
+    public function index(Request $request){
+        $brands = Brand::all();
+        return view('brand.index',['brands' => $brands]);
     }
 
     public function create(){
@@ -24,7 +25,26 @@ class BrandController extends Controller
 
         $new_brand = brand::create($data);
 
-        return redirect(route('brand.create'));
+        return redirect(route('brand.index'));
+    }
+
+    public function edit(Brand $brand){
+            return view('brand.edit',['brand' => $brand]);
+    }
+        
+    public function update(Brand $brand, Request $request){
+        $data = $request->validate([
+            'brand_name' => 'required',
+        ]);
+        $brand->update($data);
+
+        return redirect(route('brand.index'))-> with('success', 'Brand Updated Successfully');
+
+    }
+
+    public function delete(Brand $brand){
+        $brand->delete();
+        return redirect(route('brand.index'))-> with('success', 'Brand Deleted Successfully');
     }
 
 }

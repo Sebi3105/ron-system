@@ -25,6 +25,9 @@ Route::middleware('auth')->group(function () {
 Route::get('/brand', [BrandController::class, 'index'])->name('brand.index');
 Route::get('/brand/create', [BrandController::class, 'create'])->name('brand.create');
 Route::post('/brand', [BrandController::class, 'store'])->name('brand.store');
+Route::get('/brand/{brand}/edit', [BrandController::class, 'edit'])->name('brand.edit');
+Route::put('/brand/{brand}/update', [BrandController::class, 'update'])->name('brand.update');
+Route::delete('/brand/{brand}/delete', [BrandController::class, 'delete'])->name('brand.delete');
 
 Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
 Route::get('/category/create', [CategoryController::class, 'create'])->name('category.create');

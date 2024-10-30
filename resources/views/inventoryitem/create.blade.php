@@ -7,6 +7,19 @@
 </head>
 <body>
     <h1>Insert </h1>
+    <div class = "error_checking">
+        @if($errors->any())
+        <ul>
+            @foreach($errors->all as $error)
+                <li>{{$error}}</li>
+
+            @endforeach
+        </ul>
+
+
+
+        @endif
+    </div>
     <form method = "post" action="">
     <div class = "productid_dropdown">
          <select name="productid_id" id="productid_id">
