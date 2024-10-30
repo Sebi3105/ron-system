@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class brand extends Model
 {
     //
-    protected $table = [
-        'brand_name'
+    protected $fillable = [
+        'brand_name',
     ];
 }

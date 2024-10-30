@@ -24,9 +24,11 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/brand', [BrandController::class, 'index'])->name('brand.index');
 Route::get('/brand/create', [BrandController::class, 'create'])->name('brand.create');
+Route::post('/brand', [BrandController::class, 'store'])->name('brand.store');
 
 Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
 Route::get('/category/create', [CategoryController::class, 'create'])->name('category.create');
+Route::post('/category', [CategoryController::class, 'store'])->name('category.store');
 
 Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.index');
 Route::get('/inventory/create', [InventoryController::class, 'create'])->name('inventory.create');

@@ -7,7 +7,9 @@
 </head>
 <body>
     <h1>Insert a Brand</h1>
-    <form method = "post" action="">
+    <form method = "post" action="{{route('brand.store')}}">
+    @csrf 
+    @method('post')
     <div class = "brand_name">
         <label>Brand Name</label>
         <input type = "brand_name" name = "brand_name" placeholder="Brand Name" />

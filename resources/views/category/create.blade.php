@@ -7,7 +7,9 @@
 </head>
 <body>
     <h1>Insert a Category</h1>
-    <form method = "post" action="">
+    <form method ="post" action="{{route('category.store')}}">
+    @csrf 
+    @method('post')
     <div class = "category_name">
         <label>Category Name</label>
         <input type = "category_name" name = "category_name" placeholder="Category Name" />
