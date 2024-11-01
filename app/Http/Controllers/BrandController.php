@@ -9,8 +9,15 @@ class BrandController extends Controller
 {
     //
     public function index(Request $request){
-        $brands = Brand::all();
-        return view('brand.index',['brands' => $brands]);
+        $search = $request->input('search');
+
+        // Fetch brands based on the search term
+        $brands = Brand::when($search, function ($query, $search) {
+            return $query->where('brand_name', 'like', "%{$search}%");
+        })->get();
+    
+        return view('brand.index', ['brands' => $brands]);
+      
     }
 
     public function create(){
@@ -46,5 +53,6 @@ class BrandController extends Controller
         $brand->delete();
         return redirect(route('brand.index'))-> with('success', 'Brand Deleted Successfully');
     }
+  
 
 }

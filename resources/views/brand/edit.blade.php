@@ -20,7 +20,7 @@
 
         @endif
     </div>
-    <form method = "post" action="{{route('brand.update', ['brand' => $brand])}}">
+    <form method = "post" action="{{route('brand.update', ['brand' => $brand])}}" onsubmit="return confirmAction('Are you sure you want to save these changes')">
     @csrf 
     @method('put')
     <div class = "brand_name">

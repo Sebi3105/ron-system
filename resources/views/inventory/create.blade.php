@@ -3,68 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Insert a Product</title>
 </head>
 <body>
     <h1>Insert a Product</h1>
-    <div class = "error_checking">
-        @if($errors->any())
-        <ul>
-            @foreach($errors->all as $error)
-                <li>{{$error}}</li>
+    @if($errors->any())
+        <div class="error_checking">
+            <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-            @endforeach
-        </ul>
+    <form method="post" action="{{ route('inventory.store') }}" onsubmit="return confirmAction('Are you sure you want to save this product?')">
+        @csrf 
+        @method('post')
+        <div class="category_dropdown">
+            <label for="category_id">Category</label>
+            <select name="category_id" id="category_id" required>
+                <option value="" selected>Select a Category</option>
+                @foreach($category as $categories)
+                    <option value="{{ $categories->category_id }}">{{ $categories->category_name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="brand_dropdown">
+            <label for="brand_id">Brand</label>
+            <select name="brand_id" id="brand_id" required>
+                <option value="" selected>Select a Brand</option>
+                @foreach($brands as $brand)
+                    <option value="{{ $brand->brand_id }}">{{ $brand->brand_name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="product_name">
+            <label>Product Name</label>
+            <input type="text" name="product_name" placeholder="Product Name" required>
+        </div>
+
+        <div class="quantity">
+            <label>Quantity</label>
+            <input type="number" name="quantity" placeholder="Quantity" required min="1">
+        </div>
+
+        <div class="date">
+            <label>Date</label>
+            <input type="date" name="released_date" required>
+        </div>
+
+        <div class="status_dropdown">
+    <label for="status">Status</label>
+    <select name="status" id="status" required>
+        <option value="available">Available</option>
+        <option value="low_stock">Low Stock</option>
+        <option value="out_of_stock">Out Of Stock</option>
+    </select>
+    </div>
 
 
+        <div class="notes">
+            <label>Notes</label>
+            <input type="text" name="notes" placeholder="Notes">
+        </div>
 
-        @endif
-    </div>
-    <form method = "post" action="">
-    <div class = "category_dropdown">
-         <select name="category_id" id="category_id">
-       <!-- backend retrieval on sql -->
-         <option value="default" selected>Category ID</option>
-         </select>
-    </div>
-    <div class = "brand_dropdown">
-        <select name="brand_id" id="brand_id">
-            <!-- backend retrieval on sql -->
-            <option value="default" selected>Brand ID</option>
-         </select>
-    </div>
-    <div class = "product_name">
-        <label>Product Name</label>
-        <input type = "text" name = "product_name" placeholder="Product Name">
-    </div>
-    <div class = "quantity">
-        <label>Quantity</label>
-        <input type = "number" name = "quantity" placeholder="Quantity">
-    </div>
-    <div class = "date">
-        <label>Date</label>
-        <input type = "date" name = "date" value="2024-12-01">
-    </div>
-    <div class = "status_dropdown">
-        <select name="status" id="status">
-            <option value="option1">Available</option>
-            <option value="option2">Low Stock</option>
-            <option value="option3" selected>Out Of Stock</option>
-         </select>
-    </div>
-    <div class = "notes">
-        <label>Product Name</label>
-        <input type = "text" name = "notes" placeholder="Notes">
-    </div>
-    <div class = "submit">
-        <input type = "submit" value = "Save Product">
-    </div>
-
-
-  <!-- ... -->
-</select>
-
-
+        <div class="submit">
+            <input type="submit" value="Save Product">
+        </div>
     </form>
+    <script src="{{ asset('js/confirmation.js') }}"></script>
 </body>
 </html>

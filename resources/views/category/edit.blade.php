@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Insert a Brand</h1>
+    <h1>Insert a Category</h1>
     <div class = "error_checking">
         @if($errors->any())
         <ul>
@@ -20,17 +20,16 @@
 
         @endif
     </div>
-    <form method = "post" action="{{route('brand.store')}}" onsubmit="return confirmAction('Are you sure you want to save this product?')">
+    <form method ="post" action="{{route('category.update',['category' => $category])}}" onsubmit="return confirmAction('Are you sure you want to save these changes')">
     @csrf 
-    @method('post')
-    <div class = "brand_name">
-        <label>Brand Name</label>
-        <input type = "brand_name" name = "brand_name" placeholder="Brand Name" />
+    @method('put')
+    <div class = "category_name">
+        <label>Category Name</label>
+        <input type = "category_name" name = "category_name" placeholder="Category Name" value = "{{$category->category_name}}"/>
     </div>
     <div class = "submit">
-        <input type = "submit" value = "Save Brand">
+        <input type = "submit" value = "Update Category">
     </div>
     </form>
-    <script src="{{ asset('js/confirmation.js') }}"></script>
 </body>
 </html>

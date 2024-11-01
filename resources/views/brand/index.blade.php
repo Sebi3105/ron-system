@@ -14,8 +14,13 @@
         </div>
         @endif
     </div>
+    <form method="GET" action="{{ route('brand.index') }}">
+        <input type="text" name="search" placeholder="Search by name" value="{{ request()->input('search') }}">
+        <button type="submit">Search</button>
+        <a href="{{ route('brand.index') }}" class="clear-search">Clear Search</a>
+    </form>
     <div class = "create_link">
-        <a href = "{{route('brand.create')}}">Insert Brand</a>
+        <a href = "{{route('brand.create')}}">Insert New Brand</a>
     </div>
     </div>
     <div class="table">
@@ -35,10 +40,10 @@
                     <td>{{ $brand->created_at }}</td>
                     <td>{{ $brand->updated_at }}</td>
                     <td>
-                        <a href="{{ route('brand.edit', ['brand' => $brand->brand_id]) }}">Edit</a> <!-- Pass the ID directly -->
+                        <a href="{{ route('brand.edit', ['brand' => $brand->brand_id]) }}" onclick="return confirmAction('Are you sure you want to edit this item?')">Edit</a> <!-- Pass the ID directly -->
                     </td>
                     <td>
-                        <form method = "post" action = "{{route('brand.delete',['brand' => $brand])}}">
+                        <form method = "post" action = "{{route('brand.delete',['brand' => $brand])}}" onsubmit="return confirmAction('Are you sure you want to delete this item?')">
                             @csrf
                             @method('delete')
                             <input type = "submit" value = "Delete" />
@@ -48,5 +53,6 @@
             @endforeach
         </table>
     </div>
+    <script src="{{ asset('js/confirmation.js') }}"></script>
 </body>
 </html>

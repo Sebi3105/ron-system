@@ -22,20 +22,21 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/brand', [BrandController::class, 'index'])->name('brand.index');
-Route::get('/brand/create', [BrandController::class, 'create'])->name('brand.create');
-Route::post('/brand', [BrandController::class, 'store'])->name('brand.store');
-Route::get('/brand/{brand}/edit', [BrandController::class, 'edit'])->name('brand.edit');
-Route::put('/brand/{brand}/update', [BrandController::class, 'update'])->name('brand.update');
+
+Route::resource('brand', BrandController::class);
 Route::delete('/brand/{brand}/delete', [BrandController::class, 'delete'])->name('brand.delete');
 
-Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
-Route::get('/category/create', [CategoryController::class, 'create'])->name('category.create');
-Route::post('/category', [CategoryController::class, 'store'])->name('category.store');
+Route::resource('category',CategoryController::class);
+Route::delete('/category/{category}/delete', [CategoryController::class, 'delete'])->name('category.delete');
 
-Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.index');
-Route::get('/inventory/create', [InventoryController::class, 'create'])->name('inventory.create');
+Route::resource('inventory',InventoryController::class);
+Route::delete('/inventory/{inventory}/delete', [InventoryController::class, 'delete'])->name('inventory.delete');
 
-Route::get('/inventoryitem', [InventoryitemController::class, 'index'])->name('inventoryitem.index');
-Route::get('/inventoryitem/create', [InventoryitemController::class, 'create'])->name('inventoryitem.create');
+Route::resource('inventoryitem',InventoryitemController::class);
+Route::get('inventory/{product_id}/serials', [InventoryitemController::class, 'search'])->name('inventoryitem.serials');
+Route::get('/inventory/{product_id}/serials', [InventoryitemController::class, 'showSerials'])->name('inventoryitem.serials');
+Route::delete('/inventoryitem/{inventoryitem}/delete', [InventoryitemController::class, 'delete'])->name('inventoryitem.delete');
+
+
+
 require __DIR__.'/auth.php';
