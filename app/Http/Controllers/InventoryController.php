@@ -41,11 +41,11 @@ class InventoryController extends Controller
             'product_name' => 'required|string|max:255',
             'quantity' => 'required|integer|min:1',
             'released_date' => 'required|date',
-            'status' => 'required|in:available,low_Stock,out_of_stock',
             'notes' => 'nullable|string',
         ]);
         
-        Inventory::create($request->all());
+        $data['status'] = $this->getStatusBasedOnQuantity($data['quantity']);
+        Inventory::create($data);
 
         return redirect(route('inventory.index'));
     }
@@ -72,21 +72,30 @@ class InventoryController extends Controller
         'product_name' => 'required|string|max:255',
         'quantity' => 'required|integer|min:1',
         'released_date' => 'required|date',
-        'status' => 'required|in:available,low_stock,out_of_stock', // Fixed the status options here
         'notes' => 'nullable|string',
     ]);
 
+    $data['status'] = $this->getStatusBasedOnQuantity($data['quantity']);
     // Update the inventory item with validated data
     $inventory->update($data);
 
     // Redirect to index with success message
     return redirect(route('inventory.index'))->with('success', 'Product Updated Successfully');
-}
+    }
 
 public function delete(Inventory $inventory)
     {
         $inventory->delete();
         return redirect(route('inventory.index'))->with('success', 'Product Deleted Successfully');
+    }
+    private function getStatusBasedOnQuantity($quantity)
+    {
+         if($quantity <= 4) {
+            return 'low_stock';
+        } elseif($quantity = 0){
+            return 'out_of_stock';
+        }
+        return 'available';
     }
 }
 

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('quantity');
             $table->date('released_date');
             $table->enum('status',['available','low_stock','out_of_stock']);
-            $table->text('notes');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

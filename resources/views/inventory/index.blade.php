@@ -3,6 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+    .low-amount {
+        background-color: #ffdddd; /* light red */
+    }
+    .very-low-amount {
+        background-color: #ffcccc; /* darker red */
+    }
+</style>
     <title>Inventory</title>
 </head>
 <body>
@@ -47,7 +55,9 @@
                     <td>{{ $item->category ? $item->category->category_name : 'N/A' }}</td>
                     <td>{{ $item->brand ? $item->brand->brand_name : 'N/A' }}</td>
                     <td>{{ $item->product_name }}</td>
-                    <td>{{ $item->quantity }}</td>
+                    <td class = "@if($item->quantity <= 4 && $item->quantity > 1)low-amount
+                    @elseif($item->quantity <= 1) very-low-amount
+                    @endif">{{ $item->quantity }}</td>
                     <td>{{ $item->released_date }}</td>
                     <td>{{ strtoupper($item->status) }}</td>
                     <td>{{ $item->notes }}</td>

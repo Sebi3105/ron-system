@@ -62,12 +62,6 @@
             <input type="date" name="released_date" value="{{ old('released_date', \Carbon\Carbon::parse($inventory->released_date)->format('Y-m-d')) }}">
         </div>
         <div class="status_dropdown">
-    <label for="status">Status</label>
-    <select name="status" id="status">
-        <option value="available" {{ $inventory->status == 'available' ? 'selected' : '' }}>Available</option>
-        <option value="low_stock" {{ $inventory->status == 'low_stock' ? 'selected' : '' }}>Low Stock</option>
-        <option value="out_of_stock" {{ $inventory->status == 'out_of_stock' ? 'selected' : '' }}>Out Of Stock</option>
-    </select>
     </div>
         <div class="notes">
             <label>Notes</label>

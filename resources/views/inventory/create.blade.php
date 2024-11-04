@@ -47,7 +47,7 @@
 
         <div class="quantity">
             <label>Quantity</label>
-            <input type="number" name="quantity" placeholder="Quantity" required min="1">
+            <input type="number" name="quantity" placeholder="Quantity" required min="0">
         </div>
 
         <div class="date">
@@ -56,12 +56,6 @@
         </div>
 
         <div class="status_dropdown">
-    <label for="status">Status</label>
-    <select name="status" id="status" required>
-        <option value="available">Available</option>
-        <option value="low_stock">Low Stock</option>
-        <option value="out_of_stock">Out Of Stock</option>
-    </select>
     </div>
 
 
