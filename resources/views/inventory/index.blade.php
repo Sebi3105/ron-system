@@ -3,81 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-    .low-amount {
-        background-color: #ffdddd; /* light red */
-    }
-    .very-low-amount {
-        background-color: #ffcccc; /* darker red */
-    }
-</style>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <title>Inventory</title>
 </head>
 <body>
-    <h1>Inventory</h1>
-    <div class="success_pop">
+    {{-- Include the navigation --}}
+    @include('layouts.navigation')
+
+    <h1 class="text-2xl font-bold mb-4">Inventory</h1>
+    <div class="success_pop mb-4">
         @if(session()->has('success'))
-            <div class="success">
+            <div class="bg-green-500 text-white p-2 rounded">
                 {{ session('success') }}
             </div>
         @endif
     </div>
-    <div class="create_link">
-        <a href="{{ route('inventory.create') }}">Insert New Products</a>
+    <div class="create_link mb-2">
+        <a href="{{ route('inventory.create') }}" class="bg-blue-500 text-blue-500 py-2 px-4 rounded">Insert New Products</a>
     </div>
     
-    <form method="GET" action="{{ route('inventory.index') }}">
-        <input type="text" name="search" placeholder="Search by product name" value="{{ request()->input('search') }}">
-        <button type="submit">Search</button>
-        <a href="{{ route('inventory.index') }}" class="clear-search">Clear Search</a>
+    <form method="GET" action="{{ route('inventory.index') }}" class="mb-4">
+        <input type="text" name="search" placeholder="Search by product name" value="{{ request()->input('search') }}" class="border border-gray-300 rounded p-2">
+        <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded">Search</button>
+        <a href="{{ route('inventory.index') }}" class="clear-search text-blue-500">Clear Search</a>
     </form>
 
-    <div class="table">
-        <table border="1">
-            <tr>
-                <th>Product ID</th>
-                <th>Category Name</th>
-                <th>Brand Name</th>
-                <th>Product Name</th>
-                <th>Quantity</th>
-                <th>Released Date</th>
-                <th>Status</th>
-                <th>Notes</th>
-                <th>Created At</th>
-                <th>Updated At</th>
-                <th>View</th>
-                <th>Edit</th>
-                <th>Delete</th>
-            </tr>
-            @foreach($inventory as $item)
+    <div class="overflow-x-auto">
+        <table class="min-w-full border border-blue-300">
+            <thead class="bg-gray-200">
                 <tr>
-                    <td>{{ $item->product_id }}</td>
-                    <td>{{ $item->category ? $item->category->category_name : 'N/A' }}</td>
-                    <td>{{ $item->brand ? $item->brand->brand_name : 'N/A' }}</td>
-                    <td>{{ $item->product_name }}</td>
-                    <td class = "@if($item->quantity <= 4 && $item->quantity > 1)low-amount
-                    @elseif($item->quantity <= 1) very-low-amount
-                    @endif">{{ $item->quantity }}</td>
-                    <td>{{ $item->released_date }}</td>
-                    <td>{{ strtoupper($item->status) }}</td>
-                    <td>{{ $item->notes }}</td>
-                    <td>{{ $item->created_at }}</td>
-                    <td>{{ $item->updated_at }}</td>
-                    <td>
-                        <a href="{{ route('inventoryitem.serials', ['product_id' => $item->product_id]) }}">View Serial Numbers</a>
-                    </td>
-                    <td>
-                        <a href="{{ route('inventory.edit', ['inventory' => $item->product_id]) }}" onclick="return confirmAction('Are you sure you want to edit this item?')">Edit</a>
-                    </td>
-                    <td>
-                        <form method="post" action="{{ route('inventory.delete', ['inventory' => $item->product_id]) }}" onsubmit="return confirmAction('Are you sure you want to delete this item?')">
-                            @csrf
-                            @method('delete')
-                            <input type="submit" value="Delete" />
-                        </form>
-                    </td>
+                    <th class="border px-4 py-2">Product ID</th>
+                    <th class="border px-4 py-2">Category Name</th>
+                    <th class="border px-4 py-2">Brand Name</th>
+                    <th class="border px-4 py-2">Product Name</th>
+                    <th class="border px-4 py-2">Quantity</th>
+                    <th class="border px-4 py-2">Released Date</th>
+                    <th class="border px-4 py-2">Status</th>
+                    <th class="border px-4 py-2">Notes</th>
+                    <th class="border px-4 py-2">Created At</th>
+                    <th class="border px-4 py-2">Updated At</th>
+                    <th class="border px-4 py-2">View</th>
+                    <th class="border px-4 py-2">Edit</th>
+                    <th class="border px-4 py-2">Delete</th>
                 </tr>
-            @endforeach
+            </thead>
+            <tbody>
+                @foreach($inventory as $item)
+                    <tr class="@if($item->quantity <= 4 && $item->quantity > 1) bg-yellow-100 @elseif($item->quantity <= 1) bg-red-100 @endif">
+                        <td class="border px-4 py-2">{{ $item->product_id }}</td>
+                        <td class="border px-4 py-2">{{ $item->category ? $item->category->category_name : 'N/A' }}</td>
+                        <td class="border px-4 py-2">{{ $item->brand ? $item->brand->brand_name : 'N/A' }}</td>
+                        <td class="border px-4 py-2">{{ $item->product_name }}</td>
+                        <td class="border px-4 py-2">{{ $item->quantity }}</td>
+                        <td class="border px-4 py-2">{{ $item->released_date }}</td>
+                        <td class="border px-4 py-2">{{ strtoupper($item->status) }}</td>
+                        <td class="border px-4 py-2">{{ $item->notes }}</td>
+                        <td class="border px-4 py-2">{{ $item->created_at }}</td>
+                        <td class="border px-4 py-2">{{ $item->updated_at }}</td>
+                        <td class="border px-4 py-2">
+                            <a href="{{ route('inventoryitem.serials', ['product_id' => $item->product_id]) }}" class="text-blue-500">View Serial Numbers</a>
+                        </td>
+                        <td class="border px-4 py-2">
+                            <a href="{{ route('inventory.edit', ['inventory' => $item->product_id]) }}" class="text-blue-500" onclick="return confirmAction('Are you sure you want to edit this item?')">Edit</a>
+                        </td>
+                        <td class="border px-4 py-2">
+                            <form method="post" action="{{ route('inventory.delete', ['inventory' => $item->product_id]) }}" class="text-red-500" onsubmit="return confirmAction('Are you sure you want to delete this item?')">Delete
+                                @csrf
+                                @method('delete')
+                                <input type="submit" value="Delete" class="bg-red-500 text-white">
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
         </table>
     </div>
     <script src="{{ asset('js/confirmation.js') }}"></script>
