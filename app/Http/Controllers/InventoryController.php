@@ -6,24 +6,71 @@ use App\Models\Inventory;
 use App\Models\Category;
 use App\Models\Brand;
 
+use App\DataTables\InventoryDataTable;
+use Yajra\DataTables\Facades\DataTables;
+
 class InventoryController extends Controller
 {
-    public function index(Request $request)
-    {
-        $search = $request->input('search');
+    // public function index(Request $request)
+    // {
+    //     $search = $request->input('search');
     
-        // Fetch inventory items with optional search functionality
-        $inventory = Inventory::with(['category', 'brand'])
-            ->when($search, function ($query) use ($search) {
-                return $query->where('product_name', 'like', "%{$search}%");
-            })
-            ->get();
+    //     // Fetch inventory items with optional search functionality
+    //     $inventory = Inventory::with(['category', 'brand'])
+    //         ->when($search, function ($query) use ($search) {
+    //             return $query->where('product_name', 'like', "%{$search}%");
+    //         })
+    //         ->get();
     
-        return view('inventory.index', [
-            'inventory' => $inventory,
-            'search' => $search // Pass the search value to the view for preserving input
-        ]);
-    }
+    //     return view('inventory.index', [
+    //         'inventory' => $inventory,
+    //         'search' => $search // Pass the search value to the view for preserving input
+    //     ]);
+    // }
+
+
+        public function index(Request $request)
+        {
+            if ($request->ajax()) {
+                try {
+                    $data = Inventory::with(['category', 'brand'])
+                        ->select('product_id', 'category_id', 'brand_id', 'product_name', 'quantity', 'released_date', 'status', 'notes', 'created_at', 'updated_at')
+                        ->get()
+                        ->map(function ($inventory) {
+                            $inventory->notes = $inventory->notes ?? 'No notes available'; // Use a default message if notes is null
+                            $inventory->created_at = $inventory->created_at ? $inventory->created_at->format('Y-m-d H:i:s') : 'N/A';
+                            $inventory->updated_at = $inventory->updated_at ? $inventory->updated_at->format('Y-m-d H:i:s') : 'N/A';
+
+                            $inventory->category_name = $inventory->category ? $inventory->category->category_name : 'N/A';
+                            $inventory->brand_name = $inventory->brand ? $inventory->brand->brand_name : 'N/A'; 
+                            return $inventory;
+                        });
+    
+                    return DataTables::of($data)
+                        ->addIndexColumn()
+                        ->addColumn('action', function ($row) {
+                            $viewUrl = route('inventoryitem.serials', $row->product_id);
+                            $editUrl = route('inventory.edit', $row->product_id); // Route for edit
+                            $deleteUrl = route('inventory.delete', $row); // Route for delete
+    
+                            return '<a href="' . $viewUrl . '" class="btn btn-sm btn-primary">View Serials</a>
+                                    <a href="' . $editUrl . '" class="btn btn-sm btn-primary">Update</a>
+                                    <button data-url="' . $deleteUrl . '" class="btn btn-sm btn-danger delete-btn">Delete</button>';
+                        })
+                        ->rawColumns(['action']) // Mark action column as raw HTML
+                        ->make(true);
+                } catch (\Exception $e) {
+                    Log::error('Error fetching inventory data: ' . $e->getMessage(), [
+                        'request_data' => $request->all(),
+                    ]);
+                    return response()->json(['error' => 'An error occurred while fetching inventory data.'], 500);
+                }
+            }
+    
+            return view("inventory.index");
+        }
+    
+    
 
     public function create()
     {
@@ -83,22 +130,23 @@ class InventoryController extends Controller
     return redirect(route('inventory.index'))->with('success', 'Product Updated Successfully');
     }
 
-public function delete(Inventory $inventory)
-    {
+    public function delete(Inventory $inventory){
         $inventory->delete();
-        return redirect(route('inventory.index'))->with('success', 'Product Deleted Successfully');
+        return response()->json(['message' => 'Product Deleted Successfully'], 200); // Successful deletion response
     }
+    
     private function getStatusBasedOnQuantity($quantity)
-    {
-         if($quantity <= 4) {
-            return 'low_stock';
-        } elseif($quantity = 0){
-            return 'out_of_stock';
+        {
+            if($quantity <= 4) {
+                return 'low_stock';
+            } elseif($quantity = 0){
+                return 'out_of_stock';
+            }
+            return 'available';
         }
-        return 'available';
+    
+
+
+
+
     }
-}
-
-
-
-

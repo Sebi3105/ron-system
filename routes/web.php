@@ -24,7 +24,8 @@ Route::middleware('auth')->group(function () {
 
 
 Route::resource('brand', BrandController::class);
-Route::delete('/brand/{brand}/delete', [BrandController::class, 'delete'])->name('brand.delete');
+Route::delete('brand/{brand}/delete', [BrandController::class, 'delete'])->name('brand.delete');
+
 
 Route::resource('category',CategoryController::class);
 Route::delete('/category/{category}/delete', [CategoryController::class, 'delete'])->name('category.delete');
