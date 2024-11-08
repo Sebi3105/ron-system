@@ -75,7 +75,17 @@
                         orderable: false,
                         searchable: false
                     },
-                ]
+                ],
+                rowCallback: function(row, data) {
+                    // Apply yellow background if quantity is between 1 and 4
+                    if (data.quantity <= 4) {
+                        $(row).css('background-color', '#fff3cd');  // Light yellow color
+                    }
+                    // Apply red background if quantity is 1 or lower
+                    else if (data.quantity <= 1) {
+                        $(row).css('background-color', '#f8d7da');  // Light red color
+                    }
+                }
             });
 
             $('#inventory tbody').on('click', '.delete-btn', function() {
