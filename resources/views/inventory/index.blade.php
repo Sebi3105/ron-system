@@ -3,7 +3,11 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 
-    <h1 class="text-2xl font-bold mb-4">Inventory</h1>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Inventory') }}
+        </h2>
+    </x-slot>
     <div class="success_pop mb-4">
         @if(session()->has('success'))
             <div class="bg-green-500 text-white p-2 rounded">
@@ -15,21 +19,21 @@
         <a href="{{ route('inventory.create') }}" class="bg-blue-500 text-blue-500 py-2 px-4 rounded">Insert New Products</a>
     </div>
 
-    <div class="table overflow-x-auto">
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+            <div class="table overflow-x-auto">
         <table border="1" id="inventory">
             <thead class="bg-gray-200">
                 <tr>
                     <th></th>
                     <th>Product ID</th>
-                    <th>Category Name</th>
-                    <th>Brand Name</th>
                     <th>Product Name</th>
+                    <th>Category</th>
+                    <th>Brand</th>
                     <th>Quantity</th>
                     <th>Released Date</th>
                     <th>Status</th>
-                    <th>Notes</th>
-                    <th>Created At</th>
-                    <th>Updated At</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -37,6 +41,11 @@
             
         </table>
     </div>
+            </div>
+        </div>
+    </div>
+
+   
     <script src="{{ asset('js/confirmation.js') }}"></script>
 
     <script>
@@ -54,27 +63,12 @@
                         }
                     },
                     {data: 'product_id', name: 'product_id'},
+                    {data: 'product_name', name: 'product_name'},
                     {data: 'category_name', name: 'category_name'},
                     {data: 'brand_name', name: 'brand_name'},
-                    {data: 'product_name', name: 'product_name'},
                     {data: 'quantity', name: 'quantity'},
                     {data: 'released_date', name: 'released_date'},
                     {data: 'status', name: 'status'},
-                    {data: 'notes', name: 'notes'},
-                    {
-                        data: 'created_at', 
-                        name: 'created_at',
-                        render: function(data) {
-                            return new Date(data).toLocaleString(); // Formats the date to local string
-                        }
-                    },
-                    {
-                        data: 'updated_at', 
-                        name: 'updated_at',
-                        render: function(data) {
-                            return new Date(data).toLocaleString(); // Formats the date to local string
-                        }
-                    },
                     {
                         data: 'action',
                         name: 'action',
