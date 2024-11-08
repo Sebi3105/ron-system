@@ -1,44 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        .low-amount {
-            background-color: #ffdddd; /* light red */
-        }
-        .very-low-amount {
-            background-color: #ffcccc; /* darker red */
-        }
-    </style>
-
+<x-app-layout>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-    <title>Inventory</title>
-</head>
-<body>
-    <h1>Inventory</h1>
-    <div class="success_pop">
+
+    <h1 class="text-2xl font-bold mb-4">Inventory</h1>
+    <div class="success_pop mb-4">
         @if(session()->has('success'))
-            <div class="success">
+            <div class="bg-green-500 text-white p-2 rounded">
                 {{ session('success') }}
             </div>
         @endif
     </div>
-    <div class="create_link">
-        <a href="{{ route('inventory.create') }}">Insert New Products</a>
+    <div class="create_link mb-2">
+        <a href="{{ route('inventory.create') }}" class="bg-blue-500 text-blue-500 py-2 px-4 rounded">Insert New Products</a>
     </div>
-    
-    <form method="GET" action="{{ route('inventory.index') }}">
-        <input type="text" name="search" placeholder="Search by product name" value="{{ request()->input('search') }}">
-        <button type="submit">Search</button>
-        <a href="{{ route('inventory.index') }}" class="clear-search">Clear Search</a>
-    </form>
 
-    <div class="table">
+    <div class="table overflow-x-auto">
         <table border="1" id="inventory">
-            <thead>
+            <thead class="bg-gray-200">
                 <tr>
                     <th></th>
                     <th>Product ID</th>
@@ -54,7 +33,8 @@
                     <th>Actions</th>
                 </tr>
             </thead>
-           <tbody></tbody>
+            <tbody></tbody>
+            
         </table>
     </div>
     <script src="{{ asset('js/confirmation.js') }}"></script>
@@ -126,5 +106,4 @@
             });
         })
     </script>
-</body>
-</html>
+</x-app-layout>

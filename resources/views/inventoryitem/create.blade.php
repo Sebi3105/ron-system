@@ -6,7 +6,7 @@
     <title>Insert</title>
 </head>
 <body>
-    <h1>Insert</h1>
+    <h1>Insert Serial Number</h1>
     <div class="error_checking">
         @if($errors->any())
         <ul>
@@ -19,14 +19,7 @@
     <form method="post" action="{{ route('inventoryitem.store') }}" onsubmit="return confirmAction('Are you sure you want to save this product?')">
         @csrf
         @method('post')
-        <div class="productid_dropdown">
-            <select name="product_id" id="product_id">
-                <option value="" selected>Choose what Product</option>
-                @foreach($inventories as $inventory)
-                    <option value="{{ $inventory->product_id }}">{{ $inventory->product_name }}</option>
-                @endforeach
-            </select>
-        </div>
+        <input type="hidden" name="product_id" value="{{ $selectedInventory->product_id }}"> <!-- Hidden field for product_id -->
         <div class="serial_number">
             <label>Serial Number</label>
             <input type="text" name="serial_number" placeholder="Serial Number">
