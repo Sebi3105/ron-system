@@ -3,13 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
-class customer extends Model
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+class Customer extends Model
 {
-    //
-    protected $table = [
+    //'
+    use HasFactory;
+    protected $table = 'customer';
+    protected $primaryKey = 'customer_id';
+    protected $fillable = [
         'name',
         'address',
         'contact_no'
     ];
+    //public function customers(){
+       // return $this->hasMany      for connecting tech report
+   // }
 }

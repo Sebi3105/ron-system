@@ -16,11 +16,6 @@
     <div class="mb-4">
         <a href="{{ route('inventoryitem.create', ['product_id' => $inventoryitem->product_id]) }}" class="text-blue-500 hover:underline">Insert New Product Serial</a>
     </div>
-    <form method="GET" action="{{ route('inventoryitem.serials', ['product_id' => $inventoryitem->product_id]) }}" class="mb-4">
-        <input type="text" name="search" placeholder="Search Serial Number" value="{{ request('search') }}" class="border border-gray-300 p-2 rounded">
-        <input type="submit" value="Search" class="bg-blue-500 text-black p-2 rounded hover:bg-blue-600">
-        <a href="{{ route('inventoryitem.serials', ['product_id' => $inventoryitem->product_id]) }}" class="clear-search text-red-500 hover:underline ml-2">Clear Search</a>
-    </form>
 
     <div class="overflow-x-auto">
         <table id="serials" class="min-w-full bg-white border border-gray-300">
@@ -43,23 +38,22 @@
     <script src="{{ asset('js/confirmation.js') }}"></script>
 
     <script>
-        $(document).ready(function(){
+            $(document).ready(function(){
             var productId = "{{ $product_id }}";
             
             var table = $('#serials').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ url('/inventory') }}/" + productId + "/serials",
-                    
+                    url: "{{ route('inventoryitem.serials', $product_id) }}",
                 },
                 columns: [
                     {
-                        data: null,         // No data source since we're generating the index ourselves
-                        orderable: false,  // disable sorting on this column
+                        data: null,
+                        orderable: false,
                         render: function(data, type, row, meta) {
                             return meta.row + meta.settings._iDisplayStart + 1; // index number increment
-                    }
+                        }
                     },
                     {data: 'serial_number', name: 'serial_number'},
                     {data: 'condition', name: 'condition'},
@@ -70,21 +64,20 @@
                         searchable: false
                     },
                 ],
-                
             });
-
+            // Delete button handling
             $('#serials tbody').on('click', '.delete-btn', function() {
                 var deleteUrl = $(this).data('url'); // Get the delete URL from the button
                 console.log('Delete URL:', deleteUrl); // Debug log for delete URL
                 if (confirm('Are you sure you want to delete this item?')) {
                     $.ajax({
                         url: deleteUrl,
-                        type: 'DELETE', // Ensure this is DELETE
+                        type: 'DELETE', // DELETE request
                         data: {
-                            _token: '{{ csrf_token() }}' // CSRF token for security
+                            _token: '{{ csrf_token() }}' // CSRF token
                         },
                         success: function(response) {
-                            alert('Item deleted successfully!'); // Success message
+                            alert('Item deleted successfully!');
                             table.ajax.reload(); // Reload DataTable to reflect changes
                         },
                         error: function(xhr) {
@@ -93,7 +86,8 @@
                     });
                 }
             });
-        })
+        });
+
     </script>
 </body>
 </html>

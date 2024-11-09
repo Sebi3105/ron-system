@@ -87,7 +87,14 @@
                     }
                 }
             });
-
+                         // Edit button handling with confirmation
+            $('#inventory tbody').on('click', '.btn-primary', function(e) {
+                e.preventDefault(); // Prevent immediate redirect
+                var editUrl = $(this).attr('href'); // Get the edit URL from the button's href
+                if (confirm('Are you sure you want to edit this item?')) {
+                    window.location.href = editUrl; // Redirect to the edit page if confirmed
+                }
+            });
             $('#inventory tbody').on('click', '.delete-btn', function() {
                 var deleteUrl = $(this).data('url'); // Get the delete URL from the button
                 console.log('Delete URL:', deleteUrl); // Debug log for delete URL
