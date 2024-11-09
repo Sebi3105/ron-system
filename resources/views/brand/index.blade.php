@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
     <h1>Brand</h1>
@@ -24,35 +28,83 @@
     </div>
     </div>
     <div class="table">
-        <table border="1">
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Created at</th>
-                <th>Updated at</th>
-                <th>Update</th>
-                <th>Delete</th>
-            </tr>
-            @foreach($brands as $brand)
+        <table border="1" id="brand">
+            <thead>
                 <tr>
-                    <td>{{ $brand->brand_id }}</td> <!-- Use $brand->id for the ID -->
-                    <td>{{ $brand->brand_name }}</td>
-                    <td>{{ $brand->created_at }}</td>
-                    <td>{{ $brand->updated_at }}</td>
-                    <td>
-                        <a href="{{ route('brand.edit', ['brand' => $brand->brand_id]) }}" onclick="return confirmAction('Are you sure you want to edit this item?')">Edit</a> <!-- Pass the ID directly -->
-                    </td>
-                    <td>
-                        <form method = "post" action = "{{route('brand.delete',['brand' => $brand])}}" onsubmit="return confirmAction('Are you sure you want to delete this item?')">
-                            @csrf
-                            @method('delete')
-                            <input type = "submit" value = "Delete" />
-                        </form>
-                    </td>
+                    <th></th>
+                    <th>Brand ID</th>
+                    <th>Brand Name</th>
+                    <th>Created at</th>
+                    <th>Updated at</th>
+                    <th>Actions</th>
                 </tr>
-            @endforeach
+            </thead>    
+            <tbody></tbody>
         </table>
     </div>
     <script src="{{ asset('js/confirmation.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            var table = $('#brand').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('brand.index') }}",
+                columns: [
+                    {
+                        data: null,         // No data source since we're generating the index ourselves
+                        orderable: false,  // disable sorting on this column
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1; // index number increment
+                        }
+                    },
+                    {data: 'brand_id', name: 'brand_id'},
+                    {data: 'brand_name', name: 'brand_name'},
+                    {
+                        data: 'created_at', 
+                        name: 'created_at',
+                        render: function(data) {
+                            return new Date(data).toLocaleString(); // Formats the date to local string
+                        }
+                    },
+                    {
+                        data: 'updated_at', 
+                        name: 'updated_at',
+                        render: function(data) {
+                            return new Date(data).toLocaleString(); // Formats the date to local string
+                        }
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
+            });
+
+
+            $('#brand tbody').on('click', '.delete-btn', function() {
+                var deleteUrl = $(this).data('url'); // Get the delete URL from the button
+                console.log('Delete URL:', deleteUrl); // Debug log for delete URL
+                if (confirm('Are you sure you want to delete this item?')) {
+                    $.ajax({
+                        url: deleteUrl,
+                        type: 'DELETE', // Ensure this is DELETE
+                        data: {
+                            _token: '{{ csrf_token() }}' // CSRF token for security
+                        },
+                        success: function(response) {
+                            alert('Item deleted successfully!'); // Success message
+                            table.ajax.reload(); // Reload DataTable to reflect changes
+                        },
+                        error: function(xhr) {
+                            console.log('Error deleting item: ' + (xhr.responseJSON.message || 'An unexpected error occurred.'));
+                        }
+                    });
+                }
+            });
+
+        });
+    </script>
 </body>
 </html>

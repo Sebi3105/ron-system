@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <title>Inventory</title>
-</head>
-<body>
-    {{-- Include the navigation --}}
-    @include('layouts.navigation')
+<x-app-layout>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 
-    <h1 class="text-2xl font-bold mb-4">Inventory</h1>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Inventory') }}
+        </h2>
+    </x-slot>
     <div class="success_pop mb-4">
         @if(session()->has('success'))
             <div class="bg-green-500 text-white p-2 rounded">
@@ -21,63 +18,96 @@
     <div class="create_link mb-2">
         <a href="{{ route('inventory.create') }}" class="bg-blue-500 text-blue-500 py-2 px-4 rounded">Insert New Products</a>
     </div>
-    
-    <form method="GET" action="{{ route('inventory.index') }}" class="mb-4">
-        <input type="text" name="search" placeholder="Search by product name" value="{{ request()->input('search') }}" class="border border-gray-300 rounded p-2">
-        <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded">Search</button>
-        <a href="{{ route('inventory.index') }}" class="clear-search text-blue-500">Clear Search</a>
-    </form>
 
-    <div class="overflow-x-auto">
-        <table class="min-w-full border border-blue-300">
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+            <div class="table overflow-x-auto">
+        <table border="1" id="inventory">
             <thead class="bg-gray-200">
                 <tr>
-                    <th class="border px-4 py-2">Product ID</th>
-                    <th class="border px-4 py-2">Category Name</th>
-                    <th class="border px-4 py-2">Brand Name</th>
-                    <th class="border px-4 py-2">Product Name</th>
-                    <th class="border px-4 py-2">Quantity</th>
-                    <th class="border px-4 py-2">Released Date</th>
-                    <th class="border px-4 py-2">Status</th>
-                    <th class="border px-4 py-2">Notes</th>
-                    <th class="border px-4 py-2">Created At</th>
-                    <th class="border px-4 py-2">Updated At</th>
-                    <th class="border px-4 py-2">View</th>
-                    <th class="border px-4 py-2">Edit</th>
-                    <th class="border px-4 py-2">Delete</th>
+                    <th></th>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Category</th>
+                    <th>Brand</th>
+                    <th>Quantity</th>
+                    <th>Released Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
-                @foreach($inventory as $item)
-                    <tr class="@if($item->quantity <= 4 && $item->quantity > 1) bg-yellow-100 @elseif($item->quantity <= 1) bg-red-100 @endif">
-                        <td class="border px-4 py-2">{{ $item->product_id }}</td>
-                        <td class="border px-4 py-2">{{ $item->category ? $item->category->category_name : 'N/A' }}</td>
-                        <td class="border px-4 py-2">{{ $item->brand ? $item->brand->brand_name : 'N/A' }}</td>
-                        <td class="border px-4 py-2">{{ $item->product_name }}</td>
-                        <td class="border px-4 py-2">{{ $item->quantity }}</td>
-                        <td class="border px-4 py-2">{{ $item->released_date }}</td>
-                        <td class="border px-4 py-2">{{ strtoupper($item->status) }}</td>
-                        <td class="border px-4 py-2">{{ $item->notes }}</td>
-                        <td class="border px-4 py-2">{{ $item->created_at }}</td>
-                        <td class="border px-4 py-2">{{ $item->updated_at }}</td>
-                        <td class="border px-4 py-2">
-                            <a href="{{ route('inventoryitem.serials', ['product_id' => $item->product_id]) }}" class="text-blue-500">View Serial Numbers</a>
-                        </td>
-                        <td class="border px-4 py-2">
-                            <a href="{{ route('inventory.edit', ['inventory' => $item->product_id]) }}" class="text-blue-500" onclick="return confirmAction('Are you sure you want to edit this item?')">Edit</a>
-                        </td>
-                        <td class="border px-4 py-2">
-                            <form method="post" action="{{ route('inventory.delete', ['inventory' => $item->product_id]) }}" class="text-red-500" onsubmit="return confirmAction('Are you sure you want to delete this item?')">Delete
-                                @csrf
-                                @method('delete')
-                                <input type="submit" value="Delete" class="bg-red-500 text-white">
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
+            <tbody></tbody>
+            
         </table>
     </div>
+            </div>
+        </div>
+    </div>
+
+   
     <script src="{{ asset('js/confirmation.js') }}"></script>
-</body>
-</html>
+
+    <script>
+        $(document).ready(function(){
+            var table = $('#inventory').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('inventory.index') }}",
+                columns: [
+                    {
+                        data: null,         // No data source since we're generating the index ourselves
+                        orderable: false,  // disable sorting on this column
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1; // index number increment
+                        }
+                    },
+                    {data: 'product_id', name: 'product_id'},
+                    {data: 'product_name', name: 'product_name'},
+                    {data: 'category_name', name: 'category_name'},
+                    {data: 'brand_name', name: 'brand_name'},
+                    {data: 'quantity', name: 'quantity'},
+                    {data: 'released_date', name: 'released_date'},
+                    {data: 'status', name: 'status'},
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                ],
+                rowCallback: function(row, data) {
+                    // Apply yellow background if quantity is between 1 and 4
+                    if (data.quantity <= 4) {
+                        $(row).css('background-color', '#fff3cd');  // Light yellow color
+                    }
+                    // Apply red background if quantity is 1 or lower
+                    else if (data.quantity <= 1) {
+                        $(row).css('background-color', '#f8d7da');  // Light red color
+                    }
+                }
+            });
+
+            $('#inventory tbody').on('click', '.delete-btn', function() {
+                var deleteUrl = $(this).data('url'); // Get the delete URL from the button
+                console.log('Delete URL:', deleteUrl); // Debug log for delete URL
+                if (confirm('Are you sure you want to delete this item?')) {
+                    $.ajax({
+                        url: deleteUrl,
+                        type: 'DELETE', // Ensure this is DELETE
+                        data: {
+                            _token: '{{ csrf_token() }}' // CSRF token for security
+                        },
+                        success: function(response) {
+                            alert('Item deleted successfully!'); // Success message
+                            table.ajax.reload(); // Reload DataTable to reflect changes
+                        },
+                        error: function(xhr) {
+                            console.log('Error deleting item: ' + (xhr.responseJSON.message || 'An unexpected error occurred.'));
+                        }
+                    });
+                }
+            });
+        })
+    </script>
+</x-app-layout>
