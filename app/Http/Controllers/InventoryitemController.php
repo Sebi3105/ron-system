@@ -104,11 +104,15 @@ class InventoryitemController extends Controller
             ->addColumn('action', function ($row) {
                 // $editUrl = route('inventoryitem.edit', $row->id);  
                 $deleteUrl = route('inventoryitem.delete', $row);  
+                $editUrl = route('inventoryitem.edit', $row);
 
                 // return '<a href="'.$editUrl.'" class="btn btn-sm btn-primary">Edit</a>
                 //         <button data-url="'.$deleteUrl.'" class="btn btn-sm btn-danger delete-btn">Delete</button>';
-
-                return '<button data-url="'.$deleteUrl.'" class="btn btn-sm btn-danger delete-btn">Delete</button>';
+                
+                return
+                 '
+                 <a href="'.$editUrl.'" class="btn btn-sm btn-primary">Edit</a>
+                 <button data-url="'.$deleteUrl.'" class="btn btn-sm btn-danger delete-btn">Delete</button>';
             })
             ->rawColumns(['action'])  
             ->make(true);  

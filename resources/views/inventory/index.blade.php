@@ -16,7 +16,7 @@
         @endif
     </div>
     <div class="create_link mb-2">
-        <a href="{{ route('inventory.create') }}" class="bg-blue-500 text-blue-500 py-2 px-4 rounded">Insert New Products</a>
+        <a href="{{ route('inventory.create') }}" class="bg-blue-500 text-black-500 py-2 px-4 rounded">Insert New Products</a>
     </div>
 
     <div class="py-12">
@@ -87,7 +87,14 @@
                     }
                 }
             });
-
+                         // Edit button handling with confirmation
+            $('#inventory tbody').on('click', '.btn-primary', function(e) {
+                e.preventDefault(); // Prevent immediate redirect
+                var editUrl = $(this).attr('href'); // Get the edit URL from the button's href
+                if (confirm('Are you sure you want to edit this item?')) {
+                    window.location.href = editUrl; // Redirect to the edit page if confirmed
+                }
+            });
             $('#inventory tbody').on('click', '.delete-btn', function() {
                 var deleteUrl = $(this).data('url'); // Get the delete URL from the button
                 console.log('Delete URL:', deleteUrl); // Debug log for delete URL
