@@ -27,6 +27,6 @@
         <button type="submit">Add Category</button>
     </form>
     
-    <a href="{{ route('category.index') }}">Back to Categories</a>
+    <a href="{{ route('inventory.index') }}">Back to Inventory</a>
 </body>
 </html>

@@ -35,6 +35,7 @@
     <div class = "submit">
         <input type = "submit" value = "Save Brand">
     </div>
+    <a href="{{ route('inventory.index') }}">Back to Inventory</a>
     </form>
     <script src="{{ asset('js/confirmation.js') }}"></script>
 </body>

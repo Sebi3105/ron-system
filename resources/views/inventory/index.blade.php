@@ -17,6 +17,8 @@
     </div>
     <div class="create_link mb-2">
         <a href="{{ route('inventory.create') }}" class="bg-blue-500 text-black-500 py-2 px-4 rounded">Insert New Products</a>
+        <a href="{{ route('category.create') }}" class="bg-blue-500 text-black-500 py-2 px-4 rounded">Insert New Category</a>
+        <a href="{{ route('brand.create') }}" class="bg-blue-500 text-black-500 py-2 px-4 rounded">Insert New Brand</a>
     </div>
 
     <div class="py-12">

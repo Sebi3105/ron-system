@@ -14,7 +14,7 @@
 <body class="bg-gray-100">
     <h1 class="text-2xl font-bold my-4">Serial Numbers for {{ $inventoryitem->product_name }}</h1>
     <div class="mb-4">
-        <a href="{{ route('inventoryitem.create', ['product_id' => $inventoryitem->product_id]) }}" class="text-blue-500 hover:underline">Insert New Product Serial</a>
+        <a href="{{ route('inventoryitem.create', ['product_id' => $inventoryitem->product_id]) }}" class="bg-blue-500 text-black-500 py-2 px-4 rounded hover:underline">Insert New Product Serial</a>
     </div>
 
     <div class="overflow-x-auto">
