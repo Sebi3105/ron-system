@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Models\Inventory;
 use App\Models\Category;
 use App\Models\Brand;
+use Illuminate\Support\Facades\Log;
 
 use App\DataTables\InventoryDataTable;
 use Yajra\DataTables\Facades\DataTables;
@@ -53,7 +54,7 @@ class InventoryController extends Controller
                             $editUrl = route('inventory.edit', $row->product_id); // Route for edit
                             $deleteUrl = route('inventory.delete', $row); // Route for delete
     
-                            return '<a href="' . $viewUrl . '" class="btn btn-sm btn-primary">View Serials</a>
+                            return '<a href="' . $viewUrl . '" class="btn btn-sm btn-secondary">View Serials</a>
                                     <a href="' . $editUrl . '" class="btn btn-sm btn-primary">Update</a>
                                     <button data-url="' . $deleteUrl . '" class="btn btn-sm btn-danger delete-btn">Delete</button>';
                         })

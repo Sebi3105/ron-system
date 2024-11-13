@@ -18,8 +18,12 @@
     <div class="create_link">
         <a href="{{ route('inventoryitem.create') }}">Insert New Products</a>
     </div>
-    <div class="table">
-        <table border="1">
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+            <div class="table overflow-x-auto">
+    <div border=""1" id ="inventory_item">
+        <thead class = "bg-gray-200">
             <tr>
                 <th>SKU ID</th>
                 <th>Product Name</th>
@@ -30,28 +34,71 @@
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
-            @foreach($products as $product)
-                <tr>
-                    <td>{{ $product->sku_id }}</td>
-                    <td>{{ $product->inventory->product_name }}</td> <!-- Correctly access product name through the relationship -->
-                    <td>{{ $product->serial_number }}</td>
-                    <td>{{ ucwords($product->condition)}}</td>
-                    <td>{{ $product->created_at }}</td>
-                    <td>{{ $product->updated_at }}</td>
-                    <td>
-                        <a href="{{ route('inventoryitem.edit', ['products' => $product->sku_id]) }}" onclick="return confirmAction('Are you sure you want to edit this item?')">Edit</a> <!-- Use $product here -->
-                    </td>
-                    <td>
-                        <form method="post" action="{{ route('inventoryitem.delete', ['products' => $product->sku_id])}}" onsubmit="return confirmAction('Are you sure you want to delete this item?')"> <!-- Use $product here -->
-                            @csrf
-                            @method('delete')
-                            <input type="submit" value="Delete" />
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
+            </thead>
+            <tbody></tbody>
         </table>
-    </div>
+        </div>
+            </div>
+                  </div>
+                      </div>
     <script src="{{ asset('js/confirmation.js') }}"></script>
+    <script>
+    $(document).ready(function(){
+        var table = $('#inventory_item').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('inventoryitem.serials') }}",
+            columns: [
+                {
+                    data: null,
+                    orderable: false,
+                    render: function(data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1; // index number increment
+                    }
+                },
+                {data: 'sku_id', name: 'sku_id'},
+                {data: 'serial_number', name: 'serial_number'},
+                {data: 'condition', name: 'condition'},
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                },
+            ]
+        });
+
+        // Edit button handling with confirmation
+        $('#inventory_item tbody').on('click', '.edit-btn', function(e) {
+            e.preventDefault();
+            var editUrl = $(this).attr('href');
+            if (confirm('Are you sure you want to edit this item?')) {
+                window.location.href = editUrl;
+            }
+        });
+
+        // Delete button handling
+        $('#inventory_item tbody').on('click', '.delete-btn', function() {
+            var deleteUrl = $(this).data('url'); // Get the delete URL from the button
+            console.log('Delete URL:', deleteUrl); // Debug log for delete URL
+            if (confirm('Are you sure you want to delete this item?')) {
+                $.ajax({
+                    url: deleteUrl,
+                    type: 'DELETE', // Ensure this is DELETE
+                    data: {
+                        _token: '{{ csrf_token() }}' // CSRF token for security
+                    },
+                    success: function(response) {
+                        alert('Item deleted successfully!'); // Success message
+                        table.ajax.reload(); // Reload DataTable to reflect changes
+                    },
+                    error: function(xhr) {
+                        console.log('Error deleting item: ' + (xhr.responseJSON.message || 'An unexpected error occurred.'));
+                    }
+                });
+            }
+        });
+    });
+</script>
 </body>
 </html>

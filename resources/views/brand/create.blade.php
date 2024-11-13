@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script>
+        function confirmAction(message) {
+            return confirm(message);
+        }
+    </script>
 </head>
 <body>
     <h1>Insert a Brand</h1>
@@ -30,6 +35,7 @@
     <div class = "submit">
         <input type = "submit" value = "Save Brand">
     </div>
+    <a href="{{ route('inventory.index') }}">Back to Inventory</a>
     </form>
     <script src="{{ asset('js/confirmation.js') }}"></script>
 </body>

@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TechReportController;
 use App\Http\Controllers\TechProfileController;
 use App\Http\Controllers\ServicesController;
+use App\Http\Controllers\CustomerController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -29,6 +30,8 @@ Route::middleware('auth')->group(function () {
 Route::resource('brand', BrandController::class);
 Route::delete('brand/{brand}/delete', [BrandController::class, 'delete'])->name('brand.delete');
 
+Route::resource('customer',CustomerController::class);
+Route::delete('customer/{customer}/delete', [CustomerController::class, 'delete'])->name('customer.delete');
 
 Route::resource('category',CategoryController::class);
 Route::delete('/category/{category}/delete', [CategoryController::class, 'delete'])->name('category.delete');
