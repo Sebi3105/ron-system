@@ -50,16 +50,17 @@
 
         <!-- SKU Dropdown -->
         <div class="sku_dropdown">
-            <label for="sku_id">SKU</label>
-            <select name="sku_id" id="sku_id" required>
-                <option value="" selected>Select SKU</option>
-                @foreach($inventoryitem as $item)
-                    <option value="{{ $item->sku_id }}" {{ $item->sku_id == $techreport->sku_id ? 'selected' : '' }}>
-                        {{ $item->sku_id }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
+    <label for="sku_id">Serial No.</label>
+    <select name="sku_id" id="sku_id" required>
+        <option value="" selected>Select an SKU</option>
+        @foreach($inventoryitem as $item)
+            <option value="{{ $item->sku_id }}" {{ $item->sku_id == $techreport->sku_id ? 'selected' : '' }}>
+                {{ $item->serial_number }}
+            </option>
+        @endforeach
+    </select>
+</div>
+
 
         <!-- Service Dropdown -->
         <div class="service_dropdown">
