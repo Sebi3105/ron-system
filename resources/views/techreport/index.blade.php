@@ -87,8 +87,23 @@
                     { data: 'status', name: 'status' },
                     { data: 'remarks', name: 'remarks' },
                     { data: 'cost', name: 'cost' },
-                    { data: 'created_at', name: 'created_at' },
-                    { data: 'updated_at', name: 'updated_at' },
+                    // { data: 'created_at', name: 'created_at' },
+                    // { data: 'updated_at', name: 'updated_at' },
+
+                    {
+                        data: 'created_at', 
+                        name: 'created_at',
+                        render: function(data) {
+                            return new Date(data).toLocaleString(); // Formats the date to local string
+                        }
+                    },
+                    {
+                        data: 'updated_at', 
+                        name: 'updated_at',
+                        render: function(data) {
+                            return new Date(data).toLocaleString(); // Formats the date to local string
+                        }
+                    },
                     {
                         data: 'action',
                         name: 'action',
