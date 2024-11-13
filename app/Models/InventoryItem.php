@@ -19,6 +19,11 @@ class InventoryItem extends Model
     {
         return $this->belongsTo(Inventory::class, 'product_id', 'product_id'); // Define the relationship
     }
+
+    
+    public function Inventoryitem() {
+        return $this->belongsTo(Inventoryitem::class, 'sku_id');
+    }
     const CONDITION = [
         'working',
         'defective',
