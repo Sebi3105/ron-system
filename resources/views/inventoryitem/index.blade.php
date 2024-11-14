@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
+<div class="w-64 fixed top-0 left-0 z-10 h-screen">
+            @include('layouts.navigation') 
+        </div>
+
     <h1>Inventory Items</h1>
     <div class="success_pop">
         @if(session()->has('success'))
