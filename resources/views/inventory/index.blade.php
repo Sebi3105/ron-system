@@ -8,6 +8,7 @@
             {{ __('Inventory') }}
         </h2>
     </x-slot>
+
     <div class="success_pop mb-4">
         @if(session()->has('success'))
             <div class="bg-green-500 text-white p-2 rounded">
@@ -15,6 +16,7 @@
             </div>
         @endif
     </div>
+
     <div class="create_link mb-2">
         <a href="{{ route('inventory.create') }}" class="bg-blue-500 text-black-500 py-2 px-4 rounded">Insert New Products</a>
         <a href="{{ route('category.create') }}" class="bg-blue-500 text-black-500 py-2 px-4 rounded">Insert New Category</a>
@@ -24,30 +26,28 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-            <div class="table overflow-x-auto">
-        <table border="1" id="inventory">
-            <thead class="bg-gray-200">
-                <tr>
-                    <th></th>
-                    <th>Product ID</th>
-                    <th>Product Name</th>
-                    <th>Category</th>
-                    <th>Brand</th>
-                    <th>Quantity</th>
-                    <th>Released Date</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-            
-        </table>
-    </div>
+                <div class="table overflow-x-auto">
+                    <table border="1" id="inventory">
+                        <thead class="bg-gray-200">
+                            <tr>
+                                <th></th>
+                                <th>Product ID</th>
+                                <th>Product Name</th>
+                                <th>Category</th>
+                                <th>Brand</th>
+                                <th>Quantity</th>
+                                <th>Released Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 
-   
     <script src="{{ asset('js/confirmation.js') }}"></script>
 
     <script>
@@ -87,9 +87,20 @@
                     else if (data.quantity <= 1) {
                         $(row).css('background-color', '#f8d7da');  // Light red color
                     }
-                }
+                },
+                language: {
+                    search: "Search:",
+                    info: "Showing _START_ to _END_ of _TOTAL_ entries",
+                    paginate: {
+                        previous: "Previous",
+                        next: "Next"
+                    }
+                },
+                pageLength: 5,
+                lengthMenu: [5, 10, 15, 20],
             });
-                         // Edit button handling with confirmation
+
+            // Edit button handling with confirmation
             $('#inventory tbody').on('click', '.btn-primary', function(e) {
                 e.preventDefault(); // Prevent immediate redirect
                 var editUrl = $(this).attr('href'); // Get the edit URL from the button's href
@@ -97,9 +108,9 @@
                     window.location.href = editUrl; // Redirect to the edit page if confirmed
                 }
             });
+
             $('#inventory tbody').on('click', '.delete-btn', function() {
                 var deleteUrl = $(this).data('url'); // Get the delete URL from the button
-                console.log('Delete URL:', deleteUrl); // Debug log for delete URL
                 if (confirm('Are you sure you want to delete this item?')) {
                     $.ajax({
                         url: deleteUrl,
