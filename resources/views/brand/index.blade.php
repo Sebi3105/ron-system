@@ -1,264 +1,300 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RON-Sytem:Brand</title>
-    
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-    <style>
-        /* General styling */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fc;
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-        }
- /* Container for title and button */
-
-        .create_link a {
-            background-color: #4a628a;
-            color: #fff;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
-
-        .create_link a:hover {
-            background-color: #3b5072;
-        }
-
-
-        /* Enhanced Table styling */
-        .table {
-            width: 200%;
-            max-width: 900px;
-            margin-top: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        th, td {
-            padding: 14px;
-            text-align: left;
-            font-size: 14px;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #4a628a;
-            color: #fff;
-            font-weight: bold;
-        }
-
-        tr:hover {
-            background-color: #e0ebf6;
-            cursor: pointer;
-        }
-
-        /* Stylish Action Button Styling */
-        .btn-primary {
-            text-decoration: none;
-            color: #fff;
-            padding: 5px 5px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            background-color: #1A9945;
-        }
-
-        .btn-primary:hover {
-            background-color: #15803d;
-        }
-
-        .delete-btn {
-            background-color: #dc2626;
-            color: #fff;
-            text-decoration: none;
-            color: #fff;
-            padding: 2px 5px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .delete-btn:hover {
-            background-color: darkred;
-            color: #fff;
-        }
-
-        .dataTables_filter input {
-            border: 1px solid #d1d5db;
-            padding: 0.8rem 1.2rem;
-            border-radius: 0.5rem;
-            width: 300px;
-            transition: all 0.3s ease-in-out;
-            margin-bottom: 1.5rem; /* Adds space below the search input */
-            font-size: 1rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            background-color: #f9fafb;
-        }
-
-        /* Search input on hover and focus */
-        .dataTables_filter input:hover {
-            box-shadow: 0 4px 8px rgba(37, 99, 235, 0.2);
-            border-color: #2563eb;
-        }
-
-        .dataTables_filter input:focus {
-            outline: none;
-            box-shadow: 0 0 10px rgba(37, 99, 235, 0.4);
-            border-color: #1d4ed8;
-        }
-
-        /* Style DataTables pagination */
-
-.dataTables_wrapper .dataTables_paginate .paginate_button {
-    display: inline-block;
-    padding: 6px 12px;
-    margin: 2px;
-    font-size: 14px;
-    color: #333;
-    border: 1px solid #ddd;
-    border-radius: 50%;
-    background-color: #f9f9f9;
-    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
-}
-
-.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-    background-color: #4a628a;
-    color: #fff;
-    transform: scale(1.1); /* Smooth scaling effect on hover */
-}
-
-.dataTables_wrapper .dataTables_paginate .paginate_button.current {
-    background-color: #4a628a;
-    color: #fff;
-    border-color: #4a628a;
-    transform: scale(1.1); /* Slightly larger current page button */
-}
-
-.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
-    color: #bbb;
-    cursor: default;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-}
-
-/* Optional: Center-align pagination */
-.dataTables_wrapper .dataTables_paginate {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.container {
-            max-width: 200%;
-            margin: 2rem auto;
-            padding: 1.5rem;
-            background-color: #ffffff;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #333;
-            font-size: 1.75rem;
-            margin-bottom: 3rem;
-        }
-
-        .btn {
-            padding: 0.6rem 1.2rem;
-            font-size: 0.9rem;
-            border-radius: 0.375rem;
-            font-weight: bold;
-            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
-        }
-        .insert-btn {
-            background-color: #1d4ed8;
-            color: #ffffff;
-        }
-        .insert-btn:hover {
-            background-color: #2563eb;
-            transform: translateY(-2px);
-        }
-    </style>
-</head>
-<body>
-    <div class="container mx-auto p-4">
-    <h1>Brand List</h1>
-        <div class="flex justify-between items-center mb-4 create_link">
-        <a href = "{{route('brand.create')}}"> + Insert New Brand</a>
+<x-app-layout>
+    <div class="flex flex-col md:flex-row h-screen">
+        <!-- Sidebar (Navigation) -->
+        <div class="w-64 md:w-48 lg:w-64 fixed top-0 left-0 z-10 h-screen bg-gray-900">
+            @include('layouts.navigation')
         </div>
 
+        <!-- Main Content -->
+        <div class="flex-1 md:ml-48 lg:ml-64 mt-0 bg-gray-100 text-gray-800">
+            <header class="bg-gray-200 py-3 px-3 md:px-6 fixed top-0 md:left-48 lg:left-64 right-0 z-20 h-15 flex items-center justify-between text-black shadow-md">
+                <h1 class="text-lg font-bold">Brand List</h1>
+            </header>
 
-    <div class="table">
-        <table id="brand">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Brand ID</th>
-                    <th>Brand Name</th>
-                    <th>Created at</th>
-                    <th>Updated at</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>    
-            <tbody>
-                <!-- Dynamic rows will be loaded here via DataTables -->
-            </tbody>
-        </table>
-        <div class="mt-6">
-            <a href="{{ route('inventory.index') }}" class="text-blue-500 hover:underline">Back to Inventory</a>
+            <div class="flex justify-start mt-20 md:mt-24 px-4">
+                <a href="{{ route('inventory.index') }}" class="back-btn flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5 mr-2">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l-7-7 7-7" />
+                    </svg>
+                    Back to Inventory
+                </a>
+            </div>
+
+            <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+            <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+            <link rel="stylesheet" href="css.style.css">
+            <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+            <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+
+            <style>
+                /* General styling with Poppins font */
+                body {
+                    font-family: 'Poppins';
+                }
+                
+                /* Other existing styles remain the same */
+                /* Responsive Sidebar */
+                @media (max-width: 768px) {
+                    .fixed {
+                        position: static;
+                        width: 100%;
+                        height: auto;
+                    }
+                    header {
+                        left: 0;
+                        padding-left: 1rem;
+                    }
+                }
+
+                /* Responsive Container */
+                .container {
+                    width: 80%;
+                    max-width: 1000px;
+                    margin: 1rem auto 2rem auto;
+                    padding: 1rem;
+                    background-color: #ffffff;
+                    border-radius: 0.5rem;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                    text-align: center;
+                }
+
+                /* Table styling */
+                .table {
+                    width: 80%;
+                    color: #4a5568;
+                    border-radius: 8px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                    border-collapse: collapse; /* Collapse borders */
+                }
+
+                th, td {
+                    padding: 14px;
+                    font-size: 14px;
+                    border-bottom: 1px solid #ddd; /* Line between rows */
+                }
+                th{
+                    background-color: #4A628A;
+                    color: #fff;
+                }
+
+                tr:hover {
+                    background-color: #edf2f7;
+                }
+
+
+                /* Responsive pagination */
+                @media (max-width: 768px) {
+                    .dataTables_length, .insert-btn, .dataTables_paginate {
+                        width: 100%;
+                        text-align: center;
+                        margin: 0 auto;
+                    }
+                }
+
+                .dataTables_length {
+                    display: flex;
+                    align-items: center;
+                    font-size: 0.9rem;
+                    margin-top: 1REM; 
+                    margin-bottom: 1REM;
+                    margin-left: 1rem;
+                }
+
+                .dataTables_length label {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem; 
+                }
+
+                .dataTables_length select {
+                    padding: 0.1rem 0.3rem;
+                    font-size: 0.9rem;
+                    border-radius: 0.375rem;
+                    border: 1px solid #ccc;
+                    outline: none;
+                    transition: border-color 0.2s;
+                    margin-top: -2px; 
+                    width: 60px; 
+                }
+
+                .dataTables_length select:focus {
+                    border-color: #4A628A;
+                }
+
+                .btn-primary {
+                    text-decoration: none;
+                    color: #fff;
+                    padding: 7px 10px;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    transition: background-color 0.3s;
+                    background-color: #1A9945;
+                }
+
+                .btn-primary:hover {
+                    background-color: #15803d;
+                }
+
+                .delete-btn {
+                    background-color: #dc2626;
+                    color: #fff;
+                    padding: 5px 10px;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    transition: background-color 0.3s;
+                }
+
+                .delete-btn:hover {
+                    background-color: darkred;
+                }
+
+                .dataTables_wrapper .dataTables_paginate .paginate_button {
+                    display: inline-block;
+                    padding: 4px 10px;
+                    margin: 4px;
+                    font-size: 10px;
+                    color: #333;
+                    border: 1px solid #ddd;
+                    border-radius: 6px;
+                    background-color: #f9f9f9;
+                    cursor: pointer;
+                    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+                }
+
+                .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+                    background-color: #DFDFDE;
+                    color: #fff;
+                    transform: scale(1.05);
+                }
+
+                .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+                    background-color: #15803d;
+                    color: green;
+                    border-color: #1a73e8;
+                    font-weight: bold;
+                    transform: scale(1.1);
+                    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+                }
+
+                .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+                    color: #bbb;
+                    cursor: not-allowed;
+                    background-color: #f1f1f1;
+                    border: 1px solid #ddd;
+                    box-shadow: none;
+                }
+
+                .dataTables_wrapper .dataTables_paginate {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 6px;
+                }
+
+                .dataTables_wrapper .dataTables_paginate .paginate_button.previous,
+                .dataTables_wrapper .dataTables_paginate .paginate_button.next {
+                    font-weight: bold;
+                    color: #DFDFDE;
+                    border-radius: 6px;
+                    padding: 4px 10px;
+                    background-color: #f1f1f1;
+                }
+
+                .dataTables_wrapper .dataTables_paginate .paginate_button.previous:hover,
+                .dataTables_wrapper .dataTables_paginate .paginate_button.next:hover {
+                    background-color: #DFDFDE;
+                    color: #fff;
+                }
+
+                .insert-btn {
+                    background-color: #4A628A;
+                    color: #ffffff;
+                    padding: 0.6rem 1.2rem;
+                    font-size: 0.9rem;
+                    font-weight: bold;
+                    border-radius: 0.375rem;
+                    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+                    text-decoration: none;
+                    margin-left: -15rem;
+                }
+
+                .insert-btn:hover {
+                    background-color: #3b5374;
+                }
+                .back-btn {
+                    color: #3C3D37;
+                    padding: 0.3rem 1.2rem;
+                    font-size: 1rem;
+                    font-weight: bold;
+                    border-radius: 0.375rem;
+                    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+                    text-decoration: none;
+                    margin-left: 2rem;
+
+                }
+                .back-btn:hover {
+                    left: 0;
+                }
+                .back-btn svg {
+                    transition: transform 0.2s ease;
+                }
+
+                .back-btn:hover svg {
+                    transform: translateX(-5px); /* Move the arrow slightly */
+                }
+            </style>
+
+<div class="container mx-auto p-4">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
+                    <div class="dataTables_length"></div>
+                    <a href="{{route('brand.create')}}" class="insert-btn text-sm">+ Inser New Brand</a>
+                    <div class="relative w-full md:w-1/2">
+                        <input type="text" id="tableSearch" class="border border-gray-300 rounded-md pl-10 pr-4 py-2 w-full" placeholder="Search...">
+                        <span class="absolute left-3 top-2.5 text-gray-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a7 7 0 100 14 7 7 0 000-14zM18 18l-3.5-3.5" />
+                            </svg>
+                        </span>
+                        </div>
+                        </div>
+                <table id="brand" class="table mx-auto">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Brand Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
         </div>
     </div>
 
-    <script src="{{ asset('js/confirmation.js') }}"></script>
+    <!-- Include jQuery and DataTables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+
     <script>
-        $(document).ready(function(){
+        $(document).ready(function () {
             var table = $('#brand').DataTable({
                 processing: true,
                 serverSide: true,
-                searching: true, 
                 ajax: "{{ route('brand.index') }}",
+                dom: 'lrtip',
                 columns: [
                     {
-                        data: null, 
-                        orderable: false, 
-                        render: function(data, type, row, meta) {
+                        data: null,
+                        orderable: false,
+                        render: function (data, type, row, meta) {
                             return meta.row + meta.settings._iDisplayStart + 1;
                         }
                     },
-                    {data: 'brand_id', name: 'brand_id'},
-                    {data: 'brand_name', name: 'brand_name'},
-                    {
-                        data: 'created_at', 
-                        name: 'created_at',
-                        render: function(data) {
-                            return new Date(data).toLocaleString();
-                        }
-                    },
-                    {
-                        data: 'updated_at', 
-                        name: 'updated_at',
-                        render: function(data) {
-                            return new Date(data).toLocaleString();
-                        }
-                    },
+                    { data: 'brand_name', name: 'brand_name' },
                     {
                         data: 'action',
                         name: 'action',
@@ -268,16 +304,10 @@
                 ]
             });
 
-
-            // Edit and delete button handlers
-            $('#brand tbody').on('click', '.btn-primary', function(e) {
-                e.preventDefault();
-                var editUrl = $(this).attr('href');
-                if (confirm('Are you sure you want to edit this item?')) {
-                    window.location.href = editUrl;
-                }
+            // Search input functionality
+            $('#tableSearch').keyup(function () {
+                table.search($(this).val()).draw();
             });
-
             $('#brand tbody').on('click', '.delete-btn', function() {
                 var deleteUrl = $(this).data('url');
                 console.log('Delete URL:', deleteUrl);
@@ -300,5 +330,4 @@
             });
         });
     </script>
-</body>
-</html>
+</x-app-layout>
