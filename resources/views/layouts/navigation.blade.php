@@ -19,8 +19,44 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('inventory.index')" :active="request()->routeIs('inventory.index')">{{ __('Inventory')}}
                     </x-nav-link>
+<<<<<<< Updated upstream
                 </div>
             </div>
+=======
+                </li>
+                <!-- Inventory -->
+                <li>
+                    <x-nav-link href="{{ route('inventory.index') }}" class="text-black w-full px-4 py-2 hover:bg-sky-100 text-center">
+                        {{ __('Inventory') }}
+                    </x-nav-link>
+                </li>
+                <!-- Customer -->
+                <li>
+                    <x-nav-link href="{{ url('/customer') }}" class="text-black w-full px-4 py-2 hover:bg-sky-100 text-center">
+                        {{ __('Customers') }}
+                    </x-nav-link>
+                </li>
+                <!-- Sales -->
+                <li>
+                    <x-nav-link href="{{ url('/sales') }}" class="text-black w-full px-4 py-2 hover:bg-sky-100 text-center">
+                        {{ __('Sales') }}
+                    </x-nav-link>
+                </li>
+                <!-- Technician -->
+                <li>
+                    <x-nav-link href="{{ url('/techreport') }}" class="text-black w-full px-4 py-2 hover:bg-sky-100 text-center">
+                        {{ __('Technician') }}
+                    </x-nav-link>
+                </li>
+                <!-- Setting -->
+                <li>
+                    <x-nav-link href="{{ url('/settings') }}" class="text-black w-full px-4 py-2 hover:bg-sky-100 text-center">
+                        {{ __('Setting') }}
+                    </x-nav-link>
+                </li>
+            </ul>
+        </div>
+>>>>>>> Stashed changes
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">

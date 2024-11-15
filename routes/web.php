@@ -47,12 +47,15 @@ Route::delete('/inventoryitem/{inventoryitem}/delete', [InventoryitemController:
 Route::resource('service', ServicesController::class);
 // Route::delete('service/{service}/delete', [ServicesController::class, 'service'])->name('service.delete');
 Route::get('/service', [ServicesController::class, 'index'])->name('service.index');
-Route::delete('/service/{service}', [ServicesController::class, 'delete'])->name('services.delete');
+Route::delete('/service/{service}/delete', [ServicesController::class, 'delete'])->name('service.delete');
+
+Route::delete('/service/{service}', [ServicesController::class, 'delete'])->name('service.delete');
 
 
 //techprofile routes
 Route::resource('techprofile', TechProfileController::class);
 Route::get('/techprofile', [TechProfileController::class, 'index'])->name('techprofile.index');
+Route::delete('/techprofile/{techprofile}/delete', [TechProfileController::class, 'delete'])->name('techprofile.delete');
 Route::delete('/techprofile/{techprofile}', [TechProfileController::class, 'delete'])->name('techprofile.delete');
 Route::get('/techprofile', [TechProfileController::class, 'index'])->name('techprofile.index');
 

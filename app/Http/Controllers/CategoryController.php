@@ -63,7 +63,7 @@ class CategoryController extends Controller
 
         Category::create($data);
 
-        return redirect(route('category.index'));
+        return redirect(route('inventory.index'));
     }
 
     public function edit(Category $category)

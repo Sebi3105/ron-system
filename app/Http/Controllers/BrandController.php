@@ -62,7 +62,7 @@ class BrandController extends Controller
 
         $new_brand = brand::create($data);
 
-        return redirect(route('brand.index'));
+        return redirect(route('inventory.index'));
     }
 
     public function edit(Brand $brand){

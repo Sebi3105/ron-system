@@ -1,53 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<x-app-layout>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-</head>
-<body>
-    <h1>Customers</h1>
-    <div class = "success_pop">
+
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Customers') }}
+        </h2>
+    </x-slot>
+
+    <div class="success_pop mb-4">
         @if(session()->has('success'))
-        <div class = "success">
-            {{session('sucess')}}
-        </div>
+            <div class="bg-green-500 text-white p-2 rounded">
+                {{ session('success') }}
+            </div>
         @endif
     </div>
-    <div class = "create_link">
-        <a href = "{{route('customer.create')}}">Create new Customer Profile</a>
+
+    <!-- Insert new customer link -->
+    <div class="create_link mb-2">
+        <a href="{{ route('customer.create') }}" class="bg-blue-500 text-white py-2 px-4 rounded">Create New Customer Profile</a>
     </div>
-    <div class = "table">
-        <table border = "1" id="customer">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Customer ID</th>
-                    <th>Customer Name</th>
-                    <th>Address</th>
-                    <th>Contact No.</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-    </table>
+
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+                <div class="table overflow-x-auto">
+                    <table border="1" id="customer">
+                        <thead class="bg-gray-200">
+                            <tr>
+                                <th>#</th>
+                                <th>Customer ID</th>
+                                <th>Customer Name</th>
+                                <th>Address</th>
+                                <th>Contact No.</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
+
     <script src="{{ asset('js/confirmation.js') }}"></script>
+
     <script>
         $(document).ready(function() {
             var table = $('#customer').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('customer.index') }}",  // Ensure this is the correct route
+                ajax: "{{ route('customer.index') }}", // Ensure this is the correct route
                 columns: [
                     {
-                        data: null,         // No data source since we're generating the index ourselves
-                        orderable: false,  // Disable sorting on this column
+                        data: null,
+                        orderable: false,
                         render: function(data, type, row, meta) {
-                            return meta.row + meta.settings._iDisplayStart + 1; // Index number increment
+                            return meta.row + meta.settings._iDisplayStart + 1;
                         }
                     },
                     { data: 'customer_id', name: 'customer_id' },
@@ -65,27 +75,24 @@
 
             // Edit button handling with confirmation
             $('#customer tbody').on('click', '.btn-primary', function(e) {
-                e.preventDefault(); // Prevent immediate redirect
-                var editUrl = $(this).attr('href'); // Get the edit URL from the button's href
+                e.preventDefault();
+                var editUrl = $(this).attr('href');
                 if (confirm('Are you sure you want to edit this item?')) {
-                    window.location.href = editUrl; // Redirect to the edit page if confirmed
+                    window.location.href = editUrl;
                 }
             });
 
             // Delete button handling with confirmation
             $('#customer tbody').on('click', '.delete-btn', function() {
-                var deleteUrl = $(this).data('url'); // Get the delete URL from the button
-                console.log('Delete URL:', deleteUrl); // Debug log for delete URL
+                var deleteUrl = $(this).data('url');
                 if (confirm('Are you sure you want to delete this item?')) {
                     $.ajax({
                         url: deleteUrl,
-                        type: 'DELETE', // Ensure this is DELETE
-                        data: {
-                            _token: '{{ csrf_token() }}' // CSRF token for security
-                        },
+                        type: 'DELETE',
+                        data: { _token: '{{ csrf_token() }}' },
                         success: function(response) {
-                            alert('Item deleted successfully!'); // Success message
-                            table.ajax.reload(); // Reload DataTable to reflect changes
+                            alert('Item deleted successfully!');
+                            table.ajax.reload();
                         },
                         error: function(xhr) {
                             console.log('Error deleting item: ' + (xhr.responseJSON.message || 'An unexpected error occurred.'));
@@ -95,5 +102,4 @@
             });
         });
     </script>
-</body>
-</html>
+</x-app-layout>

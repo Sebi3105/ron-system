@@ -58,7 +58,7 @@ class ServicesController extends Controller
 
         $new_service = Services::create($data);
 
-        return redirect(route('service.index'));
+        return redirect(route('techreport.index'));
     }
 
     public function edit(Services $service){

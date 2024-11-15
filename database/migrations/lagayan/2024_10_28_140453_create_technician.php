@@ -14,8 +14,12 @@ return new class extends Migration
         Schema::create('technician', function (Blueprint $table) {
             $table->id('technician_id');
             $table->string('name');
+<<<<<<< Updated upstream
             $table->string('contact_no', 11); 
                             
+=======
+            $table->bigInteger('contact_no'); // Keep as bigInteger
+>>>>>>> Stashed changes
         }); 
     }
 

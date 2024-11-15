@@ -9,27 +9,11 @@ use App\Models\Inventoryitem;
 use App\Models\customer;
 
 use App\DataTables\TechReportDataTable;
+use App\DataTables\ServiceDataTable;
 use Yajra\DataTables\Facades\DataTables;
 
 class TechReportController extends Controller
 {
-    // public function index(Request $request)
-    // {
-    //     $search = $request->input('search');
-    
-    //     // Fetch inventory items with optional search functionality
-    //     $inventory = Inventory::with(['category', 'brand'])
-    //         ->when($search, function ($query) use ($search) {
-    //             return $query->where('product_name', 'like', "%{$search}%");
-    //         })
-    //         ->get();
-    
-    //     return view('inventory.index', [
-    //         'inventory' => $inventory,
-    //         'search' => $search // Pass the search value to the view for preserving input
-    //     ]);
-    // }
-    
 
     public function index(Request $request)
     {
@@ -70,85 +54,14 @@ class TechReportController extends Controller
                 return response()->json(['error' => 'An error occurred while fetching techreport data.'], 500);
             }
         }
-    
-        return view("techreport.index");
+        $techprofile = TechProfile::all();
+        $service = Services::all();
+
+       
+        return view("techreport.index", compact('techprofile', 'service'));
+
     }
     
-    
-//nagana
-        // public function index(Request $request)
-        // {
-        //     if ($request->ajax()) {
-        //         $data = TechReport::select('report_id','technician_id', 'customer_id', 'sku_id', 'service_id', 'date_of_completion', 'payment_type', 'payment_method', 'status', 'remarks', 'cost', 'created_at', 'updated_at')->get();
-        
-        //         return DataTables::of($data)
-        //             ->addIndexColumn() // This automatically adds the index column
-        //             ->addColumn('action', function($row) {
-        //                 $editUrl = route('techreport.edit', $row->report_id); // Use correct column for ID
-        //                 $deleteUrl = route('techreport.delete', $row->report_id); // Ensure correct URL
-        
-        //                 return '<a href="'.$editUrl.'" class="btn btn-sm btn-primary">Edit</a>
-        //                         <button data-url="'.$deleteUrl.'" class="btn btn-sm btn-danger delete-btn">Delete</button>';
-        //             })
-        //             ->rawColumns(['action']) // Allow raw HTML in action column
-        //             ->make(true); // Ensure DataTables receives proper JSON response
-        //     }
-        
-        //     return view("techreport.index");
-        // }
-        
-    
-        // public function create()
-        // {
-        //     $techprofile = TechProfile::all(); 
-        //     $customer = Customer::all();
-        //     $inventoryitem = Inventoryitem::all();
-        //     $service = Services::all();
-            
-        //     // Debugging: inspect variables
-        //     dd($techprofile, $customer, $inventoryitem, $service);
-            
-        //     $paymenttype = TechReport::getPaymenttype();
-        //     $paymentmethod = TechReport::getPaymentmethod();
-        //     $statuses = TechReport::getStatuses();
-                
-        //     return view('techreport.create', compact('techprofile', 'customer', 'inventoryitem', 'service', 'paymenttype', 'paymentmethod', 'statuses'));
-        // }
-
-
-
-
-//     public function edit(TechReport $techreport){
-//         return view('techreport.edit',['techreport' => $techreport]);
-// }
-    
-// public function update(TechReport $techreport, Request $request){
-//     $data = $request->validate([
-//         'technician_id' => 'required|exists:technician,technician_id',
-//             'customer_id' => 'required|exists:customer,customer_id',
-//             'sku_id' => 'required|exists:inventory_item,sku_id',
-//             'service_id' => 'required|exists:service,service_id',
-//             'date_of_completion' => 'required|date|date_format:Y-m-d',
-//             'payment_type' => 'required|string', // Assuming a 'payment_type' field as per your comment
-//             'payment_method' => 'required|string', // Assuming a 'payment_method' field as per your comment
-//             'status' => 'required|string', // Assuming a 'status' field as per your comment
-//             'remarks' => 'nullable|string',
-//             'cost' => 'required|numeric|regex:/^\d{2,8}(\.\d{1,2})?$/',
-//     ]);
-//     $techreport->update($data);
-
-//     return redirect(route('techreport.index'))-> with('success', 'Report Updated Successfully');
-
-// }
-
-// public function delete(Techreport $techreport){
-//     $techreport->delete();
-//     return response()->json(['message' => 'Services Deleted Successfully'], 200); // Successful deletion response
-// }
-
-
-// }
-
 
     
 
@@ -173,7 +86,7 @@ class TechReportController extends Controller
       $data = $request->validate([
           'technician_id' => 'required|exists:technician,technician_id',
           'customer_id' => 'required|exists:customer,customer_id',
-          'sku_id' => 'required|exists:inventory_item,sku_id',
+          'sku_id' => 'exists:inventory_item,sku_id',
           'service_id' => 'required|exists:service,service_id',
           'date_of_completion' => 'required|date|date_format:Y-m-d',
           'payment_type' => 'required|string', // Assuming a 'payment_type' field as per your comment
@@ -226,7 +139,7 @@ class TechReportController extends Controller
             $data = $request->validate([
             'technician_id' => 'required|exists:technician,technician_id',
           'customer_id' => 'required|exists:customer,customer_id',
-          'sku_id' => 'required|exists:inventory_item,sku_id',
+           'sku_id' => 'nullable|exists:inventory_item,sku_id',
           'service_id' => 'required|exists:service,service_id',
           'date_of_completion' => 'required|date|date_format:Y-m-d',
           'payment_type' => 'required|string', // Assuming a 'payment_type' field as per your comment
