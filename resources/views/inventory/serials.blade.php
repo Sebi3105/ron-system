@@ -162,7 +162,31 @@
         <div class=" flex justify-between items-center mb-4 create_link">
             <a href="{{ route('inventoryitem.create', ['product_id' => $inventoryitem->product_id]) }}">+ Insert New Product Serial</a>
         </div>
-
+        <div class="flex space-x-4">
+        <!-- Product Details in a single column -->
+        <div class="bg-white border border-gray-300 p-4 rounded shadow-md">
+            <h2 class="text-lg font-semibold mb-2">Product Details</h2>
+            <table class="min-w-full">
+                <tbody>
+                    <tr>
+                        <td class="py-2 px-4 border-b font-bold">Product ID:</td>
+                        <td class="py-2 px-4 border-b">{{ $inventoryitem->product_id }}</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-4 border-b font-bold">Product Name:</td>
+                        <td class="py-2 px-4 border-b">{{ $inventoryitem->product_name }}</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-4 border-b font-bold">Quantity:</td>
+                        <td class="py-2 px-4 border-b">{{ $inventoryitem->quantity }}</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-4 border-b font-bold">Status:</td>
+                        <td class="py-2 px-4 border-b">{{ $inventoryitem->status }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <div class="table">
             <table id="serials">
                 <thead>

@@ -14,12 +14,7 @@ return new class extends Migration
         Schema::create('technician', function (Blueprint $table) {
             $table->id('technician_id');
             $table->string('name');
-<<<<<<<< HEAD:database/migrations/lagayan/2024_10_28_140453_create_technician.php
-            $table->string('contact_no', 11); 
-                            
-========
-            $table->bigInteger('contact_no');
->>>>>>>> main:database/migrations/2024_10_28_140453_create_technician.php
+            $table->bigInteger('contact_no'); // Keep as bigInteger
         }); 
     }
 
