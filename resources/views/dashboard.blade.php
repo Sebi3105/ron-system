@@ -6,7 +6,7 @@
         </div>
 
         <!-- Main Content -->
-        <div class="flex-1 ml-64 mt-0"> <!-- Removed margin-top here -->
+        <div class="flex-1 ml-64 mt-0 bg-gray-200"> 
             <!-- Header -->
             <header class="bg-white py-4 px-8 fixed top-0 left-64 right-0 z-20 h-20 flex items-center justify-between">
                 <!-- You can add the header content here -->
