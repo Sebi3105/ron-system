@@ -47,7 +47,7 @@
                 </li>
                 <!-- Customer -->
                 <li>
-                    <x-nav-link href="{{ url('/customers') }}" class="text-black w-full px-4 py-2 hover:bg-sky-100 text-center">
+                    <x-nav-link href="{{ url('/customer') }}" class="text-black w-full px-4 py-2 hover:bg-sky-100 text-center">
                         {{ __('Customer') }}
                     </x-nav-link>
                 </li>
@@ -59,7 +59,7 @@
                 </li>
                 <!-- Technician -->
                 <li>
-                    <x-nav-link href="{{ url('/technicians') }}" class="text-black w-full px-4 py-2 hover:bg-sky-100 text-center">
+                    <x-nav-link href="{{ url('/techreport') }}" class="text-black w-full px-4 py-2 hover:bg-sky-100 text-center">
                         {{ __('Technician') }}
                     </x-nav-link>
                 </li>
