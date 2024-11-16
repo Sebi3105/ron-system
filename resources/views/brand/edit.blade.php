@@ -53,7 +53,7 @@
     <style>
         /* Apply Poppins font */
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Poppins';
         }
         
        
@@ -64,8 +64,6 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             max-width: 500px;
-            height: 40%;
-            width: 90%;
             text-align: center;
             margin: 12rem auto;
         }

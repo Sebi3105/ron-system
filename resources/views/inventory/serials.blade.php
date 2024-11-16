@@ -33,16 +33,6 @@
                 body {
                     font-family: 'Poppins';
                 }
-                .container {
-                    width: 80%;
-                    max-width: 1000px;
-                    margin: 1rem auto 2rem auto;
-                    padding: 1rem;
-                    background-color: #ffffff;
-                    border-radius: 0.5rem;
-                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-                    text-align: center;
-                }
                 
                 @media (max-width: 768px) {
                     .fixed {
