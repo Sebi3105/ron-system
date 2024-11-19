@@ -34,6 +34,11 @@
         function confirmAction(message) {
             return confirm(message);
         }
+           // Automatically refresh layout adjustments on window resize
+           window.addEventListener('resize', function() {
+    location.reload(); // Automatic na magre-refresh ang page
+});
+
     </script>
         <form method="post" action="{{ route('brand.update', ['brand' => $brand]) }}" 
               onsubmit="return confirmAction('Are you sure you want to save these changes?')">

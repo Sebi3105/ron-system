@@ -88,6 +88,11 @@
         document.getElementById('sidebar-toggle').addEventListener('click', function() {
             document.getElementById('sidebar').classList.toggle('hidden');
         });
+           // Automatically refresh layout adjustments on window resize
+           window.addEventListener('resize', function() {
+    location.reload(); // Automatic na magre-refresh ang page
+});
+
     </script>
 
     <style>

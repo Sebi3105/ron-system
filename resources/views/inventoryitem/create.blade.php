@@ -64,7 +64,11 @@
     </div>
 
     <script src="{{ asset('js/confirmation.js') }}"></script>
-
+<script>$   // Automatically refresh layout adjustments on window resize
+          window.addEventListener('resize', function() {
+    location.reload(); // Automatic na magre-refresh ang page
+});
+</script>
     <style>
         /* Select Styling */
         select {

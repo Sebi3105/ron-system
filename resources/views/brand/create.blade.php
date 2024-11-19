@@ -160,5 +160,10 @@
         function confirmAction(message) {
             return confirm(message);
         }
+           // Automatically refresh layout adjustments on window resize
+           window.addEventListener('resize', function() {
+    location.reload(); // Automatic na magre-refresh ang page
+});
+
     </script>
 </x-app-layout>

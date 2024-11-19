@@ -1,5 +1,6 @@
 <x-app-layout>
     <div class="flex flex-col md:flex-row h-screen">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
         <!-- Sidebar (Navigation) -->
         <div class="w-full md:w-48 lg:w-64 fixed top-0 left-0 z-10 h-screen bg-gray-900">
             @include('layouts.navigation')
@@ -37,7 +38,7 @@
                             <label for="category_id">Category</label>
                             <select name="category_id" id="category_id" required>
                                 <option value="" selected>Select a Category</option>
-                                @foreach($category as $categories)
+                                @foreach($categories as $categories)
                                     <option value="{{ $categories->category_id }}">{{ $categories->category_name }}</option>
                                 @endforeach
                             </select>
@@ -85,7 +86,7 @@
 
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins';
             background-color: #f3f3f3;
             margin: 0;
         }
@@ -187,5 +188,10 @@
         function confirmAction(message) {
             return confirm(message);
         }
+           // Automatically refresh layout adjustments on window resize
+           window.addEventListener('resize', function() {
+    location.reload(); // Automatic na magre-refresh ang page
+});
+
     </script>
 </x-app-layout>

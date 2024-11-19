@@ -91,6 +91,12 @@
                         text-align: center;
                         margin: 0 auto;
                     }
+                    .insert-btn {
+                        width: 100%; 
+                        text-align: center; 
+                        margin-left: 0; 
+                        padding: 0.6rem; 
+                    }
                 }
 
                 .dataTables_length {
@@ -219,7 +225,6 @@
                     border-radius: 0.375rem;
                     transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
                     text-decoration: none;
-                    margin-left: -15rem;
                 }
 
                 .insert-btn:hover {
@@ -329,5 +334,11 @@
                 }
             });
         });
+
+          // Automatically refresh layout adjustments on window resize
+          window.addEventListener('resize', function() {
+    location.reload(); // Automatic na magre-refresh ang page
+});
+
     </script>
 </x-app-layout>

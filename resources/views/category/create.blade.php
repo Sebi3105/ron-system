@@ -41,8 +41,8 @@
                     <input type="text" name="category_name" id="category_name" placeholder="Category Name" required>
 
                     <div class="button-group mt-4">
-                        <button type="submit">ADD CATEGORY</button>
-                        <a href="{{ route('inventory.index') }}" class="exit-btn" onclick="return confirmAction('Are you sure you want to cancel this?')">CANCEL</a>
+                        <button type="submit">Add Category</button>
+                        <a href="{{ route('inventory.index') }}" class="exit-btn" onclick="return confirmAction('Are you sure you want to cancel this?')">Cancel</a>
                     </div>
                 </form>
             </div>
