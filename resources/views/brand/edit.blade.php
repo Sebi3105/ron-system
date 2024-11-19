@@ -13,10 +13,19 @@
                 <h1 class="text-lg font-bold">Brand List</h1>
             </header>
 
+            <div class="flex justify-start mt-20 md:mt-24 px-4">
+            <a href="{{ route('brand.index') }}" class="back-btn flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5 mr-2">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l-7-7 7-7" />
+                    </svg>
+                    Back to Brand List
+                </a>
+            </div>
         
             <!-- Form Container -->
             <div class="form-container mx-auto mt-24 md:mt-32">
-                <h1 class="font-bold" style="color: #4a628a;">BRAND INFORMATION</h1>
+                <h1 class="font-bold" style="color: #4a628a;">UPDATE BRAND INFORMATION</h1>
   
 
         <div class="error_checking">
@@ -70,7 +79,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             max-width: 500px;
             text-align: center;
-            margin: 12rem auto;
+            margin: 2rem auto;
         }
 
         /* Responsive adjustments */
@@ -152,6 +161,26 @@
 
         .button-group button:hover {
             background-color: #c9302c;
+        }
+        .back-btn {
+            color: #3C3D37;
+            padding: 0.3rem 1.2rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 0.375rem;
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+            text-decoration: none;
+            margin-left: 2rem;
+                }
+        .back-btn:hover {
+             left: 0;
+        }
+        .back-btn svg {
+            transition: transform 0.2s ease;
+        }
+
+        .back-btn:hover svg {
+        transform: translateX(-5px); /* Move the arrow slightly */
         }
     </style>
 </x-app-layout>
