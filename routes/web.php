@@ -30,6 +30,7 @@ Route::middleware('auth')->group(function () {
 Route::resource('brand', BrandController::class);
 Route::delete('brand/{brand}/delete', [BrandController::class, 'delete'])->name('brand.delete');
 
+
 Route::resource('customer',CustomerController::class);
 Route::delete('customer/{customer}/delete', [CustomerController::class, 'delete'])->name('customer.delete');
 
@@ -50,14 +51,15 @@ Route::delete('/inventoryitem/{inventoryitem}/delete', [InventoryitemController:
 Route::resource('service', ServicesController::class);
 // Route::delete('service/{service}/delete', [ServicesController::class, 'service'])->name('service.delete');
 Route::get('/service', [ServicesController::class, 'index'])->name('service.index');
-Route::delete('/service/{service}', [ServicesController::class, 'delete'])->name('services.delete');
+Route::delete('/service/{service}/delete', [ServicesController::class, 'delete'])->name('service.delete');
+
+Route::delete('/service/{service}', [ServicesController::class, 'delete'])->name('service.delete');
 
 
 //techprofile routes
 Route::resource('techprofile', TechProfileController::class);
 Route::get('/techprofile', [TechProfileController::class, 'index'])->name('techprofile.index');
-Route::delete('/techprofile/{techprofile}', [TechProfileController::class, 'delete'])->name('techprofile.delete');
-Route::get('/techprofile', [TechProfileController::class, 'index'])->name('techprofile.index');
+Route::delete('/techprofile/{techprofile}/delete', [TechProfileController::class, 'delete'])->name('techprofile.delete');
 
 //techreport routes
 
@@ -65,6 +67,7 @@ Route::resource('techreport',TechReportController::class);
 Route::get('/techreport', [TechReportController::class, 'index'])->name('techreport.index');
 Route::delete('/techreport/{techreport}/delete', [TechReportController::class, 'delete'])->name('techreport.delete');
 Route::get('techreport/{techreport}/edit', [TechReportController::class, 'edit'])->name('techreport.edit');
+Route::get('techreport/{techreport}/view', [TechReportController::class, 'view'])->name('techreport.view');
 
 // Route::get('/techreport', [TechReportController::class, 'index'])->name('techreport.index');
 // Route::get('techreport', [TechReportController::class, 'index'])->name('techreport.index');

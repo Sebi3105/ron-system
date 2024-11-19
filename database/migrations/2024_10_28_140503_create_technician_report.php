@@ -21,8 +21,11 @@ return new class extends Migration
             $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')->references('customer_id')->on('customer')->onDelete('cascade');
 
-            $table->unsignedBigInteger('sku_id');
+            // $table->unsignedBigInteger('sku_id');
+            // $table->foreign('sku_id')->references('sku_id')->on('inventory_item')->onDelete('cascade');
+            $table->unsignedBigInteger('sku_id')->nullable(); // Make the column nullable
             $table->foreign('sku_id')->references('sku_id')->on('inventory_item')->onDelete('cascade');
+
 
             $table->unsignedBigInteger('service_id');
             $table->foreign('service_id')->references('service_id')->on('service')->onDelete('cascade');
