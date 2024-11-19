@@ -188,5 +188,8 @@
         function confirmAction(message) {
             return confirm(message);
         }
+        window.addEventListener('resize', function() {
+                location.reload(); // Automatic na magre-refresh ang page
+            });
     </script>
 </x-app-layout>
