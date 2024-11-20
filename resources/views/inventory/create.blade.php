@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Insert a Product</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Select2 CSS and JS (Load after jQuery) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" integrity="sha512-YHJ091iDoDM1PZZA9QLuBvpo0VXBBiGHsvdezDoc3p56S3SOMPRjX+zlCbfkOV5k3BmH5O9FqrkKxBRhkdtOkQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js" integrity="sha512-XBxUMC4YQcL60PavAScyma2iviXkiWNS5Yf+A0LZRWI1PNiGHkp66yPQxHWDSlv6ksonLAL2QMrUlCKq4NHhSQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <style>
         /* Basic styling for layout */
         body {
@@ -146,7 +151,7 @@
                     <label for="category_id">Category</label>
                     <select name="category_id" id="category_id" required>
                         <option value="" selected>Select a Category</option>
-                        @foreach($category as $categories)
+                        @foreach($categories as $categories)
                             <option value="{{ $categories->category_id }}">{{ $categories->category_name }}</option>
                         @endforeach
                     </select>
@@ -183,6 +188,7 @@
                 </div>
             </div>
 
+            
             <div class="button-group">
                 <input type="submit" value="Save Product">
                 <button type="button" class="cancel-btn" onclick="window.location.href='{{ url()->previous() }}'">Cancel</button>
@@ -191,5 +197,17 @@
     </div>
     
     <script src="{{ asset('js/confirmation.js') }}"></script>
+
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+$('#category_id, #brand_id').select2();
+});
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 </body>
 </html>

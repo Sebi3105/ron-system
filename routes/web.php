@@ -30,8 +30,7 @@ Route::middleware('auth')->group(function () {
 Route::resource('brand', BrandController::class);
 Route::delete('brand/{brand}/delete', [BrandController::class, 'delete'])->name('brand.delete');
 
-
-Route::resource('customer',CustomerController::class);
+Route::resource('customer', CustomerController::class);
 Route::delete('customer/{customer}/delete', [CustomerController::class, 'delete'])->name('customer.delete');
 
 Route::resource('category',CategoryController::class);
@@ -41,7 +40,7 @@ Route::resource('inventory',InventoryController::class);
 Route::delete('/inventory/{inventory}/delete', [InventoryController::class, 'delete'])->name('inventory.delete');
 
 Route::resource('inventoryitem',InventoryitemController::class);
-//Route::get('inventoryitem/create/{product_id}', [InventoryitemController::class, 'create'])->name('inventoryitem.create');
+Route::get('inventoryitem/create/{product_id}', [InventoryitemController::class, 'create'])->name('inventoryitem.create');
 Route::get('inventory/{product_id}/serials', [InventoryitemController::class, 'search'])->name('inventoryitem.serials');
 Route::get('/inventory/{product_id}/serials', [InventoryitemController::class, 'showSerials'])->name('inventoryitem.serials');
 Route::delete('/inventoryitem/{inventoryitem}/delete', [InventoryitemController::class, 'delete'])->name('inventoryitem.delete');
@@ -51,14 +50,13 @@ Route::delete('/inventoryitem/{inventoryitem}/delete', [InventoryitemController:
 Route::resource('service', ServicesController::class);
 // Route::delete('service/{service}/delete', [ServicesController::class, 'service'])->name('service.delete');
 Route::get('/service', [ServicesController::class, 'index'])->name('service.index');
-Route::delete('/service/{service}/delete', [ServicesController::class, 'delete'])->name('service.delete');
-
-Route::delete('/service/{service}', [ServicesController::class, 'delete'])->name('service.delete');
+Route::delete('/service/{service}', [ServicesController::class, 'delete'])->name('services.delete');
 
 
 //techprofile routes
 Route::resource('techprofile', TechProfileController::class);
 Route::get('/techprofile', [TechProfileController::class, 'index'])->name('techprofile.index');
+Route::delete('/techprofile/{techprofile}/delete', [TechProfileController::class, 'delete'])->name('techprofile.delete');
 Route::delete('/techprofile/{techprofile}/delete', [TechProfileController::class, 'delete'])->name('techprofile.delete');
 
 //techreport routes

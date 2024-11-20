@@ -7,9 +7,9 @@ use App\Models\TechProfile;
 use App\Models\Services;
 use App\Models\Inventoryitem;
 use App\Models\customer;
-
-use App\DataTables\TechReportDataTable;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Log;
+
 
 //nabago
 class TechReportController extends Controller
@@ -251,8 +251,3 @@ class TechReportController extends Controller
 
 
            }
-
-
-
-
-

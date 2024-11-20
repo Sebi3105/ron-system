@@ -160,7 +160,7 @@
         <h1>Serial Numbers for {{ $inventoryitem->product_name }}</h1>
 
         <div class=" flex justify-between items-center mb-4 create_link">
-            <a href="{{ route('inventoryitem.create', ['product_id' => $inventoryitem->product_id]) }}">+ Insert New Product Serial</a>
+        <a href="{{ route('inventoryitem.create', ['product_id' => $inventoryitem->product_id]) }}"> Insert New Product Serial</a>
         </div>
         <div class="flex space-x-4">
         <!-- Product Details in a single column -->
