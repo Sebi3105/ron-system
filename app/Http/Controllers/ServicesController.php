@@ -58,7 +58,7 @@ class ServicesController extends Controller
 
         $new_service = Services::create($data);
 
-        return redirect(route('service.index'));
+        return redirect(route('techreport.index'));
     }
 
     public function edit(Services $service){
@@ -71,7 +71,7 @@ class ServicesController extends Controller
         ]);
         $service->update($data);
 
-        return redirect(route('service.index'))-> with('success', 'Services Updated Successfully');
+        return redirect(route('techreport.index'))-> with('success', 'Services Updated Successfully');
 
     }
 

@@ -20,9 +20,10 @@ return new class extends Migration
             $table->string('product_name');
             $table->integer('quantity');
             $table->date('released_date');
-            $table->enum('status',['available','low_stock','out_of_stock']);
+            $table->enum('status', ['available', 'low_stock', 'out_of_stock']);
             $table->text('notes')->nullable();
             $table->timestamps();
+            $table->softDeletes();                                       // Add this line for soft deletes
         });
     }
 

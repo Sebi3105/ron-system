@@ -71,7 +71,6 @@
                             <thead class="bg-gray-300 border-b border-gray-400">
                                 <tr>
                                     <th class="w-12 p-2 border-r border-gray-400">#</th>
-                                    <th class="w-32 p-2 border-r border-gray-400">Product ID</th>
                                     <th class="w-40 p-2 border-r border-gray-400">Product Name</th>
                                     <th class="w-32 p-2 border-r border-gray-400">Category</th>
                                     <th class="w-32 p-2 border-r border-gray-400">Brand</th>
@@ -164,7 +163,6 @@
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }
                 },
-                { data: 'product_id', name: 'product_id' },
                 { data: 'product_name', name: 'product_name' },
                 { data: 'category_name', name: 'category_name' },
                 { data: 'brand_name', name: 'brand_name' },

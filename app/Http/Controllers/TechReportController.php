@@ -7,30 +7,12 @@ use App\Models\TechProfile;
 use App\Models\Services;
 use App\Models\Inventoryitem;
 use App\Models\customer;
-
-use App\DataTables\TechReportDataTable;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Log;
+
 
 class TechReportController extends Controller
 {
-    // public function index(Request $request)
-    // {
-    //     $search = $request->input('search');
-    
-    //     // Fetch inventory items with optional search functionality
-    //     $inventory = Inventory::with(['category', 'brand'])
-    //         ->when($search, function ($query) use ($search) {
-    //             return $query->where('product_name', 'like', "%{$search}%");
-    //         })
-    //         ->get();
-    
-    //     return view('inventory.index', [
-    //         'inventory' => $inventory,
-    //         'search' => $search // Pass the search value to the view for preserving input
-    //     ]);
-    // }
-    
-
     public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -47,7 +29,13 @@ class TechReportController extends Controller
                         $techreport->technician_name = $techreport->TechProfile ? $techreport->TechProfile->name : 'N/A';
                         $techreport->customer_name = $techreport->customer ? $techreport->customer->name : 'N/A';
                         $techreport->serial_number = $techreport->Inventoryitem ? $techreport->Inventoryitem->serial_number : 'N/A';
+                        $techreport->product_id = $techreport->Inventoryitem ? $techreport->Inventoryitem->product_id : 'N/A';
                         $techreport->service_name = $techreport->Services ? $techreport->Services->service_name : 'N/A';
+                        
+                        $techreport->product_name = $techreport->Inventoryitem && $techreport->Inventoryitem->inventory
+                        ? $techreport->Inventoryitem->inventory->product_name
+                        : 'N/A';
+                    
     
                         return $techreport;
                     });
@@ -55,10 +43,13 @@ class TechReportController extends Controller
                 return DataTables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function ($row) {
+                        $viewUrl = route('techreport.view', $row->report_id);
                         $editUrl = route('techreport.edit', $row->report_id);
                         $deleteUrl = route('techreport.delete', $row->report_id);
     
-                        return '<a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>
+                        return '
+                                <a href="' . $viewUrl . '" class="btn btn-sm btn-primary">View</a>
+                                <a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>
                                 <button data-url="' . $deleteUrl . '" class="btn btn-sm btn-danger delete-btn">Delete</button>';
                     })
                     ->rawColumns(['action'])
@@ -68,87 +59,62 @@ class TechReportController extends Controller
                     'request_data' => $request->all(),
                 ]);
                 return response()->json(['error' => 'An error occurred while fetching techreport data.'], 500);
-            }
+            }   
         }
+
+        $techprofile =TechProfile::all();
+        $service =Services::all();
+
+        return view("techreport.index", compact('techprofile','service'));
     
-        return view("techreport.index");
+        
     }
     
     
-//nagana
-        // public function index(Request $request)
-        // {
-        //     if ($request->ajax()) {
-        //         $data = TechReport::select('report_id','technician_id', 'customer_id', 'sku_id', 'service_id', 'date_of_completion', 'payment_type', 'payment_method', 'status', 'remarks', 'cost', 'created_at', 'updated_at')->get();
-        
-        //         return DataTables::of($data)
-        //             ->addIndexColumn() // This automatically adds the index column
-        //             ->addColumn('action', function($row) {
-        //                 $editUrl = route('techreport.edit', $row->report_id); // Use correct column for ID
-        //                 $deleteUrl = route('techreport.delete', $row->report_id); // Ensure correct URL
-        
-        //                 return '<a href="'.$editUrl.'" class="btn btn-sm btn-primary">Edit</a>
-        //                         <button data-url="'.$deleteUrl.'" class="btn btn-sm btn-danger delete-btn">Delete</button>';
-        //             })
-        //             ->rawColumns(['action']) // Allow raw HTML in action column
-        //             ->make(true); // Ensure DataTables receives proper JSON response
-        //     }
-        
-        //     return view("techreport.index");
-        // }
-        
-    
-        // public function create()
-        // {
-        //     $techprofile = TechProfile::all(); 
-        //     $customer = Customer::all();
-        //     $inventoryitem = Inventoryitem::all();
-        //     $service = Services::all();
-            
-        //     // Debugging: inspect variables
-        //     dd($techprofile, $customer, $inventoryitem, $service);
-            
-        //     $paymenttype = TechReport::getPaymenttype();
-        //     $paymentmethod = TechReport::getPaymentmethod();
-        //     $statuses = TechReport::getStatuses();
-                
-        //     return view('techreport.create', compact('techprofile', 'customer', 'inventoryitem', 'service', 'paymenttype', 'paymentmethod', 'statuses'));
-        // }
+//     public function index(Request $request)
+// {
+//     if ($request->ajax()) {
+//         try {
+//             $data = TechReport::with(['TechProfile', 'customer', 'Inventoryitem', 'Services'])
+//                 ->select('report_id', 'technician_id', 'customer_id', 'sku_id', 'service_id', 'date_of_completion', 'payment_type', 'payment_method', 'status')
+//                 ->get()
+//                 ->map(function ($techreport) {
+//                     // Use unique property names
+//                     $techreport->technician_name = $techreport->TechProfile ? $techreport->TechProfile->name : 'N/A';
+//                     $techreport->customer_name = $techreport->customer ? $techreport->customer->name : 'N/A';
+//                     $techreport->serial_number = $techreport->Inventoryitem ? $techreport->Inventoryitem->serial_number : 'N/A';
+//                     $techreport->service_name = $techreport->Services ? $techreport->Services->service_name : 'N/A';
 
+//                     return $techreport;
+//                 });
 
+//             return DataTables::of($data)
+//                 ->addIndexColumn()
+//                 ->addColumn('action', function ($row) {
+//                     // Define URLs
+//                     $editUrl = route('techreport.edit', $row->report_id);
+//                     $deleteUrl = route('techreport.delete', $row->report_id);
+//                     $viewUrl = route('techreport.show', $row->report_id); // Assuming you want a "View" button.
 
+//                     return '<a href="' . $viewUrl . '" class="btn btn-sm btn-primary">View</a>
+//                             <a href="' . $editUrl . '" class="btn btn-sm btn-warning">Edit</a>
+//                             <button data-url="' . $deleteUrl . '" class="btn btn-sm btn-danger delete-btn">Delete</button>';
+//                 })
+//                 ->rawColumns(['action'])
+//                 ->make(true);
+//         } catch (\Exception $e) {
+//             Log::error('Error fetching techreport data: ' . $e->getMessage(), [
+//                 'request_data' => $request->all(),
+//             ]);
+//             return response()->json(['error' => 'An error occurred while fetching techreport data.'], 500);
+//         }
+//     }
 
-//     public function edit(TechReport $techreport){
-//         return view('techreport.edit',['techreport' => $techreport]);
+//     $techprofile = TechProfile::all();
+//     $service = Services::all();
+
+//     return view("techreport.index", compact('techprofile', 'service'));
 // }
-    
-// public function update(TechReport $techreport, Request $request){
-//     $data = $request->validate([
-//         'technician_id' => 'required|exists:technician,technician_id',
-//             'customer_id' => 'required|exists:customer,customer_id',
-//             'sku_id' => 'required|exists:inventory_item,sku_id',
-//             'service_id' => 'required|exists:service,service_id',
-//             'date_of_completion' => 'required|date|date_format:Y-m-d',
-//             'payment_type' => 'required|string', // Assuming a 'payment_type' field as per your comment
-//             'payment_method' => 'required|string', // Assuming a 'payment_method' field as per your comment
-//             'status' => 'required|string', // Assuming a 'status' field as per your comment
-//             'remarks' => 'nullable|string',
-//             'cost' => 'required|numeric|regex:/^\d{2,8}(\.\d{1,2})?$/',
-//     ]);
-//     $techreport->update($data);
-
-//     return redirect(route('techreport.index'))-> with('success', 'Report Updated Successfully');
-
-// }
-
-// public function delete(Techreport $techreport){
-//     $techreport->delete();
-//     return response()->json(['message' => 'Services Deleted Successfully'], 200); // Successful deletion response
-// }
-
-
-// }
-
 
     
 
@@ -157,14 +123,14 @@ class TechReportController extends Controller
 
   public function create()
   {
-      $techprofile = TechProfile::all(); // Retrieve all categories
-      $customer = customer::all(); // Retrieve all brands
-      $inventoryitem = Inventoryitem::all(); // Retrieve all brands
-      $service = Services::all(); // Retrieve all brands
+      $techprofile = TechProfile::all(); // Retrieve all technician
+      $customer = customer::all(); // Retrieve all customer
+      $inventoryitem = Inventoryitem::all(); // Retrieve all inventoryitem
+      $service = Services::all(); // Retrieve all service
 
-      $paymenttype =TechReport::getPaymenttype(); // Get statuses from the model
-      $paymentmethod =TechReport::getPaymentmethod(); // Get statuses from the model
-      $statuses =TechReport::getStatuses(); // Get statuses from the model
+      $paymenttype =TechReport::getPaymenttype(); //
+      $paymentmethod =TechReport::getPaymentmethod(); 
+      $statuses =TechReport::getStatuses(); // 
   
       return view('techreport.create', compact('techprofile', 'customer', 'inventoryitem','service','paymenttype','paymentmethod','statuses'));
   }
@@ -173,7 +139,7 @@ class TechReportController extends Controller
       $data = $request->validate([
           'technician_id' => 'required|exists:technician,technician_id',
           'customer_id' => 'required|exists:customer,customer_id',
-          'sku_id' => 'required|exists:inventory_item,sku_id',
+          'sku_id' => 'nullable|exists:inventory_item,sku_id',
           'service_id' => 'required|exists:service,service_id',
           'date_of_completion' => 'required|date|date_format:Y-m-d',
           'payment_type' => 'required|string', // Assuming a 'payment_type' field as per your comment
@@ -181,13 +147,43 @@ class TechReportController extends Controller
           'status' => 'required|string', // Assuming a 'status' field as per your comment
           'remarks' => 'nullable|string',
           'cost' => 'required|numeric|regex:/^\d{2,8}(\.\d{1,2})?$/',
-      ]);
+     
+    ]);
   
       TechReport::create($data); // Make sure TechnicianReport is the correct model name
   
       return redirect(route('techreport.index'));
   }
 
+        
+  public function view(TechReport $techreport)
+  {
+      // Fetch related data for the TechReport edit form
+      $techprofile = TechProfile::all(); // Retrieve all technician profiles
+      $customer = Customer::all(); // Retrieve all customers
+      $inventoryitem = Inventoryitem::all(); // Retrieve all inventory items
+      $service = Services::all(); // Retrieve all services
+      $paymenttype = TechReport::getPaymenttype();
+      $paymentmethod = TechReport::getPaymentmethod();
+       $statuses = TechReport::getStatuses();
+       
+
+      return view('techreport.view', [
+          'techreport' => $techreport,
+          'techprofile' => $techprofile,
+          'customer' => $customer,
+          'inventoryitem' => $inventoryitem,
+          'service' => $service,
+          'paymenttype' => $paymenttype,
+          'paymentmethod' => $paymentmethod,
+          'statuses' => $statuses,
+          
+          
+
+      
+
+      ]);
+  }
 
     
 
@@ -226,7 +222,7 @@ class TechReportController extends Controller
             $data = $request->validate([
             'technician_id' => 'required|exists:technician,technician_id',
           'customer_id' => 'required|exists:customer,customer_id',
-          'sku_id' => 'required|exists:inventory_item,sku_id',
+          'sku_id' => 'nullable|exists:inventory_item,sku_id',
           'service_id' => 'required|exists:service,service_id',
           'date_of_completion' => 'required|date|date_format:Y-m-d',
           'payment_type' => 'required|string', // Assuming a 'payment_type' field as per your comment
@@ -240,7 +236,7 @@ class TechReportController extends Controller
             $techreport->update($data);
 
             // Redirect to techreport index with success message
-            return redirect(route('techreport.index'))->with('success', 'TechReport Updated Successfully');
+            return redirect(route('techreport.index'))->with('success', 'Report Updated Successfully');
         }
 
         public function delete(TechReport $techreport)
@@ -254,8 +250,3 @@ class TechReportController extends Controller
 
 
            }
-
-
-
-
-

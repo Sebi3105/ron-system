@@ -2,12 +2,19 @@
 
 namespace App\Models;
 
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class sales extends Model
 {
-    //
-    protected $table = [
+    use SoftDeletes; 
+    use HasFactory;
+    protected $table = 'sales';
+    protected $primaryKey = 'sales_id';
+    protected $fillable = [
         'customer_id',
         'serial_number',
         'state',

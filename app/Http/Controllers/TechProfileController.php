@@ -59,7 +59,7 @@ class TechProfileController extends Controller
 
         $new_techprofile = TechProfile::create($data);
 
-        return redirect(route('techprofile.index'));
+        return redirect(route('techreport.index'));
     }
 
     public function edit(TechProfile $techprofile){
@@ -73,7 +73,7 @@ class TechProfileController extends Controller
         ]);
         $techprofile->update($data);
 
-        return redirect(route('techprofile.index'))-> with('success', 'Technician Updated Successfully');
+        return redirect(route('techreport.index'))-> with('success', 'Technician Updated Successfully');
 
     }
 
