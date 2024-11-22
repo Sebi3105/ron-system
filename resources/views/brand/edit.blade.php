@@ -128,7 +128,7 @@
             
             <div class="brand_name">
                 <label for="brand_name">Brand Name</label>
-                <input type="text" id="brand_name" name="brand_name" placeholder="Enter Brand Name" value="{{ $brand->brand_name }}" />
+                <input type="text" id="brand_name" name="brand_name" placeholder="Enter Brand Name" value="{{ $brand->brand_name }}" required pattern="[A-Za-z\s]+" title="Only letters and spaces are allowed" required/>
             </div>
 
             <div class="button-group">

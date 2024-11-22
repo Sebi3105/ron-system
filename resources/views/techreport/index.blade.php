@@ -41,6 +41,41 @@
         @endif
     </div>
 
+    <div class="mb-4">
+
+    
+                <select id="serviceFilter" class="border rounded p-2">
+                    <option value="">Select Service</option>
+                    @foreach($service as $srv)
+                            <option value="{{ $srv->service_id }}">{{ $srv->service_name }}</option>
+                        @endforeach
+                </select>
+
+                <select id="paymenttypeFilter" class="border rounded p-2">
+                    <option value="">Select Payment Type</option>
+                    @foreach($paymenttype as $type)
+                            <option value="{{ $type }}">{{ ucfirst(str_replace('_', ' ', $type)) }}</option>
+                        @endforeach
+                </select>
+
+                <select id="payment_methodFilter" class="border rounded p-2">
+                    <option value="">Select Payment Method</option>
+                    @foreach($paymentmethod as $method)
+                            <option value="{{ $method }}">{{ ucfirst($method) }}</option>
+                        @endforeach
+                </select>
+
+                <select id="statusFilter" class="border rounded p-2">
+                    <option value="">Select Status</option>
+                    <option value="in_progress">In Progress</option>
+                    <option value="done">Done</option>
+                    <option value="backjob">Backjob</option>
+                </select>
+
+                <button id="filterButton" class="bg-blue-500 text-white p-2 rounded">Filter</button>
+                <button id="resetButton" class="bg-gray-500 text-white p-2 rounded">Reset</button>
+            </div>
+
     
     <!-- Insert new report link -->
 
@@ -92,7 +127,7 @@
                 @foreach($techprofile as $technician)
                     <tr>
                         <td class="p-2 border-r border-gray-400">{{ $technician->name }} </td>
-                        <td class="p-2 border-r border-gray-400">{{ $technician->contact_no ?? 'N/A' }}</td> <!-- Display contact number or 'N/A' if not available -->
+                        <td class="p-2 border-r border-gray-400"> {{ $technician->contact_no ? '+63 ' . $technician->contact_no : 'N/A' }}</td> 
                         <td class="p-2">
                         <button class="bg-blue-500 text-white py-1 px-2 rounded edit-techprofile" data-url="{{ route('techprofile.edit', $technician) }}">Edit</button>
                             <button class="bg-red-500 text-white py-1 px-2 rounded delete-techprofile" data-url="{{ route('techprofile.delete', $technician->technician_id) }}">Delete</button>
@@ -140,7 +175,17 @@
             var table = $('#techreport').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('techreport.index') }}",
+                // ajax: "{{ route('techreport.index') }}",
+                ajax: {
+                url: "{{ route('techreport.index') }}",
+                data: function(d) {
+                    d.status = $('#statusFilter').val();
+                    d.paymenttype = $('#paymenttypeFilter').val();
+                    d.service = $('#serviceFilter').val();  
+                    d.paymentmethod = $('#payment_methodFilter').val(); 
+                  
+                }
+            },
                 columns: [
                     {
                         data: null,
@@ -162,12 +207,12 @@
                     { data: 'payment_type', name: 'payment_type' },
                     { data: 'payment_method',
                         name: 'payment_method',
-                         visible: false
+                      
                     },
 
                     { data: 'status', 
                         name: 'status',
-                         visible: false },
+                     },
 
                     { data: 'remarks', 
                         name: 'remarks',
@@ -204,52 +249,18 @@
                 
             });
 
-       
-    //     $(document).ready(function() {
-    // var table = $('#techreport').DataTable({
-    //     processing: true,
-    //     serverSide: true,
-    //     ajax: {
-    //         url: "{{ route('techreport.index') }}",
-    //         type: "GET",
-    //         dataSrc: function(json) {
-    //             console.log(json);  // Log the response to check the format
-    //             return json.data;   // Ensure your data is inside the 'data' key
-    //         }
-    //     },
-    //     columns: [
-    //         {
-    //             data: null,
-    //             orderable: false,
-    //             render: function(data, type, row, meta) {
-    //                 return meta.row + meta.settings._iDisplayStart + 1;
-    //             }
-    //         },
-    //         {
-    //             data: 'report_id', 
-    //             name: 'report_id',
-    //             visible: false  // This hides the report_id column
-    //         },
-    //         { data: 'technician_name', name: 'technician_name' },
-    //         { data: 'customer_name', name: 'customer_name' },
-    //         { data: 'serial_number', name: 'serial_number' },
-    //         { data: 'service_name', name: 'service_name' },
-    //         { data: 'date_of_completion', name: 'date_of_completion' },
-    //         { data: 'payment_type', name: 'payment_type' },
-    //         { data: 'payment_method',
-    //              name: 'payment_method',
-    //              visible: false
-    //         },
-    //         { data: 'status', name: 'status' },
-    //         {
-    //             data: 'action',
-    //             name: 'action',
-    //             orderable: false,
-    //             searchable: false,
-    //         }
-    //     ]
-    // });
+            $('#filterButton').on('click', function() {
+            table.ajax.reload(); // Reload the table with the new filter values
+        });
 
+        $('#resetButton').on('click', function() {
+            $('#paymenttypeFilter').val('');
+            $('#serviceFilter').val('');
+            $('#statusFilter').val('');
+            $('#payment_methodFilter').val('');
+            table.ajax.reload(); // Reload the table without filters
+        });
+   
 
 
 

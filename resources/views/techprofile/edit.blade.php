@@ -115,13 +115,40 @@
 
             <div>
                 <label for="name">Technician Name</label>
-                <input type="text" name="name" id="name" placeholder="Technician Name" value="{{ old('name', $techprofile->name) }}" required>
+                <input type="text" name="name" id="name" placeholder="Technician Name" value="{{ old('name', $techprofile->name) }}" required pattern="[A-Za-z\s]+" title="Only letters and spaces are allowed"required>
             </div>
 
-            <div>
-                <label for="contact_no">Contact Number</label>
-                <input type="text" name="contact_no" id="contact_no" placeholder="Contact Number" value="{{ old('contact_no', $techprofile->contact_no) }}" required>
-            </div>
+           
+    <div>
+    <label for="contact_no">Contact Number</label>
+    <div style="position: relative;">
+        <span 
+            style="
+                position: absolute;
+                top: 33%;
+                left: 10px;
+                transform: translateY(-50%);
+                color: black;
+                pointer-events: none;
+                font-size: 15px;
+            "
+        >+63</span>
+        <input 
+            type="text" 
+            id="contact_no" 
+            name="contact_no" 
+            maxlength="10" 
+            inputmode="numeric" 
+            pattern="[0-9]{10}" 
+            placeholder="e.g., 9123424321" 
+            title="Enter a valid 10-digit phone number" 
+            style="padding-left: 40px;" 
+            value="{{ old('contact_no', $techprofile->contact_no) }}"
+            required
+        >
+    </div>
+    <small style="font-size: 12px;">Note: Enter only the last 10 digits (e.g., 9123424321)</small>
+</div>
 
             <div class="button-group">
                 <button type="submit">Update Profile</button>

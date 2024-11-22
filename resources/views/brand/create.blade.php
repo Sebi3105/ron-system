@@ -117,7 +117,7 @@
         <form method="post" action="{{ route('brand.store') }}" onsubmit="return confirmAction('Are you sure you want to save this product?')">
             @csrf
             <div class="brand_name">
-                <input type="text" id="brand_name" name="brand_name" placeholder="Brand Name" required />
+                <input type="text" id="brand_name" name="brand_name" placeholder="Brand Name" required pattern="[A-Za-z\s]+" title="Only letters and spaces are allowed" required />
             </div>
 
             <div class="button-group">

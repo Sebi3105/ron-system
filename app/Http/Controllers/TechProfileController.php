@@ -25,6 +25,8 @@ class TechProfileController extends Controller
         $data = TechProfile::select('technician_id', 'name','contact_no') // Exclude created_at and updated_at
             ->get()
             ->map(function ($techprofile) {
+
+              
                 return $techprofile;
             });
 
@@ -41,7 +43,7 @@ class TechProfileController extends Controller
             ->make(true);
     }
 
-    return view("techprofile.index");
+    return view("techreport.index");
 }
 
     

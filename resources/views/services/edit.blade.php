@@ -22,7 +22,7 @@
             <div class="service_name">
                 <label for="service_name">Update Service</label>
                 
-                <input type="text" name="service_name" id="service_name" placeholder="Service Name" value="{{ old('service_name', $service->service_name) }}" />
+                <input type="text" name="service_name" id="service_name" placeholder="Service Name" value="{{ old('service_name', $service->service_name) }}" required pattern="[A-Za-z\s]+" title="Only letters and spaces are allowed" required/>
 
                 <!--<input type="service_name" name="service_name" id="service_name" placeholder="Service Name" value="{{$service->service_name }}" />-->
             </div>

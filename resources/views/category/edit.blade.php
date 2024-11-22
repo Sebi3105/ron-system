@@ -129,7 +129,7 @@
             
             <div class="category_name">
                 <label for="category_name">Category Name</label>
-                <input type="text" id="category_name" name="category_name" placeholder="Category Name" value="{{ $category->category_name }}" />
+                <input type="text" id="category_name" name="category_name" placeholder="Category Name" value="{{ $category->category_name }}" required pattern="[A-Za-z\s]+" title="Only letters and spaces are allowed" required />
             </div>
 
             <div class="button-group">

@@ -106,7 +106,7 @@
 
         <form method="POST" action="{{ route('category.store') }}" onsubmit="return confirmAction('Are you sure you want to save these changes?')">
             @csrf
-            <input type="text" name="category_name" id="category_name" placeholder="Enter category name" required>
+            <input type="text" name="category_name" id="category_name" placeholder="Enter category name"required pattern="[A-Za-z\s]+" title="Only letters and spaces are allowed" required>
 
             <div class="button-group">
                 <button type="submit">Add Category</button>
