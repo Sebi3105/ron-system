@@ -1,213 +1,310 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Insert a Product</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<x-app-layout>
+    <div class="flex flex-col md:flex-row h-screen">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <!-- Sidebar (Navigation) -->
+        <div class="w-full md:w-48 lg:w-64 fixed top-0 left-0 z-10 h-screen bg-gray-900">
+            @include('layouts.navigation')
+        </div>
 
-    <!-- Select2 CSS and JS (Load after jQuery) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" integrity="sha512-YHJ091iDoDM1PZZA9QLuBvpo0VXBBiGHsvdezDoc3p56S3SOMPRjX+zlCbfkOV5k3BmH5O9FqrkKxBRhkdtOkQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js" integrity="sha512-XBxUMC4YQcL60PavAScyma2iviXkiWNS5Yf+A0LZRWI1PNiGHkp66yPQxHWDSlv6ksonLAL2QMrUlCKq4NHhSQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <!-- Main Content -->
+        <div class="flex-1 md:ml-48 lg:ml-64 mt-16 md:mt-0 bg-gray-100 text-gray-800">
+            <!-- Fixed Header -->
+            <header class="bg-gray-200 py-3 px-3 md:px-6 fixed top-0 md:left-48 lg:left-64 right-0 z-15 h-15 flex items-center justify-between text-black shadow-md">
+                <h1 class="text-lg font-bold">Add Product Information</h1>
+            </header>
+
+            <!-- Back to Inventory Button -->
+            <div class="flex justify-start mt-24 md:mt-28 px-4">
+                <a href="{{ route('inventory.index') }}" class="back-btn flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5 mr-2">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l-7-7 7-7" />
+                    </svg>
+                    Back to Inventory
+                </a>
+            </div>
+
+            <!-- Form Container -->
+            <div class="form-container">
+                <form method="post" action="{{ route('inventory.store') }}" onsubmit="return confirmAction('Are you sure you want to save this product?')">
+                    @csrf
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="product_name">Product Name</label>
+                            <input type="text" name="product_name" id="product_name" placeholder="Product Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="category_id">Category</label>
+                            <select name="category_id" id="category_id" required>
+                                <option value="" selected>Select a Category</option>
+                                @foreach($categories as $categories)
+                                    <option value="{{ $categories->category_id }}">{{ $categories->category_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="brand_id">Brand</label>
+                        <select name="brand_id" id="brand_id" required>
+                            <option value="" selected>Select a Brand</option>
+                            @foreach($brands as $brand)
+                                <option value="{{ $brand->brand_id }}">{{ $brand->brand_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="price">Price</label>
+                            <input type="number" name="price" id="price" placeholder="Price" required min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="quantity">Quantity</label>
+                            <input type="number" name="quantity" placeholder="Quantity" required min="0">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="released_date">Date of Release</label>
+                        <input type="date" name="released_date" id="released_date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notes">Notes</label>
+                        <input type="text" name="notes" id="notes" placeholder="Notes">
+                    </div>
+
+                    <div class="button-group">
+                        <button type="submit">Save Product</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <style>
-        /* Basic styling for layout */
         body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            font-family: 'Poppins';
+            background-color: #f3f3f3;
             margin: 0;
-            background-color: #f7f7f7;
         }
+
         .form-container {
             background-color: #ffffff;
             border-radius: 8px;
-            padding: 30px;
-            width: 600px;
+            padding: 26px;
+            width: 400px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-top: 10px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 90%;
+            max-width: 700px;
         }
-        h1 {
-            font-size: 1.2em;
-            text-align: center;
+
+        .stitle {
+            font-size: 22px;
+            color: #4A628A;
             margin-bottom: 20px;
-            color: #333;
-        }
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 15px;
-        }
-        .form-group label {
             font-weight: bold;
-            color: #555;
+        }
+
+        label {
+            font-size: 16px;
+            color: #333;
             margin-bottom: 5px;
+            display: block;
         }
-        .form-group input[type="text"],
-        .form-group input[type="number"],
-        .form-group input[type="date"],
-        .form-group select {
-            padding: 10px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-            font-size: 0.9em;
-        }
-        .full-width {
-            grid-column: span 2;
-        }
-        .button-group, .back-group {
+
+        .form-row {
             display: flex;
-            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .form-group {
+            flex: 1;
+            margin-bottom: 15px;
+            min-width: 200px;
+        }
+
+        input[type="text"], input[type="number"], input[type="date"], select {
+            width: 100%;
+            padding: 9px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            margin-top: 5px;
+        }   
+
+        .button-group {
+            display: flex;
+            justify-content: center;
             margin-top: 20px;
         }
-        .button-group input[type="submit"],
-        .button-group .cancel-btn {
-            width: 48%;
+
+        .button-group button {
             padding: 10px;
-            border-radius: 4px;
-            border: none;
-            cursor: pointer;
-            color: #fff;
+            width: 100%;
+            max-width: 250px;
+            border-radius: 8px;
             font-weight: bold;
-            text-align: center;
+            font-size: 14px;
+            cursor: pointer;
             text-decoration: none;
+            color: white;
             display: inline-block;
         }
-        .button-group input[type="submit"] {
-            background-color: #2c3e50;
+
+        .button-group button {
+            background-color: #4A628A;
+            border: none;
         }
-        .button-group .cancel-btn {
-            background-color: #e74c3c;
+
+        .button-group button:hover {
+            background-color: #3B4D6C;
         }
-        /* Styling for Back button with icon */
-        .back-group {
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: flex-start;
+
+        .back-btn {
+    color: #3C3D37;
+    padding: 0.3rem 1.2rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 0.375rem;
+    transition: transform 0.3s ease;
+    text-decoration: none;
+    margin-left: 2rem;
+    margin-top: -4rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.back-btn:hover {
+    transform: translateX(-5px);
+}
+
+.back-btn svg {
+    transition: transform 0.3s ease;
+}
+
+.back-btn:hover svg {
+    transform: translateX(-8px);
+}
+  #confirmationModal {
+        z-index: 50;
+        backdrop-filter: blur(5px);
+        animation: fadeInBackdrop 0.4s ease-out;
+    }
+
+    @keyframes fadeInBackdrop {
+        from {
+            opacity: 0;
         }
-        .back-group a {
-            background-color: #3b5998; /* Change color to match the reference */
-            color: white;
-            padding: 8px 15px;
-            border-radius: 12px; /* Rounded corners */
-            font-weight: normal;
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            font-size: 0.9em;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Soft shadow */
-            transition: background-color 0.3s;
+        to {
+            opacity: 1;
         }
-        .back-group a:hover {
-            background-color: #314e75; /* Darker shade on hover */
+    }
+
+    /* Modal Style */
+    #confirmationModal .bg-white {
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        animation: modalEntry 0.4s ease-out;
+    }
+
+    @keyframes modalEntry {
+        from {
+            opacity: 0;
+            transform: scale(0.9);
         }
-        .back-group a .icon {
-            margin-right: 8px;
-            font-size: 1.2em;
+        to {
+            opacity: 1;
+            transform: scale(1);
         }
-        .error_checking {
-            color: red;
-            font-size: 0.9em;
-            margin-bottom: 10px;
-        }
+    }
+
+    /* Header with Green Gradient */
+    #confirmationModal h2 {
+        font-size: 22px;
+        font-weight: bold;
+        background: linear-gradient(90deg, #4CAF50, #2E7D32);
+        color: #fff;
+        text-align: center;
+        padding: 12px;
+        margin: 0;
+    }
+
+    /* Modal Text */
+    #confirmationModal p {
+        font-size: 17px;
+        color: #4B5563;
+        text-align: center;
+        margin: 20px 0 27px;
+        line-height: 1.6;
+    }
+
+   
+#confirmationModal .flex {
+    justify-content: center;
+    gap: 16px; 
+    padding: 12px 0; 
+}
+
+#confirmationModal button {
+    border: none;
+    padding: 10px 20px; 
+    font-size: 14px; 
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; 
+    transition: all 0.3s ease;
+}
+
+
+    #confirmationModal button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    #confirmCancel {
+        background-color: #E5E7EB;
+        color: #374151;
+    }
+
+    #confirmCancel:hover {
+        background-color: #D1D5DB;
+    }
+
+    #confirmSubmit {
+        background: linear-gradient(90deg, #4CAF50, #2E7D32);
+        color: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    #confirmSubmit:hover {
+        background: linear-gradient(90deg, #2E7D32, #1B5E20);
+    }
     </style>
-</head>
-<body>
 
-    <div class="back-group">
-        <a href="{{ route('inventory.index') }}">
-            <span class="icon">←</span> Back
-        </a>
-    </div>
-
-    <div class="form-container">
-        <h1>Add Product Information</h1>
-        
-        @if($errors->any())
-            <div class="error_checking">
-                <ul>
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
-        <form method="post" action="{{ route('inventory.store') }}" onsubmit="return confirmAction('Are you sure you want to save this product?')">
-            @csrf
-
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="product_name">Product Name</label>
-                    <input type="text" name="product_name" id="product_name" placeholder="Product Name" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="category_id">Category</label>
-                    <select name="category_id" id="category_id" required>
-                        <option value="" selected>Select a Category</option>
-                        @foreach($categories as $categories)
-                            <option value="{{ $categories->category_id }}">{{ $categories->category_name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="brand_id">Brand</label>
-                    <select name="brand_id" id="brand_id" required>
-                        <option value="" selected>Select a Brand</option>
-                        @foreach($brands as $brand)
-                            <option value="{{ $brand->brand_id }}">{{ $brand->brand_name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <br>
-                <div class="form-group">
-                    <label for="price">Price</label>
-                    <input type="number" name="price" id="price" placeholder="Price" required min="0">
-                </div>
-
-                <div class="form-group">
-                <label for="quantity">Quantity</label>
-                    <input type="number" name="quantity" placeholder="Quantity" required min="0">
-                </div>
-
-                <div class="form-group">
-                    <label for="released_date">Date of Release</label>
-                    <input type="date" name="released_date" id="released_date" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="notes">Notes</label>
-                    <input type="text" name="notes" id="notes" placeholder="Notes">
-                </div>
-            </div>
-
-            
-            <div class="button-group">
-                <input type="submit" value="Save Product">
-                <button type="button" class="cancel-btn" onclick="window.location.href='{{ url()->previous() }}'">Cancel</button>
-            </div>
-        </form>
-    </div>
-    
-    <script src="{{ asset('js/confirmation.js') }}"></script>
-
-
-
-<script type="text/javascript">
-$(document).ready(function() {
-$('#category_id, #brand_id').select2();
+    <script>
+        function confirmAction(message) {
+            return confirm(message);
+        }
+           // Automatically refresh layout adjustments on window resize
+           window.addEventListener('resize', function() {
+    location.reload(); // Automatic na magre-refresh ang page
 });
-</script>
 
 
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-</body>
-</html>
+    </script>
+</x-app-layout>
