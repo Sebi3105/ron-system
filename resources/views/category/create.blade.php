@@ -1,72 +1,106 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Category</title>
+<x-app-layout>
+    <div class="flex flex-col md:flex-row h-screen">
+        <!-- Sidebar (Navigation) -->
+        <div class="w-64 fixed top-0 left-0 z-10 h-screen bg-gray-900">
+            @include('layouts.navigation')
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 md:ml-64 mt-15 bg-gray-100 text-gray-800">
+            <!-- Fixed Header -->
+            <header class="bg-gray-200 py-3 px-4 fixed top-0 md:left-64 right-0 z-20 h-15 flex items-center justify-between text-black shadow-md">
+                <h1 class="text-lg font-bold">Brand List</h1>
+            </header>
+
+            <!-- Back to Inventory Button -->
+            <div class="flex justify-start mt-20 md:mt-24 px-4">
+                <a href="{{ route('inventory.index') }}" class="back-btn flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5 mr-2">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l-7-7 7-7" />
+                    </svg>
+                    Back to Inventory
+                </a>
+            </div>
+
+            <!-- Form Container -->
+            <div class="form-container mx-auto px-4">
+                <h1 class="text-lg font-bold stitle">ADD NEW CATEGORY</h1>
+
+                <!-- Success Message -->
+                <div class="success_pop">
+                    @if(session()->has('success'))
+                        <div class="success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                </div>
+
+                <form method="POST" action="{{ route('category.store') }}" onsubmit="return confirmAction('Are you sure you want to save these changes?')">
+                    @csrf
+                    <input type="text" name="category_name" id="category_name" placeholder="Category Name" required>
+
+                    <div class="button-group mt-4">
+                        <button type="submit">Add Category</button>
+                        <a href="{{ route('inventory.index') }}" class="exit-btn" onclick="return confirmAction('Are you sure you want to cancel this?')">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins';
             background-color: #f3f3f3;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             margin: 0;
         }
 
         .form-container {
             background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            padding: 25px 40px;
-            max-width: 400px;
-            width: 100%;
-            text-align: center;
+            border-radius: 8px;
+            padding: 30px;
+            max-width: 500px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin: 20px auto;
         }
 
-        h1 {
+        .stitle {
             font-size: 22px;
             color: #4A628A;
-            margin-bottom: 20px;
+            margin-bottom: 45px;
             font-weight: bold;
-        }
-
-        label {
-            display: block;
-            font-size: 16px;
-            color: #333;
-            margin-bottom: 5px;
-            text-align: left;
+            text-align: center;
         }
 
         input[type="text"] {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             font-size: 14px;
             border: 1px solid #ccc;
             border-radius: 8px;
-            box-sizing: border-box;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .button-group {
             display: flex;
             justify-content: space-between;
-            margin-top: 20px;
+            gap: 10px; /* Add space between buttons */
         }
 
         .button-group button,
-        .button-group .exit-btn {
-            padding: 12px 0;
-            width: 48%;
+        .button-group a {
+            padding: 10px;
+            width: 48%; /* Keep equal width */
             border-radius: 8px;
             font-weight: bold;
             font-size: 14px;
             cursor: pointer;
             text-decoration: none;
             color: white;
-            display: inline-block;
+            text-align: center;
         }
 
         .button-group button {
@@ -78,41 +112,36 @@
             background-color: #3B4D6C;
         }
 
-        .button-group .exit-btn {
+        .button-group a {
             background-color: #e74c3c;
             border: none;
         }
 
-        .button-group .exit-btn:hover {
+        .button-group a:hover {
             background-color: #c0392b;
         }
-    </style>
-    <script>
-        function confirmAction(message) {
-            return confirm(message);
+
+        .back-btn {
+            color: #3C3D37;
+            padding: 0.3rem 1.2rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 0.375rem;
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+            text-decoration: none;
+            margin-left: 2rem;
         }
-    </script>
-</head>
-<body>
-    <div class="form-container">
-        <h1>Add New Category</h1>
-        <div class="success_pop">
-            @if(session()->has('success'))
-                <div class="success">
-                    {{ session('success') }}
-                </div>
-            @endif
-        </div>
 
-        <form method="POST" action="{{ route('category.store') }}" onsubmit="return confirmAction('Are you sure you want to save these changes?')">
-            @csrf
-            <input type="text" name="category_name" id="category_name" placeholder="Enter category name" required>
+        .back-btn:hover {
+            left: 0;
+        }
 
-            <div class="button-group">
-                <button type="submit">Add Category</button>
-                <a href="{{ route('inventory.index') }}" class="exit-btn" onclick="return confirmAction('Are you sure you want to cancel this?')">Cancel</a>
-            </div>
-        </form>
-    </div>
-</body>
-</html>
+        .back-btn svg {
+            transition: transform 0.2s ease;
+        }
+
+        .back-btn:hover svg {
+            transform: translateX(-5px);
+        }
+    </style>
+</x-app-layout>
