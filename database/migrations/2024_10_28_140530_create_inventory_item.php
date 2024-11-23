@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('serial_number')->unique();
             $table->enum('condition',['working','defective']);
             $table->timestamps();
+            $table->softDeletes(); 
         });
     }
 

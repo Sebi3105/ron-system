@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 class TechProfile extends Model
 {
     //
     
     use HasFactory;
+    use SoftDeletes;
 
     protected $table = 'technician'; // Specifies the correct table name
     protected $primaryKey = 'technician_id'; // Primary key name

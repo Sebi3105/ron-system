@@ -30,10 +30,12 @@ class CustomerController extends Controller
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function($row) {
+                $viewUrl = route('customer.history',$row->customer_id);
                 $editUrl = route('customer.edit', $row->customer_id);
                 $deleteUrl = route('customer.delete', $row->customer_id);
                 
-                return '<a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>
+                return '<a href="' . $viewUrl . '" class="btn btn-sm btn-secondary">View History</a><br>
+                        <a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>
                         <button data-url="' . $deleteUrl . '" class="btn btn-sm btn-danger delete-btn">Delete</button>';
             })
             ->rawColumns(['action'])
@@ -92,4 +94,11 @@ class CustomerController extends Controller
         $customer->delete();
         return response()->json(['message' => 'Customer Deleted Successfully'],200);
     }
+    public function showHistory(Customer $customer)
+{
+    // Fetch the sales data related to the customer
+    $sales = $customer->sales; // Assuming you have defined a relationship in the Customer model
+
+    return view('customer.history', compact('customer', 'sales'));
+}
 }

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('address');
             $table->bigInteger('contact_no');
             $table->timestamps();
+            $table->softDeletes(); 
         });
     }
 

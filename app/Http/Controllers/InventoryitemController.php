@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Inventory;
 use App\Models\InventoryItem;
-
+use App\Models\sales;
 use App\DataTables\InventoryDataTable;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
+
 
 class InventoryitemController extends Controller
 {
@@ -18,32 +20,57 @@ class InventoryitemController extends Controller
     }
 
     public function create($product_id)
-    {
-        $inventories = Inventory::all();
-        $conditions = InventoryItem::getCONDITIONS(); // Ensure this method exists in InventoryItem
-        $selectedInventory = Inventory::findOrFail($product_id); // Fetch the specific inventory item
-    
-        return view('inventoryitem.create', compact('inventories', 'conditions', 'selectedInventory'));
-    }
-    
+{
+    $inventories = Inventory::all();
+    $conditions = InventoryItem::getCONDITIONS(); // Ensure this method exists in InventoryItem
+    $selectedInventory = Inventory::findOrFail($product_id); // Fetch the specific inventory item
+
+    // Get the amount of the selected product
+    $amount = $selectedInventory->quantity; // Assuming 'quantity' is the field name
+
+    return view('inventoryitem.create', compact('inventories', 'conditions', 'selectedInventory', 'amount'));
+}
+
     
 
-    public function store(Request $request)
+public function store(Request $request)
 {
     $data = $request->validate([
-        'product_id' => 'required|exists:inventory,product_id', // Ensure product_id is validated
-        'serial_number' => 'required|string|max:255|unique:inventory_item,serial_number', // Ensure uniqueness
+        'product_id' => 'required|exists:inventory,product_id',
+        'serial_number' => 'required|string|max:255|unique:inventory_item,serial_number',
         'condition' => 'required|in:working,defective',
     ]);
 
-    $inventoryItem = InventoryItem::create([
-        'product_id' => $data['product_id'], // Use the validated product_id
+    // Find the inventory item to get the total quantity
+    $inventory = Inventory::findOrFail($data['product_id']);
+    
+    // Check how many serial numbers already exist for this product
+    $existingCount = InventoryItem::where('product_id', $data['product_id'])->count();
+    
+    // Check how many serial numbers have been sold (hidden)
+    $soldCount = Sales::where('product_id', $data['product_id'])->count();
+
+    // Calculate the available quantity
+    $availableQuantity = $inventory->quantity + $soldCount;
+
+    // Check against the available quantity
+    if ($existingCount >= $availableQuantity) {
+        $remaining = $availableQuantity - $existingCount; // Calculate remaining serials
+        // Adjust the message to handle the case where remaining is negative
+        if ($remaining < 0) {
+            $remaining = 0; // Ensure we don't show negative numbers
+        }
+        return redirect()->back()->withErrors(['message' => "You cannot create more serial numbers than the available amount. You can create $remaining more serial numbers."]);
+    }
+    
+    // Create the new inventory item
+    InventoryItem::create([
+        'product_id' => $data['product_id'],
         'serial_number' => $data['serial_number'],
         'condition' => $data['condition'],
     ]);
 
-    // Redirect to the serials page for the product associated with the newly created inventory item
-    return redirect()->route('inventoryitem.serials', ['product_id' => $inventoryItem->product_id])
+    return redirect()->route('inventoryitem.serials', ['product_id' => $data['product_id']])
                      ->with('success', 'Inventory item saved successfully!');
 }
 
@@ -91,38 +118,42 @@ class InventoryitemController extends Controller
     // }
     
     public function showSerials(Request $request, $product_id)
-{
-    // Fetch the inventory item with its associated inventoryItems
-    $inventoryitem = Inventory::with('inventoryItems')->findOrFail($product_id);
-
-    if ($request->ajax()) {
-        // Prepare serial data from the inventory item
-        $data = $inventoryitem->inventoryItems;
-
-        return DataTables::of($data)
-            ->addIndexColumn()  // Add an index column
-            ->addColumn('action', function ($row) {
-                // $editUrl = route('inventoryitem.edit', $row->id);  
-                $deleteUrl = route('inventoryitem.delete', $row);  
-                $editUrl = route('inventoryitem.edit', $row);
-
-                // return '<a href="'.$editUrl.'" class="btn btn-sm btn-primary">Edit</a>
-                //         <button data-url="'.$deleteUrl.'" class="btn btn-sm btn-danger delete-btn">Delete</button>';
-                
-                return
-                 '
-                 <a href="'.$editUrl.'" class="btn btn-sm btn-primary">Edit</a>
-                 <button data-url="'.$deleteUrl.'" class="btn btn-sm btn-danger delete-btn">Delete</button>';
-            })
-            ->rawColumns(['action'])  
-            ->make(true);  
+    {
+        // Fetch the inventory item with its associated inventoryItems
+        $inventoryitem = Inventory::with('inventoryItems')->findOrFail($product_id);
+    
+        if ($request->ajax()) {
+            // Get sold sku_ids for the specific product
+            $soldSkuIds = Sales::where('product_id', $product_id)->pluck('serial_number')->toArray();
+    
+            // Log the sold sku_ids for debugging
+            Log::info('Sold SKU IDs:', $soldSkuIds);
+    
+            // Fetch available inventory items that are not sold
+            $data = InventoryItem::where('product_id', $product_id)
+                ->whereNotIn('sku_id', $soldSkuIds) // Use sku_id here to filter out sold items
+                ->get();
+    
+            // Log the available serial numbers for debugging
+            Log::info('Available Serial Numbers:', $data->pluck('serial_number')->toArray());
+    
+            return DataTables::of($data)
+                ->addIndexColumn()  // Add an index column
+                ->addColumn('action', function ($row) {
+                    $deleteUrl = route('inventoryitem.delete', $row);  
+                    $editUrl = route('inventoryitem.edit', $row);
+    
+                    return '
+                     <a href="'.$editUrl.'" class="btn btn-sm btn-primary">Edit</a>
+                     <button data-url="'.$deleteUrl.'" class="btn btn-sm btn-danger delete-btn">Delete</button>';
+                })
+                ->rawColumns(['action'])  
+                ->make(true);  
+        }
+    
+        // If it's not an AJAX request, simply return the view with the inventory item data
+        return view('inventory.serials', compact('inventoryitem', 'product_id'));
     }
-
-    // If it's not an AJAX request, simply return the view with the inventory item data
-    return view('inventory.serials', compact('inventoryitem', 'product_id'));
-}
-
-
 
     
 }

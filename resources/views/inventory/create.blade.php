@@ -45,6 +45,21 @@
                         </div>
                     </div>
 
+                <div class="form-group">
+                    <label for="brand_id">Brand</label>
+                    <select name="brand_id" id="brand_id" required>
+                        <option value="" selected>Select a Brand</option>
+                        @foreach($brands as $brand)
+                            <option value="{{ $brand->brand_id }}">{{ $brand->brand_name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <br>
+
+                <div class="form-group">
+                <label for="quantity">Quantity</label>
+                    <input type="number" name="quantity" placeholder="Quantity" required min="0">
+                </div>
                     <div class="form-group">
                         <label for="brand_id">Brand</label>
                         <select name="brand_id" id="brand_id" required>

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('technician_id');
             $table->string('name');
             $table->bigInteger('contact_no');
+            $table->softDeletes(); 
         }); 
     }
 

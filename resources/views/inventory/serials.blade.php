@@ -188,64 +188,69 @@
             </table>
         </div>
         <div class="table">
-            <table id="serials">
-                <thead>
-                    <tr>
-                        <th>SKU ID</th>
-                        <th>Serial Number</th>
-                        <th>Condition</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-
-        <div class="mt-4">
-            <a href="{{ route('inventory.index') }}" class="text-blue-500 hover:underline">Back to Inventory</a>
-        </div>
+    <table id="serials">
+        <thead>
+            <tr>
+                <th>#</th> <!-- Change SKU ID to # -->
+                <th>Serial Number</th>
+                <th>Condition</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+<div class="mt-4">
+        <a href="{{ route('inventory.index') }}" class="text-blue-500 hover:underline">Back to Inventory</a>
     </div>
+</div>
 
-    <script>
-        $(document).ready(function() {
-            var table = $('#serials').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: "{{ route('inventoryitem.serials', $inventoryitem->product_id) }}",
-                columns: [
-                    { data: 'sku_id', name: 'sku_id' },
-                    { data: 'serial_number', name: 'serial_number' },
-                    { data: 'condition', name: 'condition' },
-                    { 
-                        data: 'action', 
-                        name: 'action', 
-                        orderable: false, 
-                        searchable: false 
-                    }
-                ]
-            });
-
-            // Delete button handling
-            $('#serials tbody').on('click', '.delete-btn', function() {
-                var deleteUrl = $(this).data('url');
-                if (confirm('Are you sure you want to delete this item?')) {
-                    $.ajax({
-                        url: deleteUrl,
-                        type: 'DELETE',
-                        data: {
-                            _token: '{{ csrf_token() }}'
-                        },
-                        success: function(response) {
-                            alert('Item deleted successfully!');
-                            table.ajax.reload();
-                        },
-                        error: function(xhr) {
-                            console.log('Error deleting item:', xhr.responseText);
-                        }
-                    });
+<script>
+    $(document).ready(function() {
+        var table = $('#serials').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('inventoryitem.serials', $inventoryitem->product_id) }}",
+            columns: [
+                { 
+                    data: null, // Use null because we will render the index manually
+                    render: function(data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1; // Incrementing number
+                    },
+                    orderable: false // Disable ordering for this column
+                },
+                { data: 'serial_number', name: 'serial_number' },
+                { data: 'condition', name: 'condition' },
+                { 
+                    data: 'action', 
+                    name: 'action', 
+                    orderable: false, 
+                    searchable: false 
                 }
-            });
+            ]
         });
-    </script>
+
+        // Delete button handling
+        $('#serials tbody').on('click', '.delete-btn', function() {
+            var deleteUrl = $(this).data('url');
+            if (confirm('Are you sure you want to delete this item?')) {
+                $.ajax({
+                    url: deleteUrl,
+                    type: 'DELETE',
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        alert('Item deleted successfully!');
+                        table.ajax.reload();
+                    },
+                    error: function(xhr) {
+                        console.log('Error deleting item:', xhr.responseText);
+                    }
+                });
+            }
+        });
+    });
+</script>
 </body>
 </html>

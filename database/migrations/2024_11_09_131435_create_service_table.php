@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('service', function (Blueprint $table) {
             $table->id('service_id');
             $table->string('service_name');
+            $table->softDeletes(); 
         });
     }
 
