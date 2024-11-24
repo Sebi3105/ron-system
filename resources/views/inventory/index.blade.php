@@ -180,7 +180,7 @@ $(document).ready(function() {
     var table = $('#inventory').DataTable({
         processing: true,
         serverSide: true,
-        searching: true, // Disable the default search bar
+        searching: false, // Disable the default search bar
         lengthChange: true, // Disable the "Show entries" dropdown
         ajax: {
             url: "{{ route('inventory.index') }}",
