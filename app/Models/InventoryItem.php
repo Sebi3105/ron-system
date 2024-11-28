@@ -50,5 +50,11 @@ class InventoryItem extends Model
             ->whereNotIn('sku_id', $soldSerials) // Use sku_id here
             ->get();
     }
+    public function sales()
+    {
+        return $this->hasMany(Sales::class, 'serial_number', 'sku_id');
+    }
+
+
 
 }

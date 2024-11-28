@@ -10,7 +10,10 @@ use App\Http\Controllers\TechProfileController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SalesController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
 
 
 Route::get('/', function () {
@@ -21,11 +24,22 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+Route::get('/admin/create', [AdminController::class, 'create'])->name('admin.create');
+Route::post('/admin/store', [AdminController::class, 'store'])->name('admin.store');
+Route::get('/admin/edit-user/{id}', [AdminController::class, 'edit'])->name('admin.edit ');
+Route::delete('/admin/delete-user/{id}', [AdminController::class, 'delete'])->name('admin.delete ');
+Route::get('/admin/edit/{id}', [AdminController::class, 'edit'])->name('admin.edit');
+Route::post('/admin/update/{id}', [AdminController::class, 'update'])->name('admin.update');
+Route::delete('/admin/delete/{id}', [AdminController::class, 'destroy'])->name('admin.delete');
 
 
 Route::resource('brand', BrandController::class);
@@ -77,6 +91,8 @@ Route::get('techreport/{techreport}/view', [TechReportController::class, 'view']
 
 //sales routes
 Route::resource('sales',SalesController::class);
+Route::delete('/sales/{sale}/delete', [SalesController::class, 'destroy'])->name('sales.delete'); // Custom delete route
+Route::get('/sales/{id}', [SalesController::class, 'show'])->name('sales.show');
 Route::get('/sales/serials/{id}', [SalesController::class, 'getSerials'])->name('sales.serials');
 
 require __DIR__.'/auth.php';

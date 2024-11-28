@@ -51,9 +51,11 @@ class InventoryController extends Controller
                     $editUrl = route('inventory.edit', $row->product_id);
                     $deleteUrl = route('inventory.delete', $row);
 
-                    return '<a href="' . $viewUrl . '" class="btn btn-sm btn-secondary">View Serials</a>
+                    return '<div class="flex space-x-2 items-center justify-center">
+                            <a href="' . $viewUrl . '" class="bg-navy-blue text-white py-1 px-2 rounded">View Serials</a>
                             <a href="' . $editUrl . '" class="btn btn-sm btn-primary">Update</a>
-                            <button data-url="' . $deleteUrl . '" class="btn btn-sm btn-danger delete-btn">Delete</button>';
+                            <button data-url="' . $deleteUrl . '" class="btn btn-sm btn-danger delete-btn">Delete</button>
+                            </div>';
                 })
                 ->rawColumns(['action'])
                 ->make(true);

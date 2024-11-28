@@ -143,6 +143,14 @@
                 <label for="amount">Amount</label>
                 <input type="number" name="amount" id="amount" step="0.01" required>
             </div>
+            <div class="form-group">
+                <label for="payment_method">Payment Method</label>
+                <select name="payment_method" id="payment_method" required>
+                    <option value="" selected>Select Payment Method</option>
+                    <option value="installment">Installment</option>
+                    <option value="full_payment">Full Payment</option>
+                </select>
+            </div>
 
             <div class="form-group">
                 <label for="payment_type">Payment Type</label>
@@ -164,40 +172,37 @@
 
     <script>
         $(document).ready(function() {
-            // Initialize Select2
-            $('#customer_id, #inventories, #serials').select2();
+    // Initialize Select2
+    $('#customer_id, #inventories, #serials').select2();
 
-            // When product is selected
-            $('#inventories').change(function() {
-                var productId = $(this).val();
-                if (productId) {
-                    $.ajax({
-                        url: '{{ route("sales.serials", "") }}/ ' + productId,
-                        type: 'GET',
-                        success: function(data) {
-                            // Clear the serials dropdown
-                            $('#serials').empty().append('<option value="" selected>Select Serial Number</option>');
-                            // Use a Set to avoid duplicates
-                            const uniqueSerials = new Set();
-                            $.each(data, function(index, serial) {
-                                uniqueSerials.add(serial.serial_number); // Add to Set for uniqueness
-                                // Populate dropdown with sku_id as value and serial_number as display text
-                                $('#serials').append('<option value="' + serial.sku_id + '">' + serial.serial_number + '</option>');
-                            });
-                            // Re-initialize Select2 for the serials dropdown
-                            $('#serials').select2();
-                        },
-                        error: function() {
-                            alert('Error fetching serial numbers.');
-                        }
-                    });
-                } else {
-                    // Clear the serials dropdown if no product is selected
+    // When product is selected
+    $('#inventories').change(function() {
+        var productId = $(this).val();
+        if (productId) {
+            $.ajax({
+                url: '{{ route("sales.serials", "") }}/' + productId, // Remove space
+                type: 'GET',
+                success: function(data) {
+                    // Clear the serials dropdown
                     $('#serials').empty().append('<option value="" selected>Select Serial Number</option>');
+                    $.each(data, function(index, serial) {
+                        $('#serials').append('<option value="' + serial.sku_id + '">' + serial.serial_number + '</option>');
+                    });
+                    // Re-initialize Select2 for the serials dropdown
                     $('#serials').select2();
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText); // Log the error response
+                    alert('Error fetching serial numbers: ' + xhr.responseText);
                 }
             });
-        });
+        } else {
+            // Clear the serials dropdown if no product is selected
+            $('#serials').empty().append('<option value="" selected>Select Serial Number</option>');
+            $('#serials').select2();
+        }
+    });
+});
     </script>
 </body>
 </html>

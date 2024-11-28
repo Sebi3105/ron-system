@@ -33,6 +33,14 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </li>
+                <!-- Admin Dashboard (Only for SuperAdmin) -->
+                @if(Auth::user()->is_superadmin)
+                <li>
+                    <x-nav-link href="{{ url('/admin/dashboard') }}" class="text-black w-full px-4 py-2 hover:bg-sky-100 text-center">
+                        {{ __('Admin Dashboard') }}
+                    </x-nav-link>
+                </li>
+                @endif
                 <!-- Notification -->
                 <li>
                     <x-nav-link href="{{ url('/notifications') }}" class="text-black w-full px-4 py-2 hover:bg-sky-100 text-center">

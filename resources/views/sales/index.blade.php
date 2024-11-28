@@ -33,6 +33,7 @@
                     </div>
                 @endif
             </div>
+
             <div class="py-4 overflow-auto max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="p-4 sm:p-8 bg-gray-200 shadow sm:rounded-lg">
                     <table id="sales" class="min-w-full table-fixed bg-gray-200 text-black border border-gray-400">
@@ -45,42 +46,74 @@
                                 <th class="w-32 p-2 border-r border-gray-400">State</th>
                                 <th class="w-32 p-2 border-r border-gray-400">Sale Date</th>
                                 <th class="w-32 p-2 border-r border-gray-400">Amount</th>
-                                <th class=" w-32 p-2 border-r border-gray-400">Payment type</th>
                                 <th class="w-24 p-2">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="bg-gray-200">
-    @foreach($sales as $key => $sale)
-        <tr>
-            <td class="p-2 border-r border-gray-400">{{ $key + 1 }}</td>
-            <td class="p-2 border-r border-gray-400">{{ $sale->customer->name }}</td>
-            <td class="p-2 border-r border-gray-400">{{ $sale->inventory->product_name }}</td>
-            <td class="p-2 border-r border-gray-400">{{ $sale->inventoryItem->serial_number }}</td> <!-- Access the correct property -->
-            <td class="p-2 border-r border-gray-400">{{ $sale->state }}</td>
-            <td class="p-2 border-r border-gray-400">{{ $sale->sale_date->format('Y-m-d') }}</td>
-            <td class="p-2 border-r border-gray-400">{{ number_format($sale->amount, 2) }}</td>
-            <td class="p-2 border-r border-gray-400">{{ ucfirst($sale->payment_type) }}</td>
-            <td class="p-2">
-                <a href="#" class="text-blue-500">Edit</a> | 
-                <a href="#" class="text-red-500">Delete</a>
-            </td>
-        </tr>
-    @endforeach
-</tbody>
+                            @foreach($sales as $key => $sale)
+                                <tr>
+                                    <td class="p-2 border-r border-gray-400">{{ $key + 1 }}</td>
+                                    <td class="p-2 border-r border-gray-400">{{ $sale->customer->name }}</td>
+                                    <td class="p-2 border-r border-gray-400">{{ $sale->inventory->product_name }}</td>
+                                    <td class="p-2 border-r border-gray-400">{{ $sale->inventoryItem->serial_number }}</td>
+                                    <td class="p-2 border-r border-gray-400">{{ $sale->state }}</td>
+                                    <td class="p-2 border-r border-gray-400">{{ $sale->sale_date->format('Y-m-d') }}</td>
+                                    <td class="p-2 border-r border-gray-400">{{ number_format($sale->amount, 2) }}</td>
+                                    <td class="p-2">
+                                    <a href="{{ route('sales.show', $sale->sales_id) }}" class="text-blue-500">View</a> |
+                                        <a href="{{ route('sales.edit', $sale->sales_id) }}" class="text-blue-500">Edit</a> | 
+                                        <form action="{{ route('sales.destroy', $sale->sales_id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this item?');" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <select name="delete_type" class="mr-2">
+                                                <option value="soft">Archive</option>
+                                                <option value="hard">Delete</option>
+                                            </select>
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-
     <script>
-        $(document).ready(function() {
-            $('#sales').DataTable({
-                searching: true,
-                paging: true,
-                info: true,
-                order: [[0, 'asc']]
-            });
+    $(document).ready(function() {
+        $('#sales').DataTable({
+            searching: true,
+            paging: true,
+            info: true,
+            order: [[0, 'asc']]
         });
-    </script>
+
+        $('#sales').on('click', '.delete-btn', function(e) {
+    e.preventDefault();
+    var deleteUrl = $(this).data('url');
+    var deleteType = $(this).data('delete-type'); // Get delete type from data attribute
+    if (confirm('Are you sure you want to delete this item?')) {
+        $.ajax({
+            url: deleteUrl,
+            type: 'DELETE',
+            data: {
+                _token: '{{ csrf_token() }}',
+                delete_type: deleteType // Include delete type in the request
+            },
+            success: function(response) {
+                alert('Item deleted successfully!');
+                // Remove the row from the DataTable
+                var row = $('.delete-btn[data-url="' + deleteUrl + '"]').closest('tr');
+                $('#sales').DataTable().row(row).remove().draw();
+            },
+            error: function(xhr) {
+                var errorMessage = xhr.responseJSON.message || 'An unexpected error occurred.';
+                alert('Error deleting item: ' + errorMessage);
+            }
+        });
+    }
+});
+    });
+</script>
 </x-app-layout>

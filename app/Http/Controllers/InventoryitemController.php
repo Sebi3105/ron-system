@@ -123,15 +123,27 @@ public function store(Request $request)
         $inventoryitem = Inventory::with('inventoryItems')->findOrFail($product_id);
     
         if ($request->ajax()) {
-            // Get sold sku_ids for the specific product
-            $soldSkuIds = Sales::where('product_id', $product_id)->pluck('serial_number')->toArray();
+            // Get sold serial numbers for the specific product, including soft-deleted ones
+            $soldSerialNumbers = Sales::where('product_id', $product_id)
+                ->whereNotNull('deleted_at') // Get only soft-deleted items
+                ->pluck('serial_number')
+                ->toArray();
     
-            // Log the sold sku_ids for debugging
-            Log::info('Sold SKU IDs:', $soldSkuIds);
+            // Log the sold serial numbers for debugging
+            Log::info('Soft-Deleted Serial Numbers:', $soldSerialNumbers);
     
-            // Fetch available inventory items that are not sold
+            // Fetch available inventory items that are either sold (soft-deleted) or not sold
             $data = InventoryItem::where('product_id', $product_id)
-                ->whereNotIn('sku_id', $soldSkuIds) // Use sku_id here to filter out sold items
+                ->whereIn('sku_id', $soldSerialNumbers) // Include sold items (soft-deleted)
+                ->orWhere(function($query) use ($product_id) {
+                    $query->where('product_id', $product_id)
+                          ->whereNotIn('sku_id', function($subQuery) use ($product_id) {
+                              $subQuery->select('serial_number')
+                                        ->from('sales')
+                                        ->where('product_id', $product_id)
+                                        ->whereNotNull('deleted_at'); // Exclude sold items
+                          });
+                })
                 ->get();
     
             // Log the available serial numbers for debugging
@@ -144,8 +156,8 @@ public function store(Request $request)
                     $editUrl = route('inventoryitem.edit', $row);
     
                     return '
-                     <a href="'.$editUrl.'" class="btn btn-sm btn-primary">Edit</a>
-                     <button data-url="'.$deleteUrl.'" class="btn btn-sm btn-danger delete-btn">Delete</button>';
+                        <a href="'.$editUrl.'" class="btn btn-sm btn-primary">Edit</a>
+                        <button data-url="'.$deleteUrl.'" class="btn btn-sm btn-danger delete-btn">Delete</button>';
                 })
                 ->rawColumns(['action'])  
                 ->make(true);  
@@ -154,6 +166,5 @@ public function store(Request $request)
         // If it's not an AJAX request, simply return the view with the inventory item data
         return view('inventory.serials', compact('inventoryitem', 'product_id'));
     }
-
     
 }

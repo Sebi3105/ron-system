@@ -78,10 +78,12 @@
                                     <th class="w-32 p-2 border-r border-gray-400">Released Date</th>
                                     <th class="w-24 p-2 border-r border-gray-400">Status</th>
                                     <th class="w-24 p-2">Actions</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody class="bg-gray-200">
                                 <!-- Dynamic content will be injected here by DataTable -->
+                                 
                             </tbody>
                         </table>
                     </div>
@@ -176,6 +178,7 @@
                     searchable: false
                 },
             ],
+            
             rowCallback: function(row, data) {
                 if (data.quantity <= 4) {
                     $(row).css('background-color', '#fff3cd'); // Light yellow

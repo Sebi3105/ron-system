@@ -20,6 +20,7 @@ class sales extends Model // Keeping the model name as 'sales'
         'state',
         'sale_date',
         'amount',
+        'payment_method',
         'payment_type'
     ];
 

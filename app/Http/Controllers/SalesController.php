@@ -25,6 +25,62 @@
         
             return view('sales.create', compact('customers', 'inventories'));
         }
+        
+        public function edit(Sales $sale)
+{
+    $customers = Customer::all();
+    $inventories = Inventory::all();
+    
+    // Fetch serials for the selected inventory item
+    $serials = InventoryItem::where('product_id', $sale->product_id)->get();
+    
+    return view('sales.edit', compact('sale', 'customers', 'inventories', 'serials'));
+}
+
+    public function update(Request $request, Sales $sale)
+    {
+        // Validate the incoming request data
+        $validatedData = $request->validate([
+            'customer_id' => 'required|exists:customer,customer_id',
+            'inventory_id' => 'required|exists:inventory,product_id',
+            'serials' => 'required|exists:inventory_item,sku_id',
+            'state' => 'required|in:reserved,for_pickup,for_delivery',
+            'sale_date' => 'required|date',
+            'amount' => 'required|numeric|min:0',
+            'payment_method' => 'required|in:installment,full_payment',
+            'payment_type' => 'required|in:credit_card,cash,gcash,paymaya',
+        ]);
+
+        // Update the sale record
+        $sale->update([
+            'customer_id' => $validatedData['customer_id'],
+            'product_id' => $validatedData['inventory_id'],
+            'serial_number' => $validatedData['serials'],
+            'state' => $validatedData['state'],
+            'sale_date' => $validatedData['sale_date'],
+            'amount' => $validatedData['amount'],
+            'payment_method' => $validatedData['payment_method'],
+            'payment_type' => $validatedData['payment_type'],
+        ]);
+
+        // Redirect to the sales index with a success message
+        return redirect()->route('sales.index')->with('success', 'Sale updated successfully.');
+    }
+
+    
+    public function destroy(Request $request, Sales $sale)
+    {
+        // Check if the request wants a hard delete
+        if ($request->input('delete_type') === 'hard') {
+            // Perform hard delete
+            $sale->forceDelete();
+            return redirect()->route('sales.index')->with('success', 'Sale permanently deleted.');
+        }
+    
+        // Soft delete
+        $sale->delete();
+        return redirect()->route('sales.index')->with('success', 'Sale deleted successfully.');
+    }
 
         public function store(Request $request)
 {
@@ -36,6 +92,7 @@
         'state' => 'required|in:reserved,for_pickup,for_delivery',
         'sale_date' => 'required|date',
         'amount' => 'required|numeric|min:0',
+        'payment_method' => 'required|in:installment,full_payment',
         'payment_type' => 'required|in:credit_card,cash,gcash,paymaya',
     ]);
 
@@ -47,6 +104,7 @@
         'state' => $validatedData['state'],
         'sale_date' => $validatedData['sale_date'],
         'amount' => $validatedData['amount'],
+        'payment_method' => $validatedData['payment_method'],
         'payment_type' => $validatedData['payment_type'],
     ]);
 
@@ -63,11 +121,21 @@
     return redirect()->route('sales.index')->with('success', 'Sale created successfully.');
 }
 
-        public function getSerials($id)
-        {
-            // Fetch serials based on the inventory item id
-            $serials = InventoryItem::where('product_id', $id)->get();
-            
-            return response()->json($serials);
-        }
+public function getSerials($id)
+{
+    // Fetch serials based on the inventory item id, excluding those in soft-deleted sales
+    $serials = InventoryItem::where('product_id', $id)
+        ->whereDoesntHave('sales', function ($query) {
+            $query->onlyTrashed(); // Exclude soft-deleted sales
+        })
+        ->get();
+    
+    return response()->json($serials);
+}
+
+public function show($id)
+{
+    $sale = Sales::with(['customer', 'inventory', 'inventoryItem'])->findOrFail($id);
+    return view('sales.show', compact('sale'));
+}
     }
