@@ -19,12 +19,12 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l-7-7 7-7" />
                     </svg>
-                    Back to Inventory
+                    Back to Serial List
                 </a>
             </div>
 
             <div class="form-container mx-auto mt-20 mb-20">
-                <h1 class="text-lg font-bold stitle">INSERT A SERIAL NUMBER</h1>
+                <h1 class="text-lg font-bold stitle">NEW SERIAL NUMBER</h1>
 
                 <!-- Error Messages -->
                 <div class="error_checking mb-4">
@@ -38,9 +38,8 @@
                 </div>
 
                 <!-- Form -->
-                <form method="post" action="{{ route('inventoryitem.store') }}" onsubmit="return confirmAction('Are you sure you want to save this product?')">
+                <form id="serialForm" method="post" action="{{ route('inventoryitem.store') }}">
                     @csrf
-                    @method('post')
                     <input type="hidden" name="product_id" value="{{ $selectedInventory->product_id }}">
 
                     <div class="serial_number mb-4">
@@ -55,20 +54,26 @@
                     </div>
 
                     <div class="button-group flex justify-between gap-4">
-                        <input type="submit" value="Save Product" class="px-6 py-2 bg-blue-500 text-white font-semibold rounded-md cursor-pointer hover:bg-blue-600">
-                        <a href="{{ route('inventory.index') }}" class="exit-btn px-6 py-2 bg-red-500 text-white font-semibold rounded-md cursor-pointer hover:bg-red-600" onclick="return confirmAction('Are you sure you want to cancel this?')">Cancel</a>
+                        <button id="saveProductButton" type="button" class="px-6 py-2 bg-blue-500 text-white font-semibold rounded-md cursor-pointer hover:bg-blue-600">Save Product</button>
+                        <a href="{{ route('inventory.index') }}" class="exit-btn px-6 py-2 bg-red-500 text-white font-semibold rounded-md cursor-pointer hover:bg-red-600" onclick="return confirm('Are you sure you want to cancel this?')">Cancel</a>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <script src="{{ asset('js/confirmation.js') }}"></script>
-<script>$   // Automatically refresh layout adjustments on window resize
-          window.addEventListener('resize', function() {
-    location.reload(); // Automatic na magre-refresh ang page
-});
-</script>
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 hidden">
+        <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
+            <h2 class="text-lg font-bold text-center">Confirmation</h2>
+            <p class="text-sm text-gray-700 text-center my-4">Are you sure you want to save this serial number?</p>
+            <div class="flex justify-center gap-4">
+                <button id="confirmCancel" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">Cancel</button>
+                <button id="confirmSubmit" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">Confirm</button>
+            </div>
+        </div>
+    </div>
+
     <style>
         /* Select Styling */
         select {
@@ -100,8 +105,8 @@
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
-            width: 100%; /* Ensuring it adjusts for smaller screens */
+            max-width: 400px;
+            width: 100%; 
             text-align: center;
             margin: 2rem auto;
         }
@@ -132,7 +137,7 @@
         }
 
         /* Submit Button Styling */
-        .button-group input,
+        .button-group button,
         .button-group .exit-btn {
             padding: 10px;
             width: 48%;
@@ -143,15 +148,17 @@
             text-decoration: none;
             color: white;
             display: inline-block;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
-        .button-group input {
+        .button-group button{
             background-color: #4A628A;
             border: none;
         }
 
-        .button-group input:hover {
+        .button-group button:hover {
             background-color: #3B4D6C;
+            transform: scale(1.05);
         }
 
         .button-group .exit-btn {
@@ -161,6 +168,7 @@
 
         .button-group .exit-btn:hover {
             background-color: #c0392b;
+            transform: scale(1.05);
         }
 
         /* Back Button Styling */
@@ -186,5 +194,177 @@
         .back-btn:hover svg {
             transform: translateX(-5px); /* Move the arrow slightly */
         }
+
+        #confirmationModal {
+        z-index: 50;
+        backdrop-filter: blur(5px); 
+        animation: fadeInBackdrop 0.4s ease-out;
+    }
+
+    @keyframes fadeInBackdrop {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    /* Modal Style */
+    #confirmationModal .bg-white {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        animation: modalEntry 0.4s ease-out;
+    }
+
+    @keyframes modalEntry {
+        from {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    /* Header with Green Gradient */
+    #confirmationModal h2 {
+        font-size: 22px;
+        font-weight: bold;
+        background: linear-gradient(90deg, #4CAF50, #2E7D32);
+        color: #fff;
+        text-align: center;
+        padding: 12px;
+        margin: 0;
+    }
+
+    /* Modal Text */
+    #confirmationModal p {
+        font-size: 15px;
+        color: #4B5563;
+        text-align: center;
+        margin: 16px 0 24px;
+        line-height: 1.6;
+    }
+
+    /* Buttons */
+    #confirmationModal button {
+        border: none;
+        padding: 12px 20px;
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+    }
+
+    #confirmationModal button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    #confirmCancel {
+        background-color: #E5E7EB;
+        color: #374151;
+    }
+
+    #confirmCancel:hover {
+        background-color: #D1D5DB;
+    }
+
+    #confirmSubmit {
+        background: linear-gradient(90deg, #4CAF50, #2E7D32);
+        color: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    #confirmSubmit:hover {
+        background: linear-gradient(90deg, #2E7D32, #1B5E20);
+    }
+
+    /* Icons */
+    #confirmationModal button svg {
+        height: 18px;
+        width: 18px;
+    }
+    #confirmationModal .flex {
+    justify-content: center; 
+    gap: 16px;
+    padding: 12px 0;
+}
+
+/* Buttons */
+#confirmationModal button {
+    border: none;
+    padding: 10px 20px; 
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.back-btn {
+            color: #3C3D37;
+            padding: 0.3rem 1.2rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 0.375rem;
+            transition:transform 0.3s ease;
+            text-decoration: none;
+            margin-left: 2rem;
+            margin-top: -1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem; 
+        }
+
+        .back-btn:hover {
+            transform: translateX(-5px);
+        }
+
+        .back-btn svg {
+            transition: transform 0.3s ease; 
+        }
+        .back-btn:hover svg {
+            transform: translateX(-8px); 
+        }
     </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const modal = document.getElementById('confirmationModal');
+            const confirmSubmitButton = document.getElementById('confirmSubmit');
+            const confirmCancelButton = document.getElementById('confirmCancel');
+            const saveProductButton = document.getElementById('saveProductButton');
+            const form = document.getElementById('serialForm');
+
+            // Open modal when Save Product button is clicked
+            saveProductButton.addEventListener('click', function (e) {
+                e.preventDefault();
+                modal.classList.remove('hidden'); // Show modal
+            });
+
+            // Close modal on Cancel button click
+            confirmCancelButton.addEventListener('click', function () {
+                modal.classList.add('hidden'); // Hide modal
+            });
+
+            // Submit form on Confirm button click
+            confirmSubmitButton.addEventListener('click', function () {
+                modal.classList.add('hidden'); // Hide modal
+                form.submit(); // Programmatically submit the form
+            });
+        });
+    </script>
 </x-app-layout>

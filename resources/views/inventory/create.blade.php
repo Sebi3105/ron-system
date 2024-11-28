@@ -1,15 +1,12 @@
 <x-app-layout>
     <div class="flex flex-col md:flex-row h-screen">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-        <!-- Sidebar (Navigation) -->
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+        
+        <!-- Sidebar -->
         <div class="w-full md:w-48 lg:w-64 fixed top-0 left-0 z-10 h-screen bg-gray-900">
             @include('layouts.navigation')
         </div>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- Select2 CSS and JS (Load after jQuery) -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" integrity="sha512-YHJ091iDoDM1PZZA9QLuBvpo0VXBBiGHsvdezDoc3p56S3SOMPRjX+zlCbfkOV5k3BmH5O9FqrkKxBRhkdtOkQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js" integrity="sha512-XBxUMC4YQcL60PavAScyma2iviXkiWNS5Yf+A0LZRWI1PNiGHkp66yPQxHWDSlv6ksonLAL2QMrUlCKq4NHhSQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <!-- Main Content -->
         <div class="flex-1 md:ml-48 lg:ml-64 mt-16 md:mt-0 bg-gray-100 text-gray-800">
             <!-- Fixed Header -->
@@ -29,64 +26,106 @@
             </div>
 
             <!-- Form Container -->
-            <div class="form-container">
-                <form method="post" action="{{ route('inventory.store') }}" onsubmit="return confirmAction('Are you sure you want to save this product?')">
-                    @csrf
+            <div class="form-container mx-auto px-4">
+                <h1 class="text-lg font-bold text-center stitle">PRODUCT INFORMATION</h1>
+                <form method="post" action="{{ route('inventory.store') }}" id="inventoryForm">
+    @csrf
 
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="product_name">Product Name</label>
-                    <input type="text" name="product_name" id="product_name" placeholder="Product Name" required>
-                </div>
+    <div class="form-row">
+    <div class="form-group">
+        <label for="product_name">Product Name</label>
+        <input type="text" name="product_name" id="product_name" placeholder="Product Name" required>
+    </div>
+    <div class="form-group">
+        <label for="category_id">Category</label>
+        <select name="category_id" id="category_id" required>
+            <option value="" selected>Select a Category</option>
+            @foreach($categories as $category)
+                <option value="{{ $category->category_id }}">{{ $category->category_name }}</option>
+            @endforeach
+        </select>
+    </div>
+</div>
 
-                <div class="form-group">
-                    <label for="category_id">Category</label>
-                    <select name="category_id" id="category_id" required>
-                        <option value="" selected>Select a Category</option>
-                        @foreach($category as $categories)
-                            <option value="{{ $categories->category_id }}">{{ $categories->category_name }}</option>
-                        @endforeach
-                    </select>
-                </div>
+<div class="form-row">
+    <div class="form-group">
+        <label for="brand_id">Brand</label>
+        <select name="brand_id" id="brand_id" required>
+            <option value="" selected>Select a Brand</option>
+            @foreach($brands as $brand)
+                <option value="{{ $brand->brand_id }}">{{ $brand->brand_name }}</option>
+            @endforeach
+        </select>
+    </div>
+</div>
 
-                    <div class="form-group">
-                        <label for="brand_id">Brand</label>
-                        <select name="brand_id" id="brand_id" required>
-                            <option value="" selected>Select a Brand</option>
-                            @foreach($brands as $brand)
-                                <option value="{{ $brand->brand_id }}">{{ $brand->brand_name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+    <div class="form-row">
+        <div class="form-group">
+            <label for="price">Price</label>
+            <input type="number" name="price" id="price" placeholder="Price" required min="0">
+        </div>
+        <div class="form-group">
+            <label for="quantity">Quantity</label>
+            <input type="number" name="quantity" id="quantity" placeholder="Quantity" required min="0">
+        </div>
+    </div>
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="price">Price</label>
-                            <input type="number" name="price" id="price" placeholder="Price" required min="0">
-                        </div>
-                        <div class="form-group">
-                            <label for="quantity">Quantity</label>
-                            <input type="number" name="quantity" placeholder="Quantity" required min="0">
-                        </div>
-                    </div>
+    <div class="form-row">
+        <div class="form-group">
+            <label for="released_date">Date of Release</label>
+            <input type="date" name="released_date" id="released_date" required>
+        </div>
+        <div class="form-group">
+            <label for="notes">Notes</label>
+            <input type="text" name="notes" id="notes" placeholder="Notes">
+        </div>
+    </div>
 
-                    <div class="form-group">
-                        <label for="released_date">Date of Release</label>
-                        <input type="date" name="released_date" id="released_date" required>
-                    </div>
+    <div class="button-group">
+        <button type="button" id="saveProductButton">Save Product</button>
+    </div>
+</form>
 
-                <div class="form-group">
-                    <label for="notes">Notes</label>
-                    <input type="text" name="notes" id="notes" placeholder="Notes">
-                </div>
-            </div>
-
-            <div class="button-group">
-                <input type="submit" value="Save Product">
-                <button type="button" class="cancel-btn" onclick="window.location.href='{{ url()->previous() }}'">Cancel</button>
             </div>
         </div>
     </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 hidden">
+        <div class="bg-white max-w-sm w-full">
+            <h2 class="text-lg font-bold">Confirmation</h2>
+            <p id="confirmationMessage">Are you sure you want to save this product?</p>
+            <div class="flex justify-center gap-4 py-4">
+                <button id="confirmCancel" class="bg-gray-300 text-gray-700 hover:bg-gray-400">Cancel</button>
+                <button id="confirmSubmit" class="bg-green-600 text-white hover:bg-green-700">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const modal = document.getElementById('confirmationModal');
+            const confirmSubmitButton = document.getElementById('confirmSubmit');
+            const confirmCancelButton = document.getElementById('confirmCancel');
+            const saveProductButton = document.getElementById('saveProductButton');
+            const form = document.getElementById('inventoryForm');
+
+            // Open modal when Save Product button is clicked
+            saveProductButton.addEventListener('click', function () {
+                modal.classList.remove('hidden');
+            });
+
+            // Close modal on Cancel button click
+            confirmCancelButton.addEventListener('click', function () {
+                modal.classList.add('hidden');
+            });
+
+            // Submit form on Confirm button click
+            confirmSubmitButton.addEventListener('click', function () {
+                form.submit();
+            });
+        });
+    </script>
 
     <style>
         body {
@@ -98,8 +137,8 @@
         .form-container {
             background-color: #ffffff;
             border-radius: 8px;
-            padding: 30px;
-            width: 700px;
+            padding: 26px;
+            width: 400px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             margin-top: 10px;
             margin-left: auto;
@@ -116,9 +155,9 @@
         }
 
         label {
-            font-size: 16px;
+            font-size: 15px;
             color: #333;
-            margin-bottom: 5px;
+            margin-bottom: 1px;
             display: block;
         }
 
@@ -129,20 +168,21 @@
         }
 
         .form-group {
-            flex: 1;
-            margin-bottom: 15px;
-            min-width: 200px;
-        }
+    flex: 1;    
+    min-width: 190px;   
+    margin-bottom: 15px;    
+}
 
-        input[type="text"], input[type="number"], input[type="date"], select {
-            width: 100%;
-            padding: 10px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            box-sizing: border-box;
-            margin-top: 5px;
-        }
+select, input[type="text"], input[type="number"], input[type="date"] {
+    width: 100%;    
+    padding: 9px;  
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    margin-top: 5px;
+}
+
 
         .button-group {
             display: flex;
@@ -151,9 +191,9 @@
         }
 
         .button-group button {
-            padding: 10px;
+            padding: 8px;
             width: 100%;
-            max-width: 250px;
+            max-width: 200px;
             border-radius: 8px;
             font-weight: bold;
             font-size: 14px;
@@ -161,6 +201,7 @@
             text-decoration: none;
             color: white;
             display: inline-block;
+             transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
         .button-group button {
@@ -170,49 +211,167 @@
 
         .button-group button:hover {
             background-color: #3B4D6C;
+            transform: scale(1.05);
         }
-
         .back-btn {
             color: #3C3D37;
             padding: 0.3rem 1.2rem;
             font-size: 1rem;
             font-weight: bold;
             border-radius: 0.375rem;
-            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+            transition:transform 0.3s ease;
             text-decoration: none;
             margin-left: 2rem;
+            margin-top: -2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem; 
         }
 
-        .back-btn:hover svg {
+        .back-btn:hover {
             transform: translateX(-5px);
+        }
+
+        .back-btn svg {
+            transition: transform 0.3s ease; 
+        }
+        .back-btn:hover svg {
+            transform: translateX(-8px); 
+        }
+
+        #confirmationModal {
+        z-index: 50;
+        backdrop-filter: blur(5px); 
+        animation: fadeInBackdrop 0.4s ease-out;
+    }
+
+    @keyframes fadeInBackdrop {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    /* Modal Style */
+    #confirmationModal .bg-white {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        animation: modalEntry 0.4s ease-out;
+    }
+
+    @keyframes modalEntry {
+        from {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    /* Header with Green Gradient */
+    #confirmationModal h2 {
+        font-size: 22px;
+        font-weight: bold;
+        background: linear-gradient(90deg, #4CAF50, #2E7D32);
+        color: #fff;
+        text-align: center;
+        padding: 12px;
+        margin: 0;
+    }
+
+    /* Modal Text */
+    #confirmationModal p {
+        font-size: 15px;
+        color: #4B5563;
+        text-align: center;
+        margin: 16px 0 24px;
+        line-height: 1.6;
+    }
+
+    /* Buttons */
+    #confirmationModal button {
+        border: none;
+        padding: 12px 20px;
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+    }
+
+    #confirmationModal button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    #confirmCancel {
+        background-color: #E5E7EB;
+        color: #374151;
+    }
+
+    #confirmCancel:hover {
+        background-color: #D1D5DB;
+    }
+
+    #confirmSubmit {
+        background: linear-gradient(90deg, #4CAF50, #2E7D32);
+        color: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    #confirmSubmit:hover {
+        background: linear-gradient(90deg, #2E7D32, #1B5E20);
+    }
+
+    /* Icons */
+    #confirmationModal button svg {
+        height: 18px;
+        width: 18px;
+    }
+    #confirmationModal .flex {
+    justify-content: center; 
+    gap: 16px;
+    padding: 12px 0;
+}
+
+/* Buttons */
+#confirmationModal button {
+    border: none;
+    padding: 10px 20px; 
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            header {
+                padding: 10px;
+            }
         }
     </style>
 
-    <script>
-        function confirmAction(message) {
-            return confirm(message);
-        }
-           // Automatically refresh layout adjustments on window resize
-           window.addEventListener('resize', function() {
-    location.reload(); // Automatic na magre-refresh ang page
-});
-
-    </script>
 </x-app-layout>
-
-    
-    <script src="{{ asset('js/confirmation.js') }}"></script>
-
-
-
-<script type="text/javascript">
-$(document).ready(function() {
-$('#category_id, #brand_id').select2();
-});
-</script>
-
-
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-</body>
-</html>
