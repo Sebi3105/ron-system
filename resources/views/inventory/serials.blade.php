@@ -158,7 +158,6 @@
 <body>
     <div class="container mx-auto p-4">
         <h1>Serial Numbers for {{ $inventoryitem->product_name }}</h1>
-
         <div class=" flex justify-between items-center mb-4 create_link">
         <a href="{{ route('inventoryitem.create', ['product_id' => $inventoryitem->product_id]) }}"> Insert New Product Serial</a>
         </div>
@@ -187,6 +186,15 @@
                 </tbody>
             </table>
         </div>
+        <div class="flex items-center mb-4">
+    <label for="statusFilter" class="mr-2">Filter by Status:</label>
+    <select id="statusFilter" class="border rounded p-2">
+        <option value="">All</option>
+        <option value="working">Working</option>
+        <option value="defective">Defective</option>
+    </select>
+    <button id="filterButton" class="bg-blue-500 text-white p-2 rounded ml-2">Filter</button>
+</div>
         <div class="table">
     <table id="serials">
         <thead>
@@ -206,51 +214,66 @@
 </div>
 
 <script>
-    $(document).ready(function() {
-        var table = $('#serials').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route('inventoryitem.serials', $inventoryitem->product_id) }}",
-            columns: [
-                { 
-                    data: null, // Use null because we will render the index manually
-                    render: function(data, type, row, meta) {
-                        return meta.row + meta.settings._iDisplayStart + 1; // Incrementing number
-                    },
-                    orderable: false // Disable ordering for this column
-                },
-                { data: 'serial_number', name: 'serial_number' },
-                { data: 'condition', name: 'condition' },
-                { 
-                    data: 'action', 
-                    name: 'action', 
-                    orderable: false, 
-                    searchable: false 
+  $(document).ready(function() {
+    var table = $('#serials').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: function(data, callback, settings) {
+            data.status = $('#statusFilter').val(); // Get the selected status filter
+            $.ajax({
+                url: "{{ route('inventoryitem.serials', $inventoryitem->product_id) }}",
+                type: 'GET',
+                data: data,
+                success: function(response) {
+                    callback(response); // Pass the response to DataTables
                 }
-            ]
-        });
-
-        // Delete button handling
-        $('#serials tbody').on('click', '.delete-btn', function() {
-            var deleteUrl = $(this).data('url');
-            if (confirm('Are you sure you want to delete this item?')) {
-                $.ajax({
-                    url: deleteUrl,
-                    type: 'DELETE',
-                    data: {
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        alert('Item deleted successfully!');
-                        table.ajax.reload();
-                    },
-                    error: function(xhr) {
-                        console.log('Error deleting item:', xhr.responseText);
-                    }
-                });
+            });
+        },
+        columns: [
+            { 
+                data: null,
+                render: function(data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1;
+                },
+                orderable: false
+            },
+            { data: 'serial_number', name: 'serial_number' },
+            { data: 'condition', name: 'condition' },
+            { 
+                data: 'action', 
+                name: 'action', 
+                orderable: false, 
+                searchable: false 
             }
-        });
+        ]
     });
+
+    // Filter button handling
+    $('#filterButton').on('click', function() {
+        table.ajax.reload(); // Reload the table with the new filter value
+    });
+
+    // Delete button handling
+    $('#serials tbody').on('click', '.delete-btn', function() {
+        var deleteUrl = $(this).data('url');
+        if (confirm('Are you sure you want to delete this item?')) {
+            $.ajax({
+                url: deleteUrl,
+                type: 'DELETE',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    alert('Item deleted successfully!');
+                    table.ajax.reload();
+                },
+                error: function(xhr) {
+                    console.log('Error deleting item:', xhr.responseText);
+                }
+            });
+        }
+    });
+});
 </script>
 </body>
 </html>

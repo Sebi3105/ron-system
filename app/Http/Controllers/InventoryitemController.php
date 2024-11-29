@@ -129,9 +129,6 @@ public function store(Request $request)
                 ->pluck('serial_number')
                 ->toArray();
     
-            // Log the sold serial numbers for debugging
-            Log::info('Soft-Deleted Serial Numbers:', $soldSerialNumbers);
-    
             // Fetch available inventory items that are either sold (soft-deleted) or not sold
             $data = InventoryItem::where('product_id', $product_id)
                 ->whereIn('sku_id', $soldSerialNumbers) // Include sold items (soft-deleted)
@@ -143,11 +140,14 @@ public function store(Request $request)
                                         ->where('product_id', $product_id)
                                         ->whereNotNull('deleted_at'); // Exclude sold items
                           });
-                })
-                ->get();
+                });
     
-            // Log the available serial numbers for debugging
-            Log::info('Available Serial Numbers:', $data->pluck('serial_number')->toArray());
+            // Apply status filter if provided
+            if ($request->has('status') && $request->status != '') {
+                $data->where('condition', $request->status); // Filter by condition (status)
+            }
+    
+            $data = $data->get();
     
             return DataTables::of($data)
                 ->addIndexColumn()  // Add an index column

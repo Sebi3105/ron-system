@@ -63,11 +63,11 @@
             </div>
 
             <!-- Product Table -->
-            <div class="py-4 overflow-auto max-h-[500px] max-w-7xl mx-auto px- ```blade
-            4 sm:px-6 lg:px-8">
+            <div class="py-4 overflow-auto max-h-[500px] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
                 <div class="p-4 sm:p-8 bg-gray-200 shadow sm:rounded-lg overflow-y-auto">
                     <div class="overflow-x-auto">
-                        <table id="inventory" class="min-w-full table-fixed bg-gray-200 text-black border border-gray-400">
+                        <table id="inventory" class ```html
+                        ="min-w-full table-fixed bg-gray-200 text-black border border-gray-400">
                             <thead class="bg-gray-300 border-b border-gray-400">
                                 <tr>
                                     <th class="w-12 p-2 border-r border-gray-400">#</th>
@@ -78,12 +78,10 @@
                                     <th class="w-32 p-2 border-r border-gray-400">Released Date</th>
                                     <th class="w-24 p-2 border-r border-gray-400">Status</th>
                                     <th class="w-24 p-2">Actions</th>
-                                    
                                 </tr>
                             </thead>
                             <tbody class="bg-gray-200">
                                 <!-- Dynamic content will be injected here by DataTable -->
-                                 
                             </tbody>
                         </table>
                     </div>
@@ -97,13 +95,15 @@
                     <table id="categoryTable" class="min-w-full table-fixed bg-gray-200 text-black border border-gray-400">
                         <thead class="bg-gray-300 border-b border-gray-400">
                             <tr>
+                                <th class="w-12 p-2 border-r border-gray-400">#</th>
                                 <th class="w-40 p-2 border-r border-gray-400">Category Name</th>
                                 <th class="w-24 p-2">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="bg-gray-200">
-                            @foreach($categories as $category)
+                            @foreach($categories as $index => $category)
                                 <tr>
+                                    <td class="p-2 border-r border-gray-400">{{ $index + 1 }}</td>
                                     <td class="p-2 border-r border-gray-400">{{ $category->category_name }}</td>
                                     <td class="p-2">
                                         <button class="bg-red-500 text-white py-1 px-2 rounded delete-category" data-url="{{ route('category.delete', $category->category_id) }}">Delete</button>
@@ -122,13 +122,15 @@
                     <table id="brandTable" class="min-w-full table-fixed bg-gray-200 text-black border border-gray-400">
                         <thead class="bg-gray-300 border-b border-gray-400">
                             <tr>
+                                <th class="w-12 p-2 border-r border-gray-400">#</th>
                                 <th class="w-40 p-2 border-r border-gray-400">Brand Name</th>
                                 <th class="w-24 p-2">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="bg-gray-200">
-                            @foreach($brands as $brand)
+                            @foreach($brands as $index => $brand)
                                 <tr>
+                                    <td class="p-2 border-r border-gray-400">{{ $index + 1 }}</td>
                                     <td class="p-2 border-r border-gray-400">{{ $brand->brand_name }}</td>
                                     <td class="p-2">
                                         <button class="bg-red-500 text-white py-1 px-2 rounded delete-brand" data-url="{{ route('brand.delete', $brand->brand_id) }}">Delete</button>
@@ -139,136 +141,107 @@
                     </table>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <script src="{{ asset('js/confirmation.js') }}"></script>
-    <script>
-    $(document).ready(function() {
-        // Existing DataTable initialization for inventory
-        var table = $('#inventory').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: {
-                url: "{{ route('inventory.index') }}",
-                data: function(d) {
-                    d.category = $('#categoryFilter').val();
-                    d.brand = $('#brandFilter').val();
-                    d.status = $('#statusFilter').val();
-                }
-            },
-            columns: [
-                {
-                    data: null,
-                    orderable: false,
-                    render: function(data, type, row, meta) {
-                        return meta.row + meta.settings._iDisplayStart + 1;
-                    }
-                },
-                { data: 'product_name', name: 'product_name' },
-                { data: 'category_name', name: 'category_name' },
-                { data: 'brand_name', name: 'brand_name' },
-                { data: 'quantity', name: 'quantity' },
-                { data: 'released_date', name: 'released_date' },
-                { data: 'status', name: 'status' },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                },
-            ],
-            
-            rowCallback: function(row, data) {
-                if (data.quantity <= 4) {
-                    $(row).css('background-color', '#fff3cd'); // Light yellow
-                } 
-                if (data.quantity <= 1) {
-                    $(row).css('background-color', '#f8d7da'); // Light red
-                }
-            }
-        });
+            <script src="{{ asset('js/confirmation.js') }}"></script>
+            <script>
+            $(document).ready(function() {
+                var categoryTable = $('#categoryTable').DataTable({})
+                var brandTable = $('#brandTable').DataTable({})
 
-        $('#filterButton').on('click', function() {
-            table.ajax.reload(); // Reload the table with the new filter values
-        });
-
-        $('#resetButton').on('click', function() {
-            $('#categoryFilter').val('');
-            $('#brandFilter').val('');
-            $('#statusFilter').val('');
-            table.ajax.reload(); // Reload the table without filters
-        });
-
-        $('#inventory tbody').on('click', '.btn-primary', function(e) {
-            e.preventDefault();
-            var editUrl = $(this).attr('href');
-            if (confirm('Are you sure you want to edit this item?')) {
-                window.location.href = editUrl;
-            }
-        });
-
-        $('#inventory tbody').on('click', '.delete-btn', function() {
-            var deleteUrl = $(this).data('url');
-            if (confirm('Are you sure you want to delete this item?')) {
-                $.ajax({
-                    url: deleteUrl,
-                    type: 'DELETE',
-                    data: {
-                        _token: '{{ csrf_token() }}'
+                // Initialize DataTable for inventory
+                var inventoryTable = $('#inventory').DataTable({
+                    processing: true,
+                    serverSide: true ,
+                    ajax: {
+                        url: "{{ route('inventory.index') }}",
+                        data: function(d) {
+                            d.category = $('#categoryFilter').val();
+                            d.brand = $('#brandFilter').val();
+                            d.status = $('#statusFilter').val();
+                        }
                     },
-                    success: function(response) {
-                        alert('Item deleted successfully!');
-                        table.ajax.reload();
-                    },
-                    error: function(xhr) {
-                        console.log('Error deleting item: ' + (xhr.responseJSON.message || 'An unexpected error occurred.'));
+                    columns: [
+                        {
+                            data: null,
+                            orderable: false,
+                            render: function(data, type, row, meta) {
+                                return meta.row + meta.settings._iDisplayStart + 1;
+                            }
+                        },
+                        { data: 'product_name', name: 'product_name' },
+                        { data: 'category_name', name: 'category_name' },
+                        { data: 'brand_name', name: 'brand_name' },
+                        { data: 'quantity', name: 'quantity' },
+                        { data: 'released_date', name: 'released_date' },
+                        { data: 'status', name: 'status' },
+                        {
+                            data: 'action',
+                            name: 'action',
+                            orderable: false,
+                            searchable: false
+                        },
+                    ],
+                    rowCallback: function(row, data) {
+                        if (data.quantity == 0) {
+                            $(row).css('background-color', '#f8d7da'); // Light red
+                        } else if (data.quantity <= 3) {
+                            $(row).css('background-color', '#ffcc00'); // Change to a different warning color
+                        }
                     }
                 });
-            }
-        });
 
-        // Delete category
-        $('#categoryTable').on('click', '.delete-category', function() {
-            var deleteUrl = $(this).data('url');
-            if (confirm('Are you sure you want to delete this category?')) {
-                $.ajax({
-                    url: deleteUrl,
-                    type: 'DELETE',
-                    data: {
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        alert('Category deleted successfully!');
-                        location.reload(); // Reload the page to reflect changes
-                    },
-                    error: function(xhr) {
-                        console.log('Error deleting category: ' + (xhr.responseJSON.message || 'An unexpected error occurred.'));
+                $('#filterButton').on('click', function() {
+                    inventoryTable.ajax.reload(); // Reload the inventory table with the new filter values
+                });
+
+                $('#resetButton').on('click', function() {
+                    $('#categoryFilter').val('');
+                    $('#brandFilter').val('');
+                    $('#statusFilter').val('');
+                    inventoryTable.ajax.reload(); // Reload the inventory table without filters
+                });
+
+                // Delete category
+                $('#categoryTable').on('click', '.delete-category', function() {
+                    var deleteUrl = $(this).data('url');
+                    if (confirm('Are you sure you want to delete this category?')) {
+                        $.ajax({
+                            url: deleteUrl,
+                            type: 'DELETE',
+                            data: {
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function(response) {
+                                alert('Category deleted successfully!');
+                                location.reload(); // Reload the page to reflect changes
+                            },
+                            error: function(xhr) {
+                                console.log('Error deleting category: ' + (xhr.responseJSON.message || 'An unexpected error occurred.'));
+                            }
+                        });
                     }
                 });
-            }
-        });
 
-        // Delete brand
-        $('#brandTable').on('click', '.delete-brand', function() {
-            var deleteUrl = $(this).data('url');
-            if (confirm('Are you sure you want to delete this brand?')) {
-                $.ajax({
-                    url: deleteUrl,
-                    type: 'DELETE',
-                    data: {
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        alert('Brand deleted successfully!');
-                        location.reload(); // Reload the page to reflect changes
-                    },
-                    error: function(xhr) {
-                        console.log('Error deleting brand: ' + (xhr.responseJSON.message || 'An unexpected error occurred.'));
+                // Delete brand
+                $('#brandTable').on('click', '.delete-brand', function() {
+                    var deleteUrl = $(this).data('url');
+                    if (confirm('Are you sure you want to delete this brand?')) {
+                        $.ajax({
+                            url: deleteUrl,
+                            type: 'DELETE',
+                            data: {
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function(response) {
+                                alert('Brand deleted successfully!');
+                                location.reload(); // Reload the page to reflect changes
+                            },
+                            error: function(xhr) {
+                                console.log('Error deleting brand: ' + (xhr.responseJSON.message || 'An unexpected error occurred.'));
+                            }
+                        });
                     }
                 });
-            }
-        });
-    });
-    </script>
+            });
+            </script>
 </x-app-layout>

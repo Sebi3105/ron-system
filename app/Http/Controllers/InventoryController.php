@@ -52,7 +52,7 @@ class InventoryController extends Controller
                     $deleteUrl = route('inventory.delete', $row);
 
                     return '<div class="flex space-x-2 items-center justify-center">
-                            <a href="' . $viewUrl . '" class="bg-navy-blue text-white py-1 px-2 rounded">View Serials</a>
+                            <a href="' . $viewUrl . '" class="bg-navy-blue text-blue py-1 px-2 rounded">View Serials</a>
                             <a href="' . $editUrl . '" class="btn btn-sm btn-primary">Update</a>
                             <button data-url="' . $deleteUrl . '" class="btn btn-sm btn-danger delete-btn">Delete</button>
                             </div>';
