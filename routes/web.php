@@ -11,8 +11,6 @@ use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\SalesController;
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
