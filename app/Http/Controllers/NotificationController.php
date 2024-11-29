@@ -11,16 +11,17 @@ class NotificationController extends Controller
 {
  
     
-//     public function index(Request $request)
-// {
-//     if ($request->ajax()) {
-//         // Your existing AJAX code...
-//     }
+    public function index(Request $request)
+{
+    if ($request->ajax()) {
+        // Your existing AJAX code...
+    }
 
    
-//     $product = Inventory::all(); // Make sure to use a plural variable name
+    $product = Inventory::all(); // Make sure to use a plural variable name
+    $product = Inventory::orderBy('updated_at', 'desc')->paginate(5);
 
-//     return view("notification.index", compact('product'));
-// }
+    return view("notification.index", compact('product'));
+}
 
 }

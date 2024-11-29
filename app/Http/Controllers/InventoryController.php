@@ -118,7 +118,7 @@ class InventoryController extends Controller
             'category_id' => 'required|exists:category,category_id', // Ensure no trailing space
             'brand_id' => 'required|exists:brand,brand_id', // Ensure no trailing space
             'product_name' => 'required|string|max:255',
-            'quantity' => 'required|integer|min:1',
+            'quantity' => 'required|integer|min:0',
             'released_date' => 'required|date',
             'notes' => 'nullable|string',
         ]);

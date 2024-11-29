@@ -9,8 +9,11 @@ use App\Http\Controllers\TechReportController;
 use App\Http\Controllers\TechProfileController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\SalesController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 
 Route::get('/', function () {
@@ -71,6 +74,14 @@ Route::get('techreport/{techreport}/view', [TechReportController::class, 'view']
 // Route::get('/techreport', [TechReportController::class, 'index'])->name('techreport.index');
 // Route::get('techreport', [TechReportController::class, 'index'])->name('techreport.index');
 
+//sales routes
+Route::resource('sales',SalesController::class);
+Route::delete('/sales/{sale}/delete', [SalesController::class, 'destroy'])->name('sales.delete'); // Custom delete route
+Route::get('/sales/{id}', [SalesController::class, 'show'])->name('sales.show');
+Route::get('/sales/serials/{id}', [SalesController::class, 'getSerials'])->name('sales.serials');
+
+
+Route::resource('notification',NotificationController::class);
 Route::get('/notification', [NotificationController::class, 'index'])->name('notification.index');
 
 require __DIR__.'/auth.php';
