@@ -55,7 +55,7 @@
                 </li>
                 <!-- Customer -->
                 <li>
-                    <x-nav-link href="{{ route('customer.index') }}" class="text-black w-full px-4 py-2 hover:bg-sky-100 text-center">
+                    <x-nav-link href="{{ url('/customer') }}" class="text-black w-full px-4 py-2 hover:bg-sky-100 text-center">
                         {{ __('Customer') }}
                     </x-nav-link>
                 </li>

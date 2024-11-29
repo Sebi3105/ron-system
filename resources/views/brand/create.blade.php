@@ -9,7 +9,7 @@
         <div class="flex-1 md:ml-64 mt-16 md:mt-0 bg-gray-100 text-gray-800"> 
             <!-- Fixed Header -->
             <header class="bg-gray-200 py-3 px-3 fixed top-0 md:left-64 right-0 z-20 h-15 flex items-center justify-between text-black shadow-md">
-                <h1 class="text-lg font-bold">Brand List</h1>
+                <h1 class="text-lg font-bold">Insert a Brand</h1>
             </header>
              
             <!-- Back to Inventory Button -->
@@ -37,16 +37,17 @@
                 </div>
 
                 <form id="brandForm" method="post" action="{{ route('brand.store') }}">
-                @csrf
-                <div class="brand_name">
-                    <input type="text" id="brand_name" name="brand_name" placeholder="Brand Name" required />
-                </div>
+                    @csrf
+                    <div class="brand_name">
+                        <input type="text" id="brand_name" name="brand_name" placeholder="Brand Name" required />
+                    </div>
 
-                <div class="button-group">
-                    <input type="button" id="saveBrandButton" value="Save Brand" class="save-btn">
-                    <a href="{{ route('inventory.index') }}" class="exit-btn">Cancel</a>
-                </div>
-            </form>
+                    <div class="button-group">
+                        <input type="button" id="saveBrandButton" value="Save Brand" class="save-btn">
+                        <a href="{{ route('inventory.index') }}" class="exit-btn">Cancel</a>
+                    </div>
+                </form>
+            
 
     <!-- Confirmation Modal -->
     <div id="confirmationModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 hidden">
@@ -325,4 +326,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     </script>
-</x-app-layout>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Insert a Brand</h1>
+        <div class="error_checking">
+            @if($errors->any())
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            @endif
+        </div>
+
+        <form method="post" action="{{ route('brand.store') }}" onsubmit="return confirmAction('Are you sure you want to save this product?')">
+            @csrf
+            <div class="brand_name">
+                <input type="text" id="brand_name" name="brand_name" placeholder="Brand Name" required />
+            </div>
+
+            <div class="button-group">
+                <input type="submit" value="Save Brand">
+                <a href="{{ route('inventory.index') }}" class="exit-btn" onclick="return confirmAction('Are you sure you want to cancel this?')">Cancel</a>
+            </div>
+        </form>
+    </div>
+    
+</body>
+</html>

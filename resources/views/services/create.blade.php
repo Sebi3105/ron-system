@@ -117,9 +117,10 @@
         <form method="post" action="{{ route('service.store') }}" onsubmit="return confirmAction('Are you sure you want to save this product?')">
             @csrf
             <div>
-                <label for="service_name">Service Name</label>
-                <input type="text" id="service_name" name="service_name" placeholder="Service Name" required>
-            </div>
+    <label for="service_name">Service Name</label>
+    <input type="text" id="service_name" name="service_name" placeholder="Service Name" required pattern="[A-Za-z\s]+" title="Only letters and spaces are allowed" required>
+        </div>
+
 
             <div class="button-group">
                 <button type="submit">Save Service</button>

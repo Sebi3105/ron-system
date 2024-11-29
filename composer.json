@@ -8,9 +8,11 @@
         "php": "^8.2",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
-        "yajra/laravel-datatables": "11.0"
+        "yajra/laravel-datatables": "11.0",
+        "yajra/laravel-datatables-oracle": "^11.1"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "*",
         "fakerphp/faker": "^1.23",
         "laravel/breeze": "^2.2",
         "laravel/pail": "^1.1",

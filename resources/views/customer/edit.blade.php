@@ -5,82 +5,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Customer Info</title>
     <style>
-        /* Basic styling for layout */
         body {
             font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f7f7f7;
         }
+
         .form-container {
             background-color: #ffffff;
-            border-radius: 8px;
-            padding: 30px;
-            width: 600px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        h1 {
-            font-size: 1.2em;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 25px 40px;
+            max-width: 400px;
+            width: 100%;
             text-align: center;
+        }
+
+        h1 {
+            font-size: 22px;
+            color: #4A628A;
             margin-bottom: 20px;
-            color: #333;
-        }
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 15px;
-        }
-        .form-group label {
             font-weight: bold;
-            color: #555;
+        }
+
+        label {
+            display: block;
+            font-size: 16px;
+            color: #333;
             margin-bottom: 5px;
+            text-align: left;
         }
-        .form-group input[type="text"],
-        .form-group input[type="number"],
-        .form-group input[type="date"],
-        .form-group select {
-            padding: 10px;
-            border-radius: 4px;
+
+        input[type="text"], input[type="tel"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
             border: 1px solid #ccc;
-            font-size: 0.9em;
+            border-radius: 8px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
         }
-        .button-group, .back-group {
+
+        .button-group {
             display: flex;
             justify-content: space-between;
             margin-top: 20px;
         }
-        .button-group input[type="submit"],
-        .button-group .exit-btn {
-            padding: 10px;
-            border-radius: 4px;
-            border: none;
-            cursor: pointer;
-            color: #fff;
+
+        .button-group button,
+        .button-group .cancel-btn {
+            padding: 12px 0;
+            width: 48%;
+            border-radius: 8px;
             font-weight: bold;
-            text-align: center;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
             display: inline-block;
         }
-        .button-group input[type="submit"] {
-            background-color: #2c3e50;
-            width: 48%;
+
+        .button-group button {
+            background-color: #4A628A;
+            border: none;
         }
-        .button-group .exit-btn {
+
+        .button-group button:hover {
+            background-color: #3B4D6C;
+        }
+
+        .button-group .cancel-btn {
             background-color: #e74c3c;
-            text-decoration: none;
-            width: 45%;
+            border: none;
         }
+
+        .button-group .cancel-btn:hover {
+            background-color: #c0392b;
+        }
+
         .error_checking {
             color: red;
             font-size: 0.9em;
             margin-bottom: 10px;
+            text-align: left;
         }
     </style>
     <script>
@@ -111,7 +122,7 @@
             <div class="form-grid">
                 <div class="form-group">
                     <label for="name">Customer Name</label>
-                    <input type="text" name="name" id="name" placeholder="Customer Name" value="{{ old('name', $customer->name) }}" required>
+                    <input type="text" name="name" id="name" placeholder="Customer Name" value="{{ old('name', $customer->name) }}" required pattern="[A-Za-z\s]+" title="Only letters and spaces are allowed" required>
                 </div>
 
                 <div class="form-group">
@@ -119,16 +130,40 @@
                     <input type="text" name="address" id="address" placeholder="Customer Address" value="{{ old('address', $customer->address) }}" required>
                 </div>
 
-                <div class="form -group">
-                    <label>Contact Number</label>
-                    <input type="tel" name="contact_no" maxlength="10" inputmode="numeric" pattern="[0-9]{10}" placeholder="e.g., 9123424321" value="{{ old('contact_no', substr($customer->contact_no, 3)) }}" required />
-                    <small>Note: Enter only the last 10 digits (e.g., 9123424321)</small>
+                <div>
+                    <label for="contact_no">Contact Number</label>
+                    <div style="position: relative;">
+                        <span 
+                            style="position: absolute; 
+                                   top: 33%; 
+                                   left: 10px; 
+                                   transform: translateY(-50%); 
+                                   color: black; 
+                                   pointer-events: none; 
+                                   font-size: 15px;">
+                            +63
+                        </span>
+                        <input 
+                            type="tel" 
+                            id="contact_no" 
+                            name="contact_no" 
+                            maxlength="10" 
+                            inputmode="numeric" 
+                            pattern="[0-9]{10}" 
+                            placeholder="e.g., 9123424321" 
+                            title="Enter a valid 10-digit phone number" 
+                            style="padding-left: 40px;" 
+                            value="{{ old('contact_no', substr($customer->contact_no, 3)) }}"
+                            required
+                        />
+                    </div>
+                    <small style="font-size: 12px;">Note: Enter only the last 10 digits (e.g., 9123424321)</small>
                 </div>
-            </div>
 
-            <div class="button-group">
-                <input type="submit" value="Update Customer">
-                <a href="{{ route('customer.index') }}" class="exit-btn" onclick="return confirmAction('Are you sure you want to cancel this?')">Cancel</a>
+                <div class="button-group">
+                    <button type="submit" value="Update Customer">Save Changes</button>
+                    <a href="{{ route('customer.index') }}" class="cancel-btn" onclick="return confirmAction('Are you sure you want to cancel this?')">Cancel</a>
+                </div>
             </div>
         </form>
     </div>
