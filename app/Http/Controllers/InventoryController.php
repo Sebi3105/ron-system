@@ -41,6 +41,8 @@ class InventoryController extends Controller
 
                 $inventory->category_name = $inventory->category ? $inventory->category->category_name : 'N/A';
                 $inventory->brand_name = $inventory->brand ? $inventory->brand->brand_name : 'N/A'; 
+                $inventory->product_id = $inventory->quantity ?? 'N/A';
+                $inventory->product_id = $inventory->product_name ?? 'N/A';
                 return $inventory;
             });
 
@@ -69,8 +71,9 @@ class InventoryController extends Controller
 
     $categories = Category::all();
     $brands = Brand::all();
+    $product = Inventory::all();
 
-    return view("inventory.index", compact('categories', 'brands'));
+    return view("inventory.index", compact('categories', 'brands','product'));
 }
 
     public function create()
@@ -117,7 +120,7 @@ class InventoryController extends Controller
             'category_id' => 'required|exists:category,category_id', // Ensure no trailing space
             'brand_id' => 'required|exists:brand,brand_id', // Ensure no trailing space
             'product_name' => 'required|string|max:255',
-            'quantity' => 'required|integer|min:1',
+            'quantity' => 'required|integer|min:0',
             'released_date' => 'required|date',
             'notes' => 'nullable|string',
         ]);
@@ -144,4 +147,22 @@ class InventoryController extends Controller
         }
         return 'available';
     }
+
+
+    public function getnotif(Request $request)
+{
+    if ($request->ajax()) {
+        // Your existing AJAX code...
+    }
+
+    $categories = Category::all();
+    $brands = Brand::all();
+    $product = Inventory::all(); // Make sure to use a plural variable name
+
+    return view("inventory.index", compact('categories', 'brands', 'product'));
 }
+   
+    
+}
+
+

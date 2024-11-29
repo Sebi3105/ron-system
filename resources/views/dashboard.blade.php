@@ -4,6 +4,7 @@
         <div class="w-64 fixed top-0 left-0 z-10 h-screen">
             @include('layouts.navigation') 
         </div>
+        
 
         <!-- Main Content -->
         <div class="flex-1 ml-64 mt-0"> 

@@ -1,4 +1,37 @@
+
+ <!-- Notification Icon -->
+ <!-- @php
+ $product = App\Models\Inventory::all();
+ @endphp
+ <div class="fixed top-4 right-4">
+    <div class="relative">
+    
+        <button id="notificationButton" class="relative text-black bg-gray-200 hover:bg-gray-300 rounded-full p-3">
+            🔔
+            <span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {{ count($product->where('quantity', '<=', 4)) }}
+            </span>
+        </button>
+
+        <div id="notificationDropdown" class="hidden absolute right-0 mt-2 w-64 bg-white border border-gray-200 shadow-md rounded-lg">
+            <div class="p-4">
+                <h4 class="text-lg font-bold">Low Stock Alerts</h4>
+                <ul class="mt-2 space-y-2">
+                    @foreach($product as $index => $products)
+                        @if($products->quantity <= 4)
+                            <li class="text-sm">The stock for product {{ $products->product_name }} is running low. Only {{ $products->quantity }} left</li>
+                        @endif
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
 <nav class="bg-white border-r border-white h-screen w-64 fixed top-0 left-0">
+
+
     <div class="flex flex-col h-full">
         <!-- Logo -->
         <div class="shrink-0 p-4 flex justify-center">
@@ -24,6 +57,7 @@
             </div>
         </div>
 
+        
         <!-- Navigation Links -->
         <div class="flex-1 overflow-y-auto">
             <ul class="space-y-4 flex flex-col">
@@ -43,7 +77,7 @@
                 @endif
                 <!-- Notification -->
                 <li>
-                    <x-nav-link href="{{ url('/notifications') }}" class="text-black w-full px-4 py-2 hover:bg-sky-100 text-center">
+                    <x-nav-link href="{{ url('/notification') }}" class="text-black w-full px-4 py-2 hover:bg-sky-100 text-center">
                         {{ __('Notification') }}
                     </x-nav-link>
                 </li>
@@ -92,4 +126,26 @@
             </div>
         </div>
     </div>
+
 </nav>
+
+
+<!-- <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const notificationButton = document.getElementById('notificationButton');
+        const notificationDropdown = document.getElementById('notificationDropdown');
+
+        // Toggle dropdown
+        notificationButton.addEventListener('click', () => {
+            notificationDropdown.classList.toggle('hidden');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!notificationButton.contains(event.target) && !notificationDropdown.contains(event.target)) {
+                notificationDropdown.classList.add('hidden');
+            }
+        });
+    });
+    
+</script> -->

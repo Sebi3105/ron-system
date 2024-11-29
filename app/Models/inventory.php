@@ -40,4 +40,9 @@ class inventory extends Model
     {
         return $this->hasMany(InventoryItem::class, 'product_id', 'product_id');
     }
+
+    public function notification()
+    {
+        return $this->hasMany(Notification::class, 'product_id', 'product_id');
+    }
 }
