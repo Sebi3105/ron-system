@@ -41,6 +41,8 @@ class InventoryController extends Controller
 
                 $inventory->category_name = $inventory->category ? $inventory->category->category_name : 'N/A';
                 $inventory->brand_name = $inventory->brand ? $inventory->brand->brand_name : 'N/A'; 
+                $inventory->product_id = $inventory->quantity ?? 'N/A';
+                $inventory->product_id = $inventory->product_name ?? 'N/A';
                 return $inventory;
             });
 
@@ -67,8 +69,9 @@ class InventoryController extends Controller
 
     $categories = Category::all();
     $brands = Brand::all();
+    $product = Inventory::all();
 
-    return view("inventory.index", compact('categories', 'brands'));
+    return view("inventory.index", compact('categories', 'brands','product'));
 }
 
     public function create()
@@ -142,4 +145,22 @@ class InventoryController extends Controller
         }
         return 'available';
     }
+
+
+    public function getnotif(Request $request)
+{
+    if ($request->ajax()) {
+        // Your existing AJAX code...
+    }
+
+    $categories = Category::all();
+    $brands = Brand::all();
+    $product = Inventory::all(); // Make sure to use a plural variable name
+
+    return view("inventory.index", compact('categories', 'brands', 'product'));
 }
+   
+    
+}
+
+

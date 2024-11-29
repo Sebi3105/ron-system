@@ -9,6 +9,7 @@ use App\Http\Controllers\TechReportController;
 use App\Http\Controllers\TechProfileController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -30,7 +31,6 @@ Route::middleware('auth')->group(function () {
 Route::resource('brand', BrandController::class);
 Route::delete('brand/{brand}/delete', [BrandController::class, 'delete'])->name('brand.delete');
 
-
 Route::resource('customer',CustomerController::class);
 Route::delete('customer/{customer}/delete', [CustomerController::class, 'delete'])->name('customer.delete');
 
@@ -51,15 +51,14 @@ Route::delete('/inventoryitem/{inventoryitem}/delete', [InventoryitemController:
 Route::resource('service', ServicesController::class);
 // Route::delete('service/{service}/delete', [ServicesController::class, 'service'])->name('service.delete');
 Route::get('/service', [ServicesController::class, 'index'])->name('service.index');
-Route::delete('/service/{service}/delete', [ServicesController::class, 'delete'])->name('service.delete');
-
 Route::delete('/service/{service}', [ServicesController::class, 'delete'])->name('service.delete');
 
 
 //techprofile routes
 Route::resource('techprofile', TechProfileController::class);
 Route::get('/techprofile', [TechProfileController::class, 'index'])->name('techprofile.index');
-Route::delete('/techprofile/{techprofile}/delete', [TechProfileController::class, 'delete'])->name('techprofile.delete');
+Route::delete('/techprofile/{techprofile}', [TechProfileController::class, 'delete'])->name('techprofile.delete');
+Route::get('/techprofile', [TechProfileController::class, 'index'])->name('techprofile.index');
 
 //techreport routes
 
@@ -72,6 +71,6 @@ Route::get('techreport/{techreport}/view', [TechReportController::class, 'view']
 // Route::get('/techreport', [TechReportController::class, 'index'])->name('techreport.index');
 // Route::get('techreport', [TechReportController::class, 'index'])->name('techreport.index');
 
-
+Route::get('/notification', [NotificationController::class, 'index'])->name('notification.index');
 
 require __DIR__.'/auth.php';
