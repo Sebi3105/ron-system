@@ -16,7 +16,8 @@ export default {
             },
             colors: {
                 'navy-blue': '#4a628a',  
-                'custom-green': '#199945',      
+                'custom-green': '#199945',
+                'light-blue': 'f0f5fe',     
             },
         },
     },
