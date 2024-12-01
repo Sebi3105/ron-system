@@ -14,6 +14,30 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                // Custom navy-blue color
+                'navy-blue': '#3b5374',
+                // Optional: You can extend other colors for dark mode if necessary
+                'custom-green': '#199945',
+                'dark-bg': '#121212', 
+                'dark-text': '#e5e5e5', 
+            },
+
+            // Adding dark mode support
+            screens: {
+                'dark': {'raw': '(prefers-color-scheme: dark)'},
+            },
+
+            fontFamily: {
+                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+            },
+
+            // Optional: Customizing dark mode hover effects 
+            extend: {
+                colors: {
+                    'dark-hover': '#333', // Dark mode hover effect color
+                },
+            }
         },
     },
 

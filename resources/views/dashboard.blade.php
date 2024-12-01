@@ -1,18 +1,20 @@
 <x-app-layout>
     <div class="flex flex-col md:flex-row h-screen">
-        <!-- Sidebar (Navigation) -->
+        <!-- Sidebar (Navigation) -->   
         <div class="w-64 fixed top-0 left-0 z-10 h-screen">
             @include('layouts.navigation') 
         </div>
         
 
         <!-- Main Content -->
-        <div class="flex-1 ml-64 mt-0"> 
+        <div class="flex-1 ml-64 mt-0 bg-gray-200"> 
             <!-- Header -->
             <header class="bg-white py-4 px-8 fixed top-0 left-64 right-0 z-20 h-20 flex items-center justify-between">
+                <!-- You can add the header content here -->
             </header>
 
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24"> <!-- Adjusted mt to fit under header -->
+            <!-- Main Content Below Header -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20"> <!-- Added margin-top of 20 to avoid overlapping -->
                 <div class="relative">
                     <input type="text" class="border border-gray-300 rounded-md pl-10 pr-4 py-2 w-64" placeholder="Search...">
                     <span class="absolute left-3 top-2.5 text-gray-500">
@@ -45,7 +47,6 @@
                     <div class="bg-white shadow-lg rounded-md p-6 h-48 flex items-center justify-center">
                         <h3 class="text-xl font-semibold">/</h3>
                     </div>
-
                 </div>
             </div>
         </div>

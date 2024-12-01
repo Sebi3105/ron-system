@@ -1,115 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Brands</title>
-    <script>
-        function confirmAction(message) {
-            return confirm(message);
-        }
-    </script>
-    <style>
-        /* Center the form container */
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f5f5f5;
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
+<x-app-layout>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <div class="flex flex-col md:flex-row h-screen font-poppins">
+        <!-- Sidebar (Navigation) -->
+        <div class="w-full md:w-64 fixed top-0 left-0 z-10 h-screen bg-gray-900">
+            @include('layouts.navigation') 
+        </div>
 
-        /* Form container styling */
-        .form-container {
-            background-color: #ffffff;
-            padding: 20px 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            width: 100%;
-            text-align: center;
-        }
+        <!-- Main Content -->
+        <div class="flex-1 md:ml-64 mt-15 bg-gray-100 text-gray-800"> 
+            <!-- Fixed Header -->
+            <header class="bg-gray-200 py-3 px-3 fixed top-0 md:left-64 right-0 z-20 h-15 flex items-center justify-between text-black shadow-md">
+                <h1 class="text-lg font-bold">Brand List</h1>
+            </header>
 
-        /* Form header */
-        .form-container h1 {
-            font-size: 1.5em;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        /* Error checking list */
-        .error_checking ul {
-            color: red;
-            list-style-type: none;
-            padding: 0;
-            margin: 10px 0;
-        }
-
-        /* Label styling */
-        .form-container label {
-            display: block;
-            font-weight: bold;
-            margin-top: 10px;
-            text-align: left;
-        }
-
-        /* Input styling */
-        .form-container input[type="text"],
-        .form-container select {
-            width: 95%;
-            padding: 10px;
-            margin-top: 5px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 1em;
-        }
-
-        /* Button styling */
-        .button-group {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .button-group input[type="submit"],
-        .button-group button {
-            width: 48%;
-            padding: 10px;
-            font-size: 1em;
-            font-weight: bold;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-left: 1px;
-        }
-
-        /* Save button */
-        .button-group input[type="submit"] {
-            background-color: #4a628a;
-            color: white;
-        }
-
-        /* Cancel button */
-        .button-group button {
-            background-color: #d9534f;
-            color: white;
-        }
-
-        /* Hover effects */
-        .button-group input[type="submit"]:hover {
-            background-color: #4a628a;
-        }
-
-        .button-group button:hover {
-            background-color: #c9302c;
-        }
-    </style>
-</head>
-<body>
-    <div class="form-container">
-        <h1>Update Brand</h1>
+            <div class="flex justify-start mt-20 md:mt-24 px-4">
+            <a href="{{ route('brand.index') }}" class="back-btn flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5 mr-2">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l-7-7 7-7" />
+                    </svg>
+                    Back to Brand List
+                </a>
+            </div>
+        
+            <!-- Form Container -->
+            <div class="form-container mx-auto mt-24 md:mt-32">
+                <h1 class="font-bold" style="color: #4a628a;">UPDATE BRAND INFORMATION</h1>
+  
 
         <div class="error_checking">
             @if($errors->any())
@@ -121,14 +38,24 @@
             @endif
         </div>
 
+        
+    <script>
+        function confirmAction(message) {
+            return confirm(message);
+        }
+           // Automatically refresh layout adjustments on window resize
+           window.addEventListener('resize', function() {
+    location.reload(); // Automatic na magre-refresh ang page
+});
+
+    </script>
         <form method="post" action="{{ route('brand.update', ['brand' => $brand]) }}" 
               onsubmit="return confirmAction('Are you sure you want to save these changes?')">
             @csrf
             @method('put')
             
             <div class="brand_name">
-                <label for="brand_name">Brand Name</label>
-                <input type="text" id="brand_name" name="brand_name" placeholder="Enter Brand Name" value="{{ $brand->brand_name }}" required pattern="[A-Za-z\s]+" title="Only letters and spaces are allowed" required/>
+                <input type="text" id="brand_name" name="brand_name" placeholder="Enter Brand Name" value="{{ $brand->brand_name }}" />
             </div>
 
             <div class="button-group">
@@ -137,5 +64,123 @@
             </div>
         </form>
     </div>
-</body>
-</html>
+    <style>
+        /* Apply Poppins font */
+        body {
+            font-family: 'Poppins';
+        }
+        
+       
+        /* Form container styling */
+        .form-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            text-align: center;
+            margin: 2rem auto;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .fixed {
+                position: relative;
+                width: 100%;
+            }
+            header {
+                left: 0;
+                padding-left: 1rem;
+            }
+            .form-container {
+                margin-top: 16rem; /* Adjust for mobile header */
+            }
+        }
+
+        /* Form header */
+        .form-container h1 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #4a4a4a;
+        }
+
+        /* Error checking list */
+        .error_checking ul {
+            color: red;
+            list-style-type: none;
+            padding: 0;
+            margin: 10px 0;
+        }
+
+        /* Input styling */
+        .form-container input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        /* Button styling */
+        .button-group {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-direction: row;
+        }
+
+        .button-group input[type="submit"],
+        .button-group button {
+            flex: 1;
+            padding: 7px;
+            font-size: 1em;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+            text-align: center;
+        }
+
+        /* Save button */
+        .button-group input[type="submit"] {
+            background-color: #4a628a;
+        }
+
+        /* Cancel button */
+        .button-group button {
+            background-color: #d9534f;
+        }
+
+        /* Hover effects */
+        .button-group input[type="submit"]:hover {
+            background-color: #3b5374;
+        }
+
+        .button-group button:hover {
+            background-color: #c9302c;
+        }
+        .back-btn {
+            color: #3C3D37;
+            padding: 0.3rem 1.2rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 0.375rem;
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+            text-decoration: none;
+            margin-left: 2rem;
+                }
+        .back-btn:hover {
+             left: 0;
+        }
+        .back-btn svg {
+            transition: transform 0.2s ease;
+        }
+
+        .back-btn:hover svg {
+        transform: translateX(-5px); /* Move the arrow slightly */
+        }
+    </style>
+</x-app-layout>

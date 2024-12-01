@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        DB::statement('PRAGMA foreign_keys=ON;');
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
