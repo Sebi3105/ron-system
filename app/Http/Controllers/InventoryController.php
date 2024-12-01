@@ -41,8 +41,8 @@ class InventoryController extends Controller
 
                 $inventory->category_name = $inventory->category ? $inventory->category->category_name : 'N/A';
                 $inventory->brand_name = $inventory->brand ? $inventory->brand->brand_name : 'N/A'; 
-                $inventory->product_id = $inventory->quantity ?? 'N/A';
-                $inventory->product_id = $inventory->product_name ?? 'N/A';
+                $inventory->quantity = $inventory->quantity ?? 'N/A';
+                $inventory->product_name = $inventory->product_name ?? 'N/A';
                 return $inventory;
             });
 
