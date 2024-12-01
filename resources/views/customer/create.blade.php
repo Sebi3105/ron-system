@@ -10,7 +10,7 @@
         <div class="flex-1 md:ml-64 mt-15 bg-gray-100 text-gray-800">
             <!-- Fixed Header -->
             <header class="bg-gray-200 py-3 px-4 fixed top-0 md:left-64 right-0 z-20 flex items-center justify-between text-black shadow-md">
-                <h1 class="text-lg font-bold">Customer Information</h1>
+                <h1 class="text-lg font-bold">Add Customer</h1>
             </header>
 
             <div class="flex justify-start mt-20 md:mt-24 px-4">

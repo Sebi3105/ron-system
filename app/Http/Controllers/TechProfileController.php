@@ -85,6 +85,3 @@ class TechProfileController extends Controller
   
 
 }
-
-
-

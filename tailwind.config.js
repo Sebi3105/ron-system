@@ -11,11 +11,14 @@ export default {
 
     theme: {
         extend: {
+            fontFamily: {
+                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+            },
             colors: {
                 // Custom navy-blue color
-                'navy-blue': '#001f3d',
-
+                'navy-blue': '#3b5374',
                 // Optional: You can extend other colors for dark mode if necessary
+                'custom-green': '#199945',
                 'dark-bg': '#121212', 
                 'dark-text': '#e5e5e5', 
             },

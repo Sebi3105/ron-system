@@ -11,7 +11,7 @@
         <div class="flex-1 md:ml-48 lg:ml-64 mt-16 md:mt-0 bg-gray-100 text-gray-800">
             <!-- Fixed Header -->
             <header class="bg-gray-200 py-3 px-3 md:px-6 fixed top-0 md:left-48 lg:left-64 right-0 z-15 h-15 flex items-center justify-between text-black shadow-md">
-                <h1 class="text-lg font-bold">Add Product Information</h1>
+                <h1 class="text-lg font-bold">Add Product</h1>
             </header>
 
             <!-- Back to Inventory Button -->
@@ -27,7 +27,7 @@
 
             <!-- Form Container -->
             <div class="form-container mx-auto px-4">
-                <h1 class="text-lg font-bold text-center stitle">PRODUCT INFORMATION</h1>
+                <h1 class="text-lg font-bold text-center stitle">NEW PRODUCT INFORMATION</h1>
                 <form method="post" action="{{ route('inventory.store') }}" id="inventoryForm">
     @csrf
 

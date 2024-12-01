@@ -9,7 +9,7 @@
         <div class="flex-1 md:ml-64 mt-16 md:mt-0 bg-gray-100 text-gray-800"> 
             <!-- Fixed Header -->
             <header class="bg-gray-200 py-3 px-3 fixed top-0 md:left-64 right-0 z-20 h-15 flex items-center justify-between text-black shadow-md">
-                <h1 class="text-lg font-bold">Brand List</h1>
+                <h1 class="text-lg font-bold">Add Brand</h1>
             </header>
              
             <!-- Back to Inventory Button -->

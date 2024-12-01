@@ -7,118 +7,166 @@ use App\Models\TechProfile;
 use App\Models\Services;
 use App\Models\Inventoryitem;
 use App\Models\customer;
-use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Support\Facades\Log;
 
+use App\DataTables\TechReportDataTable;
+use Yajra\DataTables\Facades\DataTables;
 
 //nabago
 class TechReportController extends Controller
 {
-    public function index(Request $request)
-    {
-        if ($request->ajax()) {
-            try {
-                $data = TechReport::with(['TechProfile', 'customer', 'Inventoryitem', 'Services'])
-                    ->select('report_id', 'technician_id', 'customer_id', 'sku_id', 'service_id', 'date_of_completion', 'payment_type', 'payment_method', 'status', 'remarks', 'cost', 'created_at', 'updated_at')
-                    ->get()
-                    ->map(function ($techreport) {
-                        $techreport->remarks = $techreport->remarks ?? 'No remarks available';
-                        $techreport->created_at = $techreport->created_at ? $techreport->created_at->format('yy-m-d H:i:s') : 'N/A';
-                        $techreport->updated_at = $techreport->updated_at ? $techreport->updated_at->format('yy-m-d H:i:s') : 'N/A';
+    // public function index(Request $request)
+    // {
+    //     if ($request->ajax()) {
+    //         try {
+
+                
+    //             $data = TechReport::with(['TechProfile', 'customer', 'Inventoryitem', 'Services'])
+    //                 ->select('report_id', 'technician_id', 'customer_id', 'sku_id', 'service_id', 'date_of_completion', 'payment_type', 'payment_method', 'status', 'remarks', 'cost', 'created_at', 'updated_at')
+                   
+    //                 if ($request->has('paymenttype') && !empty($request->paymenttype)) {
+    //                     $data->where('payment_type', $request->paymenttype);
+    //                 }
+        
+    //                 if ($request->has('service') && !empty($request->service)) {
+    //                     $data->where('service_id', $request->service);
+    //                 }
+        
+    //                 if ($request->has('status') && !empty($request->status)) {
+    //                     $data->where('status', $request->status);
+    //                 }
+                    
+                    
+    //                 ->get()
+    //                 ->map(function ($techreport) {
+    //                     $techreport->remarks = $techreport->remarks ?? 'No remarks available';
+    //                     $techreport->created_at = $techreport->created_at ? $techreport->created_at->format('yy-m-d H:i:s') : 'N/A';
+    //                     $techreport->updated_at = $techreport->updated_at ? $techreport->updated_at->format('yy-m-d H:i:s') : 'N/A';
     
-                        // Use unique property names
-                        $techreport->technician_name = $techreport->TechProfile ? $techreport->TechProfile->name : 'N/A';
-                        $techreport->customer_name = $techreport->customer ? $techreport->customer->name : 'N/A';
-                        $techreport->serial_number = $techreport->Inventoryitem ? $techreport->Inventoryitem->serial_number : 'N/A';
-                        $techreport->product_id = $techreport->Inventoryitem ? $techreport->Inventoryitem->product_id : 'N/A';
-                        $techreport->service_name = $techreport->Services ? $techreport->Services->service_name : 'N/A';
+    //                     // Use unique property names
+    //                     $techreport->technician_name = $techreport->TechProfile ? $techreport->TechProfile->name : 'N/A';
+    //                     $techreport->customer_name = $techreport->customer ? $techreport->customer->name : 'N/A';
+    //                     $techreport->serial_number = $techreport->Inventoryitem ? $techreport->Inventoryitem->serial_number : 'N/A';
+    //                     $techreport->product_id = $techreport->Inventoryitem ? $techreport->Inventoryitem->product_id : 'N/A';
+    //                     $techreport->service_name = $techreport->Services ? $techreport->Services->service_name : 'N/A';
                         
-                        $techreport->product_name = $techreport->Inventoryitem && $techreport->Inventoryitem->inventory
-                        ? $techreport->Inventoryitem->inventory->product_name
-                        : 'N/A';
+    //                     $techreport->product_name = $techreport->Inventoryitem && $techreport->Inventoryitem->inventory
+    //                     ? $techreport->Inventoryitem->inventory->product_name
+    //                     : 'N/A';
                     
     
-                        return $techreport;
-                    });
+    //                     return $techreport;
+    //                 });
     
-                return DataTables::of($data)
-                    ->addIndexColumn()
-                    ->addColumn('action', function ($row) {
-                        $viewUrl = route('techreport.view', $row->report_id);
-                        $editUrl = route('techreport.edit', $row->report_id);
-                        $deleteUrl = route('techreport.delete', $row->report_id);
+    //             return DataTables::of($data)
+    //                 ->addIndexColumn()
+    //                 ->addColumn('action', function ($row) {
+    //                     $viewUrl = route('techreport.view', $row->report_id);
+    //                     $editUrl = route('techreport.edit', $row->report_id);
+    //                     $deleteUrl = route('techreport.delete', $row->report_id);
     
-                        return '
-                                <a href="' . $viewUrl . '" class="btn btn-sm btn-primary">View</a>
-                                <a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>
-                                <button data-url="' . $deleteUrl . '" class="btn btn-sm btn-danger delete-btn">Delete</button>';
-                    })
-                    ->rawColumns(['action'])
-                    ->make(true);
-            } catch (\Exception $e) {
-                Log::error('Error fetching techreport data: ' . $e->getMessage(), [
-                    'request_data' => $request->all(),
-                ]);
-                return response()->json(['error' => 'An error occurred while fetching techreport data.'], 500);
-            }   
-        }
+    //                     return '
+    //                             <a href="' . $viewUrl . '" class="btn btn-sm btn-primary">View</a>
+    //                             <a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>
+    //                             <button data-url="' . $deleteUrl . '" class="btn btn-sm btn-danger delete-btn">Delete</button>';
+    //                 })
+    //                 ->rawColumns(['action'])
+    //                 ->make(true);
+    //         } catch (\Exception $e) {
+    //             Log::error('Error fetching techreport data: ' . $e->getMessage(), [
+    //                 'request_data' => $request->all(),
+    //             ]);
+    //             return response()->json(['error' => 'An error occurred while fetching techreport data.'], 500);
+    //         }   
+    //     }
 
-        $techprofile =TechProfile::all();
-        $service =Services::all();
+    //     $techprofile =TechProfile::all();
+    //     $service =Services::all();
+    //     $paymenttype =TechReport::getPaymenttype(); //
 
-        return view("techreport.index", compact('techprofile','service'));
+    //     return view("techreport.index", compact('techprofile','service','paymenttype'));
     
         
+    // }
+    
+    public function index(Request $request)
+{
+    if ($request->ajax()) {
+        try {
+            // Build the query for TechReport with relationships
+            $data = TechReport::with(['TechProfile', 'customer', 'Inventoryitem', 'Services'])
+                ->select('report_id', 'technician_id', 'customer_id', 'sku_id', 'service_id', 'date_of_completion', 'payment_type', 'payment_method', 'status', 'remarks', 'cost', 'created_at', 'updated_at');
+            
+            // Apply filters based on request data
+            if ($request->has('paymenttype') && !empty($request->paymenttype)) {
+                $data->where('payment_type', $request->paymenttype);
+            }
+
+            if ($request->has('service') && !empty($request->service)) {
+                $data->where('service_id', $request->service);
+            }
+            
+            if ($request->has('status') && !empty($request->status)) {
+                $data->where('status', $request->status);
+            }
+            if ($request->has('paymentmethod') && !empty($request->paymentmethod)) {
+                $data->where('payment_method', $request->paymentmethod);
+            }
+            
+            // Fetch the data and map additional fields
+            $data = $data->get()->map(function ($techreport) {
+                // Set default values for missing fields
+                $techreport->remarks = $techreport->remarks ?? 'No remarks available';
+                $techreport->created_at = $techreport->created_at ? $techreport->created_at->format('yy-m-d H:i:s') : 'N/A';
+                $techreport->updated_at = $techreport->updated_at ? $techreport->updated_at->format('yy-m-d H:i:s') : 'N/A';
+                
+                // Adding related fields (make sure they exist)
+                $techreport->technician_name = $techreport->TechProfile ? $techreport->TechProfile->name : 'N/A';
+                $techreport->customer_name = $techreport->customer ? $techreport->customer->name : 'N/A';
+                $techreport->serial_number = $techreport->Inventoryitem ? $techreport->Inventoryitem->serial_number : 'N/A';
+                $techreport->product_id = $techreport->Inventoryitem ? $techreport->Inventoryitem->product_id : 'N/A';
+                $techreport->service_name = $techreport->Services ? $techreport->Services->service_name : 'N/A';
+                
+                // Add inventory product name if available
+                $techreport->product_name = $techreport->Inventoryitem && $techreport->Inventoryitem->inventory
+                    ? $techreport->Inventoryitem->inventory->product_name
+                    : 'N/A';
+
+                return $techreport;
+            });
+
+            // Return the data as a DataTables response
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $viewUrl = route('techreport.view', $row->report_id);
+                    $editUrl = route('techreport.edit', $row->report_id);
+                    $deleteUrl = route('techreport.delete', $row->report_id);
+
+                    // Return the action buttons
+                    return '
+                        <a href="' . $viewUrl . '" class="btn btn-sm btn-primary">View</a>
+                        <a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>
+                        <button data-url="' . $deleteUrl . '" class="btn btn-sm btn-danger delete-btn">Delete</button>';
+                })
+                ->rawColumns(['action'])  // Make action buttons render as HTML
+                ->make(true);
+        } catch (\Exception $e) {
+            // Log the error and return a generic error message
+            Log::error('Error fetching techreport data: ' . $e->getMessage(), [
+                'request_data' => $request->all(),
+            ]);
+            return response()->json(['error' => 'An error occurred while fetching techreport data.'], 500);
+        }
     }
-    
-    
-//     public function index(Request $request)
-// {
-//     if ($request->ajax()) {
-//         try {
-//             $data = TechReport::with(['TechProfile', 'customer', 'Inventoryitem', 'Services'])
-//                 ->select('report_id', 'technician_id', 'customer_id', 'sku_id', 'service_id', 'date_of_completion', 'payment_type', 'payment_method', 'status')
-//                 ->get()
-//                 ->map(function ($techreport) {
-//                     // Use unique property names
-//                     $techreport->technician_name = $techreport->TechProfile ? $techreport->TechProfile->name : 'N/A';
-//                     $techreport->customer_name = $techreport->customer ? $techreport->customer->name : 'N/A';
-//                     $techreport->serial_number = $techreport->Inventoryitem ? $techreport->Inventoryitem->serial_number : 'N/A';
-//                     $techreport->service_name = $techreport->Services ? $techreport->Services->service_name : 'N/A';
 
-//                     return $techreport;
-//                 });
+    // For non-AJAX requests (e.g., page load)
+    $techprofile = TechProfile::all();
+    $service = Services::all();
+    $paymenttype = TechReport::getPaymenttype(); // Get payment types
+    $paymentmethod =TechReport::getPaymentmethod(); 
 
-//             return DataTables::of($data)
-//                 ->addIndexColumn()
-//                 ->addColumn('action', function ($row) {
-//                     // Define URLs
-//                     $editUrl = route('techreport.edit', $row->report_id);
-//                     $deleteUrl = route('techreport.delete', $row->report_id);
-//                     $viewUrl = route('techreport.show', $row->report_id); // Assuming you want a "View" button.
-
-//                     return '<a href="' . $viewUrl . '" class="btn btn-sm btn-primary">View</a>
-//                             <a href="' . $editUrl . '" class="btn btn-sm btn-warning">Edit</a>
-//                             <button data-url="' . $deleteUrl . '" class="btn btn-sm btn-danger delete-btn">Delete</button>';
-//                 })
-//                 ->rawColumns(['action'])
-//                 ->make(true);
-//         } catch (\Exception $e) {
-//             Log::error('Error fetching techreport data: ' . $e->getMessage(), [
-//                 'request_data' => $request->all(),
-//             ]);
-//             return response()->json(['error' => 'An error occurred while fetching techreport data.'], 500);
-//         }
-//     }
-
-//     $techprofile = TechProfile::all();
-//     $service = Services::all();
-
-//     return view("techreport.index", compact('techprofile', 'service'));
-// }
-
-    
-
+    return view("techreport.index", compact('techprofile', 'service', 'paymenttype','paymentmethod'));
+}
 
 
 
