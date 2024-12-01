@@ -9,6 +9,7 @@ use App\Models\sales;
 use App\DataTables\InventoryDataTable;
 use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Validator;
 
 
 class InventoryitemController extends Controller
@@ -35,6 +36,18 @@ class InventoryitemController extends Controller
 
 public function store(Request $request)
 {
+    $validator = Validator::make($request->all(), [
+        'serial_number' => 'required|regex:/^[a-zA-Z0-9]+$/', // Only alphanumeric characters
+        'condition' => 'required',
+        // Add other validation rules as needed
+    ]);
+
+    if ($validator->fails()) {
+        return redirect()->back()
+            ->withErrors($validator)
+            ->withInput();
+    }
+
     $data = $request->validate([
         'product_id' => 'required|exists:inventory,product_id',
         'serial_number' => 'required|string|max:255|unique:inventory_item,serial_number',
@@ -69,7 +82,7 @@ public function store(Request $request)
         'serial_number' => $data['serial_number'],
         'condition' => $data['condition'],
     ]);
-
+    session()->flash('success', 'Serial created successfully!');
     return redirect()->route('inventoryitem.serials', ['product_id' => $data['product_id']])
                      ->with('success', 'Inventory item saved successfully!');
 }
@@ -117,54 +130,43 @@ public function store(Request $request)
     //     return view('inventory.serials', compact('inventoryitem'));
     // }
     
-    public function showSerials(Request $request, $product_id)
-    {
-        // Fetch the inventory item with its associated inventoryItems
-        $inventoryitem = Inventory::with('inventoryItems')->findOrFail($product_id);
-    
-        if ($request->ajax()) {
-            // Get sold serial numbers for the specific product, including soft-deleted ones
-            $soldSerialNumbers = Sales::where('product_id', $product_id)
-                ->whereNotNull('deleted_at') // Get only soft-deleted items
-                ->pluck('serial_number')
-                ->toArray();
-    
-            // Fetch available inventory items that are either sold (soft-deleted) or not sold
-            $data = InventoryItem::where('product_id', $product_id)
-                ->whereIn('sku_id', $soldSerialNumbers) // Include sold items (soft-deleted)
-                ->orWhere(function($query) use ($product_id) {
-                    $query->where('product_id', $product_id)
-                          ->whereNotIn('sku_id', function($subQuery) use ($product_id) {
-                              $subQuery->select('serial_number')
-                                        ->from('sales')
-                                        ->where('product_id', $product_id)
-                                        ->whereNotNull('deleted_at'); // Exclude sold items
-                          });
-                });
-    
-            // Apply status filter if provided
-            if ($request->has('status') && $request->status != '') {
-                $data->where('condition', $request->status); // Filter by condition (status)
-            }
-    
-            $data = $data->get();
-    
-            return DataTables::of($data)
-                ->addIndexColumn()  // Add an index column
-                ->addColumn('action', function ($row) {
-                    $deleteUrl = route('inventoryitem.delete', $row);  
-                    $editUrl = route('inventoryitem.edit', $row);
-    
-                    return '
-                        <a href="'.$editUrl.'" class="btn btn-sm btn-primary">Edit</a>
-                        <button data-url="'.$deleteUrl.'" class="btn btn-sm btn-danger delete-btn">Delete</button>';
-                })
-                ->rawColumns(['action'])  
-                ->make(true);  
+   public function showSerials(Request $request, $product_id)
+{
+    // Fetch the inventory item with its associated inventoryItems
+    $inventoryitem = Inventory::with('inventoryItems')->findOrFail($product_id);
+
+    if ($request->ajax()) {
+        // Get sold serial numbers for the specific product
+        $soldSerialNumbers = Sales::where('product_id', $product_id)
+            ->pluck('serial_number') // Get the serial numbers that have been sold
+            ->toArray();
+
+        // Fetch available inventory items that are not sold
+        $data = InventoryItem::where('product_id', $product_id)
+            ->whereNotIn('sku_id', $soldSerialNumbers) // Exclude sold items
+            ->get();
+
+        // Apply status filter if provided
+        if ($request->has('status') && $request->status != '') {
+            $data = $data->where('condition', $request->status); // Filter by condition (status)
         }
-    
-        // If it's not an AJAX request, simply return the view with the inventory item data
-        return view('inventory.serials', compact('inventoryitem', 'product_id'));
+
+        return DataTables::of($data)
+            ->addIndexColumn()  // Add an index column
+            ->addColumn('action', function ($row) {
+                $deleteUrl = route('inventoryitem.delete', $row);  
+                $editUrl = route('inventoryitem.edit', $row);
+
+                return '
+                    <a href="'.$editUrl.'" class="btn btn-sm btn-primary">Edit</a>
+                    <button data-url="'.$deleteUrl.'" class="btn btn-sm btn-danger delete-btn">Delete</button>';
+            })
+            ->rawColumns(['action'])  
+            ->make(true);  
     }
+
+    // If it's not an AJAX request, simply return the view with the inventory item data
+    return view('inventory.serials', compact('inventoryitem', 'product_id'));
+}
     
 }

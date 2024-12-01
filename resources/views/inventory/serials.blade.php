@@ -156,6 +156,15 @@
     </style>
 </head>
 <body>
+<div class="container">
+    <h1>Serials for {{ $inventoryitem->product_name }}</h1>
+
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <div class="container mx-auto p-4">
         <h1>Serial Numbers for {{ $inventoryitem->product_name }}</h1>
         <div class=" flex justify-between items-center mb-4 create_link">
@@ -214,7 +223,7 @@
 </div>
 
 <script>
-  $(document).ready(function() {
+ $(document).ready(function() {
     var table = $('#serials').DataTable({
         processing: true,
         serverSide: true,
@@ -262,13 +271,13 @@
                 type: 'DELETE',
                 data: {
                     _token: '{{ csrf_token() }}'
-                },
+ },
                 success: function(response) {
-                    alert('Item deleted successfully!');
-                    table.ajax.reload();
+                    table.ajax.reload(); // Reload the table after deletion
+                    alert(response.message); // Show success message
                 },
                 error: function(xhr) {
-                    console.log('Error deleting item:', xhr.responseText);
+                    alert('Error deleting item: ' + xhr.responseText); // Show error message
                 }
             });
         }

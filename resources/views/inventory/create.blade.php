@@ -23,6 +23,15 @@
                     Back to Inventory
                 </a>
             </div>
+            <div class="form-container">
+                <!-- Success Notification -->
+                <div class="success_pop mb-4">
+                    @if(session()->has('success'))
+                        <div class="bg-green-500 text-white p-2 rounded">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                </div>
 
             <!-- Form Container -->
             <div class="form-container">
@@ -60,26 +69,6 @@
                 <label for="quantity">Quantity</label>
                     <input type="number" name="quantity" placeholder="Quantity" required min="0">
                 </div>
-                    <div class="form-group">
-                        <label for="brand_id">Brand</label>
-                        <select name="brand_id" id="brand_id" required>
-                            <option value="" selected>Select a Brand</option>
-                            @foreach($brands as $brand)
-                                <option value="{{ $brand->brand_id }}">{{ $brand->brand_name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="price">Price</label>
-                            <input type="number" name="price" id="price" placeholder="Price" required min="0">
-                        </div>
-                        <div class="form-group">
-                            <label for="quantity">Quantity</label>
-                            <input type="number" name="quantity" placeholder="Quantity" required min="0">
-                        </div>
-                    </div>
 
                     <div class="form-group">
                         <label for="released_date">Date of Release</label>
@@ -310,14 +299,28 @@
     }
     </style>
 
-    <script>
-        function confirmAction(message) {
-            return confirm(message);
+javascript
+
+Verify
+
+Open In Editor
+Edit
+Copy code
+<script>
+    function confirmAction(message) {
+        if (confirm(message)) {
+            return true; // User confirmed, proceed with the form submission
+        } else {
+            window.location.href = "{{ route('inventory.index') }}"; // Redirect to inventory.index
+            return false; // Prevent form submission
         }
-           // Automatically refresh layout adjustments on window resize
-           window.addEventListener('resize', function() {
-    location.reload(); // Automatic na magre-refresh ang page
-});
+    }
+
+    // Automatically refresh layout adjustments on window resize
+    window.addEventListener('resize', function() {
+        location.reload(); // Automatic refresh of the page
+    });
+</script>
 
 
 

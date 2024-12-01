@@ -189,6 +189,27 @@
                         }
                     }
                 });
+                // Delete inventory item
+                        $('#inventory').on('click', '.delete-btn', function() {
+                            var deleteUrl = $(this).data('url');
+                            if (confirm('Are you sure you want to delete this product?')) {
+                                $.ajax({
+                                    url: deleteUrl,
+                                    type: 'DELETE',
+                                    data: {
+                                        _token: '{{ csrf_token() }}'
+                                    },
+                                    success: function(response) {
+                                        alert('Product deleted successfully!');
+                                        location.reload(); // Reload the page to reflect changes
+                                    },
+                                    error: function(xhr) {
+                                        console.log('Error deleting product: ', xhr.responseJSON);
+                                        alert('Error deleting product: ' + (xhr.responseJSON.message || 'An unexpected error occurred.'));
+                                    }
+                                });
+                            }
+                        });
 
                 $('#filterButton').on('click', function() {
                     inventoryTable.ajax.reload(); // Reload the inventory table with the new filter values

@@ -83,21 +83,26 @@ class InventoryController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $data = $request->validate([
-            'category_id' => 'required|exists:category,category_id',
-            'brand_id' => 'required|exists:brand,brand_id',
-            'product_name' => 'required|string|max:255',
-            'quantity' => 'required|integer|min:1',
-            'released_date' => 'required|date',
-            'notes' => 'nullable|string',
-        ]);
-        
-        $data['status'] = $this->getStatusBasedOnQuantity($data['quantity']);
-        Inventory::create($data);
+{
+    // Validate the request
+    $request->validate([
+        'product_name' => 'required|string|max:255',
+        'category_id' => 'required|integer',
+        'brand_id' => 'required|integer',
+        'quantity' => 'required|integer|min:0',
+        'released_date' => 'required|date',
+        'notes' => 'nullable|string|max:255',
+    ]);
 
-        return redirect(route('inventory.index'));
-    }
+    // Create the product
+    Inventory::create($request->all());
+
+    // Set a success message
+    session()->flash('success', 'Product created successfully!');
+
+    // Redirect back to the inventory index or any other route
+    return redirect()->route('inventory.index');
+}
 
     public function edit(Inventory $inventory)
     {

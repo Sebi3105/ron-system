@@ -295,6 +295,4 @@
     <script src="{{ asset('js/confirmation.js') }}"></script>
 </body>
 </html>
-    <script src="{{ asset('js/confirmation.js') }}"></script>
-</body>
-</html>
+   

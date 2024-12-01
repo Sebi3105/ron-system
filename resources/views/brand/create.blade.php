@@ -314,6 +314,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Cancel button in modal
     confirmCancelButton.addEventListener('click', function () {
         modal.classList.add('hidden');
+        window.location.href = "{{ route('inventory.index') }}"; // Redirect to inventory.index
     });
 
     // Confirm button in modal
