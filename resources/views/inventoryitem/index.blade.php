@@ -1,4 +1,5 @@
 <x-app-layout>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <div class="flex flex-col md:flex-row h-screen">
         <!-- Sidebar (Navigation) -->
         <div class="w-64 fixed top-0 left-0 z-10 h-screen bg-gray-900">
@@ -24,7 +25,7 @@
 
             <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins';
             background-color: #f3f3f3;
             margin: 0;
         }
@@ -176,7 +177,7 @@
                     data: null,
                     orderable: false,
                     render: function(data, type, row, meta) {
-                        return meta.row + meta.settings._iDisplayStart + 1; // index number increment
+                        return meta.row + meta.settings._iDisplayStart + 1; 
                     }
                 },
                 {data: 'sku_id', name: 'sku_id'},

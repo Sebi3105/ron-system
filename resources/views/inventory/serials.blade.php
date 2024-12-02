@@ -66,7 +66,7 @@
                         .table {
                             width: 100%;
                             color: #4a5568;
-                            border-radius: 8px;
+                            border-radius: 3px;
                             overflow: hidden;
                             border-collapse: collapse;
                         }
@@ -174,7 +174,7 @@
                             padding: 0.6rem 1.2rem;
                             font-size: 0.9rem;
                             font-weight: bold;
-                            border-radius: 0.375rem;
+                            border-radius: 3px;
                             transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
                             text-decoration: none;
                             
@@ -214,7 +214,7 @@
                             color: #fff;
                             padding: 7px 10px;
                             border: none;
-                            border-radius: 5px;
+                            border-radius: 3px;
                             cursor: pointer;
                             transition: background-color 0.3s;
                             background-color: #1A9945;
@@ -230,7 +230,7 @@
                             color: #fff;
                             padding: 5px 10px;
                             border: none;
-                            border-radius: 5px;
+                            border-radius: 3px;
                             cursor: pointer;
                             transition: background-color 0.3s;
                         }
@@ -244,6 +244,125 @@
                             margin: 1rem auto;
                             color: #4A628A;
                         }
+
+                        #editConfirmationModal {
+        z-index: 50;
+        backdrop-filter: blur(5px); 
+        animation: fadeInBackdrop 0.4s ease-out;
+    }
+
+    @keyframes fadeInBackdrop {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    /* Modal Style */
+    #editConfirmationModal .bg-white {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        animation: modalEntry 0.4s ease-out;
+    }
+
+    @keyframes modalEntry {
+        from {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    /* Header with Green Gradient */
+    #editConfirmationModal h2 {
+        font-size: 22px;
+        font-weight: bold;
+        background: linear-gradient(90deg, #4CAF50, #2E7D32);
+        color: #fff;
+        text-align: center;
+        padding: 12px;
+        margin: 0;
+    }
+
+    /* Modal Text */
+    #editConfirmationModal p {
+        font-size: 15px;
+        color: #4B5563;
+        text-align: center;
+        margin: 16px 0 24px;
+        line-height: 1.6;
+    }
+
+    /* Buttons */
+    #editConfirmationModal button {
+        border: none;
+        padding: 12px 20px;
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 3px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+    }
+
+    #editConfirmationModal button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    #editconfirmCancel {
+        background-color: #E5E7EB;
+        color: #374151;
+    }
+
+    #editconfirmCancel:hover {
+        background-color: #D1D5DB;
+    }
+
+    #editconfirmSubmit {
+        background: linear-gradient(90deg, #4CAF50, #2E7D32);
+        color: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    #editconfirmSubmit:hover {
+        background: linear-gradient(90deg, #2E7D32, #1B5E20);
+    }
+
+    /* Icons */
+    #editConfirmationModal button svg {
+        height: 18px;
+        width: 18px;
+    }
+    #editConfirmationModal .flex {
+    justify-content: center; 
+    gap: 16px;
+    padding: 12px 0;
+}
+
+/* Buttons */
+#editConfirmationModal button {
+    border: none;
+    padding: 8px 20px; 
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 3px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
         /* Backdrop */
         #confirmationModal {
             z-index: 50;
@@ -312,10 +431,10 @@
         /* Buttons */
         #confirmationModal button {
             border: none;
-            padding: 12px 20px;
+            padding: 8px 20px;
             font-size: 14px;
             font-weight: bold;
-            border-radius: 8px;
+            border-radius: 3px;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
@@ -381,7 +500,7 @@
                 <!-- Product Details in a single column -->
                 <div class="bg-white border border-gray-300 p-4 rounded shadow-md">
                     <h2 class="text-lg font-semibold mb-2">Product Details</h2>
-                    <table class="min-w-full">
+                    <table id="Serials" class="min-w-full">
                         <tbody>
                             <tr>
                                 <td class="py-2 px-4 border-b font-bold">Product ID:</td>
@@ -423,7 +542,7 @@
             <div id="confirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
             <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
                 <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-red-500 to-red-700 p-4 rounded-t-lg">
-                    Confirm Delete
+                    Confirmation
                 </h2>
                 <p class="text-gray-700 text-center mb-6">
                     Are you sure you want to delete this item? 
@@ -439,8 +558,24 @@
             </div>
         </div>
 
-
-
+        <div id="editConfirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
+    <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
+        <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-blue-500 to-blue-700 p-4 rounded-t-lg">
+            Confirmation
+        </h2>
+        <p class="text-gray-700 text-center mb-6">
+            Are you sure you want to edit this item?
+        </p>
+        <div class="flex justify-center gap-4">
+            <button id="editcancelEdit" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-200 transition">
+                Cancel
+            </button>
+            <button id="editconfirmEdit" class="px-6 py-3 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-md hover:from-green-600 hover:to-green-800 transition">
+                Confirm
+            </button>
+        </div>
+    </div>
+</div>
             <script>
                     let table; // Declare the table variable globally
         $(document).ready(function () {
@@ -511,6 +646,8 @@
                 });
             });
         });
+
+        
         $('#confirmDelete').on('click', function () {
             $.ajax({
                 url: deleteUrl,
@@ -526,6 +663,34 @@
             });
         });
 
+      // Handle .btn-primary clicks
+      $(document).ready(function () {
+    // Event delegation for dynamically added `.btn-primary` buttons
+    $('#serials tbody').on('click', '.btn-primary', function (e) {
+        e.preventDefault();
+        var editUrl = $(this).attr('href');
+
+        // Show the confirmation modal
+        $('#editConfirmationModal').removeClass('hidden');
+
+        // Store the editUrl temporarily
+        $('#editconfirmEdit').data('edit-url', editUrl);
+    });
+
+    // Handle confirmation
+    $('#editconfirmEdit').on('click', function () {
+        var editUrl = $(this).data('edit-url');
+        if (editUrl) {
+            window.location.href = editUrl;
+        }
+        $('#editConfirmationModal').addClass('hidden');
+    });
+
+    // Handle cancellation
+    $('#editcancelEdit').on('click', function () {
+        $('#editConfirmationModal').addClass('hidden');
+    });
+});
 
 
                     </script>

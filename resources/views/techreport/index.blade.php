@@ -1,8 +1,10 @@
 <!--nabago -->
 <x-app-layout>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+
 
     <div class="flex flex-col md:flex-row h-screen  bg-gray-200 min-w-full">
         <div class="flex-1 ml-64 mt-0 min-h-screen bg-gray-200">
@@ -147,8 +149,9 @@
                       <td class="p-2 text-center bg-gray-100 border-b border-gray-300">{{ $technician->name }}</td>
                       <td class="p-2 text-center bg-gray-100 border-b border-gray-300">{{ $technician->contact_no ? '+63 ' . $technician->contact_no : 'N/A' }}</td>
                       <td class="p-2 flex bg-gray-100 items-center justify-center border-b border-gray-300">
-                        <button class="bg-navy-blue text-white py-1 px-2 rounded edit-techprofile" data-url="{{ route('techprofile.edit', $technician) }}">Edit</button>
-                        <button class="bg-red-500 text-white py-1 px-2 rounded delete-techprofile" data-url="{{ route('techprofile.delete', $technician->technician_id) }}">Delete</button>
+                      <button id="editButton" class="bg-navy-blue text-white py-1 px-2 rounded edit-techprofile" data-url="{{ route('techprofile.edit', $technician) }}">Edit</button>
+<button class="bg-red-500 text-white py-1 px-2 rounded delete-techprofile" data-url="{{ route('techprofile.delete', $technician->technician_id) }}">Delete</button>
+
                       </td>
                     </tr>
                   @endforeach
@@ -180,6 +183,48 @@
     </div>    
 </div>           
                          
+        <!-- Confirmation Modal -->
+        <div id="confirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
+            <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
+                <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-red-500 to-red-700 p-4 rounded-t-lg">
+                    Confirm Delete
+                </h2>
+                <p class="text-gray-700 text-center mb-6">
+                    Are you sure you want to delete this item? 
+                </p>
+                <div class="flex justify-center gap-4">
+                    <button id="cancelDelete" class="px-6 py-3 bg-gray-400 text-white rounded-md hover:bg-gray-500 transition">
+                        Cancel
+                    </button>
+                    <button id="confirmDelete" class="px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-md hover:from-red-600 hover:to-red-800 transition">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Edit Confirmation Modal -->
+<div id="editConfirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
+    <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
+        <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-blue-500 to-blue-700 p-4 rounded-t-lg">
+            Confirm Edit
+        </h2>
+        <p class="text-gray-700 text-center mb-6">
+            Are you sure you want to edit this item?
+        </p>
+        <div class="flex justify-center gap-4">
+            <button id="editcancelEdit" class="px-6 py-3 bg-gray-400 text-white rounded-md hover:bg-gray-500 transition">
+                Cancel
+            </button>
+            <button id="editconfirmEdit" class="px-6 py-3 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-md hover:from-green-600 hover:to-green-800 transition">
+                Confirm
+            </button>
+        </div>
+    </div>
+</div>
 
 <script src="{{ asset('js/confirmation.js') }}"></script>
 <script>
@@ -289,84 +334,376 @@
         $('#filterDropdown').addClass('hidden'); // Hide the dropdown after resetting
     });
 
-    $('#techreport tbody').on('click', '.btn-primary', function(e) {
-        e.preventDefault();
-        var editUrl = $(this).attr('href');
-        if (confirm('Are you sure you want to edit this item?')) {
-            window.location.href = editUrl;
-        }
-    });
+    document.addEventListener('DOMContentLoaded', function () {
+      const editConfirmationModal = document.getElementById('editConfirmationModal');
+      const cancelEditButton = document.getElementById('editcancelEdit');
+      const confirmEditButton = document.getElementById('editconfirmEdit');
+      const editButtons = document.querySelectorAll('.edit-techprofile');
+      let currentEditUrl = null; // To store the URL for the current edit
+
+      // Show the modal when Edit button is clicked
+      editButtons.forEach(button => {
+          button.addEventListener('click', function (event) {
+              event.preventDefault(); // Prevent the default action
+              currentEditUrl = button.getAttribute('data-url'); // Get the edit URL from data-url attribute
+              editConfirmationModal.classList.remove('hidden'); // Show the modal
+          });
+      });
+
+      // Cancel Edit action
+      cancelEditButton.addEventListener('click', function () {
+          editConfirmationModal.classList.add('hidden'); // Close the modal
+      });
+
+      // Confirm Edit action
+      confirmEditButton.addEventListener('click', function () {
+          if (currentEditUrl) {
+              window.location.href = currentEditUrl; // Redirect to the edit URL
+          }
+      });
+  });
 
     $('#techreport tbody').on('click', '.delete-btn', function() {
-        var deleteUrl = $(this).data('url');
-        if (confirm('Are you sure you want to delete this item?')) {
-            $.ajax({
-                url: deleteUrl,
-                type: 'DELETE',
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    alert('Item deleted successfully!');
-                    table.ajax.reload();
-                },
-                error: function(xhr) {
-                    console.log('Error deleting item: ' + (xhr.responseJSON.message || 'An unexpected error occurred.'));
-                }
-            });
-        }
+    var deleteUrl = $(this).data('url');
+    // Show the confirmation modal
+    $('#confirmationModal').removeClass('hidden');
+
+    // Cancel the delete operation
+    $('#cancelDelete').on('click', function() {
+        $('#confirmationModal').addClass('hidden');
     });
+
+    // Confirm the delete operation
+    $('#confirmDelete').on('click', function() {
+        $.ajax({
+            url: deleteUrl,
+            type: 'DELETE',
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                alert('Item deleted successfully!');
+                // Reload the DataTable
+                $('#techreport').DataTable().ajax.reload();
+            },
+            error: function(xhr) {
+                console.log('Error deleting item: ' + (xhr.responseJSON.message || 'An unexpected error occurred.'));
+            },
+            complete: function() {
+                $('#confirmationModal').addClass('hidden');
+            }
+        });
+    });
+});
+
 
     $('#techprofile').on('click', '.edit-techprofile', function() {
     var editUrl = $(this).data('url');
     window.location.href = editUrl; // Redirect to the edit page
     });
     
-    // Delete category
     $('#techprofile').on('click', '.delete-techprofile', function() {
-        var deleteUrl = $(this).data('url');
-        if (confirm('Are you sure you want to delete this category?')) {
-            $.ajax({
-                url: deleteUrl,
-                type: 'DELETE',
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    alert('Technician deleted successfully!');
-                    location.reload(); // Reload the page to reflect changes
-                },
-                error: function(xhr) {
-                    console.log('Error deleting technician: ' + (xhr.responseJSON.message || 'An unexpected error occurred.'));
-                }
-            });
-        }
+    var deleteUrl = $(this).data('url');
+    // Show the confirmation modal
+    $('#confirmationModal').removeClass('hidden');
+
+    // Cancel the delete operation
+    $('#cancelDelete').on('click', function() {
+        $('#confirmationModal').addClass('hidden');
     });
 
-    // Delete Services
-    $('#services').on('click', '.delete-services', function() {
-        var deleteUrl = $(this).data('url');
-        if (confirm('Are you sure you want to delete this brand?')) {
-            $.ajax({
-                url: deleteUrl,
-                type: 'DELETE',
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    alert('Service deleted successfully!');
-                    location.reload(); // Reload the page to reflect changes
-                },
-                error: function(xhr) {
-                    console.log('Error deleting service: ' + (xhr.responseJSON.message || 'An unexpected error occurred.'));
-                }
-            });
-        }
+    // Confirm the delete operation
+    $('#confirmDelete').on('click', function() {
+        $.ajax({
+            url: deleteUrl,
+            type: 'DELETE',
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                alert('Technician deleted successfully!');
+                location.reload(); // Reload the page to reflect changes
+            },
+            error: function(xhr) {
+                console.log('Error deleting technician: ' + (xhr.responseJSON.message || 'An unexpected error occurred.'));
+            },
+            complete: function() {
+                $('#confirmationModal').addClass('hidden');
+            }
+        });
     });
 });
 
 
-</script>
+    // Delete Services
+    $('#services').on('click', '.delete-services', function() {
+    var deleteUrl = $(this).data('url');
+    // Show the confirmation modal
+    $('#confirmationModal').removeClass('hidden');
 
+    // Cancel the delete operation
+    $('#cancelDelete').on('click', function() {
+        $('#confirmationModal').addClass('hidden');
+    });
+
+    // Confirm the delete operation
+    $('#confirmDelete').on('click', function() {
+        $.ajax({
+            url: deleteUrl,
+            type: 'DELETE',
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                alert('Service deleted successfully!');
+                location.reload(); // Reload the page to reflect changes
+            },
+            error: function(xhr) {
+                console.log('Error deleting service: ' + (xhr.responseJSON.message || 'An unexpected error occurred.'));
+            },
+            complete: function() {
+                $('#confirmationModal').addClass('hidden');
+            }
+        });
+    });
+});
+
+});
+
+
+</script>
+<style>
+
+    body{
+        font-family: 'Poppins';
+        background-size: cover;
+    background-color: #E5E7EB;
+    }
+
+    #editConfirmationModal .bg-white {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        animation: modalEntry 0.4s ease-out;
+    }
+
+    @keyframes modalEntry {
+        from {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    /* Header with Green Gradient */
+    #editConfirmationModal h2 {
+        font-size: 22px;
+        font-weight: bold;
+        background: linear-gradient(90deg, #4CAF50, #2E7D32);
+        color: #fff;
+        text-align: center;
+        padding: 12px;
+        margin: 0;
+    }
+
+    /* Modal Text */
+    #editConfirmationModal p {
+        font-size: 15px;
+        color: #4B5563;
+        text-align: center;
+        margin: 16px 0 24px;
+        line-height: 1.6;
+    }
+
+    /* Buttons */
+    #editConfirmationModal button {
+        border: none;
+        padding: 12px 20px;
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 3px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+    }
+
+    #editConfirmationModal button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    #editconfirmCancel {
+        background-color: #E5E7EB;
+        color: #374151;
+    }
+
+    #editconfirmCancel:hover {
+        background-color: #D1D5DB;
+    }
+
+    #editconfirmSubmit {
+        background: linear-gradient(90deg, #4CAF50, #2E7D32);
+        color: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    #editconfirmSubmit:hover {
+        background: linear-gradient(90deg, #2E7D32, #1B5E20);
+    }
+
+    /* Icons */
+    #editConfirmationModal button svg {
+        height: 18px;
+        width: 18px;
+    }
+    #editConfirmationModal .flex {
+    justify-content: center; 
+    gap: 16px;
+    padding: 12px 0;
+}
+
+/* Buttons */
+#editConfirmationModal button {
+    border: none;
+    padding: 10px 20px; 
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+
+                            #confirmationModal {
+            z-index: 50;
+            backdrop-filter: blur(5px);
+            animation: fadeInBackdrop 0.4s ease-out;
+        }
+
+        @keyframes fadeInBackdrop {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        #confirmationModal .bg-white {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            animation: modalEntry 0.4s ease-out;
+            width: 100%;
+            max-width: 400px; /* Limit the maximum width */
+            margin: 0 auto; /* Center it horizontally */
+        }
+
+
+        @keyframes modalEntry {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Header with Red Gradient */
+        /* Modal Header */
+        #confirmationModal h2 {
+            font-size: 18px; /* Slightly smaller font for better fit */
+            font-weight: bold;
+            background: linear-gradient(90deg, #FF4C4C, #C62828);
+            color: #fff;
+            text-align: center;
+            padding: 12px;
+            margin: 0;
+        }
+
+        /* Modal Content */
+        #confirmationModal p {
+            font-size: 16px; /* Adjust text size for better fit */
+            color: #4B5563;
+            text-align: center;
+            margin: 20px 0;
+            line-height: 1.4;
+        }
+
+        /* Buttons */
+        #confirmationModal .flex {
+            justify-content: center;
+            gap: 12px; /* Reduce button spacing */
+            padding: 0; /* Remove extra padding */
+        }
+        /* Buttons */
+        #confirmationModal button {
+            border: none;
+            padding: 8px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 3px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        #confirmationModal button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Cancel Button */
+        #cancelDelete {
+            background-color: #E5E7EB;
+            color: #374151;
+        }
+
+        #cancelDelete:hover {
+            background-color: #D1D5DB;
+        }
+
+        /* Delete Button with Red Gradient */
+        #confirmDelete {
+            background: linear-gradient(90deg, #FF4C4C, #C62828);
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        #confirmDelete:hover {
+            background: linear-gradient(90deg, #C62828, #B71C1C);
+        }
+
+        #editConfirmationModal {
+        z-index: 50;
+        backdrop-filter: blur(5px); 
+        animation: fadeInBackdrop 0.4s ease-out;
+    }
+
+    @keyframes fadeInBackdrop {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    </style>
                         
 </x-app-layout>
