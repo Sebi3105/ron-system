@@ -202,7 +202,7 @@
         padding: 12px 20px;
         font-size: 14px;
         font-weight: bold;
-        border-radius: 8px;
+        border-radius: 3px;
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -252,7 +252,7 @@
     padding: 10px 20px; 
     font-size: 14px;
     font-weight: bold;
-    border-radius: 8px;
+    border-radius: 3px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -438,7 +438,7 @@
 <div id="confirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
     <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
         <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-red-500 to-red-700 p-4 rounded-t-lg">
-            Confirm Delete
+            Confirmation
         </h2>
         <p id="modalMessage" class="text-gray-700 text-center mb-6">
             Are you sure you want to delete this item?
@@ -457,13 +457,13 @@
 <div id="editConfirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
     <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
         <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-blue-500 to-blue-700 p-4 rounded-t-lg">
-            Confirm Edit
+            Confirmation
         </h2>
         <p class="text-gray-700 text-center mb-6">
             Are you sure you want to edit this item?
         </p>
         <div class="flex justify-center gap-4">
-            <button id="editcancelEdit" class="px-6 py-3 bg-gray-400 text-white rounded-md hover:bg-gray-500 transition">
+            <button id="editcancelEdit" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-200 transition">
                 Cancel
             </button>
             <button id="editconfirmEdit" class="px-6 py-3 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-md hover:from-green-600 hover:to-green-800 transition">
@@ -515,7 +515,7 @@
                     return `
                 <div class="flex space-x-2 items-center justify-center">
                     <a href="/inventory/${row.product_id}/serials" class="bg-navy-blue text-white py-1 px-2 rounded">View Serials</a>
-                    <a href="/inventory/${row.product_id}/edit" class="bg-custom-green text-white py-1 px-2 rounded">Edit</a>
+                    <a href="/inventory/${row.product_id}/edit" class="bg-custom-green text-white py-1 px-2 rounded btn-primary">Edit</a>
                     <button class="bg-red-500 text-white py-1 px-2 rounded delete-btn" data-url="/inventory/${row.product_id}">Delete</button>
                 </div>
             `;
