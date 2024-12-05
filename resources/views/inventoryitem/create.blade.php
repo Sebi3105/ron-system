@@ -54,8 +54,8 @@
                     </div>
 
                     <div class="button-group flex justify-between gap-4">
-                        <button id="saveProductButton" type="button" class="px-6 py-2 bg-blue-500 text-white font-semibold rounded-md cursor-pointer hover:bg-blue-600">Save Product</button>
-                        <a href="{{ route('inventory.index') }}" class="exit-btn px-6 py-2 bg-red-500 text-white font-semibold rounded-md cursor-pointer hover:bg-red-600" onclick="return confirm('Are you sure you want to cancel this?')">Cancel</a>
+                    <button id="saveProductButton" type="button" class="px-6 py-2 bg-blue-500 text-white font-semibold rounded-md cursor-pointer hover:bg-blue-600">Save Product</button>
+                    <a href="{{ route('inventory.index') }}" class="exit-btn px-6 py-2 bg-red-500 text-white font-semibold rounded-md cursor-pointer hover:bg-red-600" id="cancelActionButton">Cancel</a>
                     </div>
                 </form>
             </div>
@@ -74,6 +74,27 @@
         </div>
     </div>
 
+    <div id="cancelModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
+    <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
+        <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-yellow-500 to-yellow-700 p-4 rounded-t-lg">
+            Confirmation
+        </h2>
+        <p class="text-gray-700 text-center mb-6">
+            Are you sure you want to cancel?
+        </p>
+        <div class="flex justify-center gap-4">
+            <button id="cancelModalClose" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-200 transition">
+                Cancel
+            </button>
+            <a href="{{ route('inventory.index') }}" id="saveconfirmCancel" class="px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-md hover:from-red-600 hover:to-red-800 transition">
+                Confirm
+            </a>
+        </div>
+    </div>
+</div>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
         /* Select Styling */
         select {
@@ -81,7 +102,7 @@
             padding: 10px;
             font-size: 14px;
             border: 1px solid #ccc;
-            border-radius: 8px;
+            border-radius: 3px;
             background-color: #f9f9f9;
             transition: border-color 0.3s ease;
             margin-top: 5px;
@@ -94,7 +115,7 @@
 
         /* Body Styling */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins';
             background-color: #f3f3f3;
             margin: 0;
         }
@@ -119,21 +140,20 @@
         }
 
         /* Input Styling */
-        input[type="text"], select {
+        input[type="text"], #condition {
             width: 100%;
             padding: 10px;
             font-size: 14px;
             border: 1px solid #ccc;
-            border-radius: 8px;
+            border-radius: 3px;
             box-sizing: border-box;
-            margin-bottom: 10px;
         }
 
         /* Button Group Styling */
         .button-group {
             display: flex;
             justify-content: space-between;
-            margin-top: 20px;
+            margin-top: 5px;
         }
 
         /* Submit Button Styling */
@@ -141,7 +161,7 @@
         .button-group .exit-btn {
             padding: 10px;
             width: 48%;
-            border-radius: 8px;
+            border-radius: 3px;
             font-weight: bold;
             font-size: 14px;
             cursor: pointer;
@@ -255,7 +275,7 @@
         padding: 12px 20px;
         font-size: 14px;
         font-weight: bold;
-        border-radius: 8px;
+        border-radius: 3px;
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -305,7 +325,7 @@
     padding: 10px 20px; 
     font-size: 14px;
     font-weight: bold;
-    border-radius: 8px;
+    border-radius: 3px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -339,6 +359,103 @@
         .back-btn:hover svg {
             transform: translateX(-8px); 
         }
+        #cancelModal {
+    z-index: 50;
+    backdrop-filter: blur(5px);
+    animation: fadeInBackdrop 0.4s ease-out;
+}
+
+@keyframes fadeInBackdrop {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+#cancelModal .bg-white {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    animation: modalEntry 0.4s ease-out;
+    width: 100%;
+    max-width: 400px; /* Limit the maximum width */
+    margin: 0 auto; /* Center it horizontally */
+}
+
+@keyframes modalEntry {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Header with Red Gradient */
+/* Modal Header */
+#cancelModal h2 {
+    font-size: 18px; /* Slightly smaller font for better fit */
+    font-weight: bold;
+    background: linear-gradient(90deg, #FF4C4C, #C62828);
+    color: #fff;
+    text-align: center;
+    padding: 12px;
+    margin: 0;
+}
+
+/* Modal Content */
+#cancelModal p {
+    font-size: 16px; /* Adjust text size for better fit */
+    color: #4B5563;
+    text-align: center;
+    margin: 16px 0 28px;
+    line-height: 1.4;
+}
+
+/* Buttons */
+#cancelModal .flex {
+    justify-content: center;
+    gap: 12px; /* Reduce button spacing */
+    padding: 0; /* Remove extra padding */
+}
+
+/* Equal-width buttons with max width */
+#cancelModal button,
+#cancelModal a {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    border: none;
+        padding: 9px 20px;
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 3px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+}
+
+#cancelModal button:hover,
+#cancelModal a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Cancel Button */
+#cancelCancel {
+    background-color: #E5E7EB;
+    color: #374151;
+}
+
+#cancelCancel:hover {
+    background-color: #D1D5DB;
+}
     </style>
 
     <script>
@@ -366,5 +483,30 @@
                 form.submit(); // Programmatically submit the form
             });
         });
+        document.addEventListener('DOMContentLoaded', function () {
+    const cancelModal = document.getElementById('cancelModal');
+    const cancelModalClose = document.getElementById('cancelModalClose');
+    const confirmCancel = document.getElementById('saveconfirmCancel');
+    const cancelActionButton = document.querySelector('.exit-btn');
+
+    // Open the cancel confirmation modal
+    cancelActionButton.addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent default link behavior
+        cancelModal.classList.remove('hidden');
+    });
+
+    // Close the modal when clicking Cancel button
+    cancelModalClose.addEventListener('click', function () {
+        cancelModal.classList.add('hidden');
+    });
+
+    // Add behavior for Confirm Cancel button (redirect to route)
+    confirmCancel.addEventListener('click', function (event) {
+        event.preventDefault();
+        console.log('Action cancelled');
+        window.location.href = confirmCancel.href; 
+    });
+});
+
     </script>
 </x-app-layout>

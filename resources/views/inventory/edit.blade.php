@@ -93,6 +93,7 @@
 
                     <div class="button-group">
                         <button type="button" id="saveProductButton">Update Product</button>
+                        <a href="{{ route('inventory.index') }}" class="exit-btn">Cancel</a>
                     </div>
                 </form>
             </div>
@@ -110,6 +111,25 @@
             </div>
         </div>
     </div>
+
+    <div id="cancelModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
+    <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
+        <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-yellow-500 to-yellow-700 p-4 rounded-t-lg">
+        Confirmation
+        </h2>
+        <p class="text-gray-700 text-center mb-6">
+            Are you sure you want to cancel?
+        </p>
+        <div class="flex justify-center gap-4">
+            <button id="cancelModalClose" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-200 transition">
+                Cancel
+            </button>
+            <a href="{{ route('inventory.index') }}" id="saveconfirmCancel" class="px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-md hover:from-red-600 hover:to-red-800 transition">
+                Confirm
+            </a>
+        </div>
+    </div>
+</div>
 
 
     <script>
@@ -139,12 +159,36 @@
             form.submit(); // Programmatically submit the form
         });
     });
+
+    document.addEventListener('DOMContentLoaded', function () {
+    const cancelModal = document.getElementById('cancelModal');
+    const cancelModalClose = document.getElementById('cancelModalClose');
+    const confirmCancel = document.getElementById('saveconfirmCancel');
+    const cancelActionButton = document.querySelector('.exit-btn');
+
+    // Open the cancel confirmation modal
+    cancelActionButton.addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent default link behavior
+        cancelModal.classList.remove('hidden');
+    });
+
+    // Close the modal when clicking Cancel button
+    cancelModalClose.addEventListener('click', function () {
+        cancelModal.classList.add('hidden');
+    });
+
+    // Add behavior for Confirm Cancel button (redirect to route)
+    confirmCancel.addEventListener('click', function () {
+        // Optionally, perform any action before confirming cancel
+        console.log('Action cancelled');
+    });
+});
     </script>
 
 
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Poppins';
             background-color: #f3f3f3;
         }
         label {
@@ -153,6 +197,48 @@
             margin-bottom: 1px;
             display: block;
         }
+
+        
+.button-group {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    width: 100%;
+    gap: 1rem; /* Reduced gap for better spacing */
+}
+
+.button-group button, 
+.button-group .exit-btn {
+    width: 300px;
+    padding: 8px;
+    border-radius:3px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+.button-group button {
+    background-color: #4A628A;
+    color: white;
+}
+
+.button-group button:hover {
+    background-color: #3B4D6C;
+    transform: scale(1.02);
+}
+
+.button-group .exit-btn {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.button-group .exit-btn:hover {
+    background-color: #c0392b;
+    transform: scale(1.02);
+}
           #confirmationModal {
         z-index: 50;
         backdrop-filter: blur(5px); 
@@ -213,7 +299,7 @@
         padding: 12px 20px;
         font-size: 14px;
         font-weight: bold;
-        border-radius: 8px;
+        border-radius: 3px;
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -263,7 +349,7 @@
     padding: 10px 20px; 
     font-size: 14px;
     font-weight: bold;
-    border-radius: 8px;
+    border-radius: 3px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -318,32 +404,7 @@
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
-            border-radius: 8px;
-        }
-
-        .button-group {
-            display: flex;
-            justify-content: center; 
-            margin-top: 20px;
-        }
-
-        .button-group button {
-            background-color: #4A628A;
-            padding: 12px 24px;
-            border: none;
-            color: white;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            text-align: center;
-            width: 300px;
-            max-width: 90%; 
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        .button-group button:hover {
-            background-color: #3C516C; 
-            transform: scale(1.05);
+            border-radius: 3px;
         }
 
         .back-btn {
@@ -371,6 +432,103 @@
             transform: translateX(-8px); 
         }
 
+        #cancelModal {
+    z-index: 50;
+    backdrop-filter: blur(5px);
+    animation: fadeInBackdrop 0.4s ease-out;
+}
+
+@keyframes fadeInBackdrop {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+#cancelModal .bg-white {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    animation: modalEntry 0.4s ease-out;
+    width: 100%;
+    max-width: 400px; /* Limit the maximum width */
+    margin: 0 auto; /* Center it horizontally */
+}
+
+@keyframes modalEntry {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Header with Red Gradient */
+/* Modal Header */
+#cancelModal h2 {
+    font-size: 22px; /* Slightly smaller font for better fit */
+    font-weight: bold;
+    background: linear-gradient(90deg, #FF4C4C, #C62828);
+    color: #fff;
+    text-align: center;
+    padding: 12px;
+    margin: 0;
+}
+
+/* Modal Content */
+#cancelModal p {
+    font-size: 16px; /* Adjust text size for better fit */
+    color: #4B5563;
+    text-align: center;
+    margin: 16px 0 28px;
+    line-height: 1.4;
+}
+
+/* Buttons */
+#cancelModal .flex {
+    justify-content: center;
+    gap: 12px; /* Reduce button spacing */
+    padding: 0; /* Remove extra padding */
+}
+
+/* Equal-width buttons with max width */
+#cancelModal button,
+#cancelModal a {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    border: none;
+        padding: 9px 20px;
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 3px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+}
+
+#cancelModal button:hover,
+#cancelModal a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Cancel Button */
+#cancelCancel {
+    background-color: #E5E7EB;
+    color: #374151;
+}
+
+#cancelCancel:hover {
+    background-color: #D1D5DB;
+}
     </style>
 
   

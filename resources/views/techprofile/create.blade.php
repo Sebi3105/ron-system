@@ -1,4 +1,5 @@
 <x-app-layout>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <div class="flex flex-col md:flex-row h-screen">
         <!-- Sidebar (Navigation) -->
         <div class="w-full md:w-64 fixed top-0 left-0 z-10 h-screen bg-gray-900 md:block">
@@ -14,7 +15,7 @@
              
             <!-- Back to Button -->
             <div class="flex justify-start mt-24 md:mt-28 px-4">
-                <a href="{{ route('inventory.index') }}" class="back-btn flex items-center">
+                <a href="{{ route('techreport.index') }}" class="back-btn flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5 mr-2">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l-7-7 7-7" />
@@ -40,7 +41,12 @@
                 <div class="name">
                     <input type="text" id="name" name="name" placeholder="Technician Name" required />
                 </div>
-                <div class="contact_no">
+                <div class="contact_no relative">
+                <small style="font-size: 12px;">Note: Enter only the last 10 digits (e.g., 9123424321)</small>
+                <span 
+            class="absolute top-1/2 left-3 transform -translate-y-1/8 text-gray-700 text-sm pointer-events-none"
+            aria-hidden="true"
+        >+63</span>
                     <input  type="text" 
                             id="contact_no" 
                             name="contact_no" 
@@ -51,9 +57,7 @@
                             title="Enter a valid 10-digit phone number" 
                             style="padding-left: 40px;" 
                             required required/>
-                    <small style="font-size: 12px;">Note: Enter only the last 10 digits (e.g., 9123424321)</small>
                 </div>
-                
 
                 <div class="button-group">
                     <input type="button" id="saveTechnicianButton" value="Save Technician" class="save-btn">
@@ -73,10 +77,7 @@
         <p id="confirmationMessage">
             Are you sure you want to save this Technician?
         </p>
-
-        <!-- Centered Modal Buttons -->
-        <div class="flex">
-            <!-- Cancel Button -->
+        <div class="flex">     
             <button id="confirmCancel">
                 Cancel
             </button>
@@ -89,10 +90,30 @@
     </div>
 </div>
 
+<div id="cancelModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
+    <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
+        <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-yellow-500 to-yellow-700 p-4 rounded-t-lg">
+        Confirmation
+        </h2>
+        <p class="text-gray-700 text-center mb-6">
+            Are you sure you want to cancel?
+        </p>
+        <div class="flex justify-center gap-4">
+            <button id="cancelModalClose" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-200 transition">
+                Cancel
+            </button>
+            <a href="{{ route('techreport.index') }}" id="saveconfirmCancel" class="px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-md hover:from-red-600 hover:to-red-800 transition">
+                Confirm
+            </a>
+        </div>
+    </div>
+</div>
+
+
 
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins';
             background-color: #f3f3f3;
             margin: 0;
         }
@@ -127,7 +148,7 @@
             padding: 10px;
             font-size: 14px;
             border: 1px solid #ccc;
-            border-radius: 8px;
+            border-radius: 3px;
             box-sizing: border-box;
             margin-top: 10px;
         }
@@ -143,7 +164,7 @@
         .button-group .exit-btn {
             padding: 10px;
             width: 48%;
-            border-radius: 8px;
+            border-radius: 3px;
             font-weight: bold;
             font-size: 14px;
             cursor: pointer;
@@ -261,7 +282,7 @@
         padding: 12px 20px;
         font-size: 14px;
         font-weight: bold;
-        border-radius: 8px;
+        border-radius: 3px;
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -311,13 +332,111 @@
     padding: 10px 20px; 
     font-size: 14px;
     font-weight: bold;
-    border-radius: 8px;
+    border-radius: 3px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
     transition: all 0.3s ease;
+}
+
+#cancelModal {
+    z-index: 50;
+    backdrop-filter: blur(5px);
+    animation: fadeInBackdrop 0.4s ease-out;
+}
+
+@keyframes fadeInBackdrop {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+#cancelModal .bg-white {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    animation: modalEntry 0.4s ease-out;
+    width: 100%;
+    max-width: 400px; /* Limit the maximum width */
+    margin: 0 auto; /* Center it horizontally */
+}
+
+@keyframes modalEntry {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Header with Red Gradient */
+/* Modal Header */
+#cancelModal h2 {
+    font-size: 22px; /* Slightly smaller font for better fit */
+    font-weight: bold;
+    background: linear-gradient(90deg, #FF4C4C, #C62828);
+    color: #fff;
+    text-align: center;
+    padding: 12px;
+    margin: 0;
+}
+
+/* Modal Content */
+#cancelModal p {
+    font-size: 16px; /* Adjust text size for better fit */
+    color: #4B5563;
+    text-align: center;
+    margin: 16px 0 28px;
+    line-height: 1.4;
+}
+
+/* Buttons */
+#cancelModal .flex {
+    justify-content: center;
+    gap: 12px; /* Reduce button spacing */
+    padding: 0; /* Remove extra padding */
+}
+
+/* Equal-width buttons with max width */
+#cancelModal button,
+#cancelModal a {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    border: none;
+        padding: 9px 20px;
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 3px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+}
+
+#cancelModal button:hover,
+#cancelModal a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Cancel Button */
+#cancelCancel {
+    background-color: #E5E7EB;
+    color: #374151;
+}
+
+#cancelCancel:hover {
+    background-color: #D1D5DB;
 }
 
     </style>
@@ -356,6 +475,30 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('Submitting form...');
         modal.classList.add('hidden');
         form.submit();
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const cancelModal = document.getElementById('cancelModal');
+    const cancelModalClose = document.getElementById('cancelModalClose');
+    const confirmCancel = document.getElementById('saveconfirmCancel');
+    const cancelActionButton = document.querySelector('.exit-btn');
+
+    // Open the cancel confirmation modal
+    cancelActionButton.addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent default link behavior
+        cancelModal.classList.remove('hidden');
+    });
+
+    // Close the modal when clicking Cancel button
+    cancelModalClose.addEventListener('click', function () {
+        cancelModal.classList.add('hidden');
+    });
+
+    // Add behavior for Confirm Cancel button (redirect to route)
+    confirmCancel.addEventListener('click', function () {
+        // Optionally, perform any action before confirming cancel
+        console.log('Action cancelled');
     });
 });
 

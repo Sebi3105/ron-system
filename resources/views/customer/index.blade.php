@@ -61,13 +61,13 @@
         <div id="confirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
             <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
                 <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-red-500 to-red-700 p-4 rounded-t-lg">
-                    Confirm Delete
+                    Confirmation
                 </h2>
                 <p class="text-gray-700 text-center mb-6">
                     Are you sure you want to delete this item? 
                 </p>
                 <div class="flex justify-center gap-4">
-                    <button id="cancelDelete" class="px-6 py-3 bg-gray-400 text-white rounded-md hover:bg-gray-500 transition">
+                    <button id="cancelDelete" class="px-6 py-3 bg-gray-200 text-white rounded-md hover:bg-gray-200 transition">
                         Cancel
                     </button>
                     <button id="confirmDelete" class="px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-md hover:from-red-600 hover:to-red-800 transition">
@@ -83,13 +83,13 @@
 <div id="editConfirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
     <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
         <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-blue-500 to-blue-700 p-4 rounded-t-lg">
-            Confirm Edit
+            Confirmation
         </h2>
         <p class="text-gray-700 text-center mb-6">
             Are you sure you want to edit this item?
         </p>
         <div class="flex justify-center gap-4">
-            <button id="editcancelEdit" class="px-6 py-3 bg-gray-400 text-white rounded-md hover:bg-gray-500 transition">
+            <button id="editcancelEdit" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-300 transition">
                 Cancel
             </button>
             <button id="editconfirmEdit" class="px-6 py-3 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-md hover:from-green-600 hover:to-green-800 transition">
@@ -184,9 +184,11 @@ $('#customer tbody').on('click', '.btn-primary', function (e) {
 
 </script>
 
-
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-
+    body{
+        font-family: 'Poppins';
+    }
 #tableSearch {
         width: 400px; 
         max-width: 100%; 
@@ -312,7 +314,7 @@ $('#customer tbody').on('click', '.btn-primary', function (e) {
                             padding: 0.6rem 1.2rem;
                             font-size: 0.9rem;
                             font-weight: bold;
-                            border-radius: 0.375rem;
+                            border-radius: 3px;
                             transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
                             text-decoration: none;
                             
@@ -328,7 +330,7 @@ $('#customer tbody').on('click', '.btn-primary', function (e) {
                             color: #fff;
                             padding: 7px 10px;
                             border: none;
-                            border-radius: 5px;
+                            border-radius: 3px;
                             cursor: pointer;
                             transition: background-color 0.3s;
                             background-color: #1A9945;
@@ -344,7 +346,7 @@ $('#customer tbody').on('click', '.btn-primary', function (e) {
                             color: #fff;
                             padding: 5px 10px;
                             border: none;
-                            border-radius: 5px;
+                            border-radius: 3px;
                             cursor: pointer;
                             transition: background-color 0.3s;
                         }
@@ -420,10 +422,10 @@ $('#customer tbody').on('click', '.btn-primary', function (e) {
         /* Buttons */
         #confirmationModal button {
             border: none;
-            padding: 12px 20px;
+            padding: 8px 20px;
             font-size: 14px;
             font-weight: bold;
-            border-radius: 8px;
+            border-radius: 3px;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
@@ -518,7 +520,7 @@ $('#customer tbody').on('click', '.btn-primary', function (e) {
         padding: 12px 20px;
         font-size: 14px;
         font-weight: bold;
-        border-radius: 8px;
+        border-radius: 3px;
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -565,10 +567,10 @@ $('#customer tbody').on('click', '.btn-primary', function (e) {
 /* Buttons */
 #editConfirmationModal button {
     border: none;
-    padding: 10px 20px; 
+    padding: 8px 20px; 
     font-size: 14px;
     font-weight: bold;
-    border-radius: 8px;
+    border-radius: 3px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -576,7 +578,6 @@ $('#customer tbody').on('click', '.btn-primary', function (e) {
     gap: 8px;
     transition: all 0.3s ease;
 }
-
 
 </style>
 
