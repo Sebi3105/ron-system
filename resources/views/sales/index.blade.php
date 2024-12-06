@@ -1,55 +1,56 @@
+<!--nabago -->
 <x-app-layout>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 
-    <div class="flex flex-col md:flex-row h-screen">
-        <div class="flex-1 ml-64 mt-0">
-            <header class="bg-gray-200 py-4 px-8 fixed top-0 left-64 right-0 z-20 h-20 flex items-center justify-between shadow-md">
-                <h1 class="text-2xl font-semibold text-gray-800">Sales</h1>
-            </header>
-
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24 mb-6 flex items-center space-x-4">
-                <div class="flex-1 flex justify-start">
-                    <div class="relative w-1/2">
-                        <input type="text" id="tableSearch" class="border border-gray-300 rounded-md pl-10 pr-4 py-2 w-full" placeholder="Search...">
-                        <span class="absolute left-3 top-2.5 text-gray-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a7 7 0 100 14 7 7 0 000-14zM18 18l-3.5-3.5" />
-                            </svg>
-                        </span>
-                    </div>
+    <div class="flex flex-col md:flex-row h-screen  bg-gray-200 min-w-full">
+        <div class="flex-1 ml-64 mt-0 min-h-screen bg-gray-200">
+            <!-- Content Section --> 
+           <div class="max-w-7xl mx-auto px-4 sm:text-left lg:px-8 mt-4 mb-6 bg-gray-200">
+                <!-- Header Inside Content -->
+                <div class="relative pt-16">
+                  <h1 class="text-2xl px-10 font-semibold text-gray-500 absolute top-5">Sales</h1>
                 </div>
 
-                <div class="flex space-x-2">
-                    <a href="{{ route('sales.create') }}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">+ Add New Sale</a>
-                </div>
-            </div>
-
-            <div class="success_pop mb-4">
-                @if(session()->has('success'))
-                    <div class="bg-green-500 text-white p-2 rounded">
-                        {{ session('success') }}
+                <div class="max-w-7xl mx-auto px-4 sm:text-left lg:px-8 mt-6 mb-6 flex flex-col md:flex-row items-center justify-between">
+                    <!-- Search Bar -->
+                    <div class="flex-1 flex justify-start mb-4 md:mb-0">
+                        <div class="relative w-1/2 md:w-1/2">
+                            <input type="text" id="tableSearch" class="border border-gray-300 rounded-md pl-10 pr-4 py-2 w-full" placeholder="Search...">
+                            <span class="absolute left-3 top-2.5 text-gray-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a7 7 0 100 14 7 7 0 000-14zM18 18l-3.5-3.5" />
+                                </svg>
+                            </span>
+                        </div>
                     </div>
-                @endif
-            </div>
-
-            <div class="py-4 overflow-auto max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="p-4 sm:p-8 bg-gray-200 shadow sm:rounded-lg">
-                    <table id="sales" class="min-w-full table-fixed bg-gray-200 text-black border border-gray-400">
-                        <thead class="bg-gray-300 border-b border-gray-400">
-                            <tr>
-                                <th class="w-12 p-2 border-r border-gray-400">#</th>
-                                <th class="w-40 p-2 border-r border-gray-400">Customer Name</th>
-                                <th class="w-40 p-2 border-r border-gray-400">Product Name</th>
-                                <th class="w-40 p-2 border-r border-gray-400">Serial Number</th>
-                                <th class="w-32 p-2 border-r border-gray-400">State</th>
-                                <th class="w-32 p-2 border-r border-gray-400">Sale Date</th>
-                                <th class="w-32 p-2 border-r border-gray-400">Amount</th>
-                                <th class="w-24 p-2">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-gray-200">
+                    <!-- Buttons Section -->
+                    <div class="flex items-center space-x-4 mb-4 md:mb-0">                   
+                    <div class="flex items-start space x-4  mb-4 md:mb-0">
+                        <!-- Action Buttons -->
+                        <a href="{{ route('sales.create') }}" class="bg-navy-blue text-white py-2 px-4 rounded hover:bg-navyblue">+ Add New Sale </a>
+                    </div>
+                </div>
+            </div>        
+            <!-- Tables -->      
+<div class="table-container py-4 max-h-[500px] max-w-7xl mx-auto px-4 sm:text-left lg:px-8 bg-gray-200">
+    <div class="p-4 sm:text-left bg-gray-200">
+        <div>
+            <table id="sales" class="min-w-full table-fixed bg-gray-200 text-gray-500">
+                <thead class="text-gray-500 bg-gray-200">
+                    <tr>
+                        <th class="w-12 p-1 border-r border-gray-200">#</th>
+                        <th class="w-20 p-1 border-r border-gray-200">Customer Name</th>
+                        <th class="w-20 p-1 border-r border-gray-200">Product Name</th>
+                        <th class="w-20 p-1 border-r border-gray-200">Serial Number</th>
+                        <th class="w-16 p-1 border-r border-gray-200">State</th>
+                        <th class="w-24 p-1 border-r border-gray-200">Sale Date</th>
+                        <th class="w-20 p-1 border-r border-gray-200">Amount</th>
+                        <th class="w-18 p-1">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-gray-200">
                             @foreach($sales as $key => $sale)
                                 <tr>
                                     <td class="p-2 border-r border-gray-400">{{ $key + 1 }}</td>
@@ -73,17 +74,20 @@
                                         </form>
                                     </td>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                        @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
-    <script>
+</div>
+
+                         
+
+<script src="{{ asset('js/confirmation.js') }}"></script>
+<script>
     $(document).ready(function() {
         $('#sales').DataTable({
-            searching: true,
+            searching: false,
             paging: true,
             info: true,
             order: [[0, 'asc']]
@@ -116,4 +120,6 @@
 });
     });
 </script>
+
+                        
 </x-app-layout>

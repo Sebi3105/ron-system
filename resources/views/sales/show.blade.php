@@ -1,30 +1,135 @@
-<!-- resources/views/sales/show.blade.php -->
 <x-app-layout>
     <div class="flex flex-col md:flex-row h-screen">
-        <!-- Left Navbar (if you have one) -->
-        <div class="hidden md:block w-64 bg-gray-200">
-            <!-- Your navbar content -->
-        </div>
+        <!-- Sidebar (Navigation) -->
+        <div class="w-full md:w-64 fixed top-0 left-0 z-10 h-screen bg-gray-900 md:block">
+            @include('layouts.navigation') 
+        </div>     
 
-        <div class="flex-1 flex items-center justify-center p-4">
-            <div class="max-w-2xl w-full">
-                <h1 class="text-2xl font-semibold mb-4 text-center">Sale Details</h1>
+        <!-- Main Content -->
+        <div class="flex-1 md:ml-64 mt-16 md:mt-0 bg-gray-100 text-gray-800"> 
+            <!-- Fixed Header -->
+            <header class="bg-gray-200 py-3 px-3 fixed top-0 md:left-64 right-0 z-20 h-15 flex items-center justify-between text-black shadow-md">
+                <h1 class="text-lg font-bold">Sale Information</h1>
+            </header>
+              
+            <!-- Back to Sales View Button -->
+            <div class="flex justify-start mt-24 md:mt-28 px-4"> <!-- Reduced margin-top -->
+                <a href="{{ route('sales.index') }}" class="back-btn flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5 mr-2">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l-7-7 7-7" />
+                    </svg>
+                    Back to Sales
+                </a>
+            </div>
+            
+            <!-- Displaying Sale Details -->
+            <div class="flex justify-center items-center">
+                <div class="details-container">
+                    <h1 class="text-lg text-center font-bold stitle">Sale Details</h1>
 
-                <div class="bg-gray-200 p-4 rounded-lg shadow">
-                    <p><strong>Customer Name:</strong> {{ $sale->customer->name }}</p>
-                    <p><strong>Product Name:</strong> {{ $sale->inventory->product_name }}</p>
-                    <p><strong>Serial Number:</strong> {{ $sale->inventoryItem->serial_number }}</p>
-                    <p><strong>State:</strong> {{ $sale->state }}</p>
-                    <p><strong>Sale Date:</strong> {{ $sale->sale_date->format('Y-m-d') }}</p>
-                    <p><strong>Amount:</strong> {{ number_format($sale->amount, 2) }}</p>
-                    <p><strong>Payment Method:</strong> {{ ucfirst($sale->payment_method) }}</p>
-                    <p><strong>Payment Type:</strong> {{ ucfirst($sale->payment_type) }}</p>
-                </div>
+                    <!-- Sale Information -->
+                    <div class="detail">
+                        <span class="label">Customer Name:</span>
+                        <span>{{ $sale->customer->name ?? 'N/A' }}</span>
+                    </div>
 
-                <div class="mt-4 text-center">
-                    <a href="{{ route('sales.index') }}" class="bg-blue-500 text-white py-2 px-4 rounded">Back to Sales</a>
+                    <div class="detail">
+                        <span class="label">Product:</span>
+                        <span>{{ $sale->inventory->product_name ?? 'N/A' }}</span>
+                    </div>
+
+                    <div class="detail">
+                        <span class="label">Serial Number:</span>
+                        <span>{{ $sale->serial_number ?? 'N/A' }}</span>
+                    </div>
+
+                    <div class="detail">
+                        <span class="label">State:</span>
+                        <span>{{ $sale->state ?? 'N/A' }}</span>
+                    </div>
+
+                    <div class="detail">
+                        <span class="label">Sale Date:</span>
+                        <span>{{ $sale->sale_date ?? 'N/A' }}</span>
+                    </div>
+
+                    <div class="detail">
+                        <span class="label">Amount:</span>
+                        <span>{{ number_format($sale->amount, 2) ?? 'N/A' }}</span>
+                    </div>
+
+                    <div class="detail">
+                        <span class="label">Payment Method:</span>
+                        <span>{{ ucfirst($sale->payment_method) ?? 'N/A' }}</span>
+                    </div>
+
+                    <div class="detail">
+                        <span class="label">Payment Type:</span>
+                        <span>{{ ucfirst($sale->payment_type) ?? 'N/A' }}</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <style>
+        .details-container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 30px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .stitle {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .detail {
+            margin-bottom: 10px;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .detail .label {
+            font-weight: bold;
+            color: #555;
+            margin-right: 10px;
+        }
+
+        .detail span {
+            color: #333;
+        }
+
+        .back-btn {
+            color: #3C3D37;
+            padding: 0.3rem 1.2rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 0.375rem;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-btn:hover {
+            background-color: #F5F5F5;
+            transform: translateX(-5px);
+        }
+
+        .back-btn svg {
+            transition: transform 0.3s ease;
+        }
+
+        .back-btn:hover svg {
+            transform: translateX(-8px);
+        }
+    </style>
 </x-app-layout>

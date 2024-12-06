@@ -1,104 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create A Sale</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f7f7f7;
-        }
-        .form-container {
-            background-color: #ffffff;
-            border-radius: 8px;
-            padding: 30px;
-            width: 600px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        h1 {
-            font-size: 1.2em;
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-        }
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            font-weight: bold;
-            color: #555;
-            margin-bottom: 5px;
-        }
-        .form-group input[type="text"],
-        .form-group input[type="number"],
-        .form-group input[type ="date"],
-        .form-group select {
-            padding: 10px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-            font-size: 0.9em;
-        }
-        .button-group {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-        .button-group input[type="submit"],
-        .button-group .cancel-btn {
-            width: 48%;
-            padding: 10px;
-            border-radius: 4px;
-            border: none;
-            cursor: pointer;
-            color: #fff;
-            font-weight: bold;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-        }
-        .button-group input[type="submit"] {
-            background-color: #2c3e50;
-        }
-        .button-group .cancel-btn {
-            background-color: #e74c3c;
-        }
-        .error_checking {
-            color: red;
-            font-size: 0.9em;
-            margin-bottom: 10px;
-        }
-    </style>
-</head>
-<body>
+<x-app-layout>
+    <div class="flex flex-col md:flex-row h-screen">
+        <!-- Sidebar (Navigation) -->
+        <div class="w-full md:w-64 fixed top-0 left-0 z-10 h-screen bg-gray-900 md:block">
+            @include('layouts.navigation') 
+        </div>     
 
-    <div class="form-container">
-        <h1>Add Sales Information</h1>
-        
-        @if($errors->any())
-            <div class="error_checking">
-                <ul>
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
+        <!-- Main Content -->
+        <div class="flex-1 md:ml-64 mt-16 md:mt-0 bg-gray-100 text-gray-800"> 
+            <!-- Fixed Header -->
+            <header class="bg-gray-200 py-3 px-3 fixed top-0 md:left-64 right-0 z-20 h-15 flex items-center justify-between text-black shadow-md">
+                <h1 class="text-lg font-bold">Create A Sale</h1>
+            </header>
+              
+            <!-- Back to Sales View Button -->
+            <div class="flex justify-start mt-24 md:mt-28 px-4">
+                <a href="{{ route('sales.index') }}" class="back-btn flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5 mr-2">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l-7-7 7-7" />
+                    </svg>
+                    Back to Sales
+                </a>
             </div>
-        @endif
-        
-        <form method="post" action="{{ route('sales.store') }}" onsubmit="return confirm('Are you sure you want to save this product?')">
-            @csrf
-
-            <div class="form-group">
+            
+            <div class="flex justify-center items-center h-full">
+                <div class="form-container">
+                    <h1 class="text-lg text-center font-bold stitle">Add Sales Information</h1>
+                    <div class="error_checking">
+                        @if($errors->any())
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </div>
+                    <form method="post" action="{{ route('sales.store') }}" onsubmit="return confirm('Are you sure you want to save this product?')">
+                        @csrf
+                        <div class="form-group">
                 <label for="customer">Customer Name</label>
                 <select name="customer_id" id="customer_id" required>
                     <option value="" selected>Select Customer</option>
@@ -167,42 +107,329 @@
                 <input type="submit" value="Save Sale">
                 <a href="{{ route('sales.index') }}" class="cancel-btn">Cancel</a>
             </div>
-        </form>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            margin: 0;
+            
+        }
+        .form-container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 30px;
+            width: 750px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .stitle {
+            font-size: 1.2em;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 1px;
+        }
+        .form-group label {
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 1px;
+        }
+        .form-group input[type="number"] {
+            margin-top: 0; /* Ensure no extra margin at the top */
+            margin-bottom: 0; /* Ensure no extra margin at the bottom */
+        }
+
+         .form-group input[type="text"] {
+            margin-top: 0; /* Ensure no extra margin at the top */
+            margin-bottom: 0; /* Ensure no extra margin at the bottom */
+        }
+        .form-group select,
+        .form-group input {
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 0.9em;
+            width: 100%;
+        }
+        .full-width {
+            grid-column: span 2;
+        }
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .button-group input[type="submit"],
+        .button-group .cancel-btn {
+            text-align: center; /* Center the text */
+            display: flex; /* Use flexbox for centering */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            padding: 10px;
+            width: 48%;
+            border-radius: 8px;9
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+            display: inline-block;
+            margin-top: 10px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            
+        }
+        .button-group input[type="submit"] {
+            background-color: #2c3e50;
+        }
+        .button-group .cancel-btn {
+            background-color: #e74c3c;
+        }
+        .back-group {
+            margin-bottom: 20px;
+        }
+        .back-group a {
+            background-color: #3b5998;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 0.9em;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            display: inline-block;
+        }
+        .back-group a:hover {
+            background-color: #314e75;
+        }
+        
+
+        label {
+            display: block;
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            margin-top: 10px;
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .button-group input,
+        .button-group .cancel-btn {
+            padding: 10px;
+            width: 48%;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+            display: inline-block;
+            margin-top: 10px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .button-group input{
+            background-color: #4A628A;
+            border: none;
+        }
+
+        .button-group input:hover {
+            background-color: #3B4D6C;
+            transform: scale(1.05);
+        }
+
+        .button-group .cancel-btn {
+            background-color: #e74c3c;
+            border: none;
+        }
+
+        .button-group .cancel-btn:hover {
+            background-color: #c0392b;
+            transform: scale(1.05);
+        }
+
+        .back-btn {
+            color: #3C3D37;
+            padding: 0.3rem 1.2rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 0.375rem;
+            transition:transform 0.3s ease;
+            text-decoration: none;
+            margin-left: 2rem;
+            margin-top: -2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem; 
+        }
+
+        .back-btn:hover {
+            background-color: #F5F5F5;
+            transform: translateX(-5px);
+        }
+
+        .back-btn svg {
+            transition: transform 0.3s ease; 
+        }
+        .back-btn:hover svg {
+            transform: translateX(-8px); 
+        }
+
+        #confirmationModal {
+        z-index: 50;
+        backdrop-filter: blur(5px); 
+        animation: fadeInBackdrop 0.4s ease-out;
+    }
+
+    @keyframes fadeInBackdrop {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    /* Modal Style */
+        color: #4B5563;
+        text-align: center;
+        margin: 16px 0 24px;
+        line-height: 1.6;
+    }
+
+    /* Buttons */
+    #confirmationModal button {
+        border: none;
+        padding: 12px 20px;
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+    }
+
+    #confirmationModal button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    #confirmCancel {
+        background-color: #E5E7EB;
+        color: #374151;
+    }
+
+    #confirmCancel:hover {
+        background-color: #D1D5DB;
+    }
+
+    #confirmSubmit {
+        background: linear-gradient(90deg, #4CAF50, #2E7D32);
+        color: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    #confirmSubmit:hover {
+        background: linear-gradient(90deg, #2E7D32, #1B5E20);
+    }
+
+    /* Icons */
+    #confirmationModal button svg {
+        height: 18px;
+        width: 18px;
+    }
+    #confirmationModal .flex {
+    justify-content: center; 
+    gap: 16px;
+    padding: 12px 0;
+}
+
+/* Buttons */
+#confirmationModal button {
+    border: none;
+    padding: 10px 20px; 
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+    </style>
 
     <script>
-        $(document).ready(function() {
-    // Initialize Select2
-    $('#customer_id, #inventories, #serials').select2();
-
-    // When product is selected
-    $('#inventories').change(function() {
-        var productId = $(this).val();
-        if (productId) {
-            $.ajax({
-                url: '{{ route("sales.serials", "") }}/' + productId, // Remove space
-                type: 'GET',
-                success: function(data) {
-                    // Clear the serials dropdown
-                    $('#serials').empty().append('<option value="" selected>Select Serial Number</option>');
-                    $.each(data, function(index, serial) {
-                        $('#serials').append('<option value="' + serial.sku_id + '">' + serial.serial_number + '</option>');
-                    });
-                    // Re-initialize Select2 for the serials dropdown
-                    $('#serials').select2();
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText); // Log the error response
-                    alert('Error fetching serial numbers: ' + xhr.responseText);
-                }
-            });
-        } else {
-            // Clear the serials dropdown if no product is selected
-            $('#serials').empty().append('<option value="" selected>Select Serial Number</option>');
-            $('#serials').select2();
+        function confirmAction(message) {
+            return confirm(message);
         }
+           // Automatically refresh layout adjustments on window resize
+           window.addEventListener('resize', function() {
+    location.reload(); // Automatic na magre-refresh ang page
+});
+document.addEventListener('DOMContentLoaded', function () {
+    const modal = document.getElementById('confirmationModal');
+    const modalMessage = document.getElementById('confirmationMessage');
+    const confirmSubmitButton = document.getElementById('confirmSubmit');
+    const confirmCancelButton = document.getElementById('confirmCancel');
+    const form = document.getElementById('ServiceForm');
+    const saveTechnicianButton = document.getElementById('saveTechnicianButton');
+
+    // Open modal when clicking the save button
+    saveTechnicianButton.addEventListener('click', function () {
+        console.log('Opening modal...');
+        modalMessage.textContent = 'Are you sure you want to save this Technician?';
+        modal.classList.remove('hidden');
+    });
+
+    // Cancel button in modal
+    confirmCancelButton.addEventListener('click', function () {
+        console.log('Closing modal...');
+        modal.classList.add('hidden');
+    });
+
+    // Confirm button in modal
+    confirmSubmitButton.addEventListener('click', function () {
+        console.log('Submitting form...');
+        modal.classList.add('hidden');
+        form.submit();
     });
 });
+
     </script>
-</body>
-</html>
+</x-app-layout>
