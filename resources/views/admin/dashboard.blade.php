@@ -33,6 +33,16 @@
                 </tr>
             </thead>
             <tbody>
+            <div class="flex space-x-4">
+                <a href="{{ route('admin.inventory.softDeleted') }}" class="btn btn-secondary">View Soft Deleted Inventory</a>
+                <a href="{{ route('admin.inventoryitem.softDeleted') }}" class="btn btn-secondary">View Soft Deleted Inventory Items</a>
+                <a href="{{ route('admin.customer.soft_deleted') }}" class="btn btn-secondary">View Soft Deleted Customer</a>
+                <a href="{{ route('admin.sales.soft_deleted') }}" class="btn btn-secondary">View Soft Deleted Sales</a>
+                <a href="{{ route('admin.brand.soft_deleted') }}" class="btn btn-secondary">View Soft Deleted Brands</a>
+                <a href="{{ route('admin.category.soft_deleted') }}" class="btn btn-secondary">View Soft Deleted Categories</a>
+            </div>
+
+            </div>
                 @foreach($users as $user)
                     <tr>
                         <td>{{ $loop->iteration }}</td>

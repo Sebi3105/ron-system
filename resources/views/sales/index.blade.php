@@ -61,7 +61,7 @@
                                     <td class="p-2 border-r border-gray-400">{{ number_format($sale->amount, 2) }}</td>
                                     <td class="p-2">
                                     <a href="{{ route('sales.show', $sale->sales_id) }}" class="text-blue-500">View</a> |
-                                        <a href="{{ route('sales.edit', $sale->sales_id) }}" class="text-blue-500">Edit</a> | 
+                                        <a href="{{ route('sales.edit', $sale->sales_id) }}" class="text-blue-500 edit-btn">Edit</a> | 
                                         <form action="{{ route('sales.destroy', $sale->sales_id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this item?');" class="inline">
                                             @csrf
                                             @method('DELETE')
@@ -80,40 +80,50 @@
             </div>
         </div>
     </div>
+    <script src="{{ asset('js/confirmation.js') }}"></script>
     <script>
-    $(document).ready(function() {
-        $('#sales').DataTable({
-            searching: true,
-            paging: true,
-            info: true,
-            order: [[0, 'asc']]
-        });
-
-        $('#sales').on('click', '.delete-btn', function(e) {
-    e.preventDefault();
-    var deleteUrl = $(this).data('url');
-    var deleteType = $(this).data('delete-type'); // Get delete type from data attribute
-    if (confirm('Are you sure you want to delete this item?')) {
-        $.ajax({
-            url: deleteUrl,
-            type: 'DELETE',
-            data: {
-                _token: '{{ csrf_token() }}',
-                delete_type: deleteType // Include delete type in the request
-            },
-            success: function(response) {
-                alert('Item deleted successfully!');
-                // Remove the row from the DataTable
-                var row = $('.delete-btn[data-url="' + deleteUrl + '"]').closest('tr');
-                $('#sales').DataTable().row(row).remove().draw();
-            },
-            error: function(xhr) {
-                var errorMessage = xhr.responseJSON.message || 'An unexpected error occurred.';
-                alert('Error deleting item: ' + errorMessage);
-            }
-        });
-    }
-});
+$(document).ready(function() {
+    $('#sales').DataTable({
+        searching: true,
+        paging: true,
+        info: true,
+        order: [[0, 'asc']]
     });
+
+    // Confirmation for delete action
+    $('#sales').on('click', '.delete-btn', function(e) {
+        e.preventDefault();
+        var deleteUrl = $(this).data('url');
+        var deleteType = $(this).data('delete-type'); // Get delete type from data attribute
+        if (confirm('Are you sure you want to delete this item?')) {
+            $.ajax({
+                url: deleteUrl,
+                type: 'DELETE',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    delete_type: deleteType // Include delete type in the request
+                },
+                success: function(response) {
+                    alert('Item deleted successfully!');
+                    // Remove the row from the DataTable
+                    var row = $('.delete-btn[data-url="' + deleteUrl + '"]').closest('tr');
+                    $('#sales').DataTable().row(row).remove().draw();
+                },
+                error: function(xhr) {
+                    var errorMessage = xhr.responseJSON.message || 'An unexpected error occurred.';
+                    alert('Error deleting item: ' + errorMessage);
+                }
+            });
+        }
+    });
+
+    // Confirmation for edit action
+    $('#sales').on('click', '.edit-btn', function(e) {
+        var confirmed = confirm('Are you sure you want to edit this item?');
+        if (!confirmed) {
+            e.preventDefault(); // Prevent the default action (navigation)
+        }
+    });
+});
 </script>
 </x-app-layout>

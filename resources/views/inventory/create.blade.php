@@ -61,27 +61,6 @@
                     <input type="number" name="quantity" placeholder="Quantity" required min="0">
                 </div>
                     <div class="form-group">
-                        <label for="brand_id">Brand</label>
-                        <select name="brand_id" id="brand_id" required>
-                            <option value="" selected>Select a Brand</option>
-                            @foreach($brands as $brand)
-                                <option value="{{ $brand->brand_id }}">{{ $brand->brand_name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="price">Price</label>
-                            <input type="number" name="price" id="price" placeholder="Price" required min="0">
-                        </div>
-                        <div class="form-group">
-                            <label for="quantity">Quantity</label>
-                            <input type="number" name="quantity" placeholder="Quantity" required min="0">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
                         <label for="released_date">Date of Release</label>
                         <input type="date" name="released_date" id="released_date" required>
                     </div>

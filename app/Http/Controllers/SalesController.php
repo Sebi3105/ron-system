@@ -138,4 +138,28 @@ public function show($id)
     $sale = Sales::with(['customer', 'inventory', 'inventoryItem'])->findOrFail($id);
     return view('sales.show', compact('sale'));
 }
+public function softDeleted()
+{
+    // Eager load the relationships: customer, inventory, and inventoryItem
+    $softDeletedItems = Sales::with(['inventory', 'customer', 'inventoryitem'])->onlyTrashed()->get();
+
+    return view('admin.sales.soft_deleted', compact('softDeletedItems'));
+}
+
+public function restore($sales_id)
+{
+    $item = Sales::withTrashed()->findOrFail($sales_id);
+    $item->restore();
+
+    return redirect()->route('admin.sales.soft_deleted')->with('success', 'Sales restored successfully!');
+}
+
+public function forceDelete($sales_id)
+{
+    $item = Sales::withTrashed()->findOrFail($sales_id);
+    $item->forceDelete();
+
+    return redirect()->route('admin.sales.soft_deleted')->with('success', 'Sales deleted permanently!');
+}
+
     }

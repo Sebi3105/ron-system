@@ -382,15 +382,19 @@ filterDropdown.style.left = `${rect.left + window.scrollX}px`;
 
     // Reset button action
     document.getElementById('resetFilter').addEventListener('click', (e) => {
-        e.stopPropagation();
+    e.stopPropagation();
 
-        document.getElementById('categoryFilter').value = '';
-        document.getElementById('brandFilter').value = '';
-        document.getElementById('statusFilter').value = '';
+    // Reset filter values
+    document.getElementById('categoryFilter').value = '';
+    document.getElementById('brandFilter').value = '';
+    document.getElementById('statusFilter').value = '';
 
-        table.ajax.url('{{ route('inventory.index') }}').load();
-        //HIDE DROPDOWN AFTER APPLYING RESET
-        filterDropdown.classList.add('hidden');
+    // Update the table with the new URL
+    table.ajax.url('{{ route('inventory.index') }}').load();
+
+    // Hide dropdown after applying reset
+    filterDropdown.classList.add('hidden');
+
     });
 });
 

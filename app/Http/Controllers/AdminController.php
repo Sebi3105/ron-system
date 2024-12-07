@@ -7,6 +7,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
 use App\Models\User; // Import the User model
 use Illuminate\Support\Facades\Hash; // For hashing passwords
+use App\Models\brand;
+use App\Models\inventory;
+use App\Models\category;
+use App\Models\InventoryItem;
+use App\Models\sales;
+use Yajra\DataTables\DataTables; 
+
 
 class AdminController extends Controller
 {
@@ -73,7 +80,8 @@ public function destroy($id)
 
     return redirect(route('admin.dashboard'))->with('success', 'User  deleted successfully!');
 }
-    
+
+
 }
 
 
