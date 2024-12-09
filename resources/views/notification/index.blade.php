@@ -35,6 +35,9 @@
 </x-app-layout>
 
 <style>
+    body{
+        background: #000;
+    }
     .notification-container {
         background-color: #fff;
         color: #000;
