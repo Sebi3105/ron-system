@@ -25,7 +25,7 @@
                 </div>
 
                 <div class="flex space-x-2">
-                    <a href="{{ route('customer.create') }}" class="text-white py-2 px-4 rounded insert-btn">+ Add New Customer</a>
+                    <a href="{{ route('customer.create') }}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">+ Add New Customer</a>
                 </div>
             </div>
 

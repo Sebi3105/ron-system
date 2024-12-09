@@ -81,6 +81,27 @@ class BrandController extends Controller
         return response()->json(['message' => 'Brand Deleted Successfully'], 200); // Successful deletion response
     }
     
-  
+    public function softDeleted()
+    {
+        $softDeletedItems = Brand::onlyTrashed()->get();
+       // dd($softDeletedItems); // Check the contents of the soft deleted items
+    
+        return view('admin.brand.soft_deleted', compact('softDeletedItems'));
+    }
+    public function restore($id)
+    {
+        $item = Brand::withTrashed()->findOrFail($id);
+        $item->restore();
+    
+        return redirect()->route('admin.brand.soft_deleted')->with('success', 'Brand restored successfully!');
+    }
+    
+    public function forceDelete($id)
+    {
+        $item = Brand::withTrashed()->findOrFail($id);
+        $item->forceDelete();
+    
+        return redirect()->route('admin.brand.soft_deleted')->with('success', 'Brand deleted permanently!');
+    }
 
 }

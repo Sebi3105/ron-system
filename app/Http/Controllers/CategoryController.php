@@ -81,6 +81,29 @@ class CategoryController extends Controller
         $category->delete();
         return response()->json(['message' => 'Category Deleted Successfully'], 200); // Successful deletion response
     }
+
+    public function softDeleted()
+{
+    $softDeletedItems = Category::onlyTrashed()->get();
+   // dd($softDeletedItems); // Check the contents of the soft deleted items
+
+    return view('admin.category.soft_deleted', compact('softDeletedItems'));
+}
+public function restore($id)
+{
+    $item = Category::withTrashed()->findOrFail($id);
+    $item->restore();
+
+    return redirect()->route('admin.category.soft_deleted')->with('success', 'Category restored successfully!');
+}
+
+public function forceDelete($id)
+{
+    $item = Category::withTrashed()->findOrFail($id);
+    $item->forceDelete();
+
+    return redirect()->route('admin.category.soft_deleted')->with('success', 'Category deleted permanently!');
+}
 }
 
 

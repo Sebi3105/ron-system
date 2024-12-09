@@ -101,4 +101,26 @@ class CustomerController extends Controller
 
     return view('customer.history', compact('customer', 'sales'));
 }
+public function softDeleted()
+{
+    $softDeletedItems = Customer::onlyTrashed()->get();
+   // dd($softDeletedItems); // Check the contents of the soft deleted items
+
+    return view('admin.customer.soft_deleted', compact('softDeletedItems'));
+}
+public function restore($id)
+{
+    $item = Customer::withTrashed()->findOrFail($id);
+    $item->restore();
+
+    return redirect()->route('admin.customer.soft_deleted')->with('success', 'Customer restored successfully!');
+}
+
+public function forceDelete($id)
+{
+    $item = Customer::withTrashed()->findOrFail($id);
+    $item->forceDelete();
+
+    return redirect()->route('admin.customer.soft_deleted')->with('success', 'Customer deleted permanently!');
+}
 }

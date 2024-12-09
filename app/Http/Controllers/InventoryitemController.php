@@ -169,4 +169,26 @@ public function store(Request $request)
     return view('inventory.serials', compact('inventoryitem', 'product_id'));
 }
     
+    public function softDeletedItems()
+{
+    $softDeletedItems = InventoryItem::with('inventory')->onlyTrashed()->get();
+    return view('admin.inventoryitem.soft_deleted', compact('softDeletedItems'));
+}
+
+public function restoreItem($sku_id)
+{
+    $item = InventoryItem::withTrashed()->findOrFail($sku_id);
+    $item->restore();
+
+    return redirect()->route('admin.inventoryitem.softDeleted')->with('success', 'Item restored successfully!');
+}
+
+public function forceDeleteItem($sku_id)
+{
+    $item = InventoryItem::withTrashed()->findOrFail($sku_id);
+    $item->forceDelete();
+
+    return redirect()->route('admin.inventoryitem.softDeleted')->with('success', 'Item deleted permanently!');
+}
+
 }
