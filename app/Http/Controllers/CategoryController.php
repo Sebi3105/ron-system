@@ -25,15 +25,9 @@ class CategoryController extends Controller
     //     ]);
     // }
 
-    public function index(Request $request){  
+    public function categoryData(Request $request){  
         if($request->ajax()){
-            $data = Category::select('category_id', 'category_name', 'created_at', 'updated_at')
-                ->get()
-                ->map(function ($category) {
-                    $category->created_at = $category->created_at->format('yy-m-d H:i:s'); // Format as needed
-                    $category->updated_at = $category->updated_at->format('yy-m-d H:i:s');
-                    return $category;
-                });
+            $data = Category::select(['category_id', 'category_name']);
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function($row){
@@ -47,7 +41,7 @@ class CategoryController extends Controller
                 ->make(true);
         }
         
-        return view("category.index");
+        return view("inventory.index");
     }
 
     public function create()
@@ -83,7 +77,7 @@ class CategoryController extends Controller
         return redirect(route('category.index'))->with('success', 'Category Updated Successfully');
     }
 
-    public function delete(Category $category){
+    public function destroy(Category $category){
         $category->delete();
         return response()->json(['message' => 'Category Deleted Successfully'], 200); // Successful deletion response
     }

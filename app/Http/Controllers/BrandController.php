@@ -23,17 +23,11 @@ class BrandController extends Controller
       
     // }
 
-    public function index(Request $request)
+    public function brandData(Request $request)
     {
         
         if($request->ajax()){
-            $data = Brand::select('brand_id', 'brand_name', 'created_at', 'updated_at')
-                ->get()
-                ->map(function ($brand) {
-                    $brand->created_at = $brand->created_at->format('yy-m-d H:i:s'); // Format as needed
-                    $brand->updated_at = $brand->updated_at->format('yy-m-d H:i:s');
-                    return $brand;
-                });
+            $data = Brand::select(['brand_id', 'brand_name']);
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function($row){
@@ -46,8 +40,7 @@ class BrandController extends Controller
                 ->rawColumns(['action']) // Mark action column as raw HTML
                 ->make(true);
         }
-        
-        return view("brand.index");
+        return view("inventory.index");
     }
 
     public function create(){
@@ -83,7 +76,7 @@ class BrandController extends Controller
 
     }
 
-    public function delete(Brand $brand){
+    public function destroy(Brand $brand){
         $brand->delete();
         return response()->json(['message' => 'Brand Deleted Successfully'], 200); // Successful deletion response
     }

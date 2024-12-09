@@ -135,12 +135,12 @@ class InventoryController extends Controller
     
         return redirect(route('inventory.index'))->with('success', 'Product Updated Successfully');
     }
-    public function delete(Inventory $inventory)
-{
-    // Soft delete the inventory item
-    $inventory->delete();
-    return response()->json(['message' => 'Product Deleted Successfully'], 200);
-}
+    public function destroy(Inventory $inventory)
+    {
+        // Soft delete the inventory item
+        $inventory->delete();
+        return response()->json(['message' => 'Product Deleted Successfully'], 200);
+    }
 
 
     private function getStatusBasedOnQuantity($quantity)
@@ -155,17 +155,17 @@ class InventoryController extends Controller
 
 
     public function getnotif(Request $request)
-{
-    if ($request->ajax()) {
-        // Your existing AJAX code...
+    {
+        if ($request->ajax()) {
+            // Your existing AJAX code...
+        }
+
+        $categories = Category::all();
+        $brands = Brand::all();
+        $product = Inventory::all(); // Make sure to use a plural variable name
+
+        return view("inventory.index", compact('categories', 'brands', 'product'));
     }
-
-    $categories = Category::all();
-    $brands = Brand::all();
-    $product = Inventory::all(); // Make sure to use a plural variable name
-
-    return view("inventory.index", compact('categories', 'brands', 'product'));
-}
    
     
 }

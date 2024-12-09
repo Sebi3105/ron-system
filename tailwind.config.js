@@ -12,7 +12,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Inter', ...defaultTheme.fontFamily.sans],
             },
             colors: {
                 // Custom navy-blue color
@@ -24,20 +24,20 @@ export default {
             },
 
             // Adding dark mode support
-            screens: {
-                'dark': {'raw': '(prefers-color-scheme: dark)'},
-            },
+            // screens: {
+            //     'dark': {'raw': '(prefers-color-scheme: dark)'},
+            // },
 
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Inter', ...defaultTheme.fontFamily.sans],
             },
 
             // Optional: Customizing dark mode hover effects 
-            extend: {
-                colors: {
-                    'dark-hover': '#333', // Dark mode hover effect color
-                },
-            }
+            // extend: {
+            //     colors: {
+            //         'dark-hover': '#333', // Dark mode hover effect color
+            //     },
+            // }
         },
     },
 
