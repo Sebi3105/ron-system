@@ -446,6 +446,7 @@ document.addEventListener('DOMContentLoaded', function () {
     confirmCancelButton.addEventListener('click', function () {
         console.log('Closing modal...');
         modal.classList.add('hidden');
+        window.location.href = "{{ route('inventory.index') }}"; // Redirect to inventory.index
     });
 
     // Confirm button in modal

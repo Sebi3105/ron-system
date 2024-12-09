@@ -62,6 +62,8 @@ class CategoryController extends Controller
         ]);
 
         Category::create($data);
+        session()->flash('success', 'Category created successfully!');
+
 
         return redirect(route('inventory.index'));
     }

@@ -479,101 +479,54 @@
             color: white;
             transform: scale(1.1);
         }
+    </style>
 
+    <div class="container mx-auto p-4">
+        <h1>Serial Numbers for {{ $inventoryitem->product_name }}</h1>
 
-                    </style>
-                        <div class="container mx-auto p-4">
-                        <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
-                        <div class="relative w-full md:w-1/2">
-                                <input type="text" id="tableSearch" class="border border-gray-300 rounded-md pl-10 pr-4 py-2 w-full" placeholder="Search...">
-                                <span class="absolute left-3 top-2.5 text-gray-500">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a7 7 0 100 14 7 7 0 000-14zM18 18l-3.5-3.5" />
-                                    </svg>
-                                </span>
-                            </div>
-                            <div class="dataTables_length"></div>
-                                <a href="{{ route('inventoryitem.create', ['product_id' => $inventoryitem->product_id]) }}" class="insert-btn text-sm"> + Insert New Serial</a>
-                            
-                </div>
-                <div class="flex space-x-4">
-                <!-- Product Details in a single column -->
-                <div class="bg-white border border-gray-300 p-4 rounded shadow-md">
-                    <h2 class="text-lg font-semibold mb-2">Product Details</h2>
-                    <table id="Serials" class="min-w-full">
-                        <tbody>
-                            <tr>
-                                <td class="py-2 px-4 border-b font-bold">Product ID:</td>
-                                <td class="py-2 px-4 border-b">{{ $inventoryitem->product_id }}</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 px-4 border-b font-bold">Product Name:</td>
-                                <td class="py-2 px-4 border-b">{{ $inventoryitem->product_name }}</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 px-4 border-b font-bold">Quantity:</td>
-                                <td class="py-2 px-4 border-b">{{ $inventoryitem->quantity }}</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 px-4 border-b font-bold">Status:</td>
-                                <td class="py-2 px-4 border-b">{{ $inventoryitem->status }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                        </div>
-                        <div class="table">
-                            <table id="serials">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Serial Number</th>
-                                        <th>Condition</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-
-            <div id="confirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
-            <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
-                <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-red-500 to-red-700 p-4 rounded-t-lg">
-                    Confirmation
-                </h2>
-                <p class="text-gray-700 text-center mb-6">
-                    Are you sure you want to delete this item? 
-                </p>
-                <div class="flex justify-center gap-4">
-                    <button id="cancelDelete" class="px-6 py-3 bg-gray-400 text-white rounded-md hover:bg-gray-500 transition">
-                        Cancel
-                    </button>
-                    <button id="confirmDelete" class="px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-md hover:from-red-600 hover:to-red-800 transition">
-                        Delete
-                    </button>
-                </div>
-            </div>
+        <div class=" flex justify-between items-center mb-4 create_link">
+        <a href="{{ route('inventoryitem.create', ['product_id' => $inventoryitem->product_id]) }}"> Insert New Product Serial</a>
         </div>
-
-        <div id="editConfirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
-    <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
-        <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-blue-500 to-blue-700 p-4 rounded-t-lg">
-            Confirmation
-        </h2>
-        <p class="text-gray-700 text-center mb-6">
-            Are you sure you want to edit this item?
-        </p>
-        <div class="flex justify-center gap-4">
-            <button id="editcancelEdit" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-200 transition">
-                Cancel
-            </button>
-            <button id="editconfirmEdit" class="px-6 py-3 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-md hover:from-green-600 hover:to-green-800 transition">
-                Confirm
-            </button>
+        <div class="flex space-x-4">
+        <!-- Product Details in a single column -->
+        <div class="bg-white border border-gray-300 p-4 rounded shadow-md">
+            <h2 class="text-lg font-semibold mb-2">Product Details</h2>
+            <table class="min-w-full">
+                <tbody>
+                    <tr>
+                        <td class="py-2 px-4 border-b font-bold">Product ID:</td>
+                        <td class="py-2 px-4 border-b">{{ $inventoryitem->product_id }}</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-4 border-b font-bold">Product Name:</td>
+                        <td class="py-2 px-4 border-b">{{ $inventoryitem->product_name }}</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-4 border-b font-bold">Quantity:</td>
+                        <td class="py-2 px-4 border-b">{{ $inventoryitem->quantity }}</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-4 border-b font-bold">Status:</td>
+                        <td class="py-2 px-4 border-b">{{ $inventoryitem->status }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
+        <div class="table">
+    <table id="serials">
+        <thead>
+            <tr>
+                <th>#</th> <!-- Change SKU ID to # -->
+                <th>Serial Number</th>
+                <th>Condition</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+<div class="mt-4">
+        <a href="{{ route('inventory.index') }}" class="text-blue-500 hover:underline">Back to Inventory</a>
     </div>
 </div>
             <script>

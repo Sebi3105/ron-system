@@ -38,6 +38,21 @@
                 </div>
 
                 <!-- Form -->
+                <div class="container mx-auto p-4">
+    <h1>Create Serial Number for {{ $selectedInventory->product_name }}</h1>
+
+    <p>You can create up to {{ $amount }} serial numbers for this product.</p>
+
+    @if ($errors->any())
+        <div class="bg-red-500 text-white p-2 rounded mb-4">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
                 <form id="serialForm" method="post" action="{{ route('inventoryitem.store') }}">
                     @csrf
                     <input type="hidden" name="product_id" value="{{ $selectedInventory->product_id }}">
@@ -46,10 +61,12 @@
                         <input type="text" name="serial_number" id="serial_number" placeholder="Enter Serial Number" required class="w-full p-3 border border-gray-300 rounded-md">
                     </div>
 
-                    <div class="condition mb-4">
-                        <select name="condition" id="condition" class="w-full p-3 border border-gray-300 rounded-md">
-                            <option value="working">Working</option>
-                            <option value="defective">Defective</option>
+                    <div class="form-group">
+                        <label for="condition">Condition</label>
+                        <select name="condition" id="condition" class="w-full p-3 border border-gray-300 rounded-md" required>
+                            @foreach($conditions as $condition)
+                                <option value="{{ $condition }}">{{ ucfirst($condition) }}</option>
+                            @endforeach
                         </select>
                     </div>
 

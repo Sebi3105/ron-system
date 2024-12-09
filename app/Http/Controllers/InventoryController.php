@@ -54,7 +54,7 @@ class InventoryController extends Controller
                     $deleteUrl = route('inventory.delete', $row);
 
                     return '<div class="flex space-x-2 items-center justify-center">
-                            <a href="' . $viewUrl . '" class="bg-navy-blue text-white py-1 px-2 rounded">View Serials</a>
+                            <a href="' . $viewUrl . '" class="bg-navy-blue text-blue py-1 px-2 rounded">View Serials</a>
                             <a href="' . $editUrl . '" class="btn btn-sm btn-primary">Update</a>
                             <button data-url="' . $deleteUrl . '" class="btn btn-sm btn-danger delete-btn">Delete</button>
                             </div>';
@@ -86,21 +86,26 @@ class InventoryController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $data = $request->validate([
-            'category_id' => 'required|exists:category,category_id',
-            'brand_id' => 'required|exists:brand,brand_id',
-            'product_name' => 'required|string|max:255',
-            'quantity' => 'required|integer|min:1',
-            'released_date' => 'required|date',
-            'notes' => 'nullable|string',
-        ]);
-        
-        $data['status'] = $this->getStatusBasedOnQuantity($data['quantity']);
-        Inventory::create($data);
+{
+    // Validate the request
+    $request->validate([
+        'product_name' => 'required|string|max:255',
+        'category_id' => 'required|integer',
+        'brand_id' => 'required|integer',
+        'quantity' => 'required|integer|min:0',
+        'released_date' => 'required|date',
+        'notes' => 'nullable|string|max:255',
+    ]);
 
-        return redirect(route('inventory.index'));
-    }
+    // Create the product
+    Inventory::create($request->all());
+
+    // Set a success message
+    session()->flash('success', 'Product created successfully!');
+
+    // Redirect back to the inventory index or any other route
+    return redirect()->route('inventory.index');
+}
 
     public function edit(Inventory $inventory)
     {

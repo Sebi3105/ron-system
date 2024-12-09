@@ -59,8 +59,12 @@ class BrandController extends Controller
         $data = $request->validate([
             'brand_name' => 'required',
         ]);
-
-        $new_brand = brand::create($data);
+    
+        $new_brand = Brand::create($data);
+    
+        // Set a success message
+        session()->flash('success', 'Brand created successfully!');
+    
 
         return redirect(route('inventory.index'));
     }
