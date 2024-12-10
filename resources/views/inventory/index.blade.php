@@ -358,18 +358,18 @@
             <!-- PRODUCT TABLE-->
 <div class="table-container py-4 max-h-[500px] max-w-7xl mx-auto px-4 sm:text-left lg:px-8 bg-gray-200">
     <div class="p-4 sm:text-left bg-gray-200">
-        <div>
+        <div>     
         <table id="inventory" class="min-w-full table-fixed bg-gray-200 text-gray-500">
         <thead class="text-gray-500 bg-gray-200">
                     <tr>
-                        <th class="w-12 p-1 bg-gray-100 border-b border-gray-300">#</th>
+                        <th class="w-24 p-1 bg-gray-100 border-b border-gray-300">#</th>
                         <th class="w-24 p-1 bg-gray-100 border-b border-gray-300 text-center">Product Name</th>
-                        <th class="w-20 p-1 bg-gray-100 border-b border-gray-300 text-center">Brand</th>
-                        <th class="w-20 p-1 bg-gray-100 border-b border-gray-300 text-center">Category</th>
-                        <th class="w-12 p-1 bg-gray-100 border-b border-gray-300 text-center">Quantity</th>
+                        <th class="w-24 p-1 bg-gray-100 border-b border-gray-300 text-center">Brand</th>
+                        <th class="w-24 p-1 bg-gray-100 border-b border-gray-300 text-center">Category</th>
+                        <th class="w-16 p-1 bg-gray-100 border-b border-gray-300 text-center">Quantity</th>
                         <th class="w-20 p-1 bg-gray-100 border-b border-gray-300 text-center">Released Date</th>
-                        <th class="w-20 p-1 bg-gray-100 border-b border-gray-300 text-center">Status</th>
-                        <th class="w-28 p-1 bg-gray-100 border-b border-gray-300 text-center">Actions</th>
+                        <th class="w-24 p-1 bg-gray-100 border-b border-gray-300 text-center">Status</th>
+                        <th class="w-30 p-1 bg-gray-100 border-b border-gray-300 text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="bg-gray-200">

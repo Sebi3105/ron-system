@@ -40,39 +40,52 @@
             <table id="sales" class="min-w-full table-fixed bg-gray-200 text-gray-500">
                 <thead class="text-gray-500 bg-gray-200">
                     <tr>
-                        <th class="w-12 p-1 text-center bg-gray-100 border-b border-gray-300">#</th>
+                        <th class="w-10 p-1 text-center bg-gray-100 border-b border-gray-300">#</th>
                         <th class="w-20 p-1 text-center bg-gray-100 border-b border-gray-300">Customer Name</th>
                         <th class="w-20 p-1 text-center bg-gray-100 border-b border-gray-300">Product Name</th>
                         <th class="w-20 p-1 text-center bg-gray-100 border-b border-gray-300">Serial Number</th>
                         <th class="w-16 p-1 text-center bg-gray-100 border-b border-gray-300">State</th>
-                        <th class="w-24 p-1 text-center bg-gray-100 border-b border-gray-300">Sale Date</th>
+                        <th class="w-20 p-1 text-center bg-gray-100 border-b border-gray-300">Sale Date</th>
                         <th class="w-20 p-1 text-center bg-gray-100 border-b border-gray-300">Amount</th>
                         <th class="w-18 p-1 text-center bg-gray-100 border-b border-gray-300"">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="bg-gray-200">
-                            @foreach($sales as $key => $sale)
-                                <tr>
-                                    <td class="p-2 border-r border-gray-400">{{ $key + 1 }}</td>
-                                    <td class="p-2 border-r border-gray-400">{{ $sale->customer->name }}</td>
-                                    <td class="p-2 border-r border-gray-400">{{ $sale->inventory->product_name }}</td>
-                                    <td class="p-2 border-r border-gray-400">{{ $sale->inventoryItem->serial_number }}</td>         
-                                    <td class="p-2 border-r border-gray-400">{{ $sale->state }}</td>
-                                    <td class="p-2 border-r border-gray-400">{{ $sale->sale_date->format('Y-m-d') }}</td>
-                                    <td class="p-2 border-r border-gray-400">{{ number_format($sale->amount, 2) }}</td>
-                                    <td class="p-2">
-                                    <a href="{{ route('sales.show', $sale->sales_id) }}" class="text-white bg-navy-bue">View</a>
-                                        <a href="{{ route('sales.edit', $sale->sales_id) }}" class="text-blue-500 btn-primary">Edit</a> 
-                                        <form action="{{ route('sales.destroy', $sale->sales_id) }}" method="POST" " class="inline delete-btn">
-                                            @csrf
-                                            @method('DELETE')
-                                            <select name="delete_type" class="mr-2">
-                                                <option value="soft">Archive</option>
-                                                <option value="hard">Delete</option>
-                                            </select>
-                                            <button type="submit" class="btn btn-danger">Delete</button>
-                                        </form>
-                                    </td>
+                <tbody class="bg-gray-200 text-center">
+                            @foreach($sales as $key => $sale)            
+                                    <tr>
+                                        <td class="p-2 border-b border-gray-400">{{ $key + 1 }}</td>
+                                    <td class="p-2 text-center border-b border-gray-400">{{ $sale->customer ? $sale->customer->name : 'No customer' }}</td>
+                                    <td class="p-2 text-center border-b border-gray-400">{{ $sale->inventory->product_name }}</td>
+                                    <td class="p-2 text-center border-b border-gray-400">{{ $sale->inventoryItem->serial_number }}</td>         
+                                    <td class="p-2 text-center border-b border-gray-400">{{ $sale->state }}</td>
+                                    <td class="p-2 text-center border-b border-gray-400">{{ $sale->sale_date->format('Y-m-d') }}</td>
+                                    <td class="p-2 text-center border-b border-gray-400">{{ number_format($sale->amount, 2) }}</td>
+                                    <td class="p-2 text-center border-b border-gray-400 text-center">
+    <div class="inline-flex items-center space-x-2">
+        <!-- View Button -->
+        <a href="{{ route('sales.show', $sale->sales_id) }}" class="bg-navy-blue text-white py-1 px-3 rounded">
+            View
+        </a>
+
+        <!-- Edit Button -->
+        <a href="{{ route('sales.edit', $sale->sales_id) }}" class="bg-green-500 text-white py-1 px-3 rounded">
+            Edit
+        </a>
+
+        <!-- Delete Form -->
+        <form action="{{ route('sales.destroy', $sale->sales_id) }}" method="POST" class="inline-flex items-center space-x-2">
+            @csrf
+            @method('DELETE')
+            <select name="delete_type" class="mr-2">
+                <option value="soft">Archive</option>
+                <option value="hard">Delete</option>
+            </select>
+            <button type="submit" class="bg-red-500 text-white py-1 px-3 rounded">
+                Delete
+            </button>
+        </form>
+    </div>
+</td>
                                 </tr>
                         @endforeach
                 </tbody>
