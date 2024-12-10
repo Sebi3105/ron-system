@@ -5,11 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
+
 
 class TechReport extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use LogsActivity;
     protected $table = 'technician_report';
     protected $primaryKey = 'report_id';
     protected $fillable = [
@@ -79,6 +83,32 @@ class TechReport extends Model
 {
     return $this->belongsTo(Services::class, 'service_id');
 }
+// app/Models/TechReport.php
+public function sale()
+{
+    return $this->belongsTo(Sales::class, 'sku_id', 'sku_id');
+}
 
+
+public function getActivitylogOptions(): LogOptions
+{
+    return LogOptions::defaults()
+        ->logOnly(['technician_id', 'customer_id', 'sku_id', 'service_id', 'date_of_completion', 'payment_type', 
+        'payment_method','status','remarks','cost'])
+        ->logOnlyDirty()
+        ->useLogName('technicinan') 
+        ->setDescriptionForEvent(function (string $eventName) {
+            switch ($eventName) {
+                case 'updated':
+                    return "updated technician report of  ";
+                case 'created':
+                    return "added new technician report ";
+                case 'deleted':
+                    return "deleted technician report of ";
+                default:
+                    return "{$eventName} Technician Data"; 
+            }
+        });
+}
 
 }

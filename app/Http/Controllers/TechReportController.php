@@ -201,7 +201,8 @@ class TechReportController extends Controller
   
       TechReport::create($data); // Make sure TechnicianReport is the correct model name
   
-      return redirect(route('techreport.index'));
+      
+      return redirect(route('techreport.index'))->with('success', 'Report Created Successfully');
   }
 
         

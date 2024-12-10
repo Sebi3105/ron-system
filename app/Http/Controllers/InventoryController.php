@@ -167,8 +167,7 @@ class InventoryController extends Controller
         return view("inventory.index", compact('categories', 'brands', 'product'));
     }
    
-
-public function softDeleted()
+    public function softDeleted()
 {
     $softDeletedItems = Inventory::onlyTrashed()->get();
    // dd($softDeletedItems); // Check the contents of the soft deleted items
@@ -190,7 +189,6 @@ public function forceDelete($id)
 
     return redirect()->route('admin.inventory.soft_deleted')->with('success', 'Item deleted permanently!');
 }
-
 }
 
 
