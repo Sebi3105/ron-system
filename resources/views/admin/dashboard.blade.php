@@ -40,6 +40,10 @@
                 <a href="{{ route('admin.sales.soft_deleted') }}" class="btn btn-secondary">View Soft Deleted Sales</a>
                 <a href="{{ route('admin.brand.soft_deleted') }}" class="btn btn-secondary">View Soft Deleted Brands</a>
                 <a href="{{ route('admin.category.soft_deleted') }}" class="btn btn-secondary">View Soft Deleted Categories</a>
+                <a href="{{ route('admin.services.soft_deleted') }}" class="btn btn-secondary">View Soft Deleted Services</a>
+                <a href="{{ route('admin.techprofile.soft_deleted') }}" class="btn btn-secondary">View Soft Deleted Technician</a>
+                <a href="{{ route('admin.techreport.soft_deleted') }}" class="btn btn-secondary">View Soft Deleted Technician Report</a>
+                
             </div>
 
             </div>

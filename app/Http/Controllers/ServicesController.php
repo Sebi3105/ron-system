@@ -82,6 +82,29 @@ class ServicesController extends Controller
     
   
 
+    public function softDeleted()
+    {
+        $softDeletedItems = Services::onlyTrashed()->get();
+    // dd($softDeletedItems); // Check the contents of the soft deleted items
+
+        return view('admin.services.soft_deleted', compact('softDeletedItems'));
+    }
+public function restore($id)
+{
+    $item = Services::withTrashed()->findOrFail($id);
+    $item->restore();
+
+    return redirect()->route('admin.services.soft_deleted')->with('success', 'Service restored successfully!');
+}
+
+public function forceDelete($id)
+{
+    $item = Services::withTrashed()->findOrFail($id);
+    $item->forceDelete();
+
+    return redirect()->route('admin.services.soft_deleted')->with('success', 'Service deleted permanently!');
+}
+
 }
 
 

@@ -109,6 +109,10 @@ public function getActivitylogOptions(): LogOptions
                     return "{$eventName} Technician Data"; 
             }
         });
-}
+}public function inventory()
+    {
+        return $this->belongsTo(Inventory::class, 'product_id', 'product_id');
+    }
+
 
 }
