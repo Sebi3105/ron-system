@@ -25,7 +25,7 @@
                 </div>
 
                 <div class="flex space-x-2">
-                    <a href="{{ route('customer.create') }}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">+ Add New Customer</a>
+                    <a href="{{ route('customer.create') }}" class="bg-navy-blue text-white py-2 px-4 rounded hover:bg-navy-blue">+ Add New Customer</a>
                 </div>
             </div>
 
@@ -37,7 +37,7 @@
                 @endif
             </div>
 
-            <div class="py-4 overflow-auto max-h-[500px] max-w-7xl mx-auto px-4 sm:text-left lg:px-8">
+            <div class="table-container py-4 overflow-auto max-h-[500px] max-w-7xl mx-auto px-4 sm:text-left lg:px-8">
                 <div class="p-4 sm:text-left overflow-y-auto bg-gray-200">
                     <table id="customer" class="min-w-full table-fixed bg-gray-200 text-gray-500">
                         <thead class="text-gray-500 bg-gray-200">

@@ -7,7 +7,7 @@
         <h1 class="text-2xl font-semibold text-gray-800">Notifications</h1>
     </header>
 
-    <div class="flex flex-col md:flex-row h-screen">
+    <div class="flex flex-col md:flex-row h-screen bg-gray-200">
 
         <div class="flex-1 ml-64 mt-20 flex justify-center items-center">
             <div class="notification-container">

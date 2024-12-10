@@ -83,6 +83,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/sales/{sale}/delete', [SalesController::class, 'destroy'])->name('sales.delete'); // Custom delete route
     Route::get('/sales/{id}', [SalesController::class, 'show'])->name('sales.show');
     Route::get('/sales/serials/{id}', [SalesController::class, 'getSerials'])->name('sales.serials');
+    Route::get('/get-serials/{id}', [SalesController::class, 'getSerials'])->name('get.serials');
 
 
     Route::resource('notification',NotificationController::class);

@@ -1,4 +1,4 @@
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 <x-app-layout>
     <div class="flex flex-col md:flex-row h-screen">
         <!-- Sidebar (Navigation) -->
@@ -536,6 +536,32 @@
            window.addEventListener('resize', function() {
     location.reload(); // Automatic na magre-refresh ang page
 });
+document.addEventListener('DOMContentLoaded', function () {
+    const inventorySelect = document.getElementById('inventories');
+    const serialsSelect = document.getElementById('serials');
+
+    inventorySelect.addEventListener('change', function () {
+        const inventoryId = this.value;
+
+        // Clear previous serial numbers
+        serialsSelect.innerHTML = '<option value="" selected>Select Serial Number</option>';
+
+        if (inventoryId) {
+            fetch(`/get-serials/${inventoryId}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(serial => {
+                        const option = document.createElement('option');
+                        option.value = serial.sku_id; // Assuming sku_id is the identifier
+                        option.textContent = serial.serial_number; // Assuming serial_number is the display name
+                        serialsSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching serials:', error));
+        }
+    });
+});
+
 document.addEventListener('DOMContentLoaded', function () {
             const modal = document.getElementById('confirmationModal');
             const modalMessage = document.getElementById('confirmationMessage');

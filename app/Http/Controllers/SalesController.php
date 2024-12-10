@@ -37,10 +37,8 @@
     
     return view('sales.edit', compact('sale', 'customers', 'inventories', 'serials'));
 }
-
-    public function update(Request $request, Sales $sale)
+     public function update(Request $request, Sales $sale)
     {
-        // Validate the incoming request data
         $validatedData = $request->validate([
             'customer_id' => 'required|exists:customer,customer_id',
             'inventory_id' => 'required|exists:inventory,product_id',
@@ -124,15 +122,14 @@
 
 public function getSerials($id)
 {
-    // Fetch serials based on the inventory item id, excluding those in soft-deleted sales
+    // Fetch serials based on the inventory item id, excluding those in sales
     $serials = InventoryItem::where('product_id', $id)
-        ->whereDoesntHave('sales', function ($query) {
-            $query->onlyTrashed(); // Exclude soft-deleted sales
-        })
+        ->whereDoesntHave('sales')
         ->get();
-    
+
     return response()->json($serials);
 }
+
 
 public function show($id)
 {
