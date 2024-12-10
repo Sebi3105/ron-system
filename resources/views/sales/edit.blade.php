@@ -151,7 +151,7 @@
     <style>
 
         body {
-            font-family: Arial, sans-serif;
+            
             background-color: #f3f3f3;
             margin: 0;
             
