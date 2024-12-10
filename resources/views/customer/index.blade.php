@@ -4,7 +4,7 @@
 <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 
 <div class="flex flex-col md:flex-row h-screen bg-gray-200">
-    <div class="flex-1 ml-64 mt-0 min-h-screen">
+    <div class="flex-1 ml-64 mt-0 min-h-screen bg-gray-200">
         <!-- Content Section -->
         <div class="max-w-7xl mx-auto px-4 sm:text-left lg:px-8 mt-4 mb-6">
             <div class="relative pt-16">
@@ -37,7 +37,7 @@
                 @endif
             </div>
 
-            <div class="table-container py-4 overflow-auto max-h-[500px] max-w-7xl mx-auto px-4 sm:text-left lg:px-8">
+            <div class="table-container py-4 max-h-[500px] max-w-7xl mx-auto px-4 sm:text-left lg:px-8">
                 <div class="p-4 sm:text-left overflow-y-auto bg-gray-200">
                     <table id="customer" class="min-w-full table-fixed bg-gray-200 text-gray-500">
                         <thead class="text-gray-500 bg-gray-200">
@@ -188,6 +188,7 @@ $('#customer tbody').on('click', '.btn-primary', function (e) {
 <style>
     body{
         font-family: 'Poppins';
+        bg-gray-200
     }
 #tableSearch {
         width: 400px; 

@@ -40,12 +40,12 @@
             <table id="sales" class="min-w-full table-fixed bg-gray-200 text-gray-500">
                 <thead class="text-gray-500 bg-gray-200">
                     <tr>
-                        <th class="w-12 p-1 text-center bg-gray-100 border-b border-gray-300">#</th>
+                        <th class="w-10 p-1 text-center bg-gray-100 border-b border-gray-300">#</th>
                         <th class="w-20 p-1 text-center bg-gray-100 border-b border-gray-300">Customer Name</th>
                         <th class="w-20 p-1 text-center bg-gray-100 border-b border-gray-300">Product Name</th>
                         <th class="w-20 p-1 text-center bg-gray-100 border-b border-gray-300">Serial Number</th>
                         <th class="w-16 p-1 text-center bg-gray-100 border-b border-gray-300">State</th>
-                        <th class="w-24 p-1 text-center bg-gray-100 border-b border-gray-300">Sale Date</th>
+                        <th class="w-20 p-1 text-center bg-gray-100 border-b border-gray-300">Sale Date</th>
                         <th class="w-20 p-1 text-center bg-gray-100 border-b border-gray-300">Amount</th>
                         <th class="w-18 p-1 text-center bg-gray-100 border-b border-gray-300"">Actions</th>
                     </tr>
@@ -63,14 +63,14 @@
                                     <td class="p-2">
                                     <a href="{{ route('sales.show', $sale->sales_id) }}" class="text-white bg-navy-bue">View</a>
                                         <a href="{{ route('sales.edit', $sale->sales_id) }}" class="text-blue-500 btn-primary">Edit</a> 
-                                        <form action="{{ route('sales.destroy', $sale->sales_id) }}" method="POST" " class="inline">
+                                        <form action="{{ route('sales.destroy', $sale->sales_id) }}" method="POST" " class="inline delete-btn">
                                             @csrf
                                             @method('DELETE')
                                             <select name="delete_type" class="mr-2">
                                                 <option value="soft">Archive</option>
                                                 <option value="hard">Delete</option>
                                             </select>
-                                            <button type="submit" class="btn btn-danger delete-btn">Delete</button>
+                                            <button type="submit" class="btn btn-danger">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
