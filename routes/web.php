@@ -101,10 +101,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/brand/soft-deleted', [BrandController::class, 'softDeleted'])->name('admin.brand.softDeleted');
     Route::get('/admin/category/soft-deleted', [CategoryController::class, 'softDeleted'])->name('admin.category.softDeleted');
     Route::get('/admin/techprofile/soft-deleted', [TechProfileController::class, 'softDeleted'])->name('admin.techprofile.softDeleted');
-Route::get('/admin/services/soft-deleted', [ServicesController::class, 'softDeleted'])->name('admin.services.softDeleted');
-Route::get('/admin/techreport/soft-deleted', [TechReportController::class, 'softDeleted'])->name('admin.techreport.softDeleted');
+    Route::get('/admin/services/soft-deleted', [ServicesController::class, 'softDeleted'])->name('admin.services.softDeleted');
+    Route::get('/admin/techreport/soft-deleted', [TechReportController::class, 'softDeleted'])->name('admin.techreport.softDeleted');
 
-// Inventory admin history routes
+    // Inventory admin history routes
     Route::get('/admin/inventory/soft-deleted', [InventoryController::class, 'softDeleted'])->name('admin.inventory.softDeleted');
     Route::patch('/admin/inventory/restore/{product_id}', [InventoryController::class, 'restore'])->name('admin.inventory.restore');
     Route::delete('/admin/inventory/force-delete/{product_id}', [InventoryController::class, 'forceDelete'])->name('admin.inventory.forceDelete');
@@ -143,60 +143,62 @@ Route::get('/admin/techreport/soft-deleted', [TechReportController::class, 'soft
     Route::get('/admin/techreport/soft-deleted', [TechReportController::class, 'softDeleted'])->name('admin.techreport.soft_deleted');
     Route::patch('/admin/techreport/restore/{report_id}', [TechReportController::class, 'restore'])->name('admin.techreport.restore');
     Route::delete('/admin/techreport/force-delete/{report_id}', [TechReportController::class, 'forceDelete'])->name('admin.techreport.forceDelete');
+    
+    Route::resource('brand', BrandController::class);
+    Route::delete('brand/{brand}/delete', [BrandController::class, 'delete'])->name('brand.delete');
+
+    Route::resource('customer',CustomerController::class);
+    Route::delete('customer/{customer}/delete', [CustomerController::class, 'delete'])->name('customer.delete');
+    Route::get('/customer/{customer}/customerphistory',[CustomerController::class, 'showHistory'])->name('customer.history');
+
+    Route::resource('category',CategoryController::class);
+    Route::delete('/category/{category}/delete', [CategoryController::class, 'delete'])->name('category.delete');
+
+    Route::resource('inventory',InventoryController::class);
+    Route::delete('/inventory/{inventory}/delete', [InventoryController::class, 'delete'])->name('inventory.delete');
+
+    Route::resource('inventoryitem',InventoryitemController::class);
+    //Route::get('inventoryitem/create/{product_id}', [InventoryitemController::class, 'create'])->name('inventoryitem.create');
+    Route::get('inventory/{product_id}/serials', [InventoryitemController::class, 'search'])->name('inventoryitem.serials');
+    Route::get('/inventory/{product_id}/serials', [InventoryitemController::class, 'showSerials'])->name('inventoryitem.serials');
+    Route::delete('/inventoryitem/{inventoryitem}/delete', [InventoryitemController::class, 'delete'])->name('inventoryitem.delete');
+
+
+    //service routes
+    Route::resource('service', ServicesController::class);
+    // Route::delete('service/{service}/delete', [ServicesController::class, 'service'])->name('service.delete');
+    Route::get('/service', [ServicesController::class, 'index'])->name('service.index');
+    Route::delete('/service/{service}', [ServicesController::class, 'delete'])->name('service.delete');
+
+
+    //techprofile routes
+    Route::resource('techprofile', TechProfileController::class);
+    Route::get('/techprofile', [TechProfileController::class, 'index'])->name('techprofile.index');
+    Route::delete('/techprofile/{techprofile}', [TechProfileController::class, 'delete'])->name('techprofile.delete');
+    Route::get('/techprofile', [TechProfileController::class, 'index'])->name('techprofile.index');
+
+    //techreport routes
+
+    Route::resource('techreport',TechReportController::class);
+    Route::get('/techreport', [TechReportController::class, 'index'])->name('techreport.index');
+    Route::delete('/techreport/{techreport}/delete', [TechReportController::class, 'delete'])->name('techreport.delete');
+    Route::get('techreport/{techreport}/edit', [TechReportController::class, 'edit'])->name('techreport.edit');
+    Route::get('techreport/{techreport}/view', [TechReportController::class, 'view'])->name('techreport.view');
+
+    // Route::get('/techreport', [TechReportController::class, 'index'])->name('techreport.index');
+    // Route::get('techreport', [TechReportController::class, 'index'])->name('techreport.index');
+
+    //sales routes
+    Route::resource('sales',SalesController::class);
+    Route::delete('/sales/{sale}/delete', [SalesController::class, 'destroy'])->name('sales.delete'); // Custom delete route
+    Route::get('/sales/{id}', [SalesController::class, 'show'])->name('sales.show');
+    Route::get('/sales/serials/{id}', [SalesController::class, 'getSerials'])->name('sales.serials');
+
+
+    Route::resource('notification',NotificationController::class);
+    Route::get('/notification', [NotificationController::class, 'index'])->name('notification.index');
 
     Route::get('/activitylogs', [ActivityLogController::class, 'showLogs']);
-Route::resource('brand', BrandController::class);
-Route::delete('brand/{brand}/delete', [BrandController::class, 'delete'])->name('brand.delete');
-
-Route::resource('customer',CustomerController::class);
-Route::delete('customer/{customer}/delete', [CustomerController::class, 'delete'])->name('customer.delete');
-Route::get('/customer/{customer}/customerphistory',[CustomerController::class, 'showHistory'])->name('customer.history');
-
-Route::resource('category',CategoryController::class);
-Route::delete('/category/{category}/delete', [CategoryController::class, 'delete'])->name('category.delete');
-
-Route::resource('inventory',InventoryController::class);
-Route::delete('/inventory/{inventory}/delete', [InventoryController::class, 'delete'])->name('inventory.delete');
-
-Route::resource('inventoryitem',InventoryitemController::class);
-//Route::get('inventoryitem/create/{product_id}', [InventoryitemController::class, 'create'])->name('inventoryitem.create');
-Route::get('inventory/{product_id}/serials', [InventoryitemController::class, 'search'])->name('inventoryitem.serials');
-Route::get('/inventory/{product_id}/serials', [InventoryitemController::class, 'showSerials'])->name('inventoryitem.serials');
-Route::delete('/inventoryitem/{inventoryitem}/delete', [InventoryitemController::class, 'delete'])->name('inventoryitem.delete');
-
-
-//service routes
-Route::resource('service', ServicesController::class);
-// Route::delete('service/{service}/delete', [ServicesController::class, 'service'])->name('service.delete');
-Route::get('/service', [ServicesController::class, 'index'])->name('service.index');
-Route::delete('/service/{service}', [ServicesController::class, 'delete'])->name('service.delete');
-
-
-//techprofile routes
-Route::resource('techprofile', TechProfileController::class);
-Route::get('/techprofile', [TechProfileController::class, 'index'])->name('techprofile.index');
-Route::delete('/techprofile/{techprofile}', [TechProfileController::class, 'delete'])->name('techprofile.delete');
-Route::get('/techprofile', [TechProfileController::class, 'index'])->name('techprofile.index');
-
-//techreport routes
-
-Route::resource('techreport',TechReportController::class);
-Route::get('/techreport', [TechReportController::class, 'index'])->name('techreport.index');
-Route::delete('/techreport/{techreport}/delete', [TechReportController::class, 'delete'])->name('techreport.delete');
-Route::get('techreport/{techreport}/edit', [TechReportController::class, 'edit'])->name('techreport.edit');
-Route::get('techreport/{techreport}/view', [TechReportController::class, 'view'])->name('techreport.view');
-
-// Route::get('/techreport', [TechReportController::class, 'index'])->name('techreport.index');
-// Route::get('techreport', [TechReportController::class, 'index'])->name('techreport.index');
-
-//sales routes
-Route::resource('sales',SalesController::class);
-Route::delete('/sales/{sale}/delete', [SalesController::class, 'destroy'])->name('sales.delete'); // Custom delete route
-Route::get('/sales/{id}', [SalesController::class, 'show'])->name('sales.show');
-Route::get('/sales/serials/{id}', [SalesController::class, 'getSerials'])->name('sales.serials');
-
-
-Route::resource('notification',NotificationController::class);
-Route::get('/notification', [NotificationController::class, 'index'])->name('notification.index');
+});
 
 require __DIR__.'/auth.php';
