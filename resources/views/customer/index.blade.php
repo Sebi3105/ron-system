@@ -42,14 +42,14 @@
                     <table id="customer" class="min-w-full table-fixed bg-gray-200 text-gray-500">
                         <thead class="text-gray-500 bg-gray-200">
                             <tr>
-                                <th class="p-1 bg-gray-100 border-b border-gray-300">#</th>
-                                <th class="p-1 bg-gray-100 border-b border-gray-300 text-center">Customer Name</th>
-                                <th class="p-1 bg-gray-100 border-b border-gray-300 text-center">Address</th>
-                                <th class="p-1 bg-gray-100 border-b border-gray-300 text-center">Contact No.</th>
-                                <th class="p-1 bg-gray-100 border-b border-gray-300 text-center">Actions</th>
+                                <th class="w-20 p-1 bg-gray-100 border-b border-gray-300">#</th>
+                                <th class="w-20 p-1 bg-gray-100 border-b border-gray-300 text-center">Customer Name</th>
+                                <th class="w-20 p-1 bg-gray-100 border-b border-gray-300 text-center">Address</th>
+                                <th class="w-20 p-1 bg-gray-100 border-b border-gray-300 text-center">Contact No.</th>
+                                <th class="w-24 p-1 bg-gray-100 border-b border-gray-300 text-center">Actions</th>
                             </tr>
                         </thead>
-                        <tbody class="bg-gray-200">
+                        <tbody class="bg-gray-200 text-center">
                             <!-- Dynamic content will be injected here by DataTable -->
                         </tbody>
                     </table>
@@ -109,23 +109,32 @@
             ajax: "{{ route('customer.index') }}",
             dom: 'lrtip',
             columns: [
-                {
-                    data: null,
-                    orderable: false,
-                    render: function (data, type, row, meta) {
-                        return meta.row + meta.settings._iDisplayStart + 1;
-                    }
-                },
-                { data: 'name', name: 'name' },
-                { data: 'address', name: 'address' },
-                { data: 'contact_no', name: 'contact_no' },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                },
-            ]
+    {
+        data: null,
+        orderable: false,
+        render: function (data, type, row, meta) {
+            return meta.row + meta.settings._iDisplayStart + 1;
+        }
+    },
+    { data: 'name', name: 'name' },
+    { data: 'address', name: 'address' },
+    { data: 'contact_no', name: 'contact_no' },
+    {
+        data: 'action',
+        name: 'action',
+        orderable: false,
+        searchable: false,
+        render: function(data, type, row) {
+            return `
+                <div class="flex space-x-2 items-center justify-center">
+                    <a href="/customer/${row.customer_id}/customerphistory" class="bg-navy-blue text-white py-1 px-1 rounded">View History</a>
+                    <a href="/customer/${row.customer_id}/edit" class="bg-custom-green text-white py-1 px-2 rounded btn-primary">Edit</a>
+                    <button class="bg-red-500 text-white py-1 px-2 rounded delete-btn" data-url="/customer/${row.customer_id}">Delete</button>
+                </div>
+            `;
+        }
+    },
+]
         });
 
         // Search functionality
