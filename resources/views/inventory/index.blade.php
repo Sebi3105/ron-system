@@ -1,5 +1,6 @@
 <x-app-layout>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <style>
         
@@ -35,6 +36,7 @@
         justify-content: flex-start;
         background-size: cover;
         background-color: #E5E7EB;
+        font-family: 'Poppins';
         }
 
 
@@ -267,7 +269,7 @@
     }
 </style>
 
-    <div class="flex flex-col md:flex-row h-screen bg-gray-200 min-w-full">
+    <div class="flex flex-col md:flex-row h-screen bg-gray-200 min-w-full ">
         <div class="flex-1 ml-64 mt-0 min-h-screen bg-gray-200">
             <!-- Content Section -->
             <div class="max-w-7xl mx-auto px-4 sm:text-left lg:px-8 mt-4 mb-6 bg-gray-200">

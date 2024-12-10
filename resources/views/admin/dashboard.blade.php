@@ -1,109 +1,122 @@
 <x-app-layout>
-<div class="flex flex-col md:flex-row h-screen">
-<div class="flex-1 ml-64 mt-0"> 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <!-- Include Bootstrap CSS for styling -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Include DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
-</head>
+    <!-- Include DataTables CSS and Tailwind Fonts -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 
-<body>
-    <div class="container">
-        <h1 class="text-2xl font-semibold text-white-800">Admin Dashboard</h1>
-        <p class="text-2xl font-semibold text-white-800">Welcome, {{ Auth::user()->name }}!</p>
-
-        <h2 class="text-2xl font-semibold text-white-800">Existing Users</h2>
-        <div class="py-4 overflow-auto max-h-[500px] max-w-7xl mx-auto px- ```blade
-            4 sm:px-6 lg:px-8">
-                <div class="p-4 sm:p-8 bg-gray-200 shadow sm:rounded-lg overflow-y-auto">
-                    <div class="overflow-x-auto"></div>
-        <table id="usersTable" class="min-w-full table-fixed bg-gray-200 text-black border border-gray-400">
-            <thead class="bg-gray-300 border-b border-gray-400">
-                <tr>
-                    <th class="w-12 p-2 border-r border-gray-400">#</th>
-                    <th class="w-40 p-2 border-r border-gray-400">Name</th>
-                    <th class="w-40 p-2 border-r border-gray-400">Email</th>
-                    <th class="w-40 p-2 border-r border-gray-400">Role</th>
-                    <th class="w-40 p-2 border-r border-gray-400">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            <div class="flex space-x-4">
-                <a href="{{ route('admin.inventory.softDeleted') }}" class="btn btn-secondary">View Soft Deleted Inventory</a>
-                <a href="{{ route('admin.inventoryitem.softDeleted') }}" class="btn btn-secondary">View Soft Deleted Inventory Items</a>
-                <a href="{{ route('admin.customer.soft_deleted') }}" class="btn btn-secondary">View Soft Deleted Customer</a>
-                <a href="{{ route('admin.sales.soft_deleted') }}" class="btn btn-secondary">View Soft Deleted Sales</a>
-                <a href="{{ route('admin.brand.soft_deleted') }}" class="btn btn-secondary">View Soft Deleted Brands</a>
-                <a href="{{ route('admin.category.soft_deleted') }}" class="btn btn-secondary">View Soft Deleted Categories</a>
-                <a href="{{ route('admin.services.soft_deleted') }}" class="btn btn-secondary">View Soft Deleted Services</a>
-                <a href="{{ route('admin.techprofile.soft_deleted') }}" class="btn btn-secondary">View Soft Deleted Technician</a>
-                <a href="{{ route('admin.techreport.soft_deleted') }}" class="btn btn-secondary">View Soft Deleted Technician Report</a>
-                
+    <div class="flex flex-col md:flex-row h-screen">
+        <!-- Sidebar -->
+        <div class="hidden md:block md:w-48 lg:w-64 bg-gray-800 text-gray-200">
+            <div class="py-6 text-center text-lg font-semibold border-b border-gray-700">
+                Admin Panel
             </div>
-
-            </div>
-                @foreach($users as $user)
-                    <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>{{ $user->is_superadmin == 1 ? 'SuperAdmin' : 'User  ' }}</td>
-                        <td>
-                            <a href="{{ route('admin.edit', $user->id) }}" class="btn btn-warning btn-sm" onclick="return confirmEdit();">Edit</a>
-                            <form action="{{ route('admin.delete', $user->id) }}" method="POST" style="display:inline;" onsubmit="return confirmDelete();">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-       
-        <!-- Button to create a new user -->
-        <a href="{{ route('admin.create') }}" class="btn btn-primary">Create New User</a>
         </div>
+        <header class="bg-gray-200 py-3 px-3 md:px-6 fixed top-0 md:left-48 lg:left-64 right-0 z-20 h-16 flex items-center justify-between text-black shadow-md">
+                <h1 class="text-lg font-bold">Welcome, {{ Auth::user()->name }}!</h1>
+            </header>
+
+        <!-- Main Content -->
+        <div class="flex-1 bg-gray-100">
+            <!-- Header -->
+
+            <!-- Content Section -->
+            <div class="mt-20 px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-wrap lg:flex-nowrap gap-6">
+                    <!-- Soft Deleted Records Section -->
+                    <div class="w-1/3 bg-white shadow rounded-lg p-4">
+                        <h2 class="text-lg font-semibold text-gray-700 mb-4">Soft Deleted Records</h2>
+                        <div class="flex flex-wrap gap-4">
+                            <a href="{{ route('admin.inventory.softDeleted') }}" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg shadow">
+                                View Soft Deleted Inventory
+                            </a>
+                            <a href="{{ route('admin.inventoryitem.softDeleted') }}" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg shadow">
+                                View Soft Deleted Inventory Items
+                            </a>
+                            <a href="{{ route('admin.customer.soft_deleted') }}" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg shadow">
+                                View Soft Deleted Customer
+                            </a>
+                            <a href="{{ route('admin.sales.soft_deleted') }}" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg shadow">
+                                View Soft Deleted Sales
+                            </a>
+                            <a href="{{ route('admin.brand.soft_deleted') }}" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg shadow">
+                                View Soft Deleted Brands
+                            </a>
+                            <a href="{{ route('admin.category.soft_deleted') }}" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg shadow">
+                                View Soft Deleted Categories
+                            </a>
+                            <a href="{{ route('admin.services.soft_deleted') }}" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg shadow">
+                                View Soft Deleted Services
+                            </a>
+                            <a href="{{ route('admin.techprofile.soft_deleted') }}" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg shadow">
+                                View Soft Deleted Technician
+                            </a>
+                            <a href="{{ route('admin.techreport.soft_deleted') }}" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg shadow">
+                                View Soft Deleted Technician Report
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- User Management Section -->
+                    <div class="flex-1 bg-white shadow rounded-lg p-4">
+                        <div class="mb-4 flex justify-between items-center">
+                            <h2 class="text-lg font-semibold text-gray-700">User Management</h2>
+                            <a href="{{ route('admin.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded shadow">
+                                Create New User
+                            </a>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table id="usersTable" class="min-w-full bg-white border border-gray-300 text-gray-800">
+                                <thead>
+                                    <tr class="bg-gray-200">
+                                        <th class="py-2 px-4 border">#</th>
+                                        <th class="py-2 px-4 border">Name</th>
+                                        <th class="py-2 px-4 border">Email</th>
+                                        <th class="py-2 px-4 border">Role</th>
+                                        <th class="py-2 px-4 border">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($users as $user)
+                                    <tr class="hover:bg-gray-100">
+                                        <td class="py-2 px-4 border">{{ $loop->iteration }}</td>
+                                        <td class="py-2 px-4 border">{{ $user->name }}</td>
+                                        <td class="py-2 px-4 border">{{ $user->email }}</td>
+                                        <td class="py-2 px-4 border">{{ $user->is_superadmin == 1 ? 'SuperAdmin' : 'User' }}</td>
+                                        <td class="py-2 px-4 border flex space-x-2">
+                                            <a href="{{ route('admin.edit', $user->id) }}" class="text-yellow-600 hover:underline">Edit</a>
+                                            <form action="{{ route('admin.delete', $user->id) }}" method="POST" onsubmit="return confirmDelete();">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="text-red-600 hover:underline">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
-
+        </div>
     </div>
 
-    <script src="{{ asset('js/app.js') }}"></script>
-    <!-- Include jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <!-- Include Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- Include DataTables JS -->
-    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#usersTable').DataTable({
-                "paging": true,        // Enable pagination
-                "lengthChange": true,  // Allow changing the number of records per page
-                "searching": true,     // Enable searching
-                "ordering": true,      // Enable sorting
-                "info": true,          // Show table information
-                "autoWidth": false,    // Disable auto width calculation
-                "responsive": true      // Make the table responsive
+                paging: true,
+                lengthChange: true,
+                searching: true,
+                ordering: true,
+                info: true,
+                autoWidth: false,
+                responsive: true
             });
         });
-
-        function confirmEdit() {
-            return confirm("Are you sure you want to edit this user?");
-        }
 
         function confirmDelete() {
             return confirm("Are you sure you want to delete this user?");
         }
     </script>
-</body>
-    </div>
-    </div>
-    </x-app-layout>
+</x-app-layout>

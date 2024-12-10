@@ -1,5 +1,6 @@
 
 <x-app-layout>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <div class="flex flex-col md:flex-row h-screen">
         <!-- Sidebar (Navigation) -->
         <div class="w-full md:w-64 fixed top-0 left-0 z-10 h-screen bg-gray-900 md:block">

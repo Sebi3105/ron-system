@@ -9,8 +9,8 @@
         <!-- Main Content -->
         <div class="flex-1 md:ml-64 mt-15 bg-gray-100 text-gray-800">
             <!-- Fixed Header -->
-            <header class="bg-gray-200 py-3 px-4 fixed top-0 md:left-64 right-0 z-20 flex items-center justify-between text-black shadow-md">
-                <h1 class="text-lg font-bold">Add Customer</h1>
+            <header class="bg-gray-200 py-3 px-4 fixed top-0 md:left-64 right-0 z-20 h-16 flex items-center justify-between text-black shadow-md">
+                <h1 class="text-lg font-bold">Customer Information</h1>
             </header>
 
             <div class="flex justify-start mt-20 md:mt-24 px-4">
@@ -59,7 +59,7 @@
                     </div>
                     
                     <div class="button-group mt-4">
-                        <input id="saveCustomerButton" type="submit" value="Save Customer Profile"/>
+                        <input id="saveCustomerButton" type="submit" value="Save"/>
                         <a class="exit-btn">Cancel</a>
                     </div>
                 </form>
@@ -258,7 +258,6 @@ document.addEventListener('DOMContentLoaded', function () {
             color: #3C3D37;
             padding: 0.3rem 1.2rem;
             font-size: 1rem;
-            font-weight: bold;
             border-radius: 0.375rem;
             transition: transform 0.3s ease;
             text-decoration: none;
