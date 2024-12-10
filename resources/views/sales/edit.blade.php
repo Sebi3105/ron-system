@@ -35,7 +35,7 @@
                             </ul>
                         @endif
                     </div>
-                    <form method="post" action="{{ route('sales.store') }}" onsubmit="return confirm('Are you sure you want to save this product?')">
+                    <form method="post" action="{{ route('sales.store') }}" id="saleForm">
                         @csrf
                         <div class="form-group">
                 <label for="customer">Customer Name</label>
@@ -114,6 +114,39 @@
             </div>
         </div>
     </div>
+
+    <div id="confirmationModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 hidden">
+    <div class="bg-white max-w-sm w-full rounded-lg">
+        <!-- Modal Header -->
+        <h2 class="text-lg font-bold">Confirmation</h2>
+        <p id="confirmationMessage">
+            Are you sure you want to save these changes?
+        </p>
+        <div class="flex justify-center gap-16 py-3">
+            <button id="confirmCancel" class="px-4 py-2 bg-gray-300 rounded">Cancel</button>
+            <button id="confirmSubmit" class="px-4 py-2 bg-green-500 text-white rounded">Confirm</button>
+        </div>
+    </div>
+</div>
+
+
+    <div id="cancelModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
+    <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
+        <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-yellow-500 to-yellow-700 p-4 rounded-t-lg">
+        Confirmation
+        </h2>
+        <p class="text-gray-700 text-center mb-6">
+            Are you sure you want to cancel?
+        </p>
+        <div class="flex justify-center gap-4">
+            <button id="cancelModalClose" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-200 transition">
+                Cancel
+            </button>
+            <a href="{{ route('sales.index') }}" id="confirmCancel" class="px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-md hover:from-red-600 hover:to-red-800 transition">
+                Confirm
+            </a>
+        </div>
+    </div>
     <style>
 
         body {
@@ -185,7 +218,7 @@
             align-items: center; /* Center vertically */
             padding: 10px;
             width: 48%;
-            border-radius: 8px;9
+            border-radius: 8px;
             font-weight: bold;
             font-size: 14px;
             cursor: pointer;
@@ -367,7 +400,7 @@
         padding: 12px 20px;
         font-size: 14px;
         font-weight: bold;
-        border-radius: 8px;
+        border-radius: 3px;
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -417,7 +450,7 @@
     padding: 10px 20px; 
     font-size: 14px;
     font-weight: bold;
-    border-radius: 8px;
+    border-radius: 3px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -425,6 +458,126 @@
     gap: 8px;
     transition: all 0.3s ease;
 }
+
+@media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            header {
+                padding: 10px;
+            }
+        }
+
+
+#cancelModal {
+    z-index: 50;
+    backdrop-filter: blur(5px);
+    animation: fadeInBackdrop 0.4s ease-out;
+}
+
+@keyframes fadeInBackdrop {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+#cancelModal .bg-white {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    animation: modalEntry 0.4s ease-out;
+    width: 100%;
+    max-width: 400px; /* Limit the maximum width */
+    margin: 0 auto; /* Center it horizontally */
+}
+
+@keyframes modalEntry {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Header with Red Gradient */
+/* Modal Header */
+#cancelModal h2 {
+    font-size: 22px; /* Slightly smaller font for better fit */
+    font-weight: bold;
+    background: linear-gradient(90deg, #FF4C4C, #C62828);
+    color: #fff;
+    text-align: center;
+    padding: 12px;
+    margin: 0;
+}
+
+/* Modal Content */
+#cancelModal p {
+    font-size: 16px; /* Adjust text size for better fit */
+    color: #4B5563;
+    text-align: center;
+    margin: 16px 0 28px;
+    line-height: 1.4;
+}
+
+/* Buttons */
+#cancelModal .flex {
+    justify-content: center;
+    gap: 12px; /* Reduce button spacing */
+    padding: 0; /* Remove extra padding */
+}
+
+/* Equal-width buttons with max width */
+#cancelModal button,
+#cancelModal a {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    border: none;
+        padding: 9px 20px;
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 3px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+}
+
+#cancelModal a{
+    color: white;
+}
+
+#cancelModal button:hover,
+#cancelModal a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Cancel Button */
+#cancelCancel {
+    background-color: #E5E7EB;
+    color: #374151;
+}
+
+#cancelCancel:hover {
+    background-color: #D1D5DB;
+}
+
+
 
     </style>
 
@@ -437,33 +590,51 @@
     location.reload(); // Automatic na magre-refresh ang page
 });
 document.addEventListener('DOMContentLoaded', function () {
-    const modal = document.getElementById('confirmationModal');
-    const modalMessage = document.getElementById('confirmationMessage');
-    const confirmSubmitButton = document.getElementById('confirmSubmit');
-    const confirmCancelButton = document.getElementById('confirmCancel');
-    const form = document.getElementById('ServiceForm');
-    const saveTechnicianButton = document.getElementById('saveTechnicianButton');
+    const cancelModal = document.getElementById('cancelModal');
+    const cancelModalClose = document.getElementById('cancelModalClose');
+    const confirmCancel = document.getElementById('confirmCancel');
+    const cancelActionButton = document.querySelector('.cancel-btn');
 
-    // Open modal when clicking the save button
-    saveTechnicianButton.addEventListener('click', function () {
-        console.log('Opening modal...');
-        modalMessage.textContent = 'Are you sure you want to save this Technician?';
-        modal.classList.remove('hidden');
+    // Open the cancel confirmation modal
+    cancelActionButton.addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent default link behavior
+        cancelModal.classList.remove('hidden');
     });
 
-    // Cancel button in modal
-    confirmCancelButton.addEventListener('click', function () {
-        console.log('Closing modal...');
-        modal.classList.add('hidden');
+    // Close the modal when clicking Cancel button
+    cancelModalClose.addEventListener('click', function () {
+        cancelModal.classList.add('hidden');
     });
 
-    // Confirm button in modal
-    confirmSubmitButton.addEventListener('click', function () {
-        console.log('Submitting form...');
-        modal.classList.add('hidden');
-        form.submit();
+    // Add behavior for Confirm Cancel button (redirect to route)
+    confirmCancel.addEventListener('click', function () {
+        // Optionally, perform any action before confirming cancel
+        console.log('Action cancelled');
     });
 });
+
+    // Confirm button in modal
+    const form = document.getElementById('saleForm');
+    const modal = document.getElementById('confirmationModal');
+    const cancelButton = document.getElementById('confirmCancel');
+    const submitButton = document.getElementById('confirmSubmit');
+
+    // Handle form submission
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();  // Prevent form from submitting immediately
+        modal.classList.remove('hidden');  // Show the modal
+    });
+
+    // Cancel button - hide modal
+    cancelButton.addEventListener('click', function() {
+        modal.classList.add('hidden');  // Hide the modal
+    });
+
+    // Confirm button - submit the form
+    submitButton.addEventListener('click', function() {
+        modal.classList.add('hidden');  // Hide the modal
+        form.submit();  // Submit the form
+    });
 
     </script>
 </x-app-layout>

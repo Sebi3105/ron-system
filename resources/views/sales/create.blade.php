@@ -1,4 +1,4 @@
-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
 <x-app-layout>
     <div class="flex flex-col md:flex-row h-screen">
         <!-- Sidebar (Navigation) -->
@@ -104,7 +104,7 @@ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             </div>
 
             <div class="button-group">
-                <input type="submit" value="Save Sale" class="saveSalesButton">
+            <input type="button" value="Save Sale" id="saveSalesButton" class="saveSalesButton px-4 py-2 bg-blue-500 text-white rounded">
                 <a href="{{ route('sales.index') }}" class="cancel-btn">Cancel</a>
             </div>
                     </form>
@@ -114,20 +114,21 @@ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     </div>
 
     
-    <!-- Confirmation Modal -->
-    <div id="confirmationModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 hidden">
-        <div class="bg-white max-w-sm w-full">
-            <!-- Modal Header -->
-            <h2 class="text-lg font-bold">Confirmation</h2>
-            <p id="confirmationMessage">
-                Are you sure you want to save this category?
-            </p>
-            <div class="flex">
-                <button id="saveconfirmCancel">Cancel</button>
-                <button id="confirmSubmit">Confirm</button>
-            </div>
+
+<!-- Confirmation Modal -->
+<div id="confirmationModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 hidden">
+    <div class="bg-white max-w-sm w-full  rounded-lg">
+        <!-- Modal Header -->
+        <h2 class="text-lg font-bold">Confirmation</h2>
+        <p id="confirmationMessage">
+            Are you sure you want to save this sale?
+        </p>
+        <div class="flex justify-center gap-16 py-3">
+            <button id="confirmCancel" class="px-4 py-2 bg-gray-300 rounded">Cancel</button>
+            <button id="confirmSubmit" class="px-4 py-2 bg-green-500 text-white rounded">Confirm</button>
         </div>
     </div>
+</div>
 
       <!-- Confirmation Modal -->
       <div id="cancelModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
@@ -340,7 +341,6 @@ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         .back-btn:hover svg {
             transform: translateX(-8px); 
         }
-
         #confirmationModal {
         z-index: 50;
         backdrop-filter: blur(5px); 
@@ -356,7 +356,44 @@ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
     }
 
-   
+    /* Modal Style */
+    #confirmationModal .bg-white {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        animation: modalEntry 0.4s ease-out;
+    }
+
+    @keyframes modalEntry {
+        from {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    /* Header with Green Gradient */
+    #confirmationModal h2 {
+        font-size: 22px;
+        font-weight: bold;
+        background: linear-gradient(90deg, #4CAF50, #2E7D32);
+        color: #fff;
+        text-align: center;
+        padding: 12px;
+        margin: 0;
+    }
+
+    /* Modal Text */
+    #confirmationModal p {
+        font-size: 15px;
+        color: #4B5563;
+        text-align: center;
+        margin: 16px 0 24px;
+        line-height: 1.6;
+    }
 
     /* Buttons */
     #confirmationModal button {
@@ -364,7 +401,7 @@ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         padding: 12px 20px;
         font-size: 14px;
         font-weight: bold;
-        border-radius: 8px;
+        border-radius: 3px;
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -414,7 +451,7 @@ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     padding: 10px 20px; 
     font-size: 14px;
     font-weight: bold;
-    border-radius: 8px;
+    border-radius: 3px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -422,6 +459,22 @@ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     gap: 8px;
     transition: all 0.3s ease;
 }
+
+@media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            header {
+                padding: 10px;
+            }
+        }
+
 
 #cancelModal {
     z-index: 50;
@@ -537,56 +590,56 @@ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     location.reload(); // Automatic na magre-refresh ang page
 });
 document.addEventListener('DOMContentLoaded', function () {
-    const inventorySelect = document.getElementById('inventories');
-    const serialsSelect = document.getElementById('serials');
+    const modal = document.getElementById('confirmationModal');
+    const confirmSubmitButton = document.getElementById('confirmSubmit');
+    const confirmCancelButton = document.getElementById('confirmCancel');
+    const saveSalesButton = document.getElementById('saveSalesButton');
+    const form = document.getElementById('SalesForm');  // Ensure you have a form element with this ID
+    
+    // Open modal when clicking the save button
+    saveSalesButton.addEventListener('click', function () {
+        modal.classList.remove('hidden');  // Show the modal
+    });
 
-    inventorySelect.addEventListener('change', function () {
-        const inventoryId = this.value;
+    // Cancel button in modal
+    confirmCancelButton.addEventListener('click', function () {
+        modal.classList.add('hidden');  // Hide the modal
+    });
 
-        // Clear previous serial numbers
-        serialsSelect.innerHTML = '<option value="" selected>Select Serial Number</option>';
-
-        if (inventoryId) {
-            fetch(`/get-serials/${inventoryId}`)
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(serial => {
-                        const option = document.createElement('option');
-                        option.value = serial.sku_id; // Assuming sku_id is the identifier
-                        option.textContent = serial.serial_number; // Assuming serial_number is the display name
-                        serialsSelect.appendChild(option);
-                    });
-                })
-                .catch(error => console.error('Error fetching serials:', error));
-        }
+    // Confirm button in modal
+    confirmSubmitButton.addEventListener('click', function () {
+        modal.classList.add('hidden');  // Hide the modal
+        form.submit();  // Submit the form (ensure the form has the correct ID)
     });
 });
 
+
 document.addEventListener('DOMContentLoaded', function () {
-            const modal = document.getElementById('confirmationModal');
-            const modalMessage = document.getElementById('confirmationMessage');
-            const confirmSubmitButton = document.getElementById('confirmSubmit');
-            const confirmCancelButton = document.getElementById('saveconfirmCancel');
-            const form = document.getElementById('SalesForm');
-            const saveCategoryButton = document.getElementById('saveSalesButton');
+    const modal = document.getElementById('confirmationModal');
+    const modalMessage = document.getElementById('confirmationMessage');
+    const confirmSubmitButton = document.getElementById('confirmSubmit');
+    const confirmCancelButton = document.getElementById('saveconfirmCancel');
+    const form = document.getElementById('SalesForm');
+    const saveSalesButton = document.getElementById('saveSalesButton'); // Ensure the ID matches
 
-            // Open modal when clicking the save button
-            saveSalesButton.addEventListener('click', function () {
-                modalMessage.textContent = 'Are you sure you want to save this sales?';
-                modal.classList.remove('hidden');
-            });
+    // Open modal when clicking the save button
+    saveSalesButton.addEventListener('click', function () {
+        modalMessage.textContent = 'Are you sure you want to save this sales?';
+        modal.classList.remove('hidden'); // Show the modal
+    });
 
-            // Cancel button in modal
-            confirmCancelButton.addEventListener('click', function () {
-                modal.classList.add('hidden');
-            });
+    // Cancel button in modal
+    confirmCancelButton.addEventListener('click', function () {
+        modal.classList.add('hidden'); // Hide the modal
+    });
 
-            // Confirm button in modal
-            confirmSubmitButton.addEventListener('click', function () {
-                modal.classList.add('hidden');
-                form.submit();
-            });
-        });
+    // Confirm button in modal
+    confirmSubmitButton.addEventListener('click', function () {
+        modal.classList.add('hidden'); // Hide the modal
+        form.submit(); // Submit the form
+    });
+});
+
 
         document.addEventListener('DOMContentLoaded', function () {
     const cancelModal = document.getElementById('cancelModal');
