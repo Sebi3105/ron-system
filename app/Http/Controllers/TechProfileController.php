@@ -61,7 +61,10 @@ class TechProfileController extends Controller
 
         $new_techprofile = TechProfile::create($data);
 
-        return redirect(route('techreport.index'));
+       
+      
+      return redirect(route('techreport.index'))->with('success', 'Technician Created Successfully');
+        
     }
 
     public function edit(TechProfile $techprofile){

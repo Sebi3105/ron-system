@@ -7,6 +7,7 @@
     use App\Models\Customer;
     use App\Models\InventoryItem;
     use App\Models\Inventory;
+    use App\Models\TechReport;
 
     class SalesController extends Controller
     {
@@ -135,7 +136,20 @@ public function getSerials($id)
 
 public function show($id)
 {
+
+    // $sales = Sales::findOrFail($id);
+    // $skuId = $sales->sku_id;
+    // \Log::info('SKU ID from Sales:', ['sku_id' => $skuId]);
+
+    // Fetch related technician reports
+  
+    
+
+    
+    // \Log::info('Fetched Technician Reports:', $techreport->toArray());
     $sale = Sales::with(['customer', 'inventory', 'inventoryItem'])->findOrFail($id);
-    return view('sales.show', compact('sale'));
+    $skuId = $sale->sku_id;
+    $techreport = TechReport::where('sku_id', $sale->inventoryItem->sku_id)->get();
+    return view('sales.show', compact('sale','techreport'));
 }
     }

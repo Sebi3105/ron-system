@@ -12,10 +12,11 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ActivityLogController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
-
+use Spatie\Activitylog\Models\Activity;
 
 Route::get('/', function () {
     return view('welcome');
@@ -96,5 +97,9 @@ Route::get('/sales/serials/{id}', [SalesController::class, 'getSerials'])->name(
 
 Route::resource('notification',NotificationController::class);
 Route::get('/notification', [NotificationController::class, 'index'])->name('notification.index');
+
+
+Route::get('/activitylogs', [ActivityLogController::class, 'showLogs']);
+
 
 require __DIR__.'/auth.php';
