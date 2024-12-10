@@ -3,260 +3,239 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <style>
-        
-        .dataTables_wrapper .row .col-sm-12 .dt-buttons{
-            display:none !important; /* may auto kasi na excel button chuchu and may specific silang space, display as none muna */
-        }
-        
-        /* Add margin to the tables to prevent overlap */
-        .table-container {
-            min-height: 200px; /* Prevent overflow by ensuring minimum height */
-            max-height: 100%;
-            overflow: hidden;
-            flex-grow: 1;  /* Ensures the table stretches and adjusts to the screen height */
-        }
+    .dataTables_wrapper .row .col-sm-12 .dt-buttons {
+        display: none !important;
+    }
 
-        table {
-        width: 100%; /* Makes the table width responsive */
-        table-layout: fixed; /* Fix the layout to prevent overflow */
-        word-wrap: break-word; /* Prevent word overflow */
-        }
+    .table-container {
+        min-height: 200px;
+        max-height: 100%;
+        overflow: hidden;
+        flex-grow: 1;
+    }
 
-        th, td {
+    table {
+        width: 100%;
+        table-layout: fixed;
+        word-wrap: break-word;
+    }
+
+    th, td {
         padding: 10px;
         text-align: center;
-        text-overflow: ellipsis;  /* If content overflows, show an ellipsis */
-        white-space: nowrap; /* Prevents text from breaking */
-        }
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 
-        body, .parent-container {
-        height: 100vh;  /* Ensure full view height */
+    body, .parent-container {
+        height: 100vh;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
         background-size: cover;
         background-color: #E5E7EB;
         font-family: 'Poppins';
+    }
+
+    .flex-1 {
+        flex-grow: 1;
+    }
+
+    #confirmationModal {
+        z-index: 50;
+        backdrop-filter: blur(5px);
+        animation: fadeInBackdrop 0.4s ease-out;
+    }
+
+    @keyframes fadeInBackdrop {
+        from {
+            opacity: 0;
         }
-
-
-
-        .flex-1{
-            flex-grow: 1;
+        to {
+            opacity: 1;
         }
+    }
 
-        #confirmationModal {
-                z-index: 50;
-                backdrop-filter: blur(5px);
-                animation: fadeInBackdrop 0.4s ease-out;
-            }
+    #confirmationModal .bg-white {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        animation: modalEntry 0.4s ease-out;
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
 
-            @keyframes fadeInBackdrop {
-                from {
-                    opacity: 0;
-                }
-                to {
-                    opacity: 1;
-                }
-            }
-
-            #confirmationModal .bg-white {
-                border-radius: 12px;
-                overflow: hidden;
-                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-                animation: modalEntry 0.4s ease-out;
-                width: 100%;
-                max-width: 400px; /* Limit the maximum width */
-                margin: 0 auto; /* Center it horizontally */
-            }
-
-
-            @keyframes modalEntry {
-                from {
-                    opacity: 0;
-                    transform: scale(0.9);
-                }
-                to {
-                    opacity: 1;
-                    transform: scale(1);
-                }
-            }
-
-            /* Header with Red Gradient */
-            /* Modal Header */
-            #confirmationModal h2 {
-                font-size: 18px; /* Slightly smaller font for better fit */
-                font-weight: bold;
-                background: linear-gradient(90deg, #FF4C4C, #C62828);
-                color: #fff;
-                text-align: center;
-                padding: 12px;
-                margin: 0;
-            }
-
-            /* Modal Content */
-            #confirmationModal p {
-                font-size: 16px; /* Adjust text size for better fit */
-                color: #4B5563;
-                text-align: center;
-                margin: 20px 0;
-                line-height: 1.4;
-            }
-
-            /* Buttons */
-            #confirmationModal .flex {
-                justify-content: center;
-                gap: 12px; /* Reduce button spacing */
-                padding: 0; /* Remove extra padding */
-            }
-            /* Buttons */
-            #confirmationModal button {
-                border: none;
-                padding: 8px 20px;
-                font-size: 14px;
-                border-radius: 3px;
-                cursor: pointer;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                transition: all 0.3s ease;
-                margin-bottom: 1rem;
-            }
-
-            #confirmationModal button:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            }
-
-            /* Cancel Button */
-            #cancelDelete {
-                background-color: #E5E7EB;
-                color: #374151;
-            }
-
-            #cancelDelete:hover {
-                background-color: #D1D5DB;
-            }
-
-            /* Delete Button with Red Gradient */
-            #confirmDelete {
-                background: linear-gradient(90deg, #FF4C4C, #C62828);
-                color: white;
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-            }
-
-            #confirmDelete:hover {
-                background: linear-gradient(90deg, #C62828, #B71C1C);
-            }
-
-            #editConfirmationModal {
-            z-index: 50;
-            backdrop-filter: blur(5px); 
-            animation: fadeInBackdrop 0.4s ease-out;
+    @keyframes modalEntry {
+        from {
+            opacity: 0;
+            transform: scale(0.9);
         }
-
-        @keyframes fadeInBackdrop {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+        to {
+            opacity: 1;
+            transform: scale(1);
         }
+    }
 
-        /* Modal Style */
-        #editConfirmationModal .bg-white {
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            animation: modalEntry 0.4s ease-out;
-        }
+    #confirmationModal h2 {
+        font-size: 18px;
+        font-weight: bold;
+        background: linear-gradient(90deg, #FF4C4C, #C62828);
+        color: #fff;
+        text-align: center;
+        padding: 12px;
+        margin: 0;
+    }
 
-        @keyframes modalEntry {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
+    #confirmationModal p {
+        font-size: 16px;
+        color: #4B5563;
+        text-align: center;
+        margin: 20px 0;
+        line-height: 1.4;
+    }
 
-        /* Header with Green Gradient */
-        #editConfirmationModal h2 {
-            font-size: 22px;
-            font-weight: bold;
-            background: linear-gradient(90deg, #4CAF50, #2E7D32);
-            color: #fff;
-            text-align: center;
-            padding: 12px;
-            margin: 0;
-        }
+    #confirmationModal .flex {
+        justify-content: center;
+        gap: 12px;
+        padding: 0;
+    }
 
-        /* Modal Text */
-        #editConfirmationModal p {
-            font-size: 15px;
-            color: #4B5563;
-            text-align: center;
-            margin: 16px 0 24px;
-            line-height: 1.6;
-        }
+    #confirmationModal button {
+        border: none;
+        padding: 8px 20px;
+        font-size: 14px;
+        border-radius: 3px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        margin-bottom: 1rem;
+    }
 
-        /* Buttons */
-        #editConfirmationModal button {
-            border: none;
-            padding: 12px 20px;
-            font-size: 14px;
-            font-weight: bold;
-            border-radius: 3px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
+    #confirmationModal button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
 
-        #editConfirmationModal button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
+    #cancelDelete {
+        background-color: #E5E7EB;
+        color: #374151;
+    }
 
-        #editconfirmCancel {
-            background-color: #E5E7EB;
-            color: #374151;
-        }
+    #cancelDelete:hover {
+        background-color: #D1D5DB;
+    }
 
-        #editconfirmCancel:hover {
-            background-color: #D1D5DB;
-        }
+    #confirmDelete {
+        background: linear-gradient(90deg, #FF4C4C, #C62828);
+        color: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
 
-        #editconfirmSubmit {
-            background: linear-gradient(90deg, #4CAF50, #2E7D32);
-            color: white;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-        }
+    #confirmDelete:hover {
+        background: linear-gradient(90deg, #C62828, #B71C1C);
+    }
 
-        #editconfirmSubmit:hover {
-            background: linear-gradient(90deg, #2E7D32, #1B5E20);
-        }
+    #editConfirmationModal {
+        z-index: 50;
+        backdrop-filter: blur(5px);
+        animation: fadeInBackdrop 0.4s ease-out;
+    }
 
-        /* Icons */
-        #editConfirmationModal button svg {
-            height: 18px;
-            width: 18px;
+    @keyframes fadeInBackdrop {
+        from {
+            opacity: 0;
         }
-        #editConfirmationModal .flex {
-        justify-content: center; 
+        to {
+            opacity: 1;
+        }
+    }
+
+    #editConfirmationModal .bg-white {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        animation: modalEntry 0.4s ease-out;
+    }
+
+    @keyframes modalEntry {
+        from {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    #editConfirmationModal h2 {
+        font-size: 22px;
+        font-weight: bold;
+        background: linear-gradient(90deg, #4CAF50, #2E7D32);
+        color: #fff;
+        text-align: center;
+        padding: 12px;
+        margin: 0;
+    }
+
+    #editConfirmationModal p {
+        font-size: 15px;
+        color: #4B5563;
+        text-align: center;
+        margin: 16px 0 24px;
+        line-height: 1.6;
+    }
+
+    #editConfirmationModal button {
+        border: none;
+        padding: 12px 20px;
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 3px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+    }
+
+    #editConfirmationModal button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    #editconfirmCancel {
+        background-color: #E5E7EB;
+        color: #374151;
+    }
+
+    #editconfirmCancel:hover {
+        background-color: #D1D5DB;
+    }
+
+    #editconfirmSubmit {
+        background: linear-gradient(90deg, #4CAF50, #2E7D32);
+        color: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    #editconfirmSubmit:hover {
+        background: linear-gradient(90deg, #2E7D32, #1B5E20);
+    }
+
+    #editConfirmationModal .flex {
+        justify-content: center;
         gap: 16px;
         padding: 12px 0;
     }
 
-    /* Buttons */
     #editConfirmationModal button {
         border: none;
-        padding: 10px 20px; 
+        padding: 10px 20px;
         font-size: 14px;
         font-weight: bold;
         border-radius: 3px;
@@ -268,6 +247,7 @@
         transition: all 0.3s ease;
     }
 </style>
+
 
     <div class="flex flex-col md:flex-row h-screen bg-gray-200 min-w-full ">
         <div class="flex-1 ml-64 mt-0 min-h-screen bg-gray-200">
@@ -598,6 +578,8 @@
                 $('.table-container').css('margin-bottom', '30px');
                 }
             }
+            
+            
         });
 
         // Filter and reset functionality
@@ -780,6 +762,7 @@
     });
 
 });
+
 
 </script>
 

@@ -37,7 +37,7 @@
                     @endif
                 </div>
 
-                <form  id="customerForm" action="{{ route('customer.store') }}">
+                <form  id="customerForm" action="{{ route('customer.store') }}"  method="POST">
                     @csrf 
                     @method('post')
                     
@@ -120,30 +120,32 @@
     location.reload(); // Automatic na magre-refresh ang page
 });
 document.addEventListener('DOMContentLoaded', function () {
-            const modal = document.getElementById('confirmationModal');
-            const modalMessage = document.getElementById('confirmationMessage');
-            const confirmSubmitButton = document.getElementById('confirmSubmit');
-            const confirmCancelButton = document.getElementById('confirmCancel');
-            const form = document.getElementById('customerForm');
-            const saveCategoryButton = document.getElementById('saveCustomerButton');
+    const modal = document.getElementById('confirmationModal');
+    const modalMessage = document.getElementById('confirmationMessage');
+    const confirmSubmitButton = document.getElementById('confirmSubmit');
+    const confirmCancelButton = document.getElementById('confirmCancel');
+    const form = document.getElementById('customerForm');
+    const saveCustomerButton = document.getElementById('saveCustomerButton');
 
-            // Open modal when clicking the save button
-            saveCustomerButton.addEventListener('click', function () {
-                modalMessage.textContent = 'Are you sure you want to save this customer?';
-                modal.classList.remove('hidden');
-            });
+    // Open modal when clicking the save button
+    saveCustomerButton.addEventListener('click', function (event) {
+        event.preventDefault(); // Pigilan ang default na form submission
+        modalMessage.textContent = 'Are you sure you want to save this customer?';
+        modal.classList.remove('hidden');
+    });
 
-            // Cancel button in modal
-            confirmCancelButton.addEventListener('click', function () {
-                modal.classList.add('hidden');
-            });
+    // Cancel button in modal
+    confirmCancelButton.addEventListener('click', function () {
+        modal.classList.add('hidden');
+    });
 
-            // Confirm button in modal
-            confirmSubmitButton.addEventListener('click', function () {
-                modal.classList.add('hidden');
-                form.submit();
-            });
-        });
+    // Confirm button in modal
+    confirmSubmitButton.addEventListener('click', function () {
+        modal.classList.add('hidden');
+        form.submit(); // I-submit ang form kapag na-confirm
+    });
+});
+
         document.addEventListener('DOMContentLoaded', function () {
     const cancelModal = document.getElementById('cancelModal');
     const cancelModalClose = document.getElementById('cancelModalClose');

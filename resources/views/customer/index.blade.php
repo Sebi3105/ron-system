@@ -160,7 +160,7 @@
                     <a href="javascript:void(0)" class="view-btn bg-navy-blue text-white py-1 px-1 rounded" data-url="/customer/${row.customer_id}/customerphistory">View History</a>
 
                     <a href="/customer/${row.customer_id}/edit" class="bg-custom-green text-white py-1 px-2 rounded btn-primary">Edit</a>
-                    <button class="bg-red-500 text-white py-1 px-2 rounded delete-btn" data-url="/customer/${row.customer_id}">Delete</button>
+                    <button class="bg-red-500 text-white py-1 px-2 rounded delete-btn" data-url="/customer/${row.customer_id}/delete">Delete</button>
                 </div>
             `;
                         }
@@ -192,36 +192,34 @@
             });
 
 
-            // Handle Delete button click
-            $('#customer tbody').on('click', '.delete-btn', function() {
-                var deleteUrl = $(this).data('url');
-                $('#confirmationModal').removeClass('hidden');
+            $('#customer tbody').on('click', '.delete-btn', function () {
+            var deleteUrl = $(this).data('url');
+            $('#confirmationModal').removeClass('hidden');
 
-                $('#confirmDelete').off('click').on('click', function() {
-                    $.ajax({
-                        url: deleteUrl,
-                        type: 'DELETE',
-                        data: {
-                            _token: '{{ csrf_token() }}'
-                        },
-                        success: function() {
-                            alert('Item deleted successfully!');
-                            table.ajax.reload();
-                            $('#confirmationModal').addClass('hidden');
-                        },
-                        error: function(xhr) {
-                            console.error(xhr.responseText);
-                            alert('Error deleting item!');
-                            $('#confirmationModal').addClass('hidden');
-                        }
-                    });
-                });
-
-                $('#cancelDelete').on('click', function() {
-                    $('#confirmationModal').addClass('hidden');
+            $('#confirmDelete').off('click').on('click', function () {
+                $.ajax({
+                    url: deleteUrl,
+                    type: 'DELETE',
+                    data: { _token: '{{ csrf_token() }}' },
+                    success: function () {
+                        alert('Item deleted successfully!');
+                        table.ajax.reload();
+                        $('#confirmationModal').addClass('hidden');
+                    },
+                    error: function (xhr) {
+                        console.error(xhr.responseText);
+                        alert('Error deleting item!');
+                        $('#confirmationModal').addClass('hidden');
+                    }
                 });
             });
+
+            $('#cancelDelete').on('click', function () {
+                $('#confirmationModal').addClass('hidden');
+            });
         });
+    });
+    
 
         $('#customer tbody').on('click', '.view-btn', function() {
             var viewUrl = $(this).data('url');
@@ -385,7 +383,7 @@
         .btn-primary {
             text-decoration: none;
             color: #fff;
-            padding: 7px 10px;
+            padding: 4px 9px;
             border: none;
             border-radius: 3px;
             cursor: pointer;
@@ -395,7 +393,18 @@
 
         .btn-primary:hover {
             background-color: #15803d;
-            transform: scale(1.05);
+            
+        }
+        .view-btn{
+            text-decoration: none;
+            color: #fff;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            background-color: #4A628A;
+            font-size: 13px;
         }
 
         .delete-btn {
@@ -533,7 +542,7 @@
             background-color: #D1D5DB;
         }
 
-        #confirmDelete,
+      
         #editconfirmSubmit,
         #viewConfirmationModal #confirmView {
             background: linear-gradient(90deg, #2196F3, #1976D2);
@@ -541,7 +550,7 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         }
 
-        #confirmDelete:hover,
+      
         #editconfirmSubmit:hover,
         #viewConfirmationModal #confirmView:hover {
             background: linear-gradient(90deg, #1976D2, #1565C0);

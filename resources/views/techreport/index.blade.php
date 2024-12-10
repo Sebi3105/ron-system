@@ -270,7 +270,7 @@
                     return `
                 <div class="flex space-x-2 items-center justify-center">
                     <a href="/techreport/${row.report_id}/edit" class="bg-custom-green text-white py-1 px-2 rounded btn-primary">Edit</a>
-                    <button class="bg-red-500 text-white py-1 px-2 rounded delete-btn" data-url="/techreport/${row.product_id}">Delete</button>
+                    <button class="bg-red-500 text-white py-1 px-2 rounded delete-btn" data-url="/techreport/${row.product_id}/delete">Delete</button>
                 </div>
             `;
                 }
