@@ -85,8 +85,50 @@ class TechProfileController extends Controller
     }
     
   
+    
+
+
+    public function getnotif(Request $request)
+{
+    if ($request->ajax()) {
+        // Your existing AJAX code...
+    }
+
+    $categories = Category::all();
+    $brands = Brand::all();
+    $product = Inventory::all(); // Make sure to use a plural variable name
+
+    return view("inventory.index", compact('categories', 'brands', 'product'));
+}
+   
+
+    public function softDeleted()
+    {
+        $softDeletedItems = TechProfile::onlyTrashed()->get();
+    // dd($softDeletedItems); // Check the contents of the soft deleted items
+
+        return view('admin.techprofile.soft_deleted', compact('softDeletedItems'));
+    }
+public function restore($id)
+{
+    $item = TechProfile::withTrashed()->findOrFail($id);
+    $item->restore();
+
+    return redirect()->route('admin.techprofile.soft_deleted')->with('success', 'Item restored successfully!');
+}
+
+public function forceDelete($id)
+{
+    $item = TechProfile::withTrashed()->findOrFail($id);
+    $item->forceDelete();
+
+    return redirect()->route('admin.techprofile.soft_deleted')->with('success', 'Item deleted permanently!');
+}
 
 }
+
+
+
 
 
 

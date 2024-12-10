@@ -44,6 +44,10 @@ Route::delete('/admin/delete/{id}', [AdminController::class, 'destroy'])->name('
 Route::get('/admin/sales/soft-deleted', [SalesController::class, 'softDeleted'])->name('admin.sales.softDeleted');
 Route::get('/admin/brand/soft-deleted', [BrandController::class, 'softDeleted'])->name('admin.brand.softDeleted');
 Route::get('/admin/category/soft-deleted', [CategoryController::class, 'softDeleted'])->name('admin.category.softDeleted');
+Route::get('/admin/techprofile/soft-deleted', [TechProfileController::class, 'softDeleted'])->name('admin.techprofile.softDeleted');
+Route::get('/admin/services/soft-deleted', [ServicesController::class, 'softDeleted'])->name('admin.services.softDeleted');
+Route::get('/admin/techreport/soft-deleted', [TechReportController::class, 'softDeleted'])->name('admin.techreport.softDeleted');
+
 // Inventory admin history routes
 Route::get('/admin/inventory/soft-deleted', [InventoryController::class, 'softDeleted'])->name('admin.inventory.softDeleted');
 Route::patch('/admin/inventory/restore/{product_id}', [InventoryController::class, 'restore'])->name('admin.inventory.restore');
@@ -71,6 +75,18 @@ Route::patch('/admin/brand/restore/{brand_id}', [BrandController::class, 'restor
 Route::delete('/admin/brand/force-delete/{brand_id}', [BrandController::class, 'forceDelete'])->name('admin.brand.forceDelete');
 
 
+Route::get('/admin/techprofile/soft-deleted', [TechProfileController::class, 'softDeleted'])->name('admin.techprofile.soft_deleted');
+Route::patch('/admin/techprofile/restore/{technician_id}', [TechProfileController::class, 'restore'])->name('admin.techprofile.restore');
+Route::delete('/admin/techprofile/force-delete/{technician_id}', [TechProfileController::class, 'forceDelete'])->name('admin.techprofile.forceDelete');
+
+Route::get('/admin/services/soft-deleted', [ServicesController::class, 'softDeleted'])->name('admin.services.soft_deleted');
+Route::patch('/admin/services/restore/{service_id}', [ServicesController::class, 'restore'])->name('admin.services.restore');
+Route::delete('/admin/services/force-delete/{service_id}', [ServicesController::class, 'forceDelete'])->name('admin.services.forceDelete');
+
+
+Route::get('/admin/techreport/soft-deleted', [TechReportController::class, 'softDeleted'])->name('admin.techreport.soft_deleted');
+Route::patch('/admin/techreport/restore/{report_id}', [TechReportController::class, 'restore'])->name('admin.techreport.restore');
+Route::delete('/admin/techreport/force-delete/{report_id}', [TechReportController::class, 'forceDelete'])->name('admin.techreport.forceDelete');
 
 
 Route::resource('brand', BrandController::class);

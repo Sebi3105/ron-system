@@ -294,6 +294,30 @@ class TechReportController extends Controller
             return response()->json(['message' => 'TechReport Deleted Successfully'], 200); // Successful deletion response
         }
 
+        public function softDeleted()
+        {
+            // Eager load the relationships: customer, inventory, and inventoryItem
+            $softDeletedItems =  TechReport::with(['TechProfile', 'customer', 'Inventoryitem', 'Services','inventory'])->onlyTrashed()->get();
+        
+            return view('admin.techreport.soft_deleted', compact('softDeletedItems'));
+        }
+        
+        public function restore($report_id)
+        {
+            $item = TechReport::withTrashed()->findOrFail($report_id);
+            $item->restore();
+        
+            return redirect()->route('admin.techreport.soft_deleted')->with('success', 'Report restored successfully!');
+        }
+        
+        public function forceDelete($report_id)
+        {
+            $item = TechReport::withTrashed()->findOrFail($report_id);
+            $item->forceDelete();
+        
+            return redirect()->route('admin.services.soft_deleted')->with('success', 'Report deleted permanently!');
+        }
+        
             
 
 

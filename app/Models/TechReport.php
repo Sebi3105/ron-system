@@ -79,6 +79,10 @@ class TechReport extends Model
 {
     return $this->belongsTo(Services::class, 'service_id');
 }
+public function inventory()
+    {
+        return $this->belongsTo(Inventory::class, 'product_id', 'product_id');
+    }
 
 
 }
