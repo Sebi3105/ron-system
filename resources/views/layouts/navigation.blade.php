@@ -131,7 +131,7 @@
                         {{ __('Technician') }}
                     </x-nav-link>
                 </li>
-                <!-- Setting -->
+                <!-- Setting
                 <li>
                     <x-nav-link href="{{ url('/settings') }}" class="text-black w-full px-12 py-2 hover:bg-navy-blue text-center">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6 mr-2">
@@ -140,7 +140,7 @@
                     </svg>
                         {{ __('Setting') }}
                     </x-nav-link>
-                </li>
+                </li> -->
             </ul>
         </div>
 
