@@ -230,53 +230,55 @@
 <script>
     
     $(document).ready(function() {
-    var table = $('#techreport').DataTable({
-        processing: true,
-        serverSide: true,
-        searching: true, // Disable the default search bar
-        lengthChange: true, // Enable the "Show entries" dropdown
-        dom: 'lrtip',
-        ajax: {
-            url: "{{ route('techreport.index') }}",
-            data: function(d) {
-                d.status = $('#statusFilter').val();
-                d.paymenttype = $('#paymenttypeFilter').val();
-                d.service = $('#serviceFilter').val();  
-                d.paymentmethod = $('#payment_methodFilter').val(); 
-                  
+        var table = $('#techreport').DataTable({
+    processing: true,
+    serverSide: true,
+    paging: true, // Enable pagination
+    pageLength: 10, // Number of entries per page
+    lengthMenu: [5, 10, 25, 50, 100], // Dropdown options for "Show entries"
+    searching: true, // Enable search functionality
+    lengthChange: true, // Show the "Show entries" dropdown
+    dom: 'lrtip', // Include pagination controls
+    ajax: {
+        url: "{{ route('techreport.index') }}",
+        data: function(d) {
+            d.status = $('#statusFilter').val();
+            d.paymenttype = $('#paymenttypeFilter').val();
+            d.service = $('#serviceFilter').val();
+            d.paymentmethod = $('#payment_methodFilter').val();
+        }
+    },
+    columns: [
+        {
+            data: null,
+            orderable: false,
+            render: function(data, type, row, meta) {
+                return meta.row + meta.settings._iDisplayStart + 1; // Row number
             }
         },
-        columns: [
-            {
-                data: null,
-                orderable: false,
-                render: function(data, type, row, meta) {
-                    return meta.row + meta.settings._iDisplayStart + 1; // Row number
-                }
-            },
-            { data: 'technician_name', name: 'technician_name' },
-            { data: 'customer_name', name: 'customer_name' },
-            { data: 'service_name', name: 'service_name' },
-            { data: 'service_name', name: 'service_name' },
-            { data: 'product_name', name: 'product_name' },
-            { data: 'date_of_completion', name: 'date_of_completion' },
-            { data: 'payment_type', name: 'payment_type' },
-            { data: 'payment_method', name: 'payment_method'},
-            { data: 'status', name: 'status' },
-            {
-                data: null,
-                orderable: false,
-                searchable: false,
-                render: function(data, type, row) {
-                    return `
-                <div class="flex space-x-2 items-center justify-center">
-                    <a href="/techreport/${row.report_id}/edit" class="bg-custom-green text-white py-1 px-2 rounded btn-primary">Edit</a>
-                    <button class="bg-red-500 text-white py-1 px-2 rounded delete-btn" data-url="/techreport/${row.product_id}/delete">Delete</button>
-                </div>
-            `;
-                }
-            },
-        ],
+        { data: 'technician_name', name: 'technician_name' },
+        { data: 'customer_name', name: 'customer_name' },
+        { data: 'service_name', name: 'service_name' },
+        { data: 'service_name', name: 'service_name' },
+        { data: 'product_name', name: 'product_name' },
+        { data: 'date_of_completion', name: 'date_of_completion' },
+        { data: 'payment_type', name: 'payment_type' },
+        { data: 'payment_method', name: 'payment_method' },
+        { data: 'status', name: 'status' },
+        {
+            data: null,
+            orderable: false,
+            searchable: false,
+            render: function(data, type, row) {
+                return `
+                    <div class="flex space-x-2 items-center justify-center">
+                        <a href="/techreport/${row.report_id}/edit" class="bg-custom-green text-white py-1 px-2 rounded btn-primary">Edit</a>
+                        <button class="bg-red-500 text-white py-1 px-2 rounded delete-btn" data-url="/techreport/${row.product_id}/delete">Delete</button>
+                    </div>
+                `;
+            }
+        },
+    ],
 
         initComplete: function(settings, json) {
             // Apply Tailwind CSS classes to the table for a minimal design
@@ -506,6 +508,36 @@ $(document).ready(function () {
 
 });
 
+
+$(document).ready(function () {
+    // Initialize DataTable for Technician table
+    $('#techprofile').DataTable({
+        paging: true, // Enable pagination
+        pageLength: 10, // Default entries per page
+        lengthMenu: [5, 10, 25, 50], // Options for "Show entries" dropdown
+        searching: true, // Enable search functionality
+        lengthChange: false, // Show "Show entries" dropdown
+        dom: 'lrtip', // Include pagination controls
+        order: [], // Disable initial sorting
+        columnDefs: [
+            { orderable: false, targets: [2] } // Disable sorting for Actions column
+        ]
+    });
+
+    // Initialize DataTable for Services table
+    $('#services').DataTable({
+        paging: true, // Enable pagination
+        pageLength: 10, // Default entries per page
+        lengthMenu: [5, 10, 25, 50], // Options for "Show entries" dropdown
+        searching: true, // Enable search functionality
+        lengthChange: false, // Show "Show entries" dropdown
+        dom: 'lrtip', // Include pagination controls
+        order: [], // Disable initial sorting
+        columnDefs: [
+            { orderable: false, targets: [1] } // Disable sorting for Actions column
+        ]
+    });
+});
 
 </script>
 <style>
@@ -739,6 +771,92 @@ $(document).ready(function () {
             opacity: 1;
         }
     }
+    .dataTables_wrapper {
+            margin-top: -0.5rem;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            display: inline-block;
+            padding: 4px 10px;
+            margin: 4px;
+            font-size: 10px;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background-color: #f9f9f9;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background-color: #DFDFDE;
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            background-color: #15803d;
+            color: green;
+            border-color: #1a73e8;
+            font-weight: bold;
+            transform: scale(1.1);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+            color: #bbb;
+            cursor: not-allowed;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            box-shadow: none;
+        }
+
+        .dataTables_wrapper .dataTables_paginate {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.previous,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.next {
+            font-weight: bold;
+            color: #DFDFDE;
+            border-radius: 6px;
+            padding: 4px 10px;
+            background-color: #f1f1f1;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.previous:hover,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.next:hover {
+            background-color: #DFDFDE;
+            color: #fff;
+        }
+
+        .dataTables_length {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            margin-bottom: 1REM;
+            margin-left: 1rem;
+        }
+
+        .dataTables_length label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dataTables_length select {
+            padding: 0.1rem 0.3rem;
+            font-size: 0.9rem;
+            border-radius: 0.375rem;
+            border: 1px solid #ccc;
+            outline: none;
+            transition: border-color 0.2s;
+            margin-top: -2px;
+            width: 60px;
+        }
 
     </style>
                         
