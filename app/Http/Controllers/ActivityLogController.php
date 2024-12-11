@@ -19,10 +19,10 @@ class ActivityLogController extends Controller
     public function index(Request $request)
 {
 
-    return view("acitivitylogs.index");
-}
-public function showLogs()
-{
+//     return view("activitylogs.index");
+// }
+// public function showLogs()
+// {
     // $logs = Activity::all();
     $logs = Activity::with('causer') 
     ->get();
@@ -58,7 +58,7 @@ public function showLogs()
         }
     }
 
-    // Fetch product data
+    
     $subjectId = $log->subject_id;
     $logname = $log->log_name;
     
@@ -93,9 +93,10 @@ public function showLogs()
             }
         }
     }
+
     $customer = ''; // Default value
-$salesCustomer = optional(Sales::find($subjectId))->customer;
-$customer = optional($salesCustomer)->name ?? $customer; // Assign the customer name or keep default
+    $salesCustomer = optional(Sales::find($subjectId))->customer;
+    $customer = optional($salesCustomer)->name ?? $customer; // Assign the customer name or keep default
 
    
     // Attach processed data to the log
@@ -106,7 +107,7 @@ $customer = optional($salesCustomer)->name ?? $customer; // Assign the customer 
     $log->customer = $customer;
 
     }
-    return view('activitylogs.index', compact('logs'));
+    return view('admin.activitylogs.index', compact('logs'));
 }
 
 
