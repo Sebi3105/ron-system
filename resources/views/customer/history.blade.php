@@ -8,7 +8,7 @@
     <div class="flex flex-col md:flex-row h-screen">
         <div class="flex-1 md:ml-48 lg:ml-64 mt-0 bg-gray-100 text-gray-800">
             <!-- Fixed Header -->
-            <header class="bg-gray-200 py-3 px-3 md:px-6 fixed top-0 md:left-48 lg:left-64 right-0 z-20 h-15 flex items-center justify-between text-black shadow-md">
+            <header class="bg-gray-200 py-3 px-3 md:px-6 fixed top-0 md:left-48 lg:left-64 right-0 z-20 h-16 flex items-center justify-between text-black shadow-md">
                 <h1 class="text-lg font-bold">Sales History for {{ $customer->name }}</h1>
             </header>
 
@@ -24,7 +24,7 @@
             </div>
 
             <div class="flex justify-center px-12 py-4">
-    <div class="overflow-hidden rounded-lg shadow-md bg-white w-full max-w-5xl">
+    <div class="overflow-hidden  shadow-md bg-white w-full max-w-5xl">
         <table id="sales" class="min-w-full table-fixed">
             <thead class="bg-blue-500 text-white">
                 <tr>
@@ -65,9 +65,9 @@
 
 
     <style>
-        body {
-            font-family: 'Poppins';
-        }
+      body{
+        background-color: #F3F4F6;
+      }
 
         @media (max-width: 768px) {
             .fixed {
@@ -107,8 +107,8 @@
         }
 
         th, td {
-            padding: 14px;
-            font-size: 14px;
+            padding: 10px;
+            font-size: 12px;
             border-bottom: 1px solid #ddd;
         }
 
@@ -124,8 +124,7 @@
         .back-btn {
             color: #3C3D37;
             padding: 0.3rem 1.2rem;
-            font-size: 1rem;
-            font-weight: bold;
+            font-size: 0.9rem;
             border-radius: 0.375rem;
             transition: transform 0.3s ease;
             text-decoration: none;

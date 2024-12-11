@@ -43,10 +43,9 @@
                 </div>
                 <div class="contact_no relative">
                 <small style="font-size: 12px;">Note: Enter only the last 10 digits (e.g., 9123424321)</small>
-                <span 
-            class="absolute top-1/2 left-3 transform -translate-y-1/8 text-gray-700 text-sm pointer-events-none"
-            aria-hidden="true"
-        >+63</span>
+                <span
+            class="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-700 text-sm pointer-events-none"
+            aria-hidden="true">+63</span>
                     <input  type="text" 
                             id="contact_no" 
                             name="contact_no" 

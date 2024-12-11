@@ -149,7 +149,7 @@
                       <td class="p-2 text-center bg-gray-100 border-b border-gray-300">{{ $technician->name }}</td>
                       <td class="p-2 text-center bg-gray-100 border-b border-gray-300">{{ $technician->contact_no ? '+63 ' . $technician->contact_no : 'N/A' }}</td>
                       <td class="p-2 flex bg-gray-100 items-center justify-center border-b border-gray-300">
-                      <button id="editButton" class="bg-navy-blue text-white py-1 px-2 mr-2 rounded edit-techprofile" data-url="{{ route('techprofile.edit', $technician) }}">Edit</button>
+                      <button id="editButton" class="bg-custom-green text-white py-1 px-2 mr-2 rounded edit-techprofile" data-url="{{ route('techprofile.edit', $technician) }}">Edit</button>
                       <button class="bg-red-500 text-white py-1 px-2 rounded delete-techprofile" data-url="{{ route('techprofile.delete', $technician->technician_id) }}">Delete</button>
                       </td>
                     </tr>
@@ -270,7 +270,7 @@
                     return `
                 <div class="flex space-x-2 items-center justify-center">
                     <a href="/techreport/${row.report_id}/edit" class="bg-custom-green text-white py-1 px-2 rounded btn-primary">Edit</a>
-                    <button class="bg-red-500 text-white py-1 px-2 rounded delete-btn" data-url="/techreport/${row.product_id}">Delete</button>
+                    <button class="bg-red-500 text-white py-1 px-2 rounded delete-btn" data-url="/techreport/${row.product_id}/delete">Delete</button>
                 </div>
             `;
                 }
