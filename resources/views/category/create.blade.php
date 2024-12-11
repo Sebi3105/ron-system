@@ -8,7 +8,7 @@
         <!-- Main Content -->
         <div class="flex-1 md:ml-64 mt-15 bg-gray-100 text-gray-800">
             <!-- Fixed Header -->
-            <header class="bg-gray-200 py-3 px-4 fixed top-0 md:left-64 right-0 z-20 h-15 flex items-center justify-between text-black shadow-md">
+            <header class="bg-gray-200 py-3 px-4 fixed top-0 md:left-64 right-0 z-20 h-16 flex items-center justify-between text-black shadow-md">
                 <h1 class="text-lg font-bold">Add Category</h1>
             </header>
 
@@ -38,9 +38,11 @@
 
                 <form id="categoryForm" method="POST" action="{{ route('category.store') }}">
                     @csrf
+                    <label class="block text-gray-700">Category Name</label>
                     <input type="text" name="category_name" id="category_name" placeholder="Category Name" required>
 
                     <div class="button-group mt-4">
+                        
                         <button type="button" id="saveCategoryButton">Add Category</button>
                         <a href="{{ route('inventory.index') }}" class="exit-btn" id="cancelconfirmationModal">Cancel</a>
                     </div>
@@ -150,7 +152,7 @@
 
         .button-group button:hover {
             background-color: #3B4D6C;
-            transform: scale(1.05);
+            transform: scale(1.00);
         }
 
         .button-group a {
@@ -160,14 +162,14 @@
 
         .button-group a:hover {
             background-color: #c0392b;
-            transform: scale(1.05);
+            transform: scale(1.00);
         }
 
         .back-btn {
             color: #3C3D37;
             padding: 0.3rem 1.2rem;
             font-size: 1rem;
-            font-weight: bold;
+           
             border-radius: 0.375rem;
             transition:transform 0.3s ease;
             text-decoration: none;

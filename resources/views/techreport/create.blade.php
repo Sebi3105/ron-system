@@ -1,4 +1,6 @@
 <x-app-layout>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <div class="flex flex-col md:flex-row h-screen">
         <!-- Sidebar (Navigation) -->
         <div class="w-full md:w-64 fixed top-0 left-0 z-10 h-screen bg-gray-900 md:block">
@@ -8,8 +10,8 @@
         <!-- Main Content -->
         <div class="flex-1 md:ml-64 mt-16 md:mt-0 bg-gray-100 text-gray-800"> 
             <!-- Fixed Header -->
-            <header class="bg-gray-200 py-3 px-3 fixed top-0 md:left-64 right-0 z-20 h-15 flex items-center justify-between text-black shadow-md">
-                <h1 class="text-lg font-bold">Add Technician Report</h1>
+            <header class="bg-gray-200 py-3 px-3 fixed top-0 md:left-64 right-0 z-20 h-16 flex items-center justify-between text-black shadow-md">
+                <h1 class="text-lg font-bold">  Technician Report</h1>
             </header>
              
             <!-- Back to Technician View Button -->
@@ -131,7 +133,7 @@
                         </div>
 
                         <div class="button-group col-span sm:col-span-2">
-                            <input type="submit" value="Add Report" id="saveTechnicianButton">
+                            <input type="submit" value="Save" id="saveTechnicianButton">
                             <a href="{{ route('techreport.index') }}" class="exit-btn">Cancel</a>
                         </div>
                     </form>
@@ -203,7 +205,7 @@
             font-size: 1.2em;
             text-align: center;
             margin-bottom: 20px;
-            color: #333;
+            color: #4a628a;
         }
         
         .form-grid {
@@ -217,7 +219,7 @@
             margin-bottom: 1px;
         }
         .form-group label {
-            font-weight: bold;
+           
             color: #555;
             margin-bottom: 1px;
         }
@@ -285,7 +287,10 @@
         .back-group a:hover {
             background-color: #314e75;
         }
-        
+.back-group .exit-btn{
+    background-color: #c0392b;
+    transform: scale(1.00);
+}
 
         label {
             display: block;
@@ -334,19 +339,19 @@
 
         .button-group input:hover {
             background-color: #3B4D6C;
-            transform: scale(1.05);
+            transform: scale(1.00);
         }
 
         .button-group .cancel-btn:hover {
             background-color: #c0392b;
-            transform: scale(1.05);
+            transform: scale(1.00);
         }
 
         .back-btn {
             color: #3C3D37;
             padding: 0.3rem 1.2rem;
             font-size: 1rem;
-            font-weight: bold;
+           
             border-radius: 0.375rem;
             transition:transform 0.3s ease;
             text-decoration: none;

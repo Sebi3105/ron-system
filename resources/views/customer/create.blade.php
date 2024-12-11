@@ -60,6 +60,7 @@
                                 class="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-700 text-sm pointer-events-none"
                                 aria-hidden="true">+63</span>
                             <input
+                            
                                 type="tel"
                                 name="contact_no"
                                 id="contact_no"
@@ -281,7 +282,7 @@
 
         .button-group input[type="submit"]:hover {
             background-color: #3B4D6C;
-            transform: scale(1.02);
+            transform: scale(1.00);
         }
 
         .button-group .exit-btn {
@@ -291,7 +292,7 @@
 
         .button-group .exit-btn:hover {
             background-color: #c0392b;
-            transform: scale(1.02);
+            transform: scale(1.00);
         }
 
         .back-btn {
