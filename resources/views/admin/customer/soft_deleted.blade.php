@@ -497,7 +497,7 @@
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" id="cancelconfirmationModal" class="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded">
-                                                Delete Permanently
+                                                Delete 
                                             </button>
                                         </form>
                                     </td>
