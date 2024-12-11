@@ -9,7 +9,7 @@
         <!-- Main Content -->
         <div class="flex-1 md:ml-64 mt-16 md:mt-0 bg-gray-100 text-gray-800"> 
             <!-- Fixed Header -->
-            <header class="bg-gray-200 py-3 px-3 fixed top-0 md:left-64 right-0 z-20 h-15 flex items-center justify-between text-black shadow-md">
+            <header class="bg-gray-200 py-3 px-3 fixed top-0 md:left-64 right-0 z-20 h-16 flex items-center justify-between text-black shadow-md">
                 <h1 class="text-lg font-bold">Add Technician</h1>
             </header>
              
@@ -38,28 +38,37 @@
                 </div>
                 <form id="TechProfileForm" method="post" action="{{ route('techprofile.store') }}">
                 @csrf
+                <label for="contact_no" class="block text-gray-700">
+                           Technician Name
+                        </label>
                 <div class="name">
                     <input type="text" id="name" name="name" placeholder="Technician Name" required />
                 </div>
-                <div class="contact_no relative">
-                <small style="font-size: 12px;">Note: Enter only the last 10 digits (e.g., 9123424321)</small>
-                <span
-            class="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-700 text-sm pointer-events-none"
-            aria-hidden="true">+63</span>
-                    <input  type="text" 
-                            id="contact_no" 
-                            name="contact_no" 
-                            maxlength="10" 
-                            inputmode="numeric" 
-                            pattern="[0-9]{10}" 
-                            placeholder="e.g., 9123424321" 
-                            title="Enter a valid 10-digit phone number" 
-                            style="padding-left: 40px;" 
-                            required required/>
-                </div>
+                  <label for="contact_no" class="block text-gray-700">
+                            Contact Number
+                        </label>
+                <div class="form-group mb-4 relative">
+                      
+                        <div class="relative">
+                            <span
+                                class="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-700 text-sm pointer-events-none"
+                                aria-hidden="true">+63</span>
+                            <input
+                            
+                                type="tel"
+                                name="contact_no"
+                                id="contact_no"
+                                maxlength="10"
+                                inputmode="numeric"
+                                pattern="[0-9]{10}"
+                                placeholder="e.g., 9123424321"
+                                required
+                                class="w-full p-3 pl-12 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                        </div>
+                    </div>
 
                 <div class="button-group">
-                    <input type="button" id="saveTechnicianButton" value="Save Technician" class="save-btn">
+                    <input type="button" id="saveTechnicianButton" value="Save" class="save-btn">
                     <a href="{{ route('techreport.index') }}" class="exit-btn">Cancel</a>
                 </div>
             </form>
@@ -111,6 +120,23 @@
 
 
     <style>
+
+input#contact_no {
+            padding-left: 3rem;
+            padding-right: 1rem;
+            box-sizing: border-box;
+        }
+
+        span[aria-hidden="true"] {
+            position: absolute;
+            top: 50%;
+            left: 0.75rem;
+            transform: translateY(-50%);
+            font-size: 0.875rem;
+            color: #4a5568;
+            pointer-events: none;
+        }
+
         body {
             font-family: 'Poppins';
             background-color: #f3f3f3;
@@ -138,7 +164,8 @@
             display: block;
             font-size: 16px;
             color: #333;
-            margin-bottom: 5px;
+            margin-bottom: 1px;
+            margin-top: 1.5rem;
             text-align: left;
         }
 
@@ -149,7 +176,7 @@
             border: 1px solid #ccc;
             border-radius: 3px;
             box-sizing: border-box;
-            margin-top: 10px;
+            margin-top: 3px;
         }
 
         .button-group {
@@ -170,7 +197,7 @@
             text-decoration: none;
             color: white;
             display: inline-block;
-            margin-top: 10px;
+           
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
@@ -181,7 +208,7 @@
 
         .button-group input:hover {
             background-color: #3B4D6C;
-            transform: scale(1.05);
+            transform: scale(1.00);
         }
 
         .button-group .exit-btn {
@@ -191,14 +218,14 @@
 
         .button-group .exit-btn:hover {
             background-color: #c0392b;
-            transform: scale(1.05);
+            transform: scale(1.00);
         }
 
         .back-btn {
             color: #3C3D37;
             padding: 0.3rem 1.2rem;
             font-size: 1rem;
-            font-weight: bold;
+        
             border-radius: 0.375rem;
             transition:transform 0.3s ease;
             text-decoration: none;

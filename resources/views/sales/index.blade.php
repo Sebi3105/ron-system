@@ -61,8 +61,8 @@
                                         <td class="p-2 border-b border-gray-400">{{ $sale->sale_date->format('Y-m-d') }}</td>
                                         <td class="p-2 border-b border-gray-400">{{ number_format($sale->amount, 2) }}</td>
                                         <td class="p-2 border-b border-gray-400">
-                                            <a href="{{ route('sales.show', $sale->sales_id) }}" class="bg-navy-blue text-white py-1 px-2 rounded">View</a>
-                                            <a href="{{ route('sales.edit', $sale->sales_id) }}" class="bg-green-500 text-white py-1 px-2 rounded">Edit</a>
+                                        <a data-url="{{ route('sales.show', $sale->sales_id) }}" class="bg-navy-blue text-white py-1 px-2 rounded view-btn">View</a>
+                                            <a href="{{ route('sales.edit', $sale->sales_id) }}" class="bg-green-500 text-white py-1  btn-primary px-2 rounded">Edit</a>
 
                                             <!-- Delete Form -->
                                             <form action="{{ route('sales.destroy', $sale->sales_id) }}" method="POST" class="inline-flex items-center space-x-2">
@@ -72,7 +72,7 @@
                                                     <option value="soft">Archive</option>
                                                     <option value="hard">Delete</option>
                                                 </select>
-                                                <button type="submit" class="bg-red-500 text-white py-1 px-2 rounded">Delete</button>
+                                                <button type="submit" class="bg-red-500 text-white py-1 px-2  delete-btn rounded">Delete</button>
                                             </form>
                                         </td>
                                     </tr>
@@ -124,7 +124,26 @@
                 </div>
             </div>
         </div>
-
+        
+            <!-- view Confirmation Modal -->
+    <div id="viewConfirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
+        <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
+            <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-blue-500 to-blue-700 p-4 rounded-t-lg">
+                Confirmation
+            </h2>
+            <p class="text-gray-700 text-center mb-6">
+                Are you sure you want to view this item?
+            </p>
+            <div class="flex justify-center gap-4">
+                <button id="cancelView" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-300 transition">
+                    Cancel
+                </button>
+                <button id="confirmView" class="px-6 py-3 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-md hover:from-green-600 hover:to-green-800 transition">
+                    Confirm
+                </button>
+            </div>
+        </div>
+    </div>
 
         <script src="{{ asset('js/confirmation.js') }}"></script>
         <script>
@@ -194,6 +213,22 @@
                     });
                 });
             });
+            $('#sales tbody').on('click', '.view-btn', function (event) {
+    event.preventDefault(); // Prevent default navigation
+    var viewUrl = $(this).data('url'); // Get the URL from the data-url attribute
+    $('#viewConfirmationModal').removeClass('hidden'); // Show the modal
+
+    // Handle confirmation
+    $('#confirmView').off('click').on('click', function () {
+        window.location.href = viewUrl; // Navigate to the URL
+    });
+
+    // Handle cancellation
+    $('#cancelView').on('click', function () {
+        $('#viewConfirmationModal').addClass('hidden'); // Hide the modal
+    });
+});
+
         </script>
 
 
@@ -206,91 +241,138 @@
 
             /* Modal Styles */
             #confirmationModal,
-            #editConfirmationModal,
-            #cancelModal {
-                z-index: 50;
-                backdrop-filter: blur(5px);
-                animation: fadeInBackdrop 0.4s ease-out;
+        #editConfirmationModal,
+        #viewConfirmationModal {
+            z-index: 50;
+            backdrop-filter: blur(5px);
+            animation: fadeInBackdrop 0.4s ease-out;
+        }
+
+        @keyframes fadeInBackdrop {
+            from {
+                opacity: 0;
             }
 
-            @keyframes fadeInBackdrop {
-                from {
-                    opacity: 0;
-                }
+            to {
+                opacity: 1;
+            }
+        }
 
-                to {
-                    opacity: 1;
-                }
+        #confirmationModal .bg-white,
+        #editConfirmationModal .bg-white,
+        #viewConfirmationModal .bg-white {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            animation: modalEntry 0.4s ease-out;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        @keyframes modalEntry {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
             }
 
-            /* Modal Inner Styles */
-            #confirmationModal .bg-white,
-            #editConfirmationModal .bg-white,
-            #cancelModal .bg-white {
-                border-radius: 12px;
-                overflow: hidden;
-                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-                animation: modalEntry 0.4s ease-out;
+            to {
+                opacity: 1;
+                transform: scale(1);
             }
+        }
 
-            @keyframes modalEntry {
-                from {
-                    opacity: 0;
-                    transform: scale(0.9);
-                }
+        #confirmationModal h2,
+        #editConfirmationModal h2,
+        #viewConfirmationModal h2 {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            padding: 12px;
+            margin: 0;
+        }
 
-                to {
-                    opacity: 1;
-                    transform: scale(1);
-                }
-            }
+        #confirmationModal h2 {
+            background: linear-gradient(90deg, #FF4C4C, #C62828);
+            color: #fff;
+        }
 
-            /* Button Styles */
-            #confirmationModal button,
-            #editConfirmationModal button,
-            #cancelModal button {
-                border: none;
-                padding: 12px 20px;
-                font-size: 14px;
-                font-weight: bold;
-                border-radius: 3px;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 8px;
-                transition: all 0.3s ease;
-                margin-bottom: 1rem;
-            }
+        #editConfirmationModal h2 {
+            background: linear-gradient(90deg, #4CAF50, #2E7D32);
+            color: #fff;
+        }
 
-            #confirmationModal button:hover,
-            #editConfirmationModal button:hover,
-            #cancelModal button:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            }
+        #viewConfirmationModal h2 {
+            background: linear-gradient(90deg, #2196F3, #1976D2);
+            color: white;
+        }
 
-            #confirmCancel,
-            #cancelCancel {
-                background-color: #E5E7EB;
-                color: #374151;
-            }
+        #confirmationModal p,
+        #editConfirmationModal p,
+        #viewConfirmationModal p {
+            font-size: 16px;
+            color: #4B5563;
+            text-align: center;
+            margin: 20px 0;
+            line-height: 1.4;
+        }
 
-            #confirmCancel:hover,
-            #cancelCancel:hover {
-                background-color: #D1D5DB;
-            }
+        #confirmationModal .flex,
+        #editConfirmationModal .flex,
+        #viewConfirmationModal .flex {
+            justify-content: center;
+            gap: 12px;
+            padding: 0;
+        }
 
-            #confirmSubmit,
-            #editconfirmEdit {
-                background: linear-gradient(90deg, #4CAF50, #2E7D32);
-                color: white;
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-            }
+        #confirmationModal button,
+        #editConfirmationModal button,
+        #viewConfirmationModal button {
+            border: none;
+            padding: 8px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 3px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
 
-            #confirmSubmit:hover,
-            #editconfirmEdit:hover {
-                background: linear-gradient(90deg, #2E7D32, #1B5E20);
-            }
+        #confirmationModal button:hover,
+        #editConfirmationModal button:hover,
+        #viewConfirmationModal button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        #cancelDelete,
+        #editconfirmCancel,
+        #viewConfirmationModal #cancelView {
+            background-color: #E5E7EB;
+            color: #374151;
+        }
+
+        #cancelDelete:hover,
+        #editconfirmCancel:hover,
+        #viewConfirmationModal #cancelView:hover {
+            background-color: #D1D5DB;
+        }
+
+      
+        #editconfirmSubmit,
+        #viewConfirmationModal #confirmView {
+            background: linear-gradient(90deg, #2196F3, #1976D2);
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+      
+        #editconfirmSubmit:hover,
+        #viewConfirmationModal #confirmView:hover {
+            background: linear-gradient(90deg, #1976D2, #1565C0);
+        }
         </style>
 </x-app-layout>

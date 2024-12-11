@@ -1,4 +1,5 @@
 <x-app-layout>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <div class="flex flex-col md:flex-row h-screen">
         <!-- Sidebar (Navigation) -->
         <div class="w-full md:w-64 fixed top-0 left-0 z-10 h-screen bg-gray-900 md:block">
@@ -8,7 +9,7 @@
         <!-- Main Content -->
         <div class="flex-1 md:ml-64 mt-16 md:mt-0 bg-gray-100 text-gray-800"> 
             <!-- Fixed Header -->
-            <header class="bg-gray-200 py-3 px-3 fixed top-0 md:left-64 right-0 z-20 h-15 flex items-center justify-between text-black shadow-md">
+            <header class="bg-gray-200 py-3 px-3 fixed top-0 md:left-64 right-0 z-20 h-16 flex items-center justify-between text-black shadow-md">
                 <h1 class="text-lg font-bold">Sale Information</h1>
             </header>
               
@@ -26,7 +27,7 @@
             <!-- Displaying Sale Details -->
             <div class="flex justify-center items-center">
                 <div class="details-container">
-                    <h1 class="text-lg text-center font-bold stitle">Sale Details</h1>
+                    <h1 class="text-lg text-center font-bold stitle">SALES DETAILS</h1>
 
                     <!-- Sale Information -->
                     <div class="detail">
@@ -87,7 +88,7 @@
             font-size: 1.5rem;
             text-align: center;
             margin-bottom: 20px;
-            color: #333;
+            color: #4a628a;
         }
 
         .detail {
@@ -110,13 +111,14 @@
             color: #3C3D37;
             padding: 0.3rem 1.2rem;
             font-size: 1rem;
-            font-weight: bold;
+          
             border-radius: 0.375rem;
             transition: transform 0.3s ease;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            margin-top: -1.5REM;
         }
 
         .back-btn:hover {

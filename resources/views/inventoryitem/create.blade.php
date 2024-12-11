@@ -76,7 +76,7 @@
                         </div>
 
                         <div class="button-group flex justify-between gap-4 mt-6">
-                            <button id="saveProductButton" type="button" class="px-6 py-2 bg-blue-500 text-white font-semibold rounded-md cursor-pointer hover:bg-blue-600">Save Product</button>
+                            <button id="saveProductButton" type="button" class="px-6 py-2 bg-blue-500 text-white font-semibold rounded-md cursor-pointer hover:bg-blue-600">Save</button>
                             <a href="{{ route('inventory.index') }}" class="exit-btn px-6 py-2 bg-red-500 text-white font-semibold rounded-md cursor-pointer hover:bg-red-600" id="cancelActionButton">Cancel</a>
                         </div>
                     </form>
@@ -202,7 +202,7 @@
 
             .button-group button:hover {
                 background-color: #3B4D6C;
-                transform: scale(1.01);
+                transform: scale(1.00);
             }
 
             .button-group .exit-btn {
@@ -212,7 +212,7 @@
 
             .button-group .exit-btn:hover {
                 background-color: #c0392b;
-                transform: scale(1.01);
+                transform: scale(1.00);
             }
 
 

@@ -364,7 +364,7 @@
 
         .button-group input[type="submit"]:hover {
             background-color: #3B4D6C;
-            transform: scale(1.02);
+            transform: scale(1.00);
         }
 
         .button-group .exit-btn {
@@ -374,7 +374,7 @@
 
         .button-group .exit-btn:hover {
             background-color: #c0392b;
-            transform: scale(1.02);
+            transform: scale(1.00);
         }
 
         .stitle {
@@ -394,7 +394,7 @@
             transition: transform 0.3s ease;
             text-decoration: none;
             margin-left: 2rem;
-            margin-top: -2rem;
+          
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;

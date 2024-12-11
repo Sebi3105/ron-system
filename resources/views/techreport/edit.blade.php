@@ -9,8 +9,8 @@
         <!-- Main Content -->
         <div class="flex-1 md:ml-64 mt-16 md:mt-0 bg-gray-100 text-gray-800"> 
             <!-- Fixed Header -->
-            <header class="bg-gray-200 py-3 px-3 fixed top-0 md:left-64 right-0 z-20 h-15 flex items-center justify-between text-black shadow-md">
-                <h1 class="text-lg font-bold">Edit Technician Report</h1>
+            <header class="bg-gray-200 py-3 px-3 fixed top-0 md:left-64 right-0 z-20 h-16 flex items-center justify-between text-black shadow-md">
+                <h1 class="text-lg font-bold">Technician Report</h1>
             </header>
              
             <!-- Back to Technician View Button -->
@@ -145,7 +145,7 @@
                             </div>
                         </div>
                         <div class="button-group col-span sm:col-span-2">
-                            <input type="submit" value="Update Report" id="saveTechnicianButton">
+                            <input type="submit" value="Save" id="saveTechnicianButton">
                             <a href="{{ route('techreport.index') }}" class="exit-btn">Cancel</a>
                         </div>
                     </form>
@@ -223,7 +223,7 @@
             margin-bottom: 1px;
         }
         .form-group label {
-            font-weight: bold;
+           
             color: #555;
             margin-bottom: 1px;
         }
@@ -294,6 +294,11 @@
             background-color: #314e75;
         }
         
+        .back-group .exit-btn:hover{
+            background-color: #c0392b;
+            transform: scale(1.00);
+        }
+        
 
         label {
             display: block;
@@ -317,7 +322,7 @@
             color: #3C3D37;
             padding: 0.3rem 1.2rem;
             font-size: 1rem;
-            font-weight: bold;
+            
             border-radius: 0.375rem;
             transition:transform 0.3s ease;
             text-decoration: none;

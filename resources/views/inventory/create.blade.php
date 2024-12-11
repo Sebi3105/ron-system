@@ -266,7 +266,7 @@
 
         .button-group button:hover {
             background-color: #3B4D6C;
-            transform: scale(1.05);
+            transform: scale(1.00);
         }
 
         .button-group .exit-btn {
@@ -276,7 +276,7 @@
 
         .button-group .exit-btn:hover {
             background-color: #c0392b;
-            transform: scale(1.05);
+            transform: scale(1.00);
         }
 
         .back-btn {

@@ -9,8 +9,8 @@
         <!-- Main Content -->
         <div class="flex-1 md:ml-48 lg:ml-64 mt-16 md:mt-0 bg-gray-100 text-gray-800">
             <!-- Fixed Header -->
-            <header class="bg-gray-200 py-3 px-3 md:px-6 fixed top-0 md:left-48 lg:left-64 right-0 z-15 h-15 flex items-center justify-between text-black shadow-md">
-                <h1 class="text-lg font-bold">Update Product Information</h1>
+            <header class="bg-gray-200 py-3 px-3 md:px-6 fixed top-0 md:left-48 lg:left-64 right-0 z-15 h-16 flex items-center justify-between text-black shadow-md">
+                <h1 class="text-lg font-bold">Product Information</h1>
             </header>
 
             <!-- Back to Inventory Button -->
@@ -229,7 +229,7 @@
 
         .button-group button:hover {
             background-color: #3B4D6C;
-            transform: scale(1.02);
+            transform: scale(1.00);
         }
 
         .button-group .exit-btn {
@@ -239,7 +239,7 @@
 
         .button-group .exit-btn:hover {
             background-color: #c0392b;
-            transform: scale(1.02);
+            transform: scale(1.00);
         }
 
         #confirmationModal {

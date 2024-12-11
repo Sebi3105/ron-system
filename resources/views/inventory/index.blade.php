@@ -41,211 +41,140 @@
         flex-grow: 1;
     }
 
-    #confirmationModal {
-        z-index: 50;
-        backdrop-filter: blur(5px);
-        animation: fadeInBackdrop 0.4s ease-out;
-    }
-
-    @keyframes fadeInBackdrop {
-        from {
-            opacity: 0;
+    #confirmationModal,
+        #editConfirmationModal,
+        #viewConfirmationModal {
+            z-index: 50;
+            backdrop-filter: blur(5px);
+            animation: fadeInBackdrop 0.4s ease-out;
         }
-        to {
-            opacity: 1;
+
+        @keyframes fadeInBackdrop {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
-    }
 
-    #confirmationModal .bg-white {
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        animation: modalEntry 0.4s ease-out;
-        width: 100%;
-        max-width: 400px;
-        margin: 0 auto;
-    }
-
-    @keyframes modalEntry {
-        from {
-            opacity: 0;
-            transform: scale(0.9);
+        #confirmationModal .bg-white,
+        #editConfirmationModal .bg-white,
+        #viewConfirmationModal .bg-white {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            animation: modalEntry 0.4s ease-out;
+            max-width: 400px;
+            margin: 0 auto;
         }
-        to {
-            opacity: 1;
-            transform: scale(1);
+
+        @keyframes modalEntry {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
-    }
 
-    #confirmationModal h2 {
-        font-size: 18px;
-        font-weight: bold;
-        background: linear-gradient(90deg, #FF4C4C, #C62828);
-        color: #fff;
-        text-align: center;
-        padding: 12px;
-        margin: 0;
-    }
-
-    #confirmationModal p {
-        font-size: 16px;
-        color: #4B5563;
-        text-align: center;
-        margin: 20px 0;
-        line-height: 1.4;
-    }
-
-    #confirmationModal .flex {
-        justify-content: center;
-        gap: 12px;
-        padding: 0;
-    }
-
-    #confirmationModal button {
-        border: none;
-        padding: 8px 20px;
-        font-size: 14px;
-        border-radius: 3px;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s ease;
-        margin-bottom: 1rem;
-    }
-
-    #confirmationModal button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
-
-    #cancelDelete {
-        background-color: #E5E7EB;
-        color: #374151;
-    }
-
-    #cancelDelete:hover {
-        background-color: #D1D5DB;
-    }
-
-    #confirmDelete {
-        background: linear-gradient(90deg, #FF4C4C, #C62828);
-        color: white;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    }
-
-    #confirmDelete:hover {
-        background: linear-gradient(90deg, #C62828, #B71C1C);
-    }
-
-    #editConfirmationModal {
-        z-index: 50;
-        backdrop-filter: blur(5px);
-        animation: fadeInBackdrop 0.4s ease-out;
-    }
-
-    @keyframes fadeInBackdrop {
-        from {
-            opacity: 0;
+        #confirmationModal h2,
+        #editConfirmationModal h2,
+        #viewConfirmationModal h2 {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            padding: 12px;
+            margin: 0;
         }
-        to {
-            opacity: 1;
+
+        #confirmationModal h2 {
+            background: linear-gradient(90deg, #FF4C4C, #C62828);
+            color: #fff;
         }
-    }
 
-    #editConfirmationModal .bg-white {
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        animation: modalEntry 0.4s ease-out;
-    }
-
-    @keyframes modalEntry {
-        from {
-            opacity: 0;
-            transform: scale(0.9);
+        #editConfirmationModal h2 {
+            background: linear-gradient(90deg, #4CAF50, #2E7D32);
+            color: #fff;
         }
-        to {
-            opacity: 1;
-            transform: scale(1);
+
+        #viewConfirmationModal h2 {
+            background: linear-gradient(90deg, #2196F3, #1976D2);
+            color: white;
         }
-    }
 
-    #editConfirmationModal h2 {
-        font-size: 22px;
-        font-weight: bold;
-        background: linear-gradient(90deg, #4CAF50, #2E7D32);
-        color: #fff;
-        text-align: center;
-        padding: 12px;
-        margin: 0;
-    }
+        #confirmationModal p,
+        #editConfirmationModal p,
+        #viewConfirmationModal p {
+            font-size: 16px;
+            color: #4B5563;
+            text-align: center;
+            margin: 20px 0;
+            line-height: 1.4;
+        }
 
-    #editConfirmationModal p {
-        font-size: 15px;
-        color: #4B5563;
-        text-align: center;
-        margin: 16px 0 24px;
-        line-height: 1.6;
-    }
+        #confirmationModal .flex,
+        #editConfirmationModal .flex,
+        #viewConfirmationModal .flex {
+            justify-content: center;
+            gap: 12px;
+            padding: 0;
+        }
 
-    #editConfirmationModal button {
-        border: none;
-        padding: 12px 20px;
-        font-size: 14px;
-        font-weight: bold;
-        border-radius: 3px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        transition: all 0.3s ease;
-    }
+        #confirmationModal button,
+        #editConfirmationModal button,
+        #viewConfirmationModal button {
+            border: none;
+            padding: 8px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 3px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
 
-    #editConfirmationModal button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
+        #confirmationModal button:hover,
+        #editConfirmationModal button:hover,
+        #viewConfirmationModal button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
 
-    #editconfirmCancel {
-        background-color: #E5E7EB;
-        color: #374151;
-    }
+        #cancelDelete,
+        #editconfirmCancel,
+        #viewConfirmationModal #cancelView {
+            background-color: #E5E7EB;
+            color: #374151;
+        }
 
-    #editconfirmCancel:hover {
-        background-color: #D1D5DB;
-    }
+        #cancelDelete:hover,
+        #editconfirmCancel:hover,
+        #viewConfirmationModal #cancelView:hover {
+            background-color: #D1D5DB;
+        }
 
-    #editconfirmSubmit {
-        background: linear-gradient(90deg, #4CAF50, #2E7D32);
-        color: white;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    }
+      
+        #editconfirmSubmit,
+        #viewConfirmationModal #confirmView {
+            background: linear-gradient(90deg, #2196F3, #1976D2);
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
 
-    #editconfirmSubmit:hover {
-        background: linear-gradient(90deg, #2E7D32, #1B5E20);
-    }
-
-    #editConfirmationModal .flex {
-        justify-content: center;
-        gap: 16px;
-        padding: 12px 0;
-    }
-
-    #editConfirmationModal button {
-        border: none;
-        padding: 10px 20px;
-        font-size: 14px;
-        font-weight: bold;
-        border-radius: 3px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        transition: all 0.3s ease;
-    }
+      
+        #editconfirmSubmit:hover,
+        #viewConfirmationModal #confirmView:hover {
+            background: linear-gradient(90deg, #1976D2, #1565C0);
+        }
 </style>
 
 
@@ -436,6 +365,25 @@
     </div>
 </div>
 
+           <!-- view Confirmation Modal -->
+           <div id="viewConfirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
+        <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
+            <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-blue-500 to-blue-700 p-4 rounded-t-lg">
+                Confirmation
+            </h2>
+            <p class="text-gray-700 text-center mb-6">
+                Are you sure you want to view this item?
+            </p>
+            <div class="flex justify-center gap-4">
+                <button id="cancelView" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-300 transition">
+                    Cancel
+                </button>
+                <button id="confirmView" class="px-6 py-3 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-md hover:from-green-600 hover:to-green-800 transition">
+                    Confirm
+                </button>
+            </div>
+        </div>
+    </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{{ asset('js/confirmation.js') }}"></script>
@@ -545,7 +493,8 @@
                 render: function(data, type, row) {
                     return `
                         <div class="flex space-x-2 items-center justify-center">
-                            <a href="/inventory/${row.product_id}/serials" class="bg-navy-blue text-white py-1 px-2 rounded">View Serials</a>
+                           <a data-url="/inventory/${row.product_id}/serials" class="bg-navy-blue text-white py-1 px-2 rounded view-btn">View Serials</a>
+
                             <a href="/inventory/${row.product_id}/edit" class="bg-custom-green text-white py-1 px-2 rounded btn-primary">Edit</a>
                             <button class="bg-red-500 text-white py-1 px-2 rounded delete-btn" data-url="/inventory/${row.product_id}">Delete</button>
                         </div>
@@ -582,6 +531,22 @@
     $('#tableSearch').on('keyup', function() {
         table.search(this.value).draw();  // Apply search to the DataTable
     });
+
+    $('#inventory tbody').on('click', '.view-btn', function (event) {
+    event.preventDefault(); // Prevent default navigation
+    var viewUrl = $(this).data('url'); // Get the URL from the data-url attribute
+    $('#viewConfirmationModal').removeClass('hidden'); // Show the modal
+
+    // Handle confirmation
+    $('#confirmView').off('click').on('click', function () {
+        window.location.href = viewUrl; // Navigate to the URL
+    });
+
+    // Handle cancellation
+    $('#cancelView').on('click', function () {
+        $('#viewConfirmationModal').addClass('hidden'); // Hide the modal
+    });
+});
 
 
         // Filter and reset functionality
