@@ -239,7 +239,7 @@
     <style>
         body {
             font-family: 'Poppins';
-            bg-gray-200
+            background-color: #F3F4F6;
         }
 
         #tableSearch {

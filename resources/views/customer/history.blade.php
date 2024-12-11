@@ -65,7 +65,9 @@
 
 
     <style>
-      
+      body{
+        background-color: #F3F4F6;
+      }
 
         @media (max-width: 768px) {
             .fixed {
@@ -105,8 +107,8 @@
         }
 
         th, td {
-            padding: 14px;
-            font-size: 14px;
+            padding: 10px;
+            font-size: 12px;
             border-bottom: 1px solid #ddd;
         }
 
@@ -122,7 +124,7 @@
         .back-btn {
             color: #3C3D37;
             padding: 0.3rem 1.2rem;
-            font-size: 1rem;
+            font-size: 0.9rem;
             border-radius: 0.375rem;
             transition: transform 0.3s ease;
             text-decoration: none;
