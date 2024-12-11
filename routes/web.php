@@ -95,7 +95,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/edit-user/{id}', [AdminController::class, 'edit'])->name('admin.edit ');
     Route::delete('/admin/delete-user/{id}', [AdminController::class, 'delete'])->name('admin.delete ');
     Route::get('/admin/edit/{id}', [AdminController::class, 'edit'])->name('admin.edit');
-    Route::post('/admin/update/{id}', [AdminController::class, 'update'])->name('admin.update');
+    Route::put('/admin/update/{id}', [AdminController::class, 'update'])->name('admin.update');
     Route::delete('/admin/delete/{id}', [AdminController::class, 'destroy'])->name('admin.delete');
     Route::get('/admin/sales/soft-deleted', [SalesController::class, 'softDeleted'])->name('admin.sales.softDeleted');
     Route::get('/admin/brand/soft-deleted', [BrandController::class, 'softDeleted'])->name('admin.brand.softDeleted');
