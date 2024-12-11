@@ -27,44 +27,45 @@
             return view('sales.create', compact('customers', 'inventories'));
         }
         
-        public function edit(Sales $sale)
-{
-    $customers = Customer::all();
-    $inventories = Inventory::all();
-    
-    // Fetch serials for the selected inventory item
-    $serials = InventoryItem::where('product_id', $sale->product_id)->get();
-    
-    return view('sales.edit', compact('sale', 'customers', 'inventories', 'serials'));
-}
-     public function update(Request $request, Sales $sale)
-    {
-        $validatedData = $request->validate([
-            'customer_id' => 'required|exists:customer,customer_id',
-            'inventory_id' => 'required|exists:inventory,product_id',
-            'serials' => 'required|exists:inventory_item,sku_id',
-            'state' => 'required|in:reserved,for_pickup,for_delivery',
-            'sale_date' => 'required|date',
-            'amount' => 'required|numeric|min:0',
-            'payment_method' => 'required|in:installment,full_payment',
-            'payment_type' => 'required|in:credit_card,cash,gcash,paymaya',
-        ]);
-
-        // Update the sale record
-        $sale->update([
-            'customer_id' => $validatedData['customer_id'],
-            'product_id' => $validatedData['inventory_id'],
-            'serial_number' => $validatedData['serials'],
-            'state' => $validatedData['state'],
-            'sale_date' => $validatedData['sale_date'],
-            'amount' => $validatedData['amount'],
-            'payment_method' => $validatedData['payment_method'],
-            'payment_type' => $validatedData['payment_type'],
-        ]);
-
-        // Redirect to the sales index with a success message
-        return redirect()->route('sales.index')->with('success', 'Sale updated successfully.');
-    }
+        public function edit($id)
+        {
+            $sale = Sales::findOrFail($id); // Fetch the sale by ID
+            $customers = Customer::all(); // Fetch customers
+            $inventories = Inventory::all(); // Fetch inventories
+            $serials = InventoryItem::all(); // Fetch serials
+        
+            return view('sales.edit', compact('sale', 'customers', 'inventories', 'serials'));
+        }
+                
+        public function update(Request $request, Sales $sale)
+        {
+            $validatedData = $request->validate([
+                'customer_id' => 'required|exists:customer,customer_id',
+                'inventory_id' => 'required|exists:inventory,product_id',
+                'serials' => 'required|exists:inventory_item,sku_id',
+                'state' => 'required|in:reserved,for_pickup,for_delivery',
+                'sale_date' => 'required|date',
+                'amount' => 'required|numeric|min:0',
+                'payment_method' => 'required|in:installment,full_payment',
+                'payment_type' => 'required|in:credit_card,cash,gcash,paymaya',
+            ]);
+        
+            // Update the sale record
+            $sale->update([
+                'customer_id' => $validatedData['customer_id'],
+                'product_id' => $validatedData['inventory_id'],
+         'serial_number' => $validatedData['serials'],
+                'state' => $validatedData['state'],
+                'sale_date' => $validatedData['sale_date'],
+                'amount' => $validatedData['amount'],
+                'payment_method' => $validatedData['payment_method'],
+                'payment_type' => $validatedData['payment_type'],
+            ]);
+        
+            // Redirect to the sales index with a success message
+            return redirect()->route('sales.index')->with('success', 'Sale updated successfully.');
+        }
+        
 
     
     public function destroy(Request $request, Sales $sale)

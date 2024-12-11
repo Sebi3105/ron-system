@@ -34,6 +34,12 @@
                     </div>
                 </div>
             </div>        
+                    @if (session()->has('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
             <!-- Tables -->      
 <div class="table-container py-4 max-h-[500px] max-w-7xl mx-auto px-4 sm:text-left lg:px-8">
     <div class="p-4 sm:text-left bg-gray-200">

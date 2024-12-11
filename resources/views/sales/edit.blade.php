@@ -1,6 +1,7 @@
 <x-app-layout>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <div class="flex flex-col md:flex-row h-screen">
+        
         <!-- Sidebar (Navigation) -->
         <div class="w-full md:w-64 fixed top-0 left-0 z-10 h-screen bg-gray-900 md:block">
             @include('layouts.navigation') 
@@ -36,81 +37,85 @@
                             </ul>
                         @endif
                     </div>
-                    <form method="post" action="{{ route('sales.store') }}" id="saleForm">
+                    
+                    <form method="post" action="{{ route('sales.update', $sale->sales_id) }}" id="saleForm">
                         @csrf
-                        <div class="form-group">
-                <label for="customer">Customer Name</label>
-                <select name="customer_id" id="customer_id" required>
-                    <option value="" selected>Select Customer</option>
-                    @foreach($customers as $customer)
-                    <option value="{{ $customer->customer_id }}" {{ $customer->customer_id == $sale->customer_id ? 'selected' : '' }}>{{ $customer->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="inventories">Product</label>
-                <select name="inventory_id" id="inventories" required>
-                    <option value="" selected>Select Product</option>
-                    @foreach($inventories as $inventory)
-                    <option value="{{ $inventory->product_id }}" {{ $inventory->product_id == $sale->product_id ? 'selected' : '' }}>{{ $inventory->product_name }}</option>
-                    @endforeach
-                </select>
-            </div>
+                        @method('PUT')
+    <div class="form-group">
+        <label for="customer">Customer Name</label>
+        <select name="customer_id" id="customer_id" required>
+            <option value="" selected>Select Customer</option>
+            @foreach($customers as $customer)
+                <option value="{{ $customer->customer_id }}" {{ $customer->customer_id == $sale->customer_id ? 'selected' : '' }}>{{ $customer->name }}</option>
+            @endforeach
+        </select>
+    </div>
 
-            <div class="form-group">
-                <label for="serials">Serial Number</label>
-                <select name="serials" id="serials" required>
-                    <option value="" selected>Select Serial Number</option>
-                    @foreach($serials as $serial)
-                        <option value="{{ $serial->sku_id }}" {{ $serial->sku_id == $sale->serial_number ? 'selected' : '' }}>{{ $serial->serial_number }}</option>
-                    @endforeach
-                </select>
-            </div>
+    <div class="form-group">
+        <label for="inventories">Product</label>
+        <select name="inventory_id" id="inventories" required>
+            <option value="" selected>Select Product</option>
+            @foreach($inventories as $inventory)
+                <option value="{{ $inventory->product_id }}" {{ $inventory->product_id == $sale->product_id ? 'selected' : '' }}>{{ $inventory->product_name }}</option>
+            @endforeach
+        </select>
+    </div>
 
-            <div class="form-group">
-                <label for="state">State</label>
-                <select name="state" id="state" required>
-                    <option value="" selected>Select State</option>
-                    <option value="reserved" {{ $sale->state == 'reserved' ? 'selected' : '' }}>Reserved</option>
-                    <option value="for_pickup" {{ $sale->state == 'for_pickup' ? 'selected' : '' }}>For Pickup</option>
-                    <option value="for_delivery" {{ $sale->state == 'for_delivery' ? 'selected' : '' }}>For Delivery</option>
-                </select>
-            </div>
+    <div class="form-group">
+        <label for="serials">Serial Number</label>
+        <select name="serials" id="serials" required>
+            <option value="" selected>Select Serial Number</option>
+            @foreach($serials as $serial)
+                <option value="{{ $serial->sku_id }}" {{ $serial->sku_id == $sale->serial_number ? 'selected' : '' }}>{{ $serial->serial_number }}</option>
+            @endforeach
+        </select>
+    </div>
 
-            <div class="form-group">
-                <label for="sale_date">Sale Date</label>
-                <input type="date" name="sale_date" id="sale_date" value="{{ $sale->sale_date }}" required>
-            </div>
+    <div class="form-group">
+        <label for="state">State</label>
+        <select name="state" id="state" required>
+            <option value="" selected>Select State</option>
+            <option value="reserved" {{ $sale->state == 'reserved' ? 'selected' : '' }}>Reserved</option>
+            <option value="for_pickup" {{ $sale->state == 'for_pickup' ? 'selected' : '' }}>For Pickup</option>
+            <option value="for_delivery" {{ $sale->state == 'for_delivery' ? 'selected' : '' }}>For Delivery</option>
+        </select>
+    </div>
 
-            <div class="form-group">
-                <label for="amount">Amount</label>
-                <input type="number" name="amount" id="amount" step="0.01" value="{{ $sale->amount }}" required>
-            </div>
-            <div class="form-group">
-                <label for="payment_method">Payment Method</label>
-                <select name="payment_method" id="payment_method" required>
-                    <option value="" selected>Select Payment Method</option>
-                    <option value="installment" {{ $sale->payment_method= 'installment' ? 'selected' : '' }}>Installment</option>
-                    <option value="full_payment" {{ $sale->payment_method == 'full_payment' ? 'selected' : '' }}>Full Payment</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="payment_type">Payment Type</label>
-                <select name="payment_type" id="payment_type" required>
-                    <option value="" selected>Select Payment Type</option>
-                    <option value="credit_card" {{ $sale->payment_type == 'credit_card' ? 'selected' : '' }}>Credit Card</option>
-                    <option value="cash" {{ $sale->payment_type == 'cash' ? 'selected' : '' }}>Cash</option>
-                    <option value="gcash" {{ $sale->payment_type == 'gcash' ? 'selected' : '' }}>GCash</option>
-                    <option value="paymaya" {{ $sale->payment_type == 'paymaya' ? 'selected' : '' }}>Paymaya</option>
-                </select>
-            </div>
+    <div class="form-group">
+        <label for="sale_date">Sale Date</label>
+        <input type="date" name="sale_date" id="sale_date" value="{{ $sale->sale_date }}" required>
+    </div>
 
-            <div class="button-group">
-                <input type="submit" value="Save Sale">
-                <a href="{{ route('sales.index') }}" class="cancel-btn">Cancel</a>
-            </div>
-                    </form>
+    <div class="form-group">
+        <label for="amount">Amount</label>
+        <input type="number" name="amount" id="amount" step="0.01" value="{{ $sale->amount }}" required>
+    </div>
+
+    <div class="form-group">
+        <label for="payment_method">Payment Method</label>
+        <select name="payment_method" id="payment_method" required>
+            <option value="" selected>Select Payment Method</option>
+            <option value="installment" {{ $sale->payment_method == 'installment' ? 'selected' : '' }}>Installment</option>
+            <option value="full_payment" {{ $sale->payment_method == 'full_payment' ? 'selected' : '' }}>Full Payment</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="payment_type">Payment Type</label>
+        <select name="payment_type" id="payment_type" required>
+            <option value="" selected>Select Payment Type</option>
+            <option value="credit_card" {{ $sale->payment_type == 'credit_card' ? 'selected' : '' }}>Credit Card</option>
+            <option value="cash" {{ $sale->payment_type == 'cash' ? 'selected' : '' }}>Cash</option>
+            <option value="gcash" {{ $sale->payment_type == 'gcash' ? 'selected' : '' }}>GCash</option>
+            <option value="paymaya" {{ $sale->payment_type == 'paymaya' ? 'selected' : '' }}>Paymaya</option>
+        </select>
+    </div>
+
+    <div class="button-group">
+        <input type="submit" value="Save Sale">
+        <a href="{{ route('sales.index') }}" class="cancel-btn">Cancel</a>
+    </div>
+</form>
                 </div>
             </div>
         </div>
