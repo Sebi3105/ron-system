@@ -198,15 +198,15 @@ Route::middleware('auth')->group(function () {
     Route::resource('notification',NotificationController::class);
     Route::get('/notification', [NotificationController::class, 'index'])->name('notification.index');
 
+    Route::get('/admin/activitylogs/', [ActivityLogController::class, 'index'])->name('admin.activitylogs.index');
+
+
     // Route::get('/activitylogs', [ActivityLogController::class, 'index'])->name('activitylogs.index');
     Route::get('/admin/activitylogs/', [ActivityLogController::class, 'index'])->name('admin.activitylogs.index');
 
     Route::get('/admin/archives', function () {
         return view('admin.archives');
     })->name('admin.archives');
-
-   
-    
     
 });
 
