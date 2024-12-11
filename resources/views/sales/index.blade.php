@@ -55,8 +55,8 @@
                             @foreach($sales as $key => $sale)
                                 <tr>
                                     <td class="p-2 border-r border-gray-400">{{ $key + 1 }}</td>
-                                    <td class="p-2 border-r border-gray-400">{{ $sale->customer->name ?? 'N/A' }}</td>
-                                    <td class="p-2 border-r border-gray-400">{{ $sale->inventory->product_name ?? 'N/A' }}</td>
+                                    <td class="p-2 border-r border-gray-400">{{ $sale->customer->name }}</td>
+                                    <td class="p-2 border-r border-gray-400">{{ $sale->inventory->product_name }}</td>
                                     <td class="p-2 border-r border-gray-400">{{ $sale->inventoryItem->serial_number }}</td>         
                                     <td class="p-2 border-r border-gray-400">{{ $sale->state }}</td>
                                     <td class="p-2 border-r border-gray-400">{{ $sale->sale_date->format('Y-m-d') }}</td>

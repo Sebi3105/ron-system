@@ -95,7 +95,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/edit-user/{id}', [AdminController::class, 'edit'])->name('admin.edit ');
     Route::delete('/admin/delete-user/{id}', [AdminController::class, 'delete'])->name('admin.delete ');
     Route::get('/admin/edit/{id}', [AdminController::class, 'edit'])->name('admin.edit');
-    Route::post('/admin/update/{id}', [AdminController::class, 'update'])->name('admin.update');
+    Route::put('/admin/update/{id}', [AdminController::class, 'update'])->name('admin.update');
     Route::delete('/admin/delete/{id}', [AdminController::class, 'destroy'])->name('admin.delete');
     Route::get('/admin/sales/soft-deleted', [SalesController::class, 'softDeleted'])->name('admin.sales.softDeleted');
     Route::get('/admin/brand/soft-deleted', [BrandController::class, 'softDeleted'])->name('admin.brand.softDeleted');
@@ -199,6 +199,21 @@ Route::middleware('auth')->group(function () {
     Route::get('/notification', [NotificationController::class, 'index'])->name('notification.index');
 
     Route::get('/activitylogs', [ActivityLogController::class, 'showLogs']);
+
+    Route::get('/activity-logs', function () {
+        return view('activitylogs.index');
+    })->name('activitylogs.index');
+
+    Route::get('/admin/archives', function () {
+        return view('admin.archives');
+    })->name('admin.archives');
+
+    Route::get('/activitylogs', function () {
+        $logs = \App\Models\Log::with(['causer', 'subject'])->get();
+        return view('activitylogs.index', compact('logs'));
+    })->name('activitylogs.index');
+    
+    
 });
 
 require __DIR__.'/auth.php';
