@@ -38,7 +38,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
                                 </svg>
                                 <!-- Filter Text -->
-                                <span class="font-bold">Filter</span>
+                                <span>Filter</span>
                                 <!-- Dropdown Icon -->
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -138,7 +138,7 @@
              <table id="techprofile" class="min-w-full table-fixed bg-gray-200 text-gray-500">
                <thead class="text-gray-500">
                   <tr>
-                    <th class="w-24 p-2 bg-gray-100 border-b text-center border-gray-300">Technician Name</th>
+                    <th class="w-24 p-2 bg-gray-100 border-b text-center border-gray-300">Name</th>
                     <th class="w-24 p-2 bg-gray-100 white text-center border-b border-gray-300 mt-4">Contact No</th>
                     <th class="w-24 p-2 bg-gray-100 text-center border-b border-gray-300">Actions</th>
                   </tr>
@@ -233,8 +233,9 @@
     var table = $('#techreport').DataTable({
         processing: true,
         serverSide: true,
-        searching: false, // Disable the default search bar
+        searching: true, // Disable the default search bar
         lengthChange: true, // Enable the "Show entries" dropdown
+        dom: 'lrtip',
         ajax: {
             url: "{{ route('techreport.index') }}",
             data: function(d) {
@@ -295,6 +296,11 @@
             }
         }
     });
+    // Custom search functionality linked to the search input field
+    $('#tableSearch').on('keyup', function() {
+        table.search(this.value).draw();  // Apply search to the DataTable
+    });
+
 
     // Filter and reset functionality
     $('#filterButton').on('click', function() {

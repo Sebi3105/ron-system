@@ -55,8 +55,8 @@
                             @foreach($sales as $key => $sale)
                                 <tr>
                                     <td class="p-2 border-r border-gray-400">{{ $key + 1 }}</td>
-                                    <td class="p-2 border-r border-gray-400">{{ $sale->customer->name }}</td>
-                                    <td class="p-2 border-r border-gray-400">{{ $sale->inventory->product_name }}</td>
+                                    <td class="p-2 border-r border-gray-400">{{ $sale->customer->name ?? 'N/A' }}</td>
+                                    <td class="p-2 border-r border-gray-400">{{ $sale->inventory->product_name ?? 'N/A' }}</td>
                                     <td class="p-2 border-r border-gray-400">{{ $sale->inventoryItem->serial_number }}</td>         
                                     <td class="p-2 border-r border-gray-400">{{ $sale->state }}</td>
                                     <td class="p-2 border-r border-gray-400">{{ $sale->sale_date->format('Y-m-d') }}</td>
@@ -128,33 +128,40 @@
 <script src="{{ asset('js/confirmation.js') }}"></script>
 <script>
     $(document).ready(function() {
-        $('#sales').DataTable({
-            searching: false,
+        // Initialize the DataTable
+        var table = $('#sales').DataTable({
             paging: true,
             info: true,
-            order: [[0, 'asc']]
+            order: [[0, 'asc']],  // Sorting the table by the first column
+            searching: true,  // Enable the search functionality
+            dom: 'lrtip',
         });
 
+        // Custom search functionality linked to the search input field
+        $('#tableSearch').on('keyup', function() {
+            table.search(this.value).draw();  // Apply search to the DataTable
+        });
+
+        // Edit confirmation modal logic
         $('#sales tbody').on('click', '.btn-primary', function (e) {
-    e.preventDefault();
-    var editUrl = $(this).attr('href');
+            e.preventDefault();
+            var editUrl = $(this).attr('href');
 
-    // Show the confirmation modal
-    $('#editConfirmationModal').removeClass('hidden');
-    
-    // Handle confirmation
-    $('#editconfirmEdit').on('click', function () {
-        window.location.href = editUrl;
-    });
+            // Show the confirmation modal
+            $('#editConfirmationModal').removeClass('hidden');
+            
+            // Handle confirmation
+            $('#editconfirmEdit').on('click', function () {
+                window.location.href = editUrl;
+            });
 
-    // Handle cancellation
-    $('#editcancelEdit').on('click', function () {
-        $('#editConfirmationModal').addClass('hidden');
-    });
-});
+            // Handle cancellation
+            $('#editcancelEdit').on('click', function () {
+                $('#editConfirmationModal').addClass('hidden');
+            });
+        });
 
-
-        // Handle Delete button click
+        // Delete confirmation logic
         $('#sales tbody').on('click', '.delete-btn', function () {
             var deleteUrl = $(this).data('url');
             $('#confirmationModal').removeClass('hidden');
@@ -166,7 +173,7 @@
                     data: { _token: '{{ csrf_token() }}' },
                     success: function () {
                         alert('Item deleted successfully!');
-                        table.ajax.reload();
+                        table.ajax.reload();  // Reload the table after deletion
                         $('#confirmationModal').addClass('hidden');
                     },
                     error: function (xhr) {
@@ -184,7 +191,13 @@
     });
 </script>
 
+
+
+
 <style>
+    body{
+        background-color: #E5E7EB;
+    }
     /* Modal Styles */
 #confirmationModal, #editConfirmationModal, #cancelModal {
     z-index: 50;

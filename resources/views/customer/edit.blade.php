@@ -46,29 +46,33 @@
                             <label for="name">Customer Name</label>
                             <input type="text" name="name" id="name" placeholder="Customer Name" value="{{ old('name', $customer->name) }}" required>
                         </div>
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <input type="text" name="address" id="address" placeholder="Customer Address" value="{{ old('address', $customer->address) }}" required>
+                        </div>
 
                         <div class="form-group relative">
-    <label for="contact_no" class="block text-sm ">
-        Contact Number
-    </label>
-    <div class="relative">
-        <span
-            class="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-700 text-sm pointer-events-none"
-            aria-hidden="true">+63</span>
-        <input
-            type="tel"
-            name="contact_no"
-            id="contact_no"
-            maxlength="10"
-            inputmode="numeric"
-            pattern="[0-9]{10}"
-            placeholder="e.g., 9123424321"
-            value="{{ old('contact_no', substr($customer->contact_no, 3)) }}"
-            class="block w-full pl-16 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm placeholder-gray-400"
-            aria-label="Contact number without country code"
-            required>
-    </div>
-</div>
+                            <label for="contact_no" class="block text-sm ">
+                                Contact Number
+                            </label>
+                            <div class="relative">
+                                <span
+                                    class="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-700 text-sm pointer-events-none"
+                                    aria-hidden="true">+63</span>
+                                <input
+                                    type="tel"
+                                    name="contact_no"
+                                    id="contact_no"
+                                    maxlength="10"
+                                    inputmode="numeric"
+                                    pattern="[0-9]{10}"
+                                    placeholder="e.g., 9123424321"
+                                    value="{{ old('contact_no', substr($customer->contact_no, 3)) }}"
+                                    class="block w-full pl-16 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm placeholder-gray-400"
+                                    aria-label="Contact number without country code"
+                                    required>
+                            </div>
+                        </div>
 
 
 
@@ -76,7 +80,8 @@
                     </div>
 
                     <div class="button-group">
-                        <input id="saveCustomerButton" type="submit" value="Save">
+                    <input id="saveCustomerButton" type="button" value="Save">
+
                         <a class="exit-btn">Cancel</a>
                     </div>
                 </form>
@@ -105,24 +110,7 @@
         </div>
     </div>
 
-    <div id="confirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
-        <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
-            <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-red-500 to-red-700 p-4 rounded-t-lg">
-                Confirm Delete
-            </h2>
-            <p class="text-gray-700 text-center mb-6">
-                Are you sure you want to delete this item?
-            </p>
-            <div class="flex justify-center gap-4">
-                <button id="cancelDelete" class="px-6 py-3 bg-gray-400 text-white rounded-md hover:bg-gray-500 transition">
-                    Cancel
-                </button>
-                <button id="confirmDelete" class="px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-md hover:from-red-600 hover:to-red-800 transition">
-                    Delete
-                </button>
-            </div>
-        </div>
-    </div>
+  
 
     <!-- Confirmation Modal -->
     <div id="cancelModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
@@ -153,60 +141,73 @@
         window.addEventListener('resize', function() {
             location.reload(); // Automatic na magre-refresh ang page
         });
-        document.addEventListener('DOMContentLoaded', function() {
-            const modal = document.getElementById('confirmationModal');
-            const modalMessage = document.getElementById('confirmationMessage');
-            const confirmSubmitButton = document.getElementById('confirmSubmit');
-            const confirmCancelButton = document.getElementById('confirmCancel');
-            const form = document.getElementById('customerForm');
-            const saveCategoryButton = document.getElementById('saveCustomerButton');
+        document.addEventListener('DOMContentLoaded', function () {
+    const modal = document.getElementById('confirmationModal');
+    const modalMessage = document.getElementById('confirmationMessage');
+    const confirmSubmitButton = document.getElementById('confirmSubmit');
+    const confirmCancelButton = document.getElementById('confirmCancel');
+    const form = document.getElementById('editcustomerForm');
+    const saveCustomerButton = document.getElementById('saveCustomerButton');
 
-            // Open modal when clicking the save button
-            saveCustomerButton.addEventListener('click', function() {
-                modalMessage.textContent = 'Are you sure you want to save this customer?';
-                modal.classList.remove('hidden');
-            });
+    // Open modal when clicking the save button
+    saveCustomerButton.addEventListener('click', function () {
+        console.log('Opening modal...');
+        modalMessage.textContent = 'Are you sure you want to save this brand?';
+        modal.classList.remove('hidden'); // Show the modal
+    });
 
-            // Cancel button in modal
-            confirmCancelButton.addEventListener('click', function() {
-                modal.classList.add('hidden');
-            });
+    // Cancel button in modal
+    confirmCancelButton.addEventListener('click', function () {
+        console.log('Closing modal...');
+        modal.classList.add('hidden'); // Hide the modal
+    });
 
-            // Confirm button in modal
-            confirmSubmitButton.addEventListener('click', function() {
-                modal.classList.add('hidden');
-                form.submit();
-            });
-        });
+    // Confirm button in modal
+    confirmSubmitButton.addEventListener('click', function () {
+        console.log('Submitting form...');
+        modal.classList.add('hidden'); // Hide the modal
+        form.submit(); // Submit the form
+    });
+});
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const modal = document.getElementById('confirmationModal');
-            const modalMessage = document.getElementById('confirmationMessage');
-            const confirmSubmitButton = document.getElementById('confirmSubmit');
-            const confirmCancelButton = document.getElementById('confirmCancel');
-            const form = document.getElementById('brandForm');
-            const saveBrandButton = document.getElementById('saveBrandButton');
 
-            // Open modal when clicking the save button
-            saveBrandButton.addEventListener('click', function() {
-                console.log('Opening modal...');
-                modalMessage.textContent = 'Are you sure you want to save this brand?';
-                modal.classList.remove('hidden');
-            });
 
-            // Cancel button in modal
-            confirmCancelButton.addEventListener('click', function() {
-                console.log('Closing modal...');
-                modal.classList.add('hidden');
-            });
+document.addEventListener('DOMContentLoaded', function () {
+    const modal = document.getElementById('confirmationModal');
+    const modalMessage = document.getElementById('confirmationMessage');
+    const confirmSubmitButton = document.getElementById('confirmSubmit');
+    const confirmCancelButton = document.getElementById('confirmCancel');
+    const form = document.getElementById('brandForm');
+    const saveCustomerButton = document.getElementById('saveCustomerButton');
 
-            // Confirm button in modal
-            confirmSubmitButton.addEventListener('click', function() {
-                console.log('Submitting form...');
-                modal.classList.add('hidden');
-                form.submit();
-            });
-        });
+    // Prevent default form submission
+    form.addEventListener('submit', function (event) {
+        event.preventDefault(); // Stop auto-submission for debugging
+        console.log('Form submission prevented');
+    });
+
+    // Open modal when clicking the save button
+    saveCustomerButton.addEventListener('click', function () {
+        console.log('Opening modal...');
+        modalMessage.textContent = 'Are you sure you want to save this brand?';
+        modal.classList.remove('hidden'); // Show modal
+    });
+
+    // Cancel button in modal
+    confirmCancelButton.addEventListener('click', function () {
+        console.log('Closing modal...');
+        modal.classList.add('hidden'); // Hide modal
+    });
+
+    // Confirm button in modal
+    confirmSubmitButton.addEventListener('click', function () {
+        console.log('Submitting form...');
+        modal.classList.add('hidden'); // Hide modal
+        form.submit(); // Trigger actual form submission
+    });
+});
+
+
         document.addEventListener('DOMContentLoaded', function() {
             const cancelModal = document.getElementById('cancelModal');
             const cancelModalClose = document.getElementById('cancelModalClose');
@@ -239,8 +240,9 @@
         }
 
         input#contact_no {
-    padding-left: 3rem; /* Leaves space for +63 */
-}
+            padding-left: 3rem;
+            /* Leaves space for +63 */
+        }
 
 
         .form-container {
@@ -285,7 +287,7 @@
             margin-top: 2rem;
         }
 
-        .button-group input[type="submit"],
+        .button-group input[type="button"],
         .button-group a {
             padding: 10px;
             width: 50%;
@@ -301,7 +303,7 @@
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
-        .button-group input[type="submit"] {
+        .button-group input[type="button"] {
             background-color: #4a628a;
         }
 
@@ -309,7 +311,7 @@
             background-color: #d9534f;
         }
 
-        .button-group input[type="submit"]:hover {
+        .button-group input[type="button"]:hover {
             background-color: #3b5374;
             transform: scale(1.02);
         }
@@ -323,7 +325,7 @@
             color: #3C3D37;
             padding: 0.3rem 1.2rem;
             font-size: 1rem;
-          
+
             border-radius: 0.375rem;
             transition: transform 0.3s ease;
             text-decoration: none;

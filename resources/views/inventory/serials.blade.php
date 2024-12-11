@@ -8,7 +8,7 @@
         <!-- Main Content -->
         <div class="flex-1 md:ml-48 lg:ml-64 mt-0 bg-gray-100 text-gray-800">
             <!-- Fixed Header -->
-            <header class="bg-gray-200 py-3 px-3 md:px-6 fixed top-0 md:left-48 lg:left-64 right-0 z-20 h-15 flex items-center justify-between text-black shadow-md">
+            <header class="bg-gray-200 py-3 px-3 md:px-6 fixed top-0 md:left-48 lg:left-64 right-0 z-20 h-16 flex items-center justify-between text-black shadow-md">
                 <h1 class="text-lg font-bold">Serial Numbers for {{ $inventoryitem->product_name }}</h1>
             </header>
 
@@ -55,7 +55,7 @@
                 }
 
                 .container {
-                    width: 80%;
+                    width: 95%;
                     max-width: 1000px;
                     margin: 1rem auto 2rem auto;
                     padding: 1rem;
@@ -75,8 +75,8 @@
 
                 th,
                 td {
-                    padding: 14px;
-                    font-size: 14px;
+                    padding: 10px;
+                    font-size: 12px;
                     border-bottom: 1px solid #ddd;
                 }
 
@@ -178,7 +178,7 @@
                     color: #ffffff;
                     padding: 0.6rem 1.2rem;
                     font-size: 0.9rem;
-                    font-weight: bold;
+
                     border-radius: 3px;
                     transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
                     text-decoration: none;
@@ -194,7 +194,6 @@
                     color: #3C3D37;
                     padding: 0.3rem 1.2rem;
                     font-size: 1rem;
-                    font-weight: bold;
                     border-radius: 0.375rem;
                     transition: transform 0.3s ease;
                     text-decoration: none;

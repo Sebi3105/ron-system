@@ -1,5 +1,5 @@
 <x-app-layout>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <div class="flex flex-col md:flex-row h-screen">
         <!-- Sidebar (Navigation) -->
         <div class="w-full md:w-64 fixed top-0 left-0 z-10 h-screen bg-gray-900 md:block">
@@ -26,7 +26,7 @@
             
             <div class="flex justify-center items-center h-full">
                 <div class="form-container">
-                    <h1 class="text-lg text-center font-bold stitle">Edit Sales Information</h1>
+                    <h1 class="text-lg text-center font-bold stitle">SALES INFORMATION</h1>
                     <div class="error_checking">
                         @if($errors->any())
                             <ul>
@@ -38,163 +38,153 @@
                     </div>
                     <form method="post" action="{{ route('sales.store') }}" id="saleForm">
                         @csrf
-                        <div class="form-group">
-                <label for="customer">Customer Name</label>
-                <select name="customer_id" id="customer_id" required>
-                    <option value="" selected>Select Customer</option>
-                    @foreach($customers as $customer)
-                    <option value="{{ $customer->customer_id }}" {{ $customer->customer_id == $sale->customer_id ? 'selected' : '' }}>{{ $customer->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="inventories">Product</label>
-                <select name="inventory_id" id="inventories" required>
-                    <option value="" selected>Select Product</option>
-                    @foreach($inventories as $inventory)
-                    <option value="{{ $inventory->product_id }}" {{ $inventory->product_id == $sale->product_id ? 'selected' : '' }}>{{ $inventory->product_name }}</option>
-                    @endforeach
-                </select>
-            </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label for="customer">Customer Name</label>
+                                <select name="customer_id" id="customer_id" required>
+                                    <option value="" selected>Select Customer</option>
+                                    @foreach($customers as $customer)
+                                        <option value="{{ $customer->customer_id }}" {{ $customer->customer_id == $sale->customer_id ? 'selected' : '' }}>{{ $customer->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-            <div class="form-group">
-                <label for="serials">Serial Number</label>
-                <select name="serials" id="serials" required>
-                    <option value="" selected>Select Serial Number</option>
-                    @foreach($serials as $serial)
-                        <option value="{{ $serial->sku_id }}" {{ $serial->sku_id == $sale->serial_number ? 'selected' : '' }}>{{ $serial->serial_number }}</option>
-                    @endforeach
-                </select>
-            </div>
+                            <div class="form-group">
+                                <label for="inventories">Product</label>
+                                <select name="inventory_id" id="inventories" required>
+                                    <option value="" selected>Select Product</option>
+                                    @foreach($inventories as $inventory)
+                                        <option value="{{ $inventory->product_id }}" {{ $inventory->product_id == $sale->product_id ? 'selected' : '' }}>{{ $inventory->product_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-            <div class="form-group">
-                <label for="state">State</label>
-                <select name="state" id="state" required>
-                    <option value="" selected>Select State</option>
-                    <option value="reserved" {{ $sale->state == 'reserved' ? 'selected' : '' }}>Reserved</option>
-                    <option value="for_pickup" {{ $sale->state == 'for_pickup' ? 'selected' : '' }}>For Pickup</option>
-                    <option value="for_delivery" {{ $sale->state == 'for_delivery' ? 'selected' : '' }}>For Delivery</option>
-                </select>
-            </div>
+                            <div class="form-group">
+                                <label for="serials">Serial Number</label>
+                                <select name="serials" id="serials" required>
+                                    <option value="" selected>Select Serial Number</option>
+                                    @foreach($serials as $serial)
+                                        <option value="{{ $serial->sku_id }}" {{ $serial->sku_id == $sale->serial_number ? 'selected' : '' }}>{{ $serial->serial_number }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-            <div class="form-group">
-                <label for="sale_date">Sale Date</label>
-                <input type="date" name="sale_date" id="sale_date" value="{{ $sale->sale_date }}" required>
-            </div>
+                            <div class="form-group">
+                                <label for="state">State</label>
+                                <select name="state" id="state" required>
+                                    <option value="" selected>Select State</option>
+                                    <option value="reserved" {{ $sale->state == 'reserved' ? 'selected' : '' }}>Reserved</option>
+                                    <option value="for_pickup" {{ $sale->state == 'for_pickup' ? 'selected' : '' }}>For Pickup</option>
+                                    <option value="for_delivery" {{ $sale->state == 'for_delivery' ? 'selected' : '' }}>For Delivery</option>
+                                </select>
+                            </div>
 
-            <div class="form-group">
-                <label for="amount">Amount</label>
-                <input type="number" name="amount" id="amount" step="0.01" value="{{ $sale->amount }}" required>
-            </div>
-            <div class="form-group">
-                <label for="payment_method">Payment Method</label>
-                <select name="payment_method" id="payment_method" required>
-                    <option value="" selected>Select Payment Method</option>
-                    <option value="installment" {{ $sale->payment_method= 'installment' ? 'selected' : '' }}>Installment</option>
-                    <option value="full_payment" {{ $sale->payment_method == 'full_payment' ? 'selected' : '' }}>Full Payment</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="payment_type">Payment Type</label>
-                <select name="payment_type" id="payment_type" required>
-                    <option value="" selected>Select Payment Type</option>
-                    <option value="credit_card" {{ $sale->payment_type == 'credit_card' ? 'selected' : '' }}>Credit Card</option>
-                    <option value="cash" {{ $sale->payment_type == 'cash' ? 'selected' : '' }}>Cash</option>
-                    <option value="gcash" {{ $sale->payment_type == 'gcash' ? 'selected' : '' }}>GCash</option>
-                    <option value="paymaya" {{ $sale->payment_type == 'paymaya' ? 'selected' : '' }}>Paymaya</option>
-                </select>
-            </div>
+                            <div class="form-group">
+                                <label for="sale_date">Sale Date</label>
+                                <input type="date" name="sale_date" id="sale_date" value="{{ $sale->sale_date }}" required>
+                            </div>
 
-            <div class="button-group">
-                <input type="submit" value="Save Sale">
-                <a href="{{ route('sales.index') }}" class="cancel-btn">Cancel</a>
-            </div>
+                            <div class="form-group">
+                                <label for="amount">Amount</label>
+                                <input type="number" name="amount" id="amount" step="0.01" value="{{ $sale->amount }}" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="payment_method">Payment Method</label>
+                                <select name="payment_method" id="payment_method" required>
+                                    <option value="" selected>Select Payment Method</option>
+                                    <option value="installment" {{ $sale->payment_method == 'installment' ? 'selected' : '' }}>Installment</option>
+                                    <option value="full_payment" {{ $sale->payment_method == 'full_payment' ? 'selected' : '' }}>Full Payment</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="payment_type">Payment Type</label>
+                                <select name="payment_type" id="payment_type" required>
+                                    <option value="" selected>Select Payment Type</option>
+                                    <option value="credit_card" {{ $sale->payment_type == 'credit_card' ? 'selected' : '' }}>Credit Card</option>
+                                    <option value="cash" {{ $sale->payment_type == 'cash' ? 'selected' : '' }}>Cash</option>
+                                    <option value="gcash" {{ $sale->payment_type == 'gcash' ? 'selected' : '' }}>GCash</option>
+                                    <option value="paymaya" {{ $sale->payment_type == 'paymaya' ? 'selected' : '' }}>Paymaya</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="button-group">
+                            <input type="submit" value="Save">
+                            <a href="{{ route('sales.index') }}" class="cancel-btn">Cancel</a>
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
     <div id="confirmationModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 hidden">
-    <div class="bg-white max-w-sm w-full rounded-lg">
-        <!-- Modal Header -->
-        <h2 class="text-lg font-bold">Confirmation</h2>
-        <p id="confirmationMessage">
-            Are you sure you want to save these changes?
-        </p>
-        <div class="flex justify-center gap-16 py-3">
-            <button id="confirmCancel" class="px-4 py-2 bg-gray-300 rounded">Cancel</button>
-            <button id="confirmSubmit" class="px-4 py-2 bg-green-500 text-white rounded">Confirm</button>
+        <div class="bg-white max-w-sm w-full rounded-lg">
+            <!-- Modal Header -->
+            <h2 class="text-lg font-bold">Confirmation</h2>
+            <p id="confirmationMessage">
+                Are you sure you want to save these changes?
+            </p>
+            <div class="flex justify-center gap-16 py-3">
+                <button id="confirmCancel" class="px-4 py-2 bg-gray-300 rounded">Cancel</button>
+                <button id="confirmSubmit" class="px-4 py-2 bg-green-500 text-white rounded">Confirm</button>
+            </div>
         </div>
     </div>
-</div>
-
 
     <div id="cancelModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
-    <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
-        <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-yellow-500 to-yellow-700 p-4 rounded-t-lg">
-        Confirmation
-        </h2>
-        <p class="text-gray-700 text-center mb-6">
-            Are you sure you want to cancel?
-        </p>
-        <div class="flex justify-center gap-4">
-            <button id="cancelModalClose" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-200 transition">
-                Cancel
-            </button>
-            <a href="{{ route('sales.index') }}" id="confirmCancel" class="px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-md hover:from-red-600 hover:to-red-800 transition">
-                Confirm
-            </a>
+        <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
+            <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-yellow-500 to-yellow-700 p-4 rounded-t-lg">
+                Confirmation
+            </h2>
+            <p class="text-gray-700 text-center mb-6">
+                Are you sure you want to cancel?
+            </p>
+            <div class="flex justify-center gap-4">
+                <button id="cancelModalClose" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-200 transition">
+                    Cancel
+                </button>
+                <a href="{{ route('sales.index') }}" id="confirmCancel" class="px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-md hover:from-red-600 hover:to-red-800 transition">
+                    Confirm
+                </a>
+            </div>
         </div>
     </div>
-    <style>
 
+    <style>
         body {
-            
             background-color: #f3f3f3;
             margin: 0;
-            
         }
+
         .form-container {
             background-color: #ffffff;
             border-radius: 8px;
             padding: 30px;
-            width: 750px;
+            width: 800px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-top: -4rem;
         }
 
         .stitle {
-            font-size: 1.2em;
+            font-size: 1.5em;
             text-align: center;
             margin-bottom: 20px;
-            color: #333;
+            color: #4A628A;
         }
-        
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5px;
-        }
+
         .form-group {
             display: flex;
             flex-direction: column;
-            margin-bottom: 1px;
         }
+
         .form-group label {
             font-weight: bold;
             color: #555;
-            margin-bottom: 1px;
-        }
-        .form-group input[type="number"] {
-            margin-top: 0; /* Ensure no extra margin at the top */
-            margin-bottom: 0; /* Ensure no extra margin at the bottom */
+            margin-bottom: 5px;
         }
 
-         .form-group input[type="text"] {
-            margin-top: 0; /* Ensure no extra margin at the top */
-            margin-bottom: 0; /* Ensure no extra margin at the bottom */
-        }
         .form-group select,
         .form-group input {
             padding: 10px;
@@ -203,87 +193,21 @@
             font-size: 0.9em;
             width: 100%;
         }
-        .full-width {
-            grid-column: span 2;
-        }
         .button-group {
             display: flex;
             justify-content: space-between;
             margin-top: 10px;
         }
+
         .button-group input[type="submit"],
         .button-group .cancel-btn {
-            text-align: center; /* Center the text */
-            display: flex; /* Use flexbox for centering */
-            justify-content: center; /* Center horizontally */
-            align-items: center; /* Center vertically */
-            padding: 10px;
-            width: 48%;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 14px;
-            cursor: pointer;
-            text-decoration: none;
-            color: white;
-            display: inline-block;
-            margin-top: 10px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            
-        }
-        .button-group input[type="submit"] {
-            background-color: #2c3e50;
-        }
-        .button-group .cancel-btn {
-            background-color: #e74c3c;
-        }
-        .back-group {
-            margin-bottom: 20px;
-        }
-        .back-group a {
-            background-color: #3b5998;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-size: 0.9em;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            display: inline-block;
-        }
-        .back-group a:hover {
-            background-color: #314e75;
-        }
-        
-
-        label {
-            display: block;
-            font-size: 16px;
-            color: #333;
-            margin-bottom: 5px;
-            text-align: left;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            box-sizing: border-box;
-            margin-top: 10px;
-        }
-
-        .button-group {
+            text-align: center;
             display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            margin-top: 10px;
-        }
-
-        .button-group input,
-        .button-group .cancel-btn {
+            justify-content: center;
+            align-items: center;
             padding: 10px;
-            width: 48%;
-            border-radius: 8px;
+            width: 49%;
+            border-radius: 3px;
             font-weight: bold;
             font-size: 14px;
             cursor: pointer;
@@ -294,31 +218,19 @@
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
-        .button-group input{
-            background-color: #4A628A;
-            border: none;
-        }
-
-        .button-group input:hover {
-            background-color: #3B4D6C;
-            transform: scale(1.05);
+        .button-group input[type="submit"] {
+                    background-color: #4A628A;
         }
 
         .button-group .cancel-btn {
             background-color: #e74c3c;
-            border: none;
-        }
-
-        .button-group .cancel-btn:hover {
-            background-color: #c0392b;
-            transform: scale(1.05);
         }
 
         .back-btn {
             color: #3C3D37;
             padding: 0.3rem 1.2rem;
             font-size: 1rem;
-            font-weight: bold;
+            
             border-radius: 0.375rem;
             transition:transform 0.3s ease;
             text-decoration: none;

@@ -281,7 +281,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
                                 </svg>
                                 <!-- Filter Text -->
-                                <span class="font-bold">Filter</span>
+                                <span>Filter</span>
                                 <!-- Dropdown Icon -->
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -510,77 +510,79 @@
         })
 
         var table = $('#inventory').DataTable({
-            processing: true,
-            serverSide: true,
-            searching: false, // Disable the default search bar
-            lengthChange: true, // Enable the "Show entries" dropdown
-            order: [[1, 'asc']], 
-            ajax: {
-                url: "{{ route('inventory.index') }}",
-                data: function(d) {
-                    d.category = $('#categoryFilter').val();
-                    d.brand = $('#brandFilter').val();
-                    d.status = $('#statusFilter').val();
+        processing: true,
+        serverSide: true,
+        searching: true, // Enable the search bar globally
+        lengthChange: true, // Enable the "Show entries" dropdown
+        order: [[1, 'asc']],
+        dom: 'lrtip',
+        ajax: {
+            url: "{{ route('inventory.index') }}",
+            data: function(d) {
+                d.category = $('#categoryFilter').val();
+                d.brand = $('#brandFilter').val();
+                d.status = $('#statusFilter').val();
+            }
+        },
+        columns: [
+            {
+                data: null,
+                orderable: false,
+                render: function(data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1; // Row number
                 }
             },
-            columns: [
-                {
-                    data: null,
-                    orderable: false,
-                    render: function(data, type, row, meta) {
-                        return meta.row + meta.settings._iDisplayStart + 1; // Row number
-                    }
-                },
-                { data: 'product_name', name: 'product_name' },
-                { data: 'brand_name', name: 'brand_name' },
-                { data: 'category_name', name: 'category_name' },
-                { data: 'quantity', name: 'quantity' },
-                { data: 'released_date', name: 'released_date' },
-                { data: 'status', name: 'status' },
-                {
-                    data: null,
-                    orderable: false,
-                    searchable: false,
-                    render: function(data, type, row) {
-                        return `
-                    <div class="flex space-x-2 items-center justify-center">
-                        <a href="/inventory/${row.product_id}/serials" class="bg-navy-blue text-white py-1 px-2 rounded">View Serials</a>
-                        <a href="/inventory/${row.product_id}/edit" class="bg-custom-green text-white py-1 px-2 rounded btn-primary">Edit</a>
-                        <button class="bg-red-500 text-white py-1 px-2 rounded delete-btn" data-url="/inventory/${row.product_id}">Delete</button>
-                    </div>
-                `;
-                    }
-                },
-            ],
-
-            rowCallback: function(row, data) {
-                if (data.quantity <= 4) {
-                    $(row).css('background-color', '#fff3cd'); // Light yellow
-                }
-                if (data.quantity <= 1) {
-                    $(row).css('background-color', '#f8d7da'); // Light red
+            { data: 'product_name', name: 'product_name' },
+            { data: 'brand_name', name: 'brand_name' },
+            { data: 'category_name', name: 'category_name' },
+            { data: 'quantity', name: 'quantity' },
+            { data: 'released_date', name: 'released_date' },
+            { data: 'status', name: 'status' },
+            {
+                data: null,
+                orderable: false,
+                searchable: false,
+                render: function(data, type, row) {
+                    return `
+                        <div class="flex space-x-2 items-center justify-center">
+                            <a href="/inventory/${row.product_id}/serials" class="bg-navy-blue text-white py-1 px-2 rounded">View Serials</a>
+                            <a href="/inventory/${row.product_id}/edit" class="bg-custom-green text-white py-1 px-2 rounded btn-primary">Edit</a>
+                            <button class="bg-red-500 text-white py-1 px-2 rounded delete-btn" data-url="/inventory/${row.product_id}">Delete</button>
+                        </div>
+                    `;
                 }
             },
-            initComplete: function(settings, json) {
-                // Apply Tailwind CSS classes to the table for a minimal design
-                $('#inventory').addClass('border-none'); 
-                $('.dataTables_wrapper').addClass('border-none'); 
-                $('.dataTables_length').addClass('border-none'); 
-                $('.dataTables_paginate').addClass('text-right'); 
-                $('.dataTables_filter').addClass('border-none'); 
-            },
-            drawCallback: function(settings) {
-            // Adjust layout for category and brand tables when table length changes
+        ],
+        rowCallback: function(row, data) {
+            if (data.quantity <= 4) {
+                $(row).css('background-color', '#fff3cd'); // Light yellow
+            }
+            if (data.quantity <= 1) {
+                $(row).css('background-color', '#f8d7da'); // Light red
+            }
+        },
+        initComplete: function(settings, json) {
+            // Apply Tailwind CSS classes to the table for a minimal design
+            $('#inventory').addClass('border-none'); 
+            $('.dataTables_wrapper').addClass('border-none'); 
+            $('.dataTables_length').addClass('border-none'); 
+            $('.dataTables_paginate').addClass('text-right'); 
+            $('.dataTables_filter').addClass('border-none'); 
+        },
+        drawCallback: function(settings) {
             var pageInfo = table.page.info();
             if (pageInfo.recordsDisplay > 0) {
-                // Apply some logic to shift or adjust layout, if necessary
-                // Example: You can set min-height or adjust margin/padding dynamically
                 $('.table-container').css('margin-bottom', '30px');
-                }
             }
-            
-            
-        });
+        }
+        
+    });
+
+    // Custom search functionality linked to the search input field
+    $('#tableSearch').on('keyup', function() {
+        table.search(this.value).draw();  // Apply search to the DataTable
+    });
+
 
         // Filter and reset functionality
         $('#filterButton').on('click', function() {
@@ -762,7 +764,7 @@
     });
 
 });
-
+  
 
 </script>
 
