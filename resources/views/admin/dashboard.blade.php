@@ -12,12 +12,12 @@
                 </div>
 
                 <div class="container mt-4">
-                    <!-- Welcome Text -->
+                    <!-- Welcome Text -->  
                     <div class="mb-4 ml-12">
                         <p class="text-xl font-semibold text-gray-800">Welcome, {{ Auth::user()->name }}!</p>
                     </div>
 
-                    <!-- Navigation Buttons -->
+                    <!-- Navigation Buttons -->                   
                     <div class="flex space-x-4 ml-12 mb-4">
                         <button onclick="location.href='{{ route('admin.dashboard') }}'" class="bg-gray-400 text-white py-1 px-2 rounded btn-primary">User Management</button>
                         <button onclick="location.href='{{ route('admin.activitylogs.index') }}'" class="bg-gray-400 text-white py-1 px-2 rounded btn-primary">Activity Logs</button>

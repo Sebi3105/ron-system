@@ -189,14 +189,18 @@ Route::middleware('auth')->group(function () {
     // Route::get('techreport', [TechReportController::class, 'index'])->name('techreport.index');
 
     //sales routes
-    Route::resource('sales',SalesController::class);
+    Route::resource('sales', SalesController::class);
     Route::delete('/sales/{sale}/delete', [SalesController::class, 'destroy'])->name('sales.delete'); // Custom delete route
     Route::get('/sales/{id}', [SalesController::class, 'show'])->name('sales.show');
     Route::get('/sales/serials/{id}', [SalesController::class, 'getSerials'])->name('sales.serials');
 
 
+
     Route::resource('notification',NotificationController::class);
     Route::get('/notification', [NotificationController::class, 'index'])->name('notification.index');
+
+    Route::get('/admin/activitylogs/', [ActivityLogController::class, 'index'])->name('admin.activitylogs.index');
+
 
     // Route::get('/activitylogs', [ActivityLogController::class, 'index'])->name('activitylogs.index');
     Route::get('/admin/activitylogs/', [ActivityLogController::class, 'index'])->name('admin.activitylogs.index');
@@ -204,9 +208,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/archives', function () {
         return view('admin.archives');
     })->name('admin.archives');
-
-   
-    
     
 });
 

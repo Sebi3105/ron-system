@@ -262,6 +262,7 @@
             background: linear-gradient(90deg, #1976D2, #1565C0);
         }
 </style>
+      
 
 
     <div class="flex flex-col md:flex-row h-screen bg-gray-200 min-w-full ">
@@ -350,7 +351,11 @@
                     </div>
                 </div>
             </div>
-
+            @if (session()->has('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
             <!-- MGA TABLES NA HERE -->
             <!-- PRODUCT TABLE-->
 <div class="table-container py-4 max-h-[500px] max-w-7xl mx-auto px-4 sm:text-left lg:px-8 bg-gray-200">
@@ -646,32 +651,35 @@
         });
 
         $(document).on('click', function(e) {
-            if (!$(e.target).closest('#filterButton, #filterDropdown').length) {
-                $('#filterDropdown').addClass('hidden'); // Close dropdown when clicking outside
-            }
-        });
+    if (!$(e.target).closest('#filterButton, #filterDropdown').length) {
+        $('#filterDropdown').addClass('hidden'); // Close dropdown when clicking outside
+    }
+});
 
-        // Apply filter button action
-        $('#applyFilter').on('click', function() {
-            var category = $('#categoryFilter').val();
-            var brand = $('#brandFilter').val();
-            var status = $('#statusFilter').val();
+// Apply filter button action
+$('#applyFilter').on('click', function() {
+    var category = $('#categoryFilter').val();
+    var brand = $('#brandFilter').val();
+    var status = $('#statusFilter').val();
 
-            // Reload the table with the applied filters
-            table.ajax.url(`{{ route('inventory.index') }}?category=${category}&brand=${brand}&status=${status}`).load();
-            $('#filterDropdown').addClass('hidden'); // Hide the dropdown after applying filter
-        });
+    // Reload the table with the applied filters
+    var url = "{{ route('inventory.index') }}"; // Get the URL from Blade template
+    table.ajax.url(url + '?category=' + category + '&brand=' + brand + '&status=' + status).load();
+    $('#filterDropdown').addClass('hidden'); // Hide the dropdown after applying filter
+});
 
-        // Reset filter button action
-        $('#resetFilter').on('click', function() {
-            $('#categoryFilter').val('');
-            $('#brandFilter').val('');
-            $('#statusFilter').val('');
-            
-            // Reload the table without any filters
-            table.ajax.url('{{ route('inventory.index') }}').load();
-            $('#filterDropdown').addClass('hidden'); // Hide the dropdown after resetting
-        });
+// Reset filter button action
+$('#resetFilter').on('click', function() {
+    $('#categoryFilter').val('');
+    $('#brandFilter').val('');
+    $('#statusFilter').val('');
+    
+    // Reload the table without any filters
+    var url = "{{ route('inventory.index') }}"; // Get the URL from Blade template
+    table.ajax.url(url).load();
+    $('#filterDropdown').addClass('hidden'); // Hide the dropdown after resetting
+});
+
 
     $(document).ready(function () {
         // Check if your script is loading and listening

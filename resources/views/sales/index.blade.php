@@ -26,28 +26,34 @@
                         </div>
                     </div>
                     <!-- Buttons Section -->
-                    <div class="flex items-center space-x-4 mb-4 md:mb-0">
-                        <div class="flex items-start space x-4  mb-4 md:mb-0">
-                            <!-- Action Buttons -->
-                            <a href="{{ route('sales.create') }}" class="bg-navy-blue text-white py-2 px-4 rounded hover:bg-navyblue">+ Add New Sale </a>
-                        </div>
+                    <div class="flex items-center space-x-4 mb-4 md:mb-0">                   
+                    <div class="flex items-start space x-4  mb-4 md:mb-0">
+                        <!-- Action Buttons -->
+                        <a href="{{ route('sales.create') }}" class="bg-navy-blue text-white py-2 px-4 rounded hover:bg-navyblue">+ Add New Sale </a>
                     </div>
                 </div>
-                <!-- Tables -->
-                <div class="table-container py-4 max-h-[500px] max-w-7xl mx-auto px-4 sm:text-left lg:px-8">
-                    <div class="p-4 sm:text-left bg-gray-200">
-                        <div>
-                            <table id="sales" class="min-w-full table-fixed bg-gray-200 text-gray-500">
-                                <thead class="text-gray-500 bg-gray-200">
-                                    <tr>
-                                        <th class="w-10 p-1 text-center bg-gray-100 border-b border-gray-300">#</th>
-                                        <th class="w-20 p-1 text-center bg-gray-100 border-b border-gray-300">Customer Name</th>
-                                        <th class="w-20 p-1 text-center bg-gray-100 border-b border-gray-300">Product Name</th>
-                                        <th class="w-20 p-1 text-center bg-gray-100 border-b border-gray-300">Serial Number</th>
-                                        <th class="w-16 p-1 text-center bg-gray-100 border-b border-gray-300">State</th>
-                                        <th class="w-20 p-1 text-center bg-gray-100 border-b border-gray-300">Sale Date</th>
-                                        <th class="w-20 p-1 text-center bg-gray-100 border-b border-gray-300">Amount</th>
-                                        <th class="w-18 p-1 text-center bg-gray-100 border-b border-gray-300"">Actions</th>
+            </div>        
+                    @if (session()->has('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+            <!-- Tables -->      
+<div class="table-container py-4 max-h-[500px] max-w-7xl mx-auto px-4 sm:text-left lg:px-8">
+    <div class="p-4 sm:text-left bg-gray-200">
+        <div>
+            <table id="sales" class="min-w-full table-fixed bg-gray-200 text-gray-500">
+                <thead class="text-gray-500 bg-gray-200">
+                    <tr>
+                        <th class="w-10 p-1 text-center bg-gray-100 border-b border-gray-300">#</th>
+                        <th class="w-20 p-1 text-center bg-gray-100 border-b border-gray-300">Customer Name</th>
+                        <th class="w-20 p-1 text-center bg-gray-100 border-b border-gray-300">Product Name</th>
+                        <th class="w-20 p-1 text-center bg-gray-100 border-b border-gray-300">Serial Number</th>
+                        <th class="w-16 p-1 text-center bg-gray-100 border-b border-gray-300">State</th>
+                        <th class="w-20 p-1 text-center bg-gray-100 border-b border-gray-300">Sale Date</th>
+                        <th class="w-20 p-1 text-center bg-gray-100 border-b border-gray-300">Amount</th>
+                        <th class="w-18 p-1 text-center bg-gray-100 border-b border-gray-300"">Actions</th>
                     </tr>
                 </thead>
                 <tbody class=" bg-gray-200">

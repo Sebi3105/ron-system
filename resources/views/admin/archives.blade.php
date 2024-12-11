@@ -20,7 +20,7 @@
                     <!-- Navigation Buttons for Other Views -->
                     <div class="flex space-x-4 ml-12 mb-4">
                         <button onclick="location.href='{{ route('admin.dashboard') }}'" class="bg-gray-400 text-white py-1 px-2 rounded btn-primary">User Management</button>
-                        <button onclick="location.href='{{ route('activitylogs.index') }}'" class="bg-gray-400 text-white py-1 px-2 rounded btn-primary">Activity Logs</button>
+                        <button onclick="location.href='{{ route('admin.activitylogs.index') }}'" class="bg-gray-400 text-white py-1 px-2 rounded btn-primary">Activity Logs</button>
                         <button onclick="location.href='{{ route('admin.archives') }}'" class="bg-gray-400 text-white py-1 px-2 rounded btn-primary">Archived</button>
                     </div>
 
