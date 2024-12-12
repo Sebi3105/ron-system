@@ -108,14 +108,14 @@
         <div>
             <table id="techreport" class="min-w-full tab le-auto bg-gray-200 text-gray-500">
                 <thead class="text-gray-500 bg-gray-200">
-                    <tr>
+                    <tr class="text-center">
                         <th class="w-12 p-1 border-r border-gray-200">#</th>
                         <th class="w-20 p-1 border-r border-gray-200">Technician</th>
                         <th class="w-20 p-1 border-r border-gray-200">Customer</th>
                         <th class="w-20 p-1 border-r border-gray-200">Serial No.</th>
                         <th class="w-16 p-1 border-r border-gray-200">Service</th>
                         <th class="w-16 p-1 border-r border-gray-200">Product</th>
-                        <th class="w-24 p-1 border-r border-gray-200">Completion Date</   th>
+                        <th class="w-20 p-1 border-r border-gray-200">Completion Date</   th>
                         <th class="w-20 p-1 border-r border-gray-200">Payment Type</th>
                         <th class="w-20 p-1 border-r border-gray-200">Payment Method</th>
                         <th class="w-20 p-1 border-r border-gray-200">Status</th>
@@ -131,7 +131,7 @@
 </div>
 
 <div class="table-container py-4  max-w-7xl mx-auto px-4 sm:text-left lg:px-8 bg-gray-200">
-    <div class="p-4 sm:text-left bg-gray-200  grid grid-cols-1 md:grid-cols-2 gap-10">
+    <div class="p-4 sm:text-left grid grid-cols-1 md:grid-cols-2 gap-10">
            <!-- Technician -->
            <div class="table-container w-full bg-gray-200">
              <h3 class="text-2xl font-semibold mb-2 text-left text-gray-500">Technician</h3>
@@ -149,7 +149,7 @@
                       <td class="p-2 text-center bg-gray-100 border-b border-gray-300">{{ $technician->name }}</td>
                       <td class="p-2 text-center bg-gray-100 border-b border-gray-300">{{ $technician->contact_no ? '+63 ' . $technician->contact_no : 'N/A' }}</td>
                       <td class="p-2 flex bg-gray-100 items-center justify-center border-b border-gray-300">
-                      <button id="editButton" class="bg-navy-blue text-white py-1 px-2 rounded edit-techprofile" data-url="{{ route('techprofile.edit', $technician) }}">Edit</button>
+                      <button id="editButton" class="bg-navy-blue text-white mr-2 py-1 px-2 rounded edit-techprofile" data-url="{{ route('techprofile.edit', $technician) }}">Edit</button>
                       <button class="bg-red-500 text-white py-1 px-2 rounded delete-techprofile" data-url="{{ route('techprofile.delete', $technician->technician_id) }}">Delete</button>
                       </td>
                     </tr>
@@ -163,7 +163,7 @@
              <table id="services" class="min-w-full table-fixed bg-gray-200 text-gray-500">
                <thead class="text-gray-500">
                   <tr>
-                    <th class="w-24 p-2 bg-gray-100 white text-center border-b border-gray-300 mt-4">Services</th>
+                    <th class="w-24 p-2 bg-gray-100 text-center border-b border-gray-300 mt-4">Services</th>
                     <th class="w-24 p-2 bg-gray-100 text-center border-b border-gray-300">Actions</th>
                   </tr>
                 </thead>
