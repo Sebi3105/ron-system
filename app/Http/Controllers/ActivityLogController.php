@@ -32,9 +32,8 @@ class ActivityLogController extends Controller
     // Initialize default values
     $customerName = '';
     $technicianName = '';
-    $productName = '';
-    $techNamefound = '';
-    $customer = '';
+    $serialNumber = '';
+    
 
     // Fetch customer data
     $newCustomerId = $log->properties['attributes']['customer_id'] ?? null;
@@ -47,41 +46,37 @@ class ActivityLogController extends Controller
         }
     }
 
-    // Fetch technician data
-    $newTechnicianId = $log->properties['attributes']['technician_id'] ?? null;
-    $oldTechnicianId = $log->properties['old']['technician_id'] ?? null;
-    if ($newTechnicianId || $oldTechnicianId) {
-        $technicianIdToUse = $newTechnicianId ?? $oldTechnicianId;
-        $technician = TechProfile::find($technicianIdToUse);
-        if ($technician) {
+    // // Fetch technician data
+    // $newTechnicianId = $log->properties['attributes']['technician_id'] ?? null;
+    // $oldTechnicianId = $log->properties['old']['technician_id'] ?? null;
+    // if ($newTechnicianId || $oldTechnicianId) {
+    //     $technicianIdToUse = $newTechnicianId ?? $oldTechnicianId;
+    //     $technician = TechProfile::find($technicianIdToUse);
+    //     if ($technician) {
+    //         $technicianName = $technician->name;
+    //     }
+    // }
+
+    
+    $subjectId = $log->subject_id;
+    // $logname = $logs->log_name;
+    $productName = '';
+    $techNamefound = '';
+    $customer = '';
+    $salesLogs = Activity::where('log_name', 'sales')->get();
+    $techlogs = Activity::where('log_name', 'techreport')->get();
+    $technicianlogs = Activity::where('log_name', 'technician')->get();
+    $serialLogs =  Activity::where('log_name', 'serial')->get();
+
+    if ($subjectId && $technicianlogs->isNotEmpty()) {
+        $technician = TechProfile::find($subjectId); // Assume subject_id could be sales_id
+        if ($technician) { 
             $technicianName = $technician->name;
         }
     }
 
-    
-    $subjectId = $log->subject_id;
-    $logname = $log->log_name;
-    
-    // if ($subjectId && $logname == "sales") {
-    //     $sales = Sales::find($subjectId); // Assume subject_id could be sales_id
-    //     if ($sales) { 
-    //         $salesCustomerId = $sales->customer_id;
-    //         $salesCustomer = Customer::find($salesCustomerId);
-    //         if ($salesCustomer) {
-    //             $customer = $salesCustomer->name; // Overwrite customer name from sales
-    //         }
-    //     }
-    // }
-
-    if ($subjectId) {
-        $inventory = Inventory::find($subjectId);
-        if ($inventory) {
-            $productName = $inventory->product_name ?? 'N/A';
-        }
-    }
-
     // Fetch tech report and associated technician
-    if ($subjectId) {
+    if ($subjectId && $techlogs->isNotEmpty() ) {
         $techReport = TechReport::find($subjectId);
         if ($techReport) {
             $technicianId = $techReport->technician_id;
@@ -94,10 +89,32 @@ class ActivityLogController extends Controller
         }
     }
 
-    $customer = ''; // Default value
-    $salesCustomer = optional(Sales::find($subjectId))->customer;
-    $customer = optional($salesCustomer)->name ?? $customer; // Assign the customer name or keep default
+    if ($salesLogs->isNotEmpty() && $subjectId) {
+        $sales = Sales::find($subjectId); // Assume subject_id could be sales_id
+        if ($sales) { 
+            $salesCustomerId = $sales->customer_id;
+            $salesCustomer = Customer::find($salesCustomerId);
+            if ($salesCustomer) {
+                $customer = $salesCustomer->name; // Overwrite customer name from sales
+            }
+        }
+    }
 
+  
+
+    // if ($subjectId) {
+    //     $inventory = Inventory::find($subjectId);
+    //     if ($inventory) {
+    //         $productName = $inventory->product_name ?? 'N/A';
+    //     }
+    // }
+    // $customer = ''; // Default value
+
+    // if ($subjectId and $logname =="") {
+ 
+    // $salesCustomer = optional(Sales::find($subjectId))->customer;
+    // $customer = optional($salesCustomer)->name ?? $customer; // Assign the customer name or keep default
+    // }
    
     // Attach processed data to the log
     $log->customerName = $customerName;
@@ -105,6 +122,7 @@ class ActivityLogController extends Controller
     $log->techNamefound = $techNamefound;
     $log->productName = $productName;
     $log->customer = $customer;
+    $log->serialNumber = $serialNumber;
 
     }
     return view('admin.activitylogs.index', compact('logs'));

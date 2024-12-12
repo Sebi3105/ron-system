@@ -39,7 +39,7 @@
                 <form id="ServiceForm" method="post" action="{{ route('service.store') }}">
                 @csrf
                 <div class="service_name">
-                    <input type="text" id="service_name" name="service_name" placeholder="Service Name" required />
+                    <input type="text" id="service_name" name="service_name" placeholder="Service Name"  required pattern="[A-Za-z\s]+" title="Only letters and spaces are allowed"  />
                 </div>
                 <div class="button-group">
                     <input type="button" id="saveTechnicianButton" value="Save Service" class="save-btn">

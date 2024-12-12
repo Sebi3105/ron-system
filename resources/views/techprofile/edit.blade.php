@@ -44,6 +44,8 @@
             name="name" 
             placeholder="Technician Name" 
             value="{{ old('name', $techprofile->name) }}" 
+            pattern="^[A-Za-z]+(\s[A-Za-z]+)*(\s?[A-Za-z]*\.)?$" 
+           title="Only letters, spaces, and a single dot are allowed between words."
             required 
         />
     </div>

@@ -96,7 +96,7 @@ public function getActivitylogOptions(): LogOptions
         ->logOnly(['technician_id', 'customer_id', 'sku_id', 'service_id', 'date_of_completion', 'payment_type', 
         'payment_method','status','remarks','cost'])
         ->logOnlyDirty()
-        ->useLogName('technicinan') 
+        ->useLogName('techreport') 
         ->setDescriptionForEvent(function (string $eventName) {
             switch ($eventName) {
                 case 'updated':

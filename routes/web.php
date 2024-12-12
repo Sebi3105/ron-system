@@ -66,6 +66,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/techprofile', [TechProfileController::class, 'index'])->name('techprofile.index');
     Route::delete('/techprofile/{techprofile}', [TechProfileController::class, 'delete'])->name('techprofile.delete');
     Route::get('/techprofile', [TechProfileController::class, 'index'])->name('techprofile.index');
+    Route::get('/techreport', [TechProfileController::class, 'index'])->name('techreport.index');
 
     //techreport routes
 
@@ -200,6 +201,7 @@ Route::middleware('auth')->group(function () {
 
     // Route::get('/activitylogs', [ActivityLogController::class, 'index'])->name('activitylogs.index');
     Route::get('/admin/activitylogs/', [ActivityLogController::class, 'index'])->name('admin.activitylogs.index');
+    
 
     Route::get('/admin/archives', function () {
         return view('admin.archives');

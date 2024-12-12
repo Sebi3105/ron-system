@@ -51,20 +51,16 @@ class TechProfileController extends Controller
     public function create(){
         return view('techprofile.create');
     }
-
-    public function store(Request $request){
-       
+    public function store(Request $request)
+    {
         $data = $request->validate([
-            'name' => 'required',
-            'contact_no' => 'required',
+            'name' => 'required', // Ensure name is unique in the tech_profiles table
+            'contact_no' => 'required|unique:technician,contact_no', // Ensure contact_no is unique in the tech_profiles table
         ]);
-
+    
         $new_techprofile = TechProfile::create($data);
-
-       
-      
-      return redirect(route('techreport.index'))->with('success', 'Technician Created Successfully');
-        
+    
+        return redirect(route('techreport.index'))->with('success', 'Technician Created Successfully');
     }
 
     public function edit(TechProfile $techprofile){
@@ -73,8 +69,8 @@ class TechProfileController extends Controller
         
     public function update(TechProfile $techprofile, Request $request){
         $data = $request->validate([
-            'name' => 'required',
-            'contact_no' => 'required',
+            'name' => 'required', // Ensure name is unique in the tech_profiles table
+            'contact_no' => 'required|unique:technician,contact_no', // Ensure
         ]);
         $techprofile->update($data);
 

@@ -51,14 +51,13 @@ class ServicesController extends Controller
     }
 
     public function store(Request $request){
-       
         $data = $request->validate([
-            'service_name' => 'required',
+            'service_name' => 'required|unique:service,service_name', // Ensure service_name is unique in the services table
         ]);
-
+        
         $new_service = Services::create($data);
 
-        return redirect(route('techreport.index'));
+        return redirect(route('techreport.index'))->with('success', 'Report Created Successfully');
     }
 
     public function edit(Services $service){
@@ -67,7 +66,7 @@ class ServicesController extends Controller
         
     public function update(Services $service, Request $request){
         $data = $request->validate([
-            'service_name' => 'required',
+           'service_name' => 'required|unique:service,service_name',
         ]);
         $service->update($data);
 
