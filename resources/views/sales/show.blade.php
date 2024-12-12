@@ -41,7 +41,7 @@
 
                     <div class="detail">
                         <span class="label">Serial Number:</span>
-                        <span>{{ $sale->serial_number ?? 'N/A' }}</span>
+                        <span>{{ $sale->inventoryItem->serial_number ?? 'N/A' }}</span>
                     </div>
 
                     <div class="detail">

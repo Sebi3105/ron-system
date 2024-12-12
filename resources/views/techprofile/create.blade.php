@@ -112,9 +112,10 @@
                     // Show the confirmation modal before submitting the form
                     document.getElementById('confirmationModal').classList.remove('hidden');
                 } else {
-                    alert("Please correct the errors before submitting.");
+                    alert("Please correct the name.");
                 }
             });
+
 
             // Confirmation modal buttons
             document.getElementById('confirmSubmit').addEventListener('click', function () {
