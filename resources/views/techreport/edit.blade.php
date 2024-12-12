@@ -38,7 +38,7 @@
                         </div>
                     @endif
 
-                    <form method="post" action="{{ route('techreport.update', ['techreport' => $techreport]) }}">
+                    <form method="post" action="{{ route('techreport.update', ['techreport' => $techreport]) }}" id="ServiceForm">
                         @csrf
                         @method('put')
 
@@ -589,8 +589,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const saveTechnicianButton = document.getElementById('saveTechnicianButton');
 
     // Open modal when clicking the save button
-    saveTechnicianButton.addEventListener('click', function () {
+    saveTechnicianButton.addEventListener('click', function (event) {
         console.log('Opening modal...');
+        event.preventDefault(); // Prevent form submission
         modalMessage.textContent = 'Are you sure you want to save this Technician?';
         modal.classList.remove('hidden');
     });
@@ -605,9 +606,10 @@ document.addEventListener('DOMContentLoaded', function () {
     confirmSubmitButton.addEventListener('click', function () {
         console.log('Submitting form...');
         modal.classList.add('hidden');
-        form.submit();
+        form.submit(); // Submit the form manually
     });
 });
+
 document.addEventListener('DOMContentLoaded', function () {
     const cancelModal = document.getElementById('cancelModal');
     const cancelModalClose = document.getElementById('cancelModalClose');
