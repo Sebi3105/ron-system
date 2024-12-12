@@ -454,6 +454,7 @@
                     background-color: #D1D5DB;
                 }
             </style>
+            
             <div class="container mx-auto p-4">
                 <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
                     <div class="relative w-full md:w-1/2">
@@ -548,7 +549,7 @@
                     <button id="cancelModalClose" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-200 transition">
                         Cancel
                     </button>
-                    <a href="{{ route('inventory.index') }}" id="confirmCancel" class="px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-md hover:from-red-600 hover:to-red-800 transition">
+                    <a href="{{ route('admin.inventory.softDeleted') }}" id="confirmCancel" class="px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-md hover:from-red-600 hover:to-red-800 transition">
                         Confirm
                     </a>
                 </div>

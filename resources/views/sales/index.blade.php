@@ -82,7 +82,7 @@
                                                     <option value="soft">Archive</option>
                                                     <option value="hard">Delete</option>
                                                 </select>
-                                                <button type="button" id="triggerDeleteModal" class="bg-red-500 text-white py-1 px-2 delete-btn rounded">Submit</button>
+                                                <button type="submit" id="triggerDeleteModal" class="bg-red-500 text-white py-1 px-2 delete-btn rounded">Submit</button>
                                             </form>
                                         </td>
                                     </tr>
