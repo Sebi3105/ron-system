@@ -46,7 +46,7 @@
             <!-- Form Container -->
             <div class="flex justify-center items-center mt-8">
                 <div class="form-container w-full max-w-lg p-6 bg-white shadow-md rounded-md">
-                    <h1 class="text-lg text-center font-bold stitle">USER INFORMATION</h1>
+                    <h1 class="text-lg text-center font-bold stitle">User Information</h1>
 
                     <form id="createUserForm" action="{{ route('admin.store') }}" method="POST">
                         @csrf

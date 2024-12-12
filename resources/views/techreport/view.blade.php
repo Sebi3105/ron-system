@@ -46,25 +46,31 @@
                             <!-- Row 1 -->
                             <div class="form-group">
                                 <label for="technician_id">Technician</label>
-                                <input type="text" name="technician_id" id="technician_id" value="{{ $techreport->technician->name ?? 'N/A' }}" readonly>
+                                <input type="text" name="technician_id" id="technician_id"  value="{{ old('technician_id', $techreport->techprofile->name ?? '') }}"  readonly>
                             </div>
 
                             <div class="form-group">
                                 <label for="customer_id">Customer</label>
-                                <input type="text" name="customer_id" id="customer_id" value="{{ $techreport->customer->name ?? 'N/A' }}" readonly>
+                                <input type="text" name="customer_id" id="customer_id" value="{{ old('customer_id', $techreport->customer->name ?? '') }}"  readonly>
                             </div>
 
                             <!-- Row 2 -->
                             <div class="form-group">
                                 <label for="sku_id">Serial No.</label>
-                                <input type="text" name="sku_id" id="sku_id" value="{{ $techreport->inventory->serial_number ?? 'N/A' }}" readonly>
+                                <input type="text" name="sku_id" id="sku_id"    value="{{ old('sku_id', $techreport->inventoryitem->serial_number ?? 'Not bought in-store') }}" readonly>
                             </div>
 
                             <div class="form-group">
                                 <label for="service_id">Service</label>
-                                <input type="text" name="service_id" id="service_id" value="{{ $techreport->service->service_name ?? 'N/A' }}" readonly>
+                                <input type="text" name="service_id" id="service_id"  value="{{ old('service_id', $techreport->service->service_name ?? '') }}"  readonly>
                             </div>
 
+                            <div class="form-group">
+                                <label for="product_name">Product</label>
+                                <input type="text" name="product_name" id="product_name"     value="{{ $techreport->Inventoryitem && $techreport->Inventoryitem->inventory 
+                                    ? $techreport->Inventoryitem->inventory->product_name 
+                                    : 'Not bought in-store' }}"   readonly>
+                            </div>
                             <!-- Row 3 -->
                             <div class="form-group">
                                 <label for="date_of_completion">Date of Completion</label>
@@ -73,28 +79,28 @@
 
                             <div class="form-group">
                                 <label for="payment_type">Payment Type</label>
-                                <input type="text" name="payment_type" id="payment_type" value="{{ ucfirst(str_replace('_', ' ', $techreport->payment_type)) }}" readonly>
+                                <input type="text" name="payment_type" id="payment_type" value="{{ old('payment_type', ucfirst(str_replace('_', ' ', $techreport->payment_type ?? ''))) }}"  readonly>
                             </div>
 
                             <!-- Row 4 -->
                             <div class="form-group">
                                 <label for="payment_method">Payment Method</label>
-                                <input type="text" name="payment_method" id="payment_method" value="{{ ucfirst($techreport->payment_method) }}" readonly>
+                                <input type="text" name="payment_method" id="payment_method" value="{{ old('payment_method', ucfirst($techreport->payment_method ?? '')) }}"  readonly>
                             </div>
                             <div class="form-group">
                                 <label for="status">Status</label>
-                                <input type="text" name="status" id="status" value="{{ ucfirst($techreport->status) }}" readonly>
+                                <input type="text" name="status" id="status"  value="{{ old('status', ucfirst($techreport->status ?? '')) }}"  readonly>
                             </div>
 
                             <!-- Row 5 -->
                             <div class="form-group">
                                 <label>Remarks</label>
-                                <input type="text" name="remarks" value="{{ $techreport->remarks ?? 'No remarks' }}" readonly>
+                                <input type="text" name="remarks" value="{{ old('remarks', $techreport->remarks) }}" readonly>
                             </div>
 
                             <div class="form-group">
                                 <label for="cost">Cost</label>
-                                <input type="number" step="0.01" name="cost" id="cost" value="{{ $techreport->cost }}" readonly>
+                                <input type="number" step="0.01" name="cost" id="cost"  value="{{ old('cost', $techreport->cost) }}" " readonly>
                             </div>
                         </div>
                     </form>

@@ -2,7 +2,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <div class="flex flex-col md:flex-row h-screen bg-gray-200">
         <div class="flex-1 ml-64 mt-0 min-h-screen bg-gray-200">
@@ -12,32 +12,27 @@
                     <h1 class="text-2xl px-10 font-semibold text-gray-500 absolute top-5">Admin Dashboard</h1>
                 </div>
 
-                <div class="container mt-4">
-                    <!-- Welcome Text -->  
+                <div class="container mt-           4">
+                    <!-- Welcome Text -->
                     <div class="mb-4 ml-12">
                         <p class="text-xl font-semibold text-gray-800">Welcome, {{ Auth::user()->name }}!</p>
                     </div>
 
-                    <!-- Navigation Buttons -->                   
+                    <!-- Navigation Buttons -->
                     <div class="flex space-x-4 ml-12 mb-4">
-                        <button onclick="location.href='{{ route('admin.dashboard') }}'" class="bg-gray-400 text-white py-1 px-2 rounded btn-primary">User Management</button>
-                        <button onclick="location.href='{{ route('admin.activitylogs.index') }}'" class="bg-gray-400 text-white py-1 px-2 rounded btn-primary">Activity Logs</button>
-                        <button onclick="location.href='{{ route('admin.archives') }}'" class="bg-gray-400 text-white py-1 px-2 rounded btn-primary">Archived</button>
-                    </div>
-
-                    <!-- Success Message -->
-                    <div class="success_pop mb-4">
-                        @if(session()->has('success'))
-                            <div class="bg-green-500 text-white p-2 rounded">
-                                {{ session('success') }}
-                            </div>
-                        @endif
+                        <button onclick="location.href='{{ route('admin.dashboard') }}'" class="bg-white text-blue-500 py-2 px-3 rounded btn-primary">User Management</button>
+                        <button onclick="location.href='{{ route('admin.activitylogs.index') }}'" class="bg-white text-blue-500 py-2 px-3 rounded btn-primary">Activity Logs</button>
+                        <button onclick="location.href='{{ route('admin.archives') }}'" class="bg-white text-blue-500 py-2 px-3 rounded btn-primary">Archived</button>
                     </div>
 
                     <!-- DataTable Section -->
                     <div class="table-container py-4 max-h-[500px] max-w-7xl mx-auto px-4 sm:text-left lg:px-8">
                         <div class="p-4 sm:text-left overflow-y-auto bg-gray-200">
-                            <h3 class="text-3xl font-semibold mb-2 text-left text-gray-500">Existing Users</h3>
+                            <div class="flex justify-between items-center">
+                                <h3 class="text-3xl font-semibold mb-2 text-left text -gray-500">User Accounts</h3>
+                                <a href="{{ route('admin.create') }}" class="bg-white text-blue-500 py-2 px-4 rounded-md">Create New User</a>
+                            </div>
+
                             <table id="usersTable" class="min-w-full table-fixed bg-gray-200 text-gray-500 mx-auto">
                                 <thead class="text-gray-500 bg-gray-200">
                                     <tr>

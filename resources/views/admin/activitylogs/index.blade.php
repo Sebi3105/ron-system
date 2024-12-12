@@ -20,9 +20,9 @@
 
                     <!-- Navigation Buttons -->                   
                     <div class="flex space-x-4 ml-12 mb-4">
-                        <button onclick="location.href='{{ route('admin.dashboard') }}'" class="bg-gray-400 text-white py-1 px-2 rounded btn-primary">User Management</button>
-                        <button onclick="location.href='{{ route('admin.activitylogs.index') }}'" class="bg-gray-400 text-white py-1 px-2 rounded btn-primary">Activity Logs</button>
-                        <button onclick="location.href='{{ route('admin.archives') }}'" class="bg-gray-400 text-white py-1 px-2 rounded btn-primary">Archived</button>
+                    <button onclick="location.href='{{ route('admin.dashboard') }}'" class="bg-white text-blue-500 py-2 px-3 rounded btn-primary">User Management</button>
+                        <button onclick="location.href='{{ route('admin.activitylogs.index') }}'" class="bg-white text-blue-500 py-2 px-3 rounded btn-primary">Activity Logs</button>
+                        <button onclick="location.href='{{ route('admin.archives') }}'" class="bg-white text-blue-500 py-2 px-3 rounded btn-primary">Archived</button>
                     </div>
 
                     <!-- Filter Section aligned to the right -->
