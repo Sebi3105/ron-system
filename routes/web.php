@@ -23,8 +23,15 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $inventoryCount = App\Models\Inventory::sum('quantity');
+    $customerCount = App\Models\Customer::count();
+    $totalSales = App\Models\Sales::sum('amount');
+    $technicianReportCount = App\Models\TechReport::count();
+
+
+    return view('dashboard', compact('inventoryCount', 'customerCount', 'totalSales', 'technicianReportCount'));
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 
 Route::middleware('auth')->group(function () {
