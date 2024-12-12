@@ -38,7 +38,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
                                 </svg>
                                 <!-- Filter Text -->
-                                <span>Filter</span>
+                                <span class="font-bold">Filter</span>
                                 <!-- Dropdown Icon -->
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -108,21 +108,21 @@
         <div>
             <table id="techreport" class="min-w-full tab le-auto bg-gray-200 text-gray-500">
                 <thead class="text-gray-500 bg-gray-200">
-                    <tr class="text-center">
-                        <th class="p-1 bg-gray-100 border-r border-gray-200">#</th>
-                        <th class="p-1 bg-gray-100 border-r border-gray-200">Technician</th>
-                        <th class="p-1 bg-gray-100 border-r border-gray-200">Customer</th>
-                        <th class="p-1 bg-gray-100 border-r border-gray-200">Serial No.</th>
-                        <th class="p-1 bg-gray-100 border-r border-gray-200">Service</th>
-                        <th class="p-1 bg-gray-100 border-r border-gray-200">Product</th>
-                        <th class="p-1 bg-gray-100 border-r border-gray-200">Completion Date</th>
-                        <th class="p-1 bg-gray-100 border-r border-gray-200">Payment Type</th>
-                        <th class="p-1 bg-gray-100 border-r border-gray-200">Payment Method</th>
-                        <th class="p-1 bg-gray-100 border-r border-gray-200">Status</th>
-                        <th class="p-1 bg-gray-100 border-r border-gray-200">Actions</th>
+                    <tr>
+                        <th class="w-12 p-1 border-r border-gray-200">#</th>
+                        <th class="w-20 p-1 border-r border-gray-200">Technician</th>
+                        <th class="w-20 p-1 border-r border-gray-200">Customer</th>
+                        <th class="w-20 p-1 border-r border-gray-200">Serial No.</th>
+                        <th class="w-16 p-1 border-r border-gray-200">Service</th>
+                        <th class="w-16 p-1 border-r border-gray-200">Product</th>
+                        <th class="w-24 p-1 border-r border-gray-200">Completion Date</   th>
+                        <th class="w-20 p-1 border-r border-gray-200">Payment Type</th>
+                        <th class="w-20 p-1 border-r border-gray-200">Payment Method</th>
+                        <th class="w-20 p-1 border-r border-gray-200">Status</th>
+                        <th class="w-18 p-1">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="bg-gray-200 text-center">
+                <tbody class="bg-gray-200">
                     <!-- Dynamic content will be injected here by DataTable --> 
                 </tbody>
             </table>
@@ -145,11 +145,11 @@
                 </thead>
                 <tbody class="bg-gray-100">
                   @foreach($techprofile as $technician)          
-                    <tr>                    
+                    <tr>              
                       <td class="p-2 text-center bg-gray-100 border-b border-gray-300">{{ $technician->name }}</td>
                       <td class="p-2 text-center bg-gray-100 border-b border-gray-300">{{ $technician->contact_no ? '+63 ' . $technician->contact_no : 'N/A' }}</td>
-                      <td class="p-2 flex items-center justify-center space-x-2 bg-gray-100 border-b border-gray-300">
-                      <button id="editButton" class="bg-custom-green text-white py-1 px-2 rounded edit-techprofile" data-url="{{ route('techprofile.edit', $technician) }}">Edit</button>
+                      <td class="p-2 flex bg-gray-100 items-center justify-center border-b border-gray-300">
+                      <button id="editButton" class="bg-navy-blue text-white py-1 px-2 rounded edit-techprofile" data-url="{{ route('techprofile.edit', $technician) }}">Edit</button>
                       <button class="bg-red-500 text-white py-1 px-2 rounded delete-techprofile" data-url="{{ route('techprofile.delete', $technician->technician_id) }}">Delete</button>
                       </td>
                     </tr>
@@ -300,11 +300,6 @@
             
         }
     });
-    // Custom search functionality linked to the search input field
-    $('#tableSearch').on('keyup', function() {
-        table.search(this.value).draw();  // Apply search to the DataTable
-    });
-
 
     // Filter and reset functionality
     $('#filterButton').on('click', function() {
