@@ -168,27 +168,27 @@ class InventoryController extends Controller
     }
    
     public function softDeleted()
-{
-    $softDeletedItems = Inventory::onlyTrashed()->get();
-   // dd($softDeletedItems); // Check the contents of the soft deleted items
+    {
+        $softDeletedItems = Inventory::onlyTrashed()->get();
+        return view('admin.inventory.softDeleted', compact('softDeletedItems'));
+    }
 
-    return view('admin.inventory.soft_deleted', compact('softDeletedItems'));
-}
-public function restore($id)
-{
-    $item = Inventory::withTrashed()->findOrFail($id);
-    $item->restore();
+    public function restore($id)
+    {
+        $item = Inventory::withTrashed()->findOrFail($id);
+        $item->restore();
 
-    return redirect()->route('admin.inventory.soft_deleted')->with('success', 'Item restored successfully!');
-}
+        return redirect()->route('admin.inventory.softDeleted')->with('success', 'Item restored successfully!');
+    }
 
-public function forceDelete($id)
-{
-    $item = Inventory::withTrashed()->findOrFail($id);
-    $item->forceDelete();
+    public function forceDelete($id)
+    {
+        $item = Inventory::withTrashed()->findOrFail($id);
+        $item->forceDelete();
 
-    return redirect()->route('admin.inventory.soft_deleted')->with('success', 'Item deleted permanently!');
-}
+        return redirect()->route('admin.inventory.softDeleted')->with('success', 'Item deleted permanently!');
+    }
+
 }
 
 
