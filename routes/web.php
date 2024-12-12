@@ -113,9 +113,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/techreport/soft-deleted', [TechReportController::class, 'softDeleted'])->name('admin.techreport.softDeleted');
 
     // Inventory admin history routes
-    Route::get('/admin/inventory/soft-deleted', [InventoryController::class, 'softDeleted'])->name('admin.inventory.softDeleted');
-    Route::patch('/admin/inventory/restore/{product_id}', [InventoryController::class, 'restore'])->name('admin.inventory.restore');
-    Route::delete('/admin/inventory/force-delete/{product_id}', [InventoryController::class, 'forceDelete'])->name('admin.inventory.forceDelete');
+    Route::get('/admin/inventory/soft_deleted', [InventoryController::class, 'softDeleted'])->name('admin.inventory.softDeleted');
+    Route::patch('/admin/inventory/restore/{id}', [InventoryController::class, 'restore'])->name('admin.inventory.restore');
+    Route::delete('/admin/inventory/force_delete/{id}', [InventoryController::class, 'forceDelete'])->name('admin.inventory.forceDelete');
+    
 
     // Inventory item admin history routes
     Route::get('/admin/inventoryitem/soft-deleted', [InventoryitemController::class, 'softDeletedItems'])->name('admin.inventoryitem.softDeleted');
