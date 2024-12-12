@@ -84,6 +84,7 @@
                             <tr>
                                 <th>Date</th>
                                 <th>Action</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -91,7 +92,7 @@
                             <tr data-user="{{ $log->causer->name }}" data-event="{{ $log->event }}">
                                     <td>{{ $log->created_at->format('Y-m-d H:i') }}</td>
                                     <td>{{ $log->causer->name }}
-                                        {{ ucfirst($log->description) }} {{$log->customer}}
+                                        {{ ucfirst($log->description) }} <span>{{ $log->customer}}</span>
                                         {{
                                           
             $log->subject->name ??
@@ -100,27 +101,28 @@
             $log->subject->service_name ??  
             $log->subject->product_name ??  
            
+
+              
+            $log->properties['attributes']['name'] ??
+            $log->properties['attributes']['category_name'] ??
+            $log->properties['attributes']['service_name'] ??
+            $log->properties['attributes']['product_name'] ??
+            $log->properties['attributes']['brand_name'] ??
+           
+           
             $log->properties['old']['name'] ?? 
             $log->properties['old']['brand_name'] ?? 
             $log->properties['old']['category_name'] ??
             $log->properties['old']['service_name'] ??
             $log->properties['old']['product_name'] ??
             $log->properties['old']['brand_name'] ??
+            $log->properties['attributes']['serial_number'] ??
+            $log->properties['old']['serial_number'] ??
             $log->techNamefound ??
-            
-            
-            $log->properties['attributes']['name'] ??
-            $log->properties['attributes']['category_name'] ??
-            $log->properties['attributes']['service_name'] ??
-            $log->properties['attributes']['product_name'] ??
-            $log->properties['attributes']['brand_name'] ??
-            $log->customerName  ?? 
+           
             $log->technicianName ?? 
           
-            $log->productName ?? 
-   
-   
-            
+        
             ''
         }}
 

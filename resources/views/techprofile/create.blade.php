@@ -1,5 +1,5 @@
 <x-app-layout>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <div class="flex flex-col md:flex-row h-screen">
         <!-- Sidebar (Navigation) -->
         <div class="w-full md:w-64 fixed top-0 left-0 z-10 h-screen bg-gray-900 md:block">
@@ -42,7 +42,8 @@
                            Technician Name
                         </label>
                 <div class="name">
-                    <input type="text" id="name" name="name" placeholder="Technician Name" required />
+                <input type="text" id="name" name="name" placeholder="Technician Name" pattern="[A-Za-z\s]+" title="Only letters and spaces are allowed" required />
+                <span id="nameError" class="text-red-500 text-sm hidden">Only letters and spaces are allowed.</span>
                 </div>
                   <label for="contact_no" class="block text-gray-700">
                             Contact Number
@@ -77,47 +78,75 @@
     </div>
 
     <div id="confirmationModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 hidden">
-    <div class="bg-white max-w-sm w-full">
-        <!-- Modal Header -->
-        <h2 class="text-lg font-bold">Confirmation</h2>
-
-        <!-- Modal Message -->
-        <p id="confirmationMessage">
-            Are you sure you want to save this Technician?
-        </p>
-        <div class="flex">     
-            <button id="confirmCancel">
-                Cancel
-            </button>
-
-            <!-- Confirm Button -->
-            <button id="confirmSubmit">
-                Confirm
-            </button>
+        <div class="bg-white max-w-sm w-full">
+            <h2 class="text-lg font-bold">Confirmation</h2>
+            <p id="confirmationMessage">Are you sure you want to save this Technician?</p>
+            <div class="flex">     
+                <button id="confirmCancel">Cancel</button>
+                <button id="confirmSubmit">Confirm</button>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="cancelModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
-    <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
-        <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-yellow-500 to-yellow-700 p-4 rounded-t-lg">
-        Confirmation
-        </h2>
-        <p class="text-gray-700 text-center mb-6">
-            Are you sure you want to cancel?
-        </p>
-        <div class="flex justify-center gap-4">
-            <button id="cancelModalClose" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-200 transition">
-                Cancel
-            </button>
-            <a href="{{ route('techreport.index') }}" id="saveconfirmCancel" class="px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-md hover:from-red-600 hover:to-red-800 transition">
-                Confirm
-            </a>
+    <div id="cancelModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
+        <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
+            <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-yellow-500 to-yellow-700 p-4 rounded-t-lg">
+                Confirmation
+            </h2>
+            <p class="text-gray-700 text-center mb-6">Are you sure you want to cancel?</p>
+            <div class="flex justify-center gap-4">
+                <button id="cancelModalClose" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-200 transition">Cancel</button>
+                <a href="{{ route('techreport.index') }}" id="saveconfirmCancel" class="px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-md hover:from-red-600 hover:to-red-800 transition">Confirm</a>
+            </div>
         </div>
     </div>
-</div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('TechProfileForm');
+            const saveTechnicianButton = document.getElementById('saveTechnicianButton');
+            const nameInput = document.getElementById('name');
+            const nameError = document.getElementById('nameError');
+            
+            // Custom validation for "name" field
+            function validateName() {
+                const nameValue = nameInput.value.trim();
+                const namePattern = /^[A-Za-zÀ-ÿ\s]+$/;
+                
+                if (!nameValue.match(namePattern)) {
+                    nameError.classList.remove('hidden');
+                    return false;
+                } else {
+                    nameError.classList.add('hidden');
+                    return true;
+                }
+            }
 
+            // Add event listener to validate name on input
+            nameInput.addEventListener('input', validateName);
+
+            // Form submit handler
+            saveTechnicianButton.addEventListener('click', function () {
+                const isNameValid = validateName();
+                if (isNameValid) {
+                    // Show the confirmation modal before submitting the form
+                    document.getElementById('confirmationModal').classList.remove('hidden');
+                } else {
+                    alert("Please correct the errors before submitting.");
+                }
+            });
+
+            // Confirmation modal buttons
+            document.getElementById('confirmSubmit').addEventListener('click', function () {
+                form.submit();
+                document.getElementById('confirmationModal').classList.add('hidden');
+            });
+
+            document.getElementById('confirmCancel').addEventListener('click', function () {
+                document.getElementById('confirmationModal').classList.add('hidden');
+            });
+        });
+    </script>
 
     <style>
 
@@ -137,6 +166,14 @@ input#contact_no {
             pointer-events: none;
         }
 
+        /* Custom error message styling */
+        #nameError {
+            display: none;
+            color: red;
+            font-size: 12px;
+        }
+
+  
         body {
             font-family: 'Poppins';
             background-color: #f3f3f3;
@@ -466,67 +503,5 @@ input#contact_no {
 }
 
     </style>
-
-    <script>
-        function confirmAction(message) {
-            return confirm(message);
-        }
-           // Automatically refresh layout adjustments on window resize
-           window.addEventListener('resize', function() {
-    location.reload(); // Automatic na magre-refresh ang page
-});
-document.addEventListener('DOMContentLoaded', function () {
-    const modal = document.getElementById('confirmationModal');
-    const modalMessage = document.getElementById('confirmationMessage');
-    const confirmSubmitButton = document.getElementById('confirmSubmit');
-    const confirmCancelButton = document.getElementById('confirmCancel');
-    const form = document.getElementById('TechProfileForm');
-    const saveTechnicianButton = document.getElementById('saveTechnicianButton');
-
-    // Open modal when clicking the save button
-    saveTechnicianButton.addEventListener('click', function () {
-        console.log('Opening modal...');
-        modalMessage.textContent = 'Are you sure you want to save this Technician?';
-        modal.classList.remove('hidden');
-    });
-
-    // Cancel button in modal
-    confirmCancelButton.addEventListener('click', function () {
-        console.log('Closing modal...');
-        modal.classList.add('hidden');
-    });
-
-    // Confirm button in modal
-    confirmSubmitButton.addEventListener('click', function () {
-        console.log('Submitting form...');
-        modal.classList.add('hidden');
-        form.submit();
-    });
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-    const cancelModal = document.getElementById('cancelModal');
-    const cancelModalClose = document.getElementById('cancelModalClose');
-    const confirmCancel = document.getElementById('saveconfirmCancel');
-    const cancelActionButton = document.querySelector('.exit-btn');
-
-    // Open the cancel confirmation modal
-    cancelActionButton.addEventListener('click', function (event) {
-        event.preventDefault(); // Prevent default link behavior
-        cancelModal.classList.remove('hidden');
-    });
-
-    // Close the modal when clicking Cancel button
-    cancelModalClose.addEventListener('click', function () {
-        cancelModal.classList.add('hidden');
-    });
-
-    // Add behavior for Confirm Cancel button (redirect to route)
-    confirmCancel.addEventListener('click', function () {
-        // Optionally, perform any action before confirming cancel
-        console.log('Action cancelled');
-    });
-});
-
-    </script>
 </x-app-layout>
+

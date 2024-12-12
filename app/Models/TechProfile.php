@@ -36,7 +36,7 @@ class TechProfile extends Model
         return LogOptions::defaults()
             ->logOnly(['name','contact_no'])
             ->logOnlyDirty()
-            ->useLogName('technicinan') 
+            ->useLogName('technician') 
             ->setDescriptionForEvent(function (string $eventName) {
                 switch ($eventName) {
                     case 'updated':

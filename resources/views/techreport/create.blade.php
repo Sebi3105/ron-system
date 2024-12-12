@@ -1,6 +1,13 @@
 <x-app-layout>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+
+<link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- <script src="{{ asset('js/select2.min.js') }}"></script> -->
+    
+    
+
     <div class="flex flex-col md:flex-row h-screen">
         <!-- Sidebar (Navigation) -->
         <div class="w-full md:w-64 fixed top-0 left-0 z-10 h-screen bg-gray-900 md:block">
@@ -14,21 +21,9 @@
                 <h1 class="text-lg font-bold">  Technician Report</h1>
             </header>
              
-            <!-- Back to Technician View Button -->
-            <div class="flex justify-start mt-24 md:mt-28 px-4">
-                <a href="{{ route('techreport.index') }}" class="back-btn flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5 mr-2">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l-7-7 7-7" />
-                    </svg>
-                    Back to Technician
-                </a>
-            </div>
-            
-     
             <div class="flex justify-center items-center h-full">
                 <div class="form-container">
-                <h1 class="text-lg font-bold stitle" style="color:#4A628A; font-size:22px;">NEW TECHNICIAN REPORT</h1>
+                    <h1 class="text-lg font-bold stitle" style="color:#4A628A; font-size:22px;">NEW TECHNICIAN REPORT</h1>
                     <div class="error_checking">
                         @if($errors->any())
                             <ul>
@@ -44,17 +39,17 @@
                             <!-- Row 1 -->
                             <div class="form-group">
                                 <label for="technician_id">Technician</label>
-                                <select name="technician_id" id="technician_id" required>
+                                <select name="technician_id" id="technician_id" class="js-example-tags" required>
                                     <option value="" selected>Select Technician</option>
                                     @foreach($techprofile as $technician)
                                         <option value="{{ $technician->technician_id }}">{{ $technician->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="customer_id">Customer</label>
-                                <select name="customer_id" id="customer_id" required>
+                                <select name="customer_id" id="customer_id" class="js-example-tags" required>
                                     <option value="" selected>Select Customer</option>
                                     @foreach($customer as $cust)
                                         <option value="{{ $cust->customer_id }}">{{ $cust->name }}</option>
@@ -65,7 +60,7 @@
                             <!-- Row 2 -->
                             <div class="form-group">
                                 <label for="sku_id">Serial No.</label>
-                                <select name="sku_id" id="sku_id">
+                                <select name="sku_id" id="sku_id" class="js-example-tags">
                                     <option value="" selected>Select Serial</option>
                                     @foreach($inventoryitem as $item)
                                         <option value="{{ $item->sku_id }}">{{ $item->serial_number }}</option>
@@ -75,7 +70,7 @@
 
                             <div class="form-group">
                                 <label for="service_id">Service</label>
-                                <select name="service_id" id="service_id" required>
+                                <select name="service_id" id="service_id" class="js-example-tags" required>
                                     <option value="" selected>Select Service</option>
                                     @foreach($service as $srv)
                                         <option value="{{ $srv->service_id }}">{{ $srv->service_name }}</option>
@@ -91,7 +86,7 @@
 
                             <div class="form-group">
                                 <label for="payment_type">Payment Type</label>
-                                <select name="payment_type" id="payment_type" required>
+                                <select name="payment_type" id="payment_type" class="js-example-tags" required>
                                     <option value="" selected>Select Payment Type</option>
                                     @foreach($paymenttype as $type)
                                         <option value="{{ $type }}">{{ ucfirst(str_replace('_', ' ', $type)) }}</option>
@@ -102,7 +97,7 @@
                             <!-- Row 4 -->
                             <div class="form-group">
                                 <label for="payment_method">Payment Method</label>
-                                <select name="payment_method" id="payment_method" required>
+                                <select name="payment_method" id="payment_method" class="js-example-tags" required>
                                     <option value="" selected>Select Payment Method</option>
                                     @foreach($paymentmethod as $method)
                                         <option value="{{ $method }}">{{ ucfirst($method) }}</option>
@@ -112,7 +107,7 @@
 
                             <div class="form-group">
                                 <label for="status">Status</label>
-                                <select name="status" id="status" required>
+                                <select name="status" id="status" class="js-example-tags" required>
                                     <option value="" selected>Select Status</option>
                                     @foreach($statuses as $status)
                                         <option value="{{ $status }}">{{ ucfirst($status) }}</option>
@@ -131,7 +126,7 @@
                                 <input type="number" step="0.01" name="cost" id="cost" placeholder="Cost" required>
                             </div>
                         </div>
-
+   
                         <div class="button-group col-span sm:col-span-2">
                         <input type="submit" value="Save" id="saveTechnicianButton">
                             <a href="{{ route('techreport.index') }}" class="exit-btn">Cancel</a>
@@ -588,6 +583,7 @@
 }
 
     </style>
+     
 
     <script>
         function confirmAction(message) {
@@ -651,4 +647,16 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
     </script>
+    <script>
+    $(document).ready(function() {
+        // Make sure Select2 is applied to the correct selectors
+        $('#technician_id').select2();
+        $('#customer_id').select2();
+        $('#sku_id').select2();
+        $('#service_id').select2();
+        $('#payment_type').select2();
+        $('#payment_method').select2();
+        $('#status').select2();
+    });
+</script>
 </x-app-layout>

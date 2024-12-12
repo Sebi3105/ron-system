@@ -118,31 +118,40 @@
                                     <option value="" selected>Select Payment Method</option>
                                     @foreach($paymentmethod as $method)
                                         <option value="{{ $method }}" {{ $method == $techreport->payment_method ? 'selected' : '' }}>
-                                            {{ ucfirst($method) }}
+                                          
+                                            {{ ucfirst(str_replace('_', ' ', $method)) }}
                                         </option>
                                     @endforeach
                                 </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="status">Status</label>
-                                <select name="status" id="status" required>
-                                    <option value="" selected>Select Status</option>
-                                    @foreach($statuses as $status)
-                                        <option value="{{ $status }}">{{ ucfirst($status) }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            </div> 
+                    
+                            
+                         <div class="form-group">
+                        <label for="status">Status</label>
+                        <select name="status" id="status" required>
+                            <option value="" {{ old('status') == '' ? 'selected' : '' }}>Select Status</option>
+                            
+                            @foreach($statuses as $status)
+                                <option value="{{ $status }}" 
+                                    {{ (old('status') == $status || $status == $techreport->status) ? 'selected' : '' }}>
+                                    {{ ucfirst(str_replace('_', ' ', $status)) }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                            <!-- Row 5 -->
-                            <div class="form-group">
-                                <label>Remarks</label>
-                                <input type="text" name="remarks" placeholder="Remarks">
-                            </div>
+                                                                <!-- Row 5 -->
+              <div class="form-group">
+                    <label>Remarks</label>
+                    <input type="text" name="remarks" placeholder="Remarks" value="{{ old('remarks', $techreport->remarks ?? '') }}">
+                </div>
 
-                            <div class="form-group">
-                                <label for="cost">Cost</label>
-                                <input type="number" step="0.01" name="cost" id="cost" placeholder="Cost" required>
-                            </div>
+                <div class="form-group">
+                    <label for="cost">Cost</label>
+                    <input type="number" step="0.01" name="cost" id="cost" placeholder="Cost" required
+                        value="{{ old('cost', $techreport->cost ?? '') }}">
+                </div>
+
                         </div>
                         <div class="button-group col-span sm:col-span-2">
                             <input type="submit" value="Save" id="saveTechnicianButton">

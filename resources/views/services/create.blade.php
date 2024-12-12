@@ -41,7 +41,7 @@
                 
                 <div class="service_name">
                 <label class="block text-gray-700">Service Name</label>
-                    <input type="text" id="service_name" name="service_name" placeholder="Service Name" required />
+                <input type="text" id="service_name" name="service_name" placeholder="Service Name"  required pattern="[A-Za-z\s]+" title="Only letters and spaces are allowed"  />
                 </div>
                 <div class="button-group">
                     <input type="button" id="saveTechnicianButton" value="Save" class="save-btn">
