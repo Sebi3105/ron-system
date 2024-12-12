@@ -35,7 +35,7 @@
                     </div>
 
                     <!-- Soft Deleted Links with Icons and Containers -->
-                    <h3 class="text-2xl font-semibold text-gray-500 mb-4 ml-12">Available Routes</h3>
+                    <h3 class="text-2xl font-semibold text-gray-500 mb-4 ml-12">Available</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 ml-12">
                         
                         <!-- First Column -->
@@ -133,4 +133,5 @@
             </div>
         </div>
     </div>
+
 </x-app-layout>

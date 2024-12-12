@@ -24,6 +24,7 @@
                         <button onclick="location.href='{{ route('admin.activitylogs.index') }}'" class="bg-white text-blue-500 py-2 px-3 rounded btn-primary">Activity Logs</button>
                         <button onclick="location.href='{{ route('admin.archives') }}'" class="bg-white text-blue-500 py-2 px-3 rounded btn-primary">Archived</button>
                     </div>
+                   
 
                     <!-- Filter Section aligned to the right -->
                     <div class="flex justify-end mr-10">
@@ -202,4 +203,108 @@
             }
         });
     </script>
+    <style>
+        body{
+            background-color: #E5E7EB;
+        }
+        
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+                    display: inline-block;
+                    padding: 4px 10px;
+                    margin: 4px;
+                    font-size: 10px;
+                    color: #333;
+                    border: 1px solid #ddd;
+                    border-radius: 6px;
+                    background-color: #f9f9f9;
+                    cursor: pointer;
+                    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+                }
+
+                .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+                    background-color: #DFDFDE;
+                    color: #fff;
+                    transform: scale(1.05);
+                }
+
+                .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+                    background-color: #15803d;
+                    color: green;
+                    border-color: #1a73e8;
+                    font-weight: bold;
+                    transform: scale(1.1);
+                    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+                }
+
+                .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+                    color: #bbb;
+                    cursor: not-allowed;
+                    background-color: #f1f1f1;
+                    border: 1px solid #ddd;
+                    box-shadow: none;
+                }
+
+                .dataTables_wrapper .dataTables_paginate {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 6px;
+                }
+
+                .dataTables_wrapper .dataTables_paginate .paginate_button.previous,
+                .dataTables_wrapper .dataTables_paginate .paginate_button.next {
+                    font-weight: bold;
+                    color: #DFDFDE;
+                    border-radius: 6px;
+                    padding: 4px 10px;
+                    background-color: #f1f1f1;
+                }
+
+                .dataTables_wrapper .dataTables_paginate .paginate_button.previous:hover,
+                .dataTables_wrapper .dataTables_paginate .paginate_button.next:hover {
+                    background-color: #DFDFDE;
+                    color: #fff;
+                }
+
+                .dataTables_length {
+                    display: flex;
+                    align-items: center;
+                    font-size: 0.9rem;
+                    margin-top: 1REM;
+                    margin-bottom: 1REM;
+                    margin-left: 1rem;
+                }
+
+                .dataTables_length label {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                }
+
+                .dataTables_length select {
+                    padding: 0.1rem 0.3rem;
+                    font-size: 0.9rem;
+                    border-radius: 0.375rem;
+                    border: 1px solid #ccc;
+                    outline: none;
+                    transition: border-color 0.2s;
+                    margin-top: -2px;
+                    width: 60px;
+                }
+                #tableSearch {
+    width: 300px;
+    margin-right: 10px;
+}
+
+#filterDropdown {
+    position: absolute;
+    right: 0;
+    top: 50px;
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 10px;
+    display: none; /* Initially hidden */
+}
+
+        </style>
 </x-app-layout>
