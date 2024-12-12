@@ -33,11 +33,15 @@
                         </div>
                     </div>
                 </div>
-                @if (session()->has('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
+
+
+                <div class="success_pop mb-4">
+                    @if(session()->has('success'))
+                    <div class="bg-green-500 text-white p-2 rounded">
+                        {{ session('success') }}
+                    </div>
+                    @endif
                 </div>
-                @endif
 
                 <!-- Tables -->
                 <div class="table-container py-4 max-h-[500px] max-w-7xl mx-auto px-4 sm:text-left lg:px-8">
@@ -233,13 +237,20 @@
                         background-color: #E5E7EB;
                     }
 
-                    /* Modal Styles */
                     #confirmationModal,
                     #editConfirmationModal,
                     #viewConfirmationModal {
-                        z-index: 50;
-                        backdrop-filter: blur(5px);
+                        z-index: 1000;
+                        backdrop-filter: blur(8px);
+                        /* Enhanced blur effect */
                         animation: fadeInBackdrop 0.4s ease-out;
+                        display: none;
+                        /* Hidden by default */
+                        position: fixed;
+                        inset: 0;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
                     }
 
                     @keyframes fadeInBackdrop {
@@ -255,49 +266,49 @@
                     #confirmationModal .bg-white,
                     #editConfirmationModal .bg-white,
                     #viewConfirmationModal .bg-white {
+                        background-color: #fff;
                         border-radius: 12px;
-                        overflow: hidden;
-                        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+                        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
                         animation: modalEntry 0.4s ease-out;
-                        max-width: 400px;
-                        margin: 0 auto;
+                        max-width: 450px;
+                        margin: 0 20px;
+                        padding: 20px;
                     }
 
                     @keyframes modalEntry {
                         from {
                             opacity: 0;
-                            transform: scale(0.9);
+                            transform: translateY(-20px);
                         }
 
                         to {
                             opacity: 1;
-                            transform: scale(1);
+                            transform: translateY(0);
                         }
                     }
 
                     #confirmationModal h2,
                     #editConfirmationModal h2,
                     #viewConfirmationModal h2 {
-                        font-size: 18px;
-                        font-weight: bold;
+                        font-size: 20px;
+                        font-weight: 600;
                         text-align: center;
-                        padding: 12px;
+                        padding: 15px;
+                        color: #fff;
+                        border-radius: 8px 8px 0 0;
                         margin: 0;
                     }
 
                     #confirmationModal h2 {
                         background: linear-gradient(90deg, #FF4C4C, #C62828);
-                        color: #fff;
                     }
 
                     #editConfirmationModal h2 {
                         background: linear-gradient(90deg, #4CAF50, #2E7D32);
-                        color: #fff;
                     }
 
                     #viewConfirmationModal h2 {
                         background: linear-gradient(90deg, #2196F3, #1976D2);
-                        color: white;
                     }
 
                     #confirmationModal p,
@@ -308,13 +319,14 @@
                         text-align: center;
                         margin: 20px 0;
                         line-height: 1.4;
+                        font-weight: 400;
                     }
 
                     #confirmationModal .flex,
                     #editConfirmationModal .flex,
                     #viewConfirmationModal .flex {
                         justify-content: center;
-                        gap: 12px;
+                        gap: 16px;
                         padding: 0;
                     }
 
@@ -322,24 +334,24 @@
                     #editConfirmationModal button,
                     #viewConfirmationModal button {
                         border: none;
-                        padding: 8px 20px;
-                        font-size: 14px;
+                        padding: 10px 20px;
+                        font-size: 16px;
                         font-weight: bold;
-                        border-radius: 3px;
+                        border-radius: 5px;
                         cursor: pointer;
                         display: flex;
                         align-items: center;
                         justify-content: center;
                         gap: 8px;
                         transition: all 0.3s ease;
-                        margin-bottom: 1rem;
+                        margin-top: 12px;
                     }
 
                     #confirmationModal button:hover,
                     #editConfirmationModal button:hover,
                     #viewConfirmationModal button:hover {
                         transform: translateY(-2px);
-                        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
                     }
 
                     #cancelDelete,
@@ -355,19 +367,19 @@
                         background-color: #D1D5DB;
                     }
 
-
                     #editconfirmSubmit,
                     #viewConfirmationModal #confirmView {
                         background: linear-gradient(90deg, #2196F3, #1976D2);
                         color: white;
-                        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
                     }
-
 
                     #editconfirmSubmit:hover,
                     #viewConfirmationModal #confirmView:hover {
                         background: linear-gradient(90deg, #1976D2, #1565C0);
                     }
+
+
 
                     .dataTables_wrapper {
                         margin-top: -0.5rem;

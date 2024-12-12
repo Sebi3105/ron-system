@@ -351,11 +351,13 @@
                     </div>
                 </div>
             </div>
-            @if (session()->has('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
+            <div class="success_pop mb-4">
+                    @if(session()->has('success'))
+                    <div class="bg-green-500 text-white p-2 rounded">
+                        {{ session('success') }}
+                    </div>
+                    @endif
+                </div>
             <!-- MGA TABLES NA HERE -->
             <!-- PRODUCT TABLE-->
 <div class="table-container py-4 max-h-[500px] max-w-7xl mx-auto px-4 sm:text-left lg:px-8 bg-gray-200">
