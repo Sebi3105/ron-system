@@ -27,7 +27,7 @@
             <!-- Centered Form -->
             <div class="flex justify-center items-center py-16">
                 <div class="form-container mx-auto p-6 bg-white rounded-lg shadow-md w-full sm:w-11/12 md:w-3/4 lg:w-1/2">
-                    <h1 class="text-lg text-center font-bold stitle" style="color:#4A628A; font-size:22px;">Technician Report</h1>
+                    <h1 class="text-lg text-center font-bold stitle" style="color:#4A628A; font-size:22px;">TECHNICIAN REPORT</h1>
                     
                     @if($errors->any())
                         <div class="error_checking">
@@ -157,6 +157,33 @@
 
         .full-width {
             grid-column: span 2;
+        }
+        
+        .back-btn {
+            color: #3C3D37;
+            padding: 0.3rem 1.2rem;
+            font-size: 1rem;
+            
+            border-radius: 0.375rem;
+            transition:transform 0.3s ease;
+            text-decoration: none;
+            margin-left: 2rem;
+            margin-top: -2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem; 
+        }
+
+        .back-btn:hover {
+            background-color: #F5F5F5;
+            transform: translateX(-5px);
+        }
+
+        .back-btn svg {
+            transition: transform 0.3s ease; 
+        }
+        .back-btn:hover svg {
+            transform: translateX(-8px); 
         }
     </style>
 </x-app-layout>
