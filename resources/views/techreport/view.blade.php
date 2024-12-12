@@ -1,260 +1,156 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Technician Report</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<x-app-layout>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <div class="flex flex-col md:flex-row min-h-screen">
+        <!-- Sidebar (Navigation) -->
+        <div class="w-full md:w-64 fixed top-0 left-0 z-10 h-screen bg-gray-900 md:block">
+            @include('layouts.navigation') 
+        </div>
 
-    <!-- Select2 CSS and JS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" integrity="sha512-YHJ091iDoDM1PZZA9QLuBvpo0VXBBiGHsvdezDoc3p56S3SOMPRjX+zlCbfkOV5k3BmH5O9FqrkKxBRhkdtOkQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js" integrity="sha512-XBxUMC4YQcL60PavAScyma2iviXkiWNS5Yf+A0LZRWI1PNiGHkp66yPQxHWDSlv6ksonLAL2QMrUlCKq4NHhSQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <!-- Main Content -->
+        <div class="flex-1 md:ml-64 mt-16 md:mt-0 bg-gray-100 text-gray-800"> 
+            <!-- Fixed Header -->
+            <header class="bg-gray-200 py-3 px-3 fixed top-0 md:left-64 right-0 z-20 h-16 flex items-center justify-between text-black shadow-md">
+                <h1 class="text-lg font-bold">Technician Report</h1>
+            </header>
+             
+            <!-- Back to Technician View Button -->
+            <div class="flex justify-start mt-24 md:mt-28 px-4">
+                <a href="{{ route('techreport.index') }}" class="back-btn flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5 mr-2">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l-7-7 7-7" />
+                    </svg>
+                    Back to Technician
+                </a>
+            </div>
+
+            <!-- Centered Form -->
+            <div class="flex justify-center items-center py-16">
+                <div class="form-container mx-auto p-6 bg-white rounded-lg shadow-md w-full sm:w-11/12 md:w-3/4 lg:w-1/2">
+                    <h1 class="text-lg text-center font-bold stitle" style="color:#4A628A; font-size:22px;">Technician Report</h1>
+                    
+                    @if($errors->any())
+                        <div class="error_checking">
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <form method="post" action="{{ route('techreport.update', ['techreport' => $techreport]) }}">
+                        @csrf
+                        @method('put')
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <!-- Row 1 -->
+                            <div class="form-group">
+                                <label for="technician_id">Technician</label>
+                                <input type="text" name="technician_id" id="technician_id" value="{{ $techreport->technician->name ?? 'N/A' }}" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="customer_id">Customer</label>
+                                <input type="text" name="customer_id" id="customer_id" value="{{ $techreport->customer->name ?? 'N/A' }}" readonly>
+                            </div>
+
+                            <!-- Row 2 -->
+                            <div class="form-group">
+                                <label for="sku_id">Serial No.</label>
+                                <input type="text" name="sku_id" id="sku_id" value="{{ $techreport->inventory->serial_number ?? 'N/A' }}" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="service_id">Service</label>
+                                <input type="text" name="service_id" id="service_id" value="{{ $techreport->service->service_name ?? 'N/A' }}" readonly>
+                            </div>
+
+                            <!-- Row 3 -->
+                            <div class="form-group">
+                                <label for="date_of_completion">Date of Completion</label>
+                                <input type="date" name="date_of_completion" value="{{ old('date_of_completion', $techreport->date_of_completion) }}" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="payment_type">Payment Type</label>
+                                <input type="text" name="payment_type" id="payment_type" value="{{ ucfirst(str_replace('_', ' ', $techreport->payment_type)) }}" readonly>
+                            </div>
+
+                            <!-- Row 4 -->
+                            <div class="form-group">
+                                <label for="payment_method">Payment Method</label>
+                                <input type="text" name="payment_method" id="payment_method" value="{{ ucfirst($techreport->payment_method) }}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="status">Status</label>
+                                <input type="text" name="status" id="status" value="{{ ucfirst($techreport->status) }}" readonly>
+                            </div>
+
+                            <!-- Row 5 -->
+                            <div class="form-group">
+                                <label>Remarks</label>
+                                <input type="text" name="remarks" value="{{ $techreport->remarks ?? 'No remarks' }}" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cost">Cost</label>
+                                <input type="number" step="0.01" name="cost" id="cost" value="{{ $techreport->cost }}" readonly>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <style>
         body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            font-family: 'Poppins';
+            background-color: #f3f3f3;
             margin: 0;
-            background-color: #f7f7f7;
         }
         .form-container {
             background-color: #ffffff;
             border-radius: 8px;
             padding: 30px;
-            width: 600px;
+            width: 750px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-        h1 {
+
+        .stitle {
             font-size: 1.2em;
             text-align: center;
             margin-bottom: 20px;
             color: #333;
         }
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
+
         .form-group {
             display: flex;
             flex-direction: column;
-            margin-bottom: 15px;
+            margin-bottom: 1px;
         }
         .form-group label {
-            font-weight: bold;
             color: #555;
-            margin-bottom: 5px;
+            margin-bottom: 1px;
         }
-        .form-group select,
-        .form-group input {
-            padding: 10px;
+        .form-group input[type="number"],
+        .form-group input[type="text"],
+        .form-group input[type="date"],
+        .form-group select {
+            padding: 8px;
             border-radius: 4px;
             border: 1px solid #ccc;
             font-size: 0.9em;
+            width: 100%;
         }
+        
+        .form-group input[readonly] {
+            background-color: #f5f5f5;
+            border-color: #ddd;
+        }
+
         .full-width {
             grid-column: span 2;
         }
-        .button-group {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-        .button-group input[type="submit"],
-        .button-group .cancel-btn {
-            width: 48%;
-            padding: 10px;
-            border-radius: 4px;
-            border: none;
-            cursor: pointer;
-            color: #fff;
-            font-weight: bold;
-        }
-        .button-group input[type="submit"] {
-            background-color: #2c3e50;
-        }
-        .button-group .cancel-btn {
-            background-color: #e74c3c;
-        }
-        .back-group {
-            margin-bottom: 20px;
-        }
-        .back-group a {
-            background-color: #3b5998;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-size: 0.9em;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            display: inline-block;
-        }
-        .back-group a:hover {
-            background-color: #314e75;
-        }
-        .error_checking {
-            color: red;
-            font-size: 0.9em;
-            margin-bottom: 10px;
-        }
     </style>
-</head>
-<body>
-
-    <div class="back-group">
-        <a href="{{ route('techreport.index') }}">← Back</a>
-    </div>
-
-    <div class="form-container">
-        <h1>View Technician Report</h1>
-
-        @if($errors->any())
-            <div class="error_checking">
-                <ul>
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
-
-            <div class="form-grid">
-              
-             <div class="form-group">
-                    <label for="technician_id">Technician</label>
-                    <input 
-                        type="text" 
-                        name="technician_id" 
-                        id="technician_id" 
-                        placeholder="Technician" 
-                        value="{{ old('technician_id', $techreport->techprofile->name ?? '') }}" 
-                        readonly>
-            </div>
-
-
-
-            <div class="form-group">
-                <label for="customer_id">Customer</label>
-                <input 
-                    type="text" 
-                    name="customer_id" 
-                    id="customer_id" 
-                    placeholder="Customer" 
-                    value="{{ old('customer_id', $techreport->customer->name ?? '') }}" 
-                    readonly>
-            </div>
-
-
-            <div class="form-group">
-                <label for="sku_id">Serial No.</label>
-                <input 
-                    type="text" 
-                    name="sku_id" 
-                    id="sku_id" 
-                    placeholder="Serial No." 
-                    value="{{ old('sku_id', $techreport->inventoryitem->serial_number ?? 'Not bought in-store') }}" 
-                    readonly>
-            </div>
-
-            <div class="form-group">
-                    <label for="service_id">Service</label>
-                    <input 
-                        type="text" 
-                        name="service_id" 
-                        id="service_id" 
-                        placeholder="Service" 
-                        value="{{ old('service_id', $techreport->service->service_name ?? '') }}" 
-                        readonly>
-            </div>
-
-            <div class="form-group">
-                    <label for="product_name">Product Name</label>
-                    <input 
-                        type="text" 
-                        name="product_name" 
-                        id="product_name" 
-                        placeholder="Product Name" 
-                        value="{{ $techreport->Inventoryitem && $techreport->Inventoryitem->inventory 
-                                    ? $techreport->Inventoryitem->inventory->product_name 
-                                    : 'Not bought in-store' }}" 
-                                readonly>
-            </div>
-
-            <div class="form-group">
-                    <label for="date_of_completion">Date of Completion</label>
-                    <input 
-                        type="date" 
-                        name="date_of_completion" 
-                        value="{{ old('date_of_completion', $techreport->date_of_completion) }}" 
-                        readonly>
-            </div>
-
-
-            
-            <div class="form-group">
-                    <label for="payment_type">Payment Type</label>
-                    <input 
-                        type="text" 
-                        name="payment_type" 
-                        id="payment_type" 
-                        placeholder="Payment Type" 
-                        value="{{ old('payment_type', ucfirst(str_replace('_', ' ', $techreport->payment_type ?? ''))) }}" 
-                        readonly>
-            </div>
-
-            <div class="form-group">
-                    <label for="payment_method">Payment Method</label>
-                    <input 
-                        type="text" 
-                        name="payment_method" 
-                        id="payment_method" 
-                        placeholder="Payment Method" 
-                        value="{{ old('payment_method', ucfirst($techreport->payment_method ?? '')) }}" 
-                        readonly>
-            </div>
-
-            <div class="form-group">
-                    <label for="status">Status</label>
-                    <input 
-                        type="text" 
-                        name="status" 
-                        id="status" 
-                        placeholder="Status" 
-                        value="{{ old('status', ucfirst($techreport->status ?? '')) }}" 
-                        readonly>
-            </div>
-
-                <div class="form-group">
-                    <label for="remarks">Remarks</label>
-                    <input 
-                        type="text" 
-                        name="remarks" 
-                        placeholder="Remarks" 
-                        value="{{ old('remarks', $techreport->remarks) }}" 
-                        readonly>
-                </div>
-
-                <div class="form-group">
-                    <label for="cost">Cost</label>
-                    <input 
-                        type="number" 
-                        step="0.01" 
-                        name="cost" 
-                        placeholder="Cost" 
-                        value="{{ old('cost', $techreport->cost) }}" 
-                        readonly>
-                </div>
-
-                
-
-        </form>
-    </div>
-
-    
-
-</body>
-</html>
+</x-app-layout>

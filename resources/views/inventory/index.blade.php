@@ -337,7 +337,7 @@
                                     <option value="out_of_stock">Out of Stock</option>
                                 </select>
                             </div>
-                            <div class="flex space-x-2">
+                            <div class="flex space-x-1">
                                 <button id="applyFilter" class="bg-blue-500 text-white py-2 px-4 rounded">Apply</button>
                                 <button id="resetFilter" class="bg-gray-500 text-white py-2 px-4 rounded">Reset</button>
                             </div>

@@ -16,9 +16,9 @@
             </header>
 
             <!-- Main Content Below Header -->
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20"> <!-- Added margin-top of 20 to avoid overlapping -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-32"> <!-- Added margin-top of 20 to avoid overlapping -->
                 <div class="relative">
-                    <input type="text" class="border border-gray-300 rounded-md pl-10 pr-4 py-2 w-64" placeholder="Search...">
+                    <input type="text" class="border border-gray-200 rounded-md pl-10 pr-4 py-2 w-64" placeholder="Search...">
                     <span class="absolute left-3 top-2.5 text-gray-500">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a7 7 0 100 14 7 7 0 000-14zM18 18l-3.5-3.5" />

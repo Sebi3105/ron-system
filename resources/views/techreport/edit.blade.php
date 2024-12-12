@@ -26,7 +26,7 @@
             
             <div class="flex justify-center items-center h-full">
                 <div class="form-container mx-auto my-10 p-6 bg-white rounded-lg shadow-md">
-                    <h1 class="text-lg text-center font-bold stitle"style="color:#4A628A; font-size:22px;">UPDATE TECHNICIAN REPORT</h1>
+                    <h1 class="text-lg text-center font-bold stitle"style="color:#4A628A; font-size:22px;">Update Technician Report</h1>
                     
                     @if($errors->any())
                         <div class="error_checking">

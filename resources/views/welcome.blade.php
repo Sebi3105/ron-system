@@ -48,27 +48,29 @@
                     <input id="email" name="email" type="email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-gray-100 text-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 </div>
                 <div class="mb-6 relative">
-                    <label for="password" class="block text-sm font-medium text-gray-700">Password:</label>
-                    <input id="password" name="password" type="password" required class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-gray-100 text-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pr-10">
-                    <!-- Eye Icon Positioned Inside the Textfield -->
-                    <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
-                        <i class="fas fa-eye"></i>
-                    </button>
-                </div>
-                <div class="flex justify-between gap-2">
+    <label for="password" class="block text-sm font-medium text-gray-700">Password:</label>
+    <input id="password" name="password" type="password" required class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-gray-100 text-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pr-10">
+    <!-- Eye Icon Positioned Inside the Textfield -->
+    <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+        <i class="fas fa-eye"></i>
+    </button>
+</div>
+                <div class="flex justify-center">
                     <button type="submit" class="w-1/2 py-2 px-4 bg-[#16325b] text-white font-semibold rounded-lg shadow-md hover:bg-[#1e436f]">Login</button>
-                    <a href="{{ route('register') }}" class="w-1/2 py-2 px-4 text-center bg-[#16325b] text-white font-semibold rounded-lg shadow-md hover:bg-[#1e436f] inline-block">Register</a>
                 </div>
             </form>
         @endauth
     @endif
 </div>
 
-<!-- Add this JavaScript code for the password toggle functionality -->
+<!-- Add this JavaScript code for the password to     ggle functionality -->
 <script>
+    // Initially hide the eye icon
+    var icon = document.getElementById('togglePassword').querySelector('i');
+    icon.style.display = 'none';
+
     document.getElementById('togglePassword').addEventListener('click', function () {
         var passwordField = document.getElementById('password');
-        var icon = this.querySelector('i');
 
         // Toggle password visibility
         if (passwordField.type === "password") {
@@ -79,6 +81,16 @@
             passwordField.type = "password";
             icon.classList.remove('fa-eye-slash');
             icon.classList.add('fa-eye');
+        }
+    });
+
+    // Show the eye icon when something is typed in the password field
+    var passwordField = document.getElementById('password');
+    passwordField.addEventListener('input', function () {
+        if (passwordField.value.length > 0) {
+            icon.style.display = 'inline-block'; // Show the eye icon when there is input
+        } else {
+            icon.style.display = 'none'; // Hide the eye icon when the field is empty
         }
     });
 </script>
