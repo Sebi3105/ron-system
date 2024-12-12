@@ -497,7 +497,7 @@
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" id="cancelconfirmationModal" class="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded">
-                                                Delete 
+                                                Delete
                                             </button>
                                         </form>
                                     </td>
@@ -532,26 +532,25 @@
         </div>
 
 
-        <!-- Cancel Modal -->
-        <div id="cancelModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
+     <!-- Cancel Modal -->
+ <div id="cancelModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
             <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
                 <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-yellow-500 to-yellow-700 p-4 rounded-t-lg">
                     Confirmation
                 </h2>
                 <p class="text-gray-700 text-center mb-6">
-                    Are you sure you want to delete<br> this permanetly?
+                    Are you sure you want to delete<br> this permanently?
                 </p>
                 <div class="flex justify-center gap-4">
-                    <button id="cancelModalClose" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-200 transition">
+                    <button id="cancelModalClose" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-300 transition">
                         Cancel
                     </button>
-                    <a href="{{ route('inventory.index') }}" id="confirmCancel" class="px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-md hover:from-red-600 hover:to-red-800 transition">
+                    <button id="confirmCancel" class="px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-md hover:from-red-600 hover:to-red-800 transition">
                         Confirm
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>
-
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
         <script>
@@ -578,42 +577,32 @@
                 });
             });
 
-            document.addEventListener('DOMContentLoaded', function() {
-                const saveCategoryButton = document.getElementById('saveCategoryButton');
-                const confirmationModal = document.getElementById('confirmationModal');
-                const cancelConfirmationButton = document.getElementById('cancelConfirmationButton');
-                const confirmSubmitButton = document.getElementById('confirmSubmitButton');
-                const createUserForm = document.getElementById('categorydel');
+            document.addEventListener('DOMContentLoaded', function () {
+    const confirmationModal = document.getElementById('confirmationModal');
+    const cancelModal = document.getElementById('cancelModal');
+    const cancelModalClose = document.getElementById('cancelModalClose');
+    const confirmCancel = document.getElementById('confirmCancel');
+    const cancelconfirmationModal = document.getElementById('cancelconfirmationModal');
+    const createUserForm = document.getElementById('categorydel');
 
-                // Show confirmation modal when save button is clicked
-                saveCategoryButton.addEventListener('click', function(event) {
-                    event.preventDefault(); // Prevent the default form submission
-                    confirmationModal.classList.remove('hidden');
-                });
+    // Show cancel modal when "Delete" button is clicked
+    cancelconfirmationModal.addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent the default form submission
+        cancelModal.classList.remove('hidden'); // Show cancel modal
+    });
 
-                // Close confirmation modal (cancel)
-                cancelConfirmationButton.addEventListener('click', function() {
-                    confirmationModal.classList.add('hidden');
-                });
+    // Close cancel modal (Cancel Button)
+    cancelModalClose.addEventListener('click', function () {
+        cancelModal.classList.add('hidden'); // Hide cancel modal
+    });
 
-                // Submit form on confirm
-                confirmSubmitButton.addEventListener('click', function() {
-                    createUserForm.submit();
-                });
+    // Submit form when "Confirm" button in cancel modal is clicked
+    confirmCancel.addEventListener('click', function () {
+        console.log('Submitting form...');
+        createUserForm.submit(); // Submit the form
+    });
+});
 
-                // Handle cancel modal logic
-                const cancelModal = document.getElementById('cancelModal');
-                const cancelModalClose = document.getElementById('cancelModalClose');
-
-                cancelModalClose.addEventListener('click', function() {
-                    cancelModal.classList.add('hidden');
-                });
-
-                document.getElementById('cancelconfirmationModal').addEventListener('click', function(event) {
-                    event.preventDefault();
-                    cancelModal.classList.remove('hidden');
-                });
-            });
         </script>
 
 </x-app-layout>
