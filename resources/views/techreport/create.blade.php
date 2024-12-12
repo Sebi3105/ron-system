@@ -38,7 +38,7 @@
                             </ul>
                         @endif
                     </div>
-                    <form method="POST" action="{{ route('techreport.store') }}">
+                    <form method="POST" action="{{ route('techreport.store') }}" id="ServiceForm">
                         @csrf
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <!-- Row 1 -->
@@ -133,7 +133,7 @@
                         </div>
 
                         <div class="button-group col-span sm:col-span-2">
-                            <input type="submit" value="Save" id="saveTechnicianButton">
+                        <input type="submit" value="Save" id="saveTechnicianButton">
                             <a href="{{ route('techreport.index') }}" class="exit-btn">Cancel</a>
                         </div>
                     </form>
@@ -143,22 +143,18 @@
     </div>
 
     <div id="confirmationModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 hidden">
-    <div class="bg-white max-w-sm w-full">
-        <!-- Modal Header -->
-        <h2 class="text-lg font-bold">Confirmation</h2>
-        <p id="confirmationMessage">
-            Are you sure you want to save this Technician?
-        </p>
-        <div class="flex">     
-            <button id="confirmCancel">
-                Cancel
-            </button>
-            <button id="confirmSubmit">
-                Confirm
-            </button>
+        <div class="bg-white max-w-sm w-full">
+            <!-- Modal Header -->
+            <h2 class="text-lg font-bold">Confirmation</h2>
+            <p id="confirmationMessage">
+                Are you sure you want to save this Technician?
+            </p>
+            <div class="flex">
+                <button id="confirmCancel" type="button">Cancel</button>
+                <button id="confirmSubmit" type="button">Confirm</button>
+            </div>
         </div>
     </div>
-</div>
 
 <div id="cancelModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
     <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
@@ -610,7 +606,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const saveTechnicianButton = document.getElementById('saveTechnicianButton');
 
     // Open modal when clicking the save button
-    saveTechnicianButton.addEventListener('click', function () {
+    saveTechnicianButton.addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent form submission
         console.log('Opening modal...');
         modalMessage.textContent = 'Are you sure you want to save this Technician?';
         modal.classList.remove('hidden');
@@ -626,7 +623,7 @@ document.addEventListener('DOMContentLoaded', function () {
     confirmSubmitButton.addEventListener('click', function () {
         console.log('Submitting form...');
         modal.classList.add('hidden');
-        form.submit();
+        form.submit(); // Manually submit the form
     });
 });
 document.addEventListener('DOMContentLoaded', function () {
