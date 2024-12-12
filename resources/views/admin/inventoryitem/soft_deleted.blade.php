@@ -194,7 +194,7 @@
                     color: #3C3D37;
                     padding: 0.3rem 1.2rem;
                     font-size: 1rem;
-                  
+
                     border-radius: 0.375rem;
                     transition: transform 0.3s ease;
                     text-decoration: none;
@@ -234,226 +234,226 @@
                 }
 
                 #confirmationModal {
-            z-index: 50;
-            backdrop-filter: blur(5px);
-            animation: fadeInBackdrop 0.4s ease-out;
-        }
+                    z-index: 50;
+                    backdrop-filter: blur(5px);
+                    animation: fadeInBackdrop 0.4s ease-out;
+                }
 
-        @keyframes fadeInBackdrop {
-            from {
-                opacity: 0;
-            }
+                @keyframes fadeInBackdrop {
+                    from {
+                        opacity: 0;
+                    }
 
-            to {
-                opacity: 1;
-            }
-        }
+                    to {
+                        opacity: 1;
+                    }
+                }
 
-        /* Modal Style */
-        #confirmationModal .bg-white {
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            animation: modalEntry 0.4s ease-out;
-        }
+                /* Modal Style */
+                #confirmationModal .bg-white {
+                    border-radius: 10px;
+                    overflow: hidden;
+                    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+                    animation: modalEntry 0.4s ease-out;
+                }
 
-        @keyframes modalEntry {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
+                @keyframes modalEntry {
+                    from {
+                        opacity: 0;
+                        transform: scale(0.9);
+                    }
 
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
+                    to {
+                        opacity: 1;
+                        transform: scale(1);
+                    }
+                }
 
-        /* Header with Green Gradient */
-        #confirmationModal h2 {
-            font-size: 22px;
-            font-weight: bold;
-            background: linear-gradient(90deg, #4CAF50, #2E7D32);
-            color: #fff;
-            text-align: center;
-            padding: 12px;
-            margin: 0;
-        }
+                /* Header with Green Gradient */
+                #confirmationModal h2 {
+                    font-size: 22px;
+                    font-weight: bold;
+                    background: linear-gradient(90deg, #4CAF50, #2E7D32);
+                    color: #fff;
+                    text-align: center;
+                    padding: 12px;
+                    margin: 0;
+                }
 
-        /* Modal Text */
-        #confirmationModal p {
-            font-size: 15px;
-            color: #4B5563;
-            text-align: center;
-            margin: 16px 0 24px;
-            line-height: 1.6;
-        }
+                /* Modal Text */
+                #confirmationModal p {
+                    font-size: 15px;
+                    color: #4B5563;
+                    text-align: center;
+                    margin: 16px 0 24px;
+                    line-height: 1.6;
+                }
 
-        /* Buttons */
-        #confirmationModal button {
-            border: none;
-            padding: 12px 20px;
-            font-size: 14px;
-            font-weight: bold;
-            border-radius: 3px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
+                /* Buttons */
+                #confirmationModal button {
+                    border: none;
+                    padding: 12px 20px;
+                    font-size: 14px;
+                    font-weight: bold;
+                    border-radius: 3px;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    transition: all 0.3s ease;
+                }
 
-        #confirmationModal button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
+                #confirmationModal button:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                }
 
-        #saveconfirmCancel {
-            background-color: #E5E7EB;
-            color: #374151;
-        }
+                #saveconfirmCancel {
+                    background-color: #E5E7EB;
+                    color: #374151;
+                }
 
-        #saveconfirmCancel:hover {
-            background-color: #D1D5DB;
-        }
+                #saveconfirmCancel:hover {
+                    background-color: #D1D5DB;
+                }
 
-        #confirmSubmit {
-            background: linear-gradient(90deg, #4CAF50, #2E7D32);
-            color: white;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-        }
+                #confirmSubmit {
+                    background: linear-gradient(90deg, #4CAF50, #2E7D32);
+                    color: white;
+                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+                }
 
-        #confirmSubmit:hover {
-            background: linear-gradient(90deg, #2E7D32, #1B5E20);
-        }
+                #confirmSubmit:hover {
+                    background: linear-gradient(90deg, #2E7D32, #1B5E20);
+                }
 
-        #confirmationModal .flex {
-            justify-content: center;
-            gap: 16px;
-            padding: 12px 0;
-        }
+                #confirmationModal .flex {
+                    justify-content: center;
+                    gap: 16px;
+                    padding: 12px 0;
+                }
 
-        /* Buttons */
-        #confirmationModal button {
-            border: none;
-            padding: 10px 20px;
-            font-size: 14px;
-            font-weight: bold;
-            border-radius: 3px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
+                /* Buttons */
+                #confirmationModal button {
+                    border: none;
+                    padding: 10px 20px;
+                    font-size: 14px;
+                    font-weight: bold;
+                    border-radius: 3px;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    transition: all 0.3s ease;
+                }
 
-        #cancelModal {
-            z-index: 50;
-            backdrop-filter: blur(5px);
-            animation: fadeInBackdrop 0.4s ease-out;
-        }
+                #cancelModal {
+                    z-index: 50;
+                    backdrop-filter: blur(5px);
+                    animation: fadeInBackdrop 0.4s ease-out;
+                }
 
-        @keyframes fadeInBackdrop {
-            from {
-                opacity: 0;
-            }
+                @keyframes fadeInBackdrop {
+                    from {
+                        opacity: 0;
+                    }
 
-            to {
-                opacity: 1;
-            }
-        }
+                    to {
+                        opacity: 1;
+                    }
+                }
 
-        #cancelModal .bg-white {
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            animation: modalEntry 0.4s ease-out;
-            width: 100%;
-            max-width: 400px;
-            /* Limit the maximum width */
-            margin: 0 auto;
-            /* Center it horizontally */
-        }
+                #cancelModal .bg-white {
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+                    animation: modalEntry 0.4s ease-out;
+                    width: 100%;
+                    max-width: 400px;
+                    /* Limit the maximum width */
+                    margin: 0 auto;
+                    /* Center it horizontally */
+                }
 
-        @keyframes modalEntry {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
+                @keyframes modalEntry {
+                    from {
+                        opacity: 0;
+                        transform: scale(0.9);
+                    }
 
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
+                    to {
+                        opacity: 1;
+                        transform: scale(1);
+                    }
+                }
 
-        /* Header with Red Gradient */
-        /* Modal Header */
-        #cancelModal h2 {
-            font-size: 22px;
-            /* Slightly smaller font for better fit */
-            font-weight: bold;
-            background: linear-gradient(90deg, #FF4C4C, #C62828);
-            color: #fff;
-            text-align: center;
-            padding: 12px;
-            margin: 0;
-        }
+                /* Header with Red Gradient */
+                /* Modal Header */
+                #cancelModal h2 {
+                    font-size: 22px;
+                    /* Slightly smaller font for better fit */
+                    font-weight: bold;
+                    background: linear-gradient(90deg, #FF4C4C, #C62828);
+                    color: #fff;
+                    text-align: center;
+                    padding: 12px;
+                    margin: 0;
+                }
 
-        /* Modal Content */
-        #cancelModal p {
-            font-size: 16px;
-            /* Adjust text size for better fit */
-            color: #4B5563;
-            text-align: center;
-            margin: 16px 0 28px;
-            line-height: 1.4;
-        }
+                /* Modal Content */
+                #cancelModal p {
+                    font-size: 16px;
+                    /* Adjust text size for better fit */
+                    color: #4B5563;
+                    text-align: center;
+                    margin: 16px 0 28px;
+                    line-height: 1.4;
+                }
 
-        /* Buttons */
-        #cancelModal .flex {
-            justify-content: center;
-            gap: 12px;
-            /* Reduce button spacing */
-            padding: 0;
-            /* Remove extra padding */
-        }
+                /* Buttons */
+                #cancelModal .flex {
+                    justify-content: center;
+                    gap: 12px;
+                    /* Reduce button spacing */
+                    padding: 0;
+                    /* Remove extra padding */
+                }
 
-        /* Equal-width buttons with max width */
-        #cancelModal button,
-        #cancelModal a {
-            margin-top: 0.5rem;
-            margin-bottom: 1rem;
-            border: none;
-            padding: 9px 20px;
-            font-size: 14px;
-            font-weight: bold;
-            border-radius: 3px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
+                /* Equal-width buttons with max width */
+                #cancelModal button,
+                #cancelModal a {
+                    margin-top: 0.5rem;
+                    margin-bottom: 1rem;
+                    border: none;
+                    padding: 9px 20px;
+                    font-size: 14px;
+                    font-weight: bold;
+                    border-radius: 3px;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    transition: all 0.3s ease;
+                }
 
-        #cancelModal button:hover,
-        #cancelModal a:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
+                #cancelModal button:hover,
+                #cancelModal a:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                }
 
-        /* Cancel Button */
-        #cancelCancel {
-            background-color: #E5E7EB;
-            color: #374151;
-        }
+                /* Cancel Button */
+                #cancelCancel {
+                    background-color: #E5E7EB;
+                    color: #374151;
+                }
 
-        #cancelCancel:hover {
-            background-color: #D1D5DB;
-        }
+                #cancelCancel:hover {
+                    background-color: #D1D5DB;
+                }
             </style>
             <div class="container mx-auto p-4">
                 <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
@@ -494,16 +494,16 @@
                                         <form action="{{ route('admin.inventoryitem.restore', $item->sku_id) }}" id="categorydel" method="POST" style="display:inline;">
                                             @csrf
                                             @method('PATCH')
-                                            <button type="submit" class="bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded"  id="saveCategoryButton">
+                                            <button type="submit" class="bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded" id="saveCategoryButton">
                                                 Restore
                                             </button>
                                         </form>
                                         <!-- Delete Permanently Button -->
-                                        <form action="{{ route('admin.inventoryitem.forceDelete', $item->sku_id) }}" id="categorydel" method="POST"  style="display:inline;">
+                                        <form action="{{ route('admin.inventoryitem.forceDelete', $item->sku_id) }}" id="categorydel" method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" id="cancelconfirmationModal" class="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded">
-                                                Delete 
+                                                Delete
                                             </button>
                                         </form>
                                     </td>
@@ -517,46 +517,47 @@
             </div>
         </div>
 
-   <!-- Confirmation Modal -->
-<div id="confirmationModal" class="hidden fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
-    <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
-        <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-red-500 to-red-700 p-4 rounded-t-lg">
-            Confirmation
-        </h2>
-        <p class="text-gray-700 text-center mb-6">
-            Are you sure you want to restore this item?
-        </p>
-        <div class="flex justify-center gap-4">
-            <button id="cancelConfirmationButton" class="px-6 py-3 bg-gray-400 text-white rounded-md hover:bg-gray-500 transition">
-                Cancel
-            </button>
-            <button id="confirmSubmitButton" class="px-6 py-3 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-md hover:from-green-600 hover:to-green-800 transition">
-                Confirm
-            </button>
-        </div>
-    </div>
-</div>
-
-
-    <!-- Cancel Modal -->
-    <div id="cancelModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
-        <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
-            <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-yellow-500 to-yellow-700 p-4 rounded-t-lg">
-                Confirmation
-            </h2>
-            <p class="text-gray-700 text-center mb-6">
-                Are you sure you want to delete<br> this permanetly?
-            </p>
-            <div class="flex justify-center gap-4">
-                <button id="cancelModalClose" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-200 transition">
-                    Cancel
-                </button>
-                <a  id="confirmCancel" class="px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-md hover:from-red-600 hover:to-red-800 transition">
-                    Confirm
-                </a>
+        <!-- Confirmation Modal -->
+        <div id="confirmationModal" class="hidden fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+            <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
+                <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-red-500 to-red-700 p-4 rounded-t-lg">
+                    Confirmation
+                </h2>
+                <p class="text-gray-700 text-center mb-6">
+                    Are you sure you want to restore this item?
+                </p>
+                <div class="flex justify-center gap-4">
+                    <button id="cancelConfirmationButton" class="px-6 py-3 bg-gray-400 text-white rounded-md hover:bg-gray-500 transition">
+                        Cancel
+                    </button>
+                    <button id="confirmSubmitButton" class="px-6 py-3 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-md hover:from-green-600 hover:to-green-800 transition">
+                        Confirm
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
+
+
+        <!-- Cancel Modal -->
+        <div id="cancelModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
+            <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
+                <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-yellow-500 to-yellow-700 p-4 rounded-t-lg">
+                    Confirmation
+                </h2>
+                <p class="text-gray-700 text-center mb-6">
+                    Are you sure you want to delete<br> this permanently?
+                </p>
+                <div class="flex justify-center gap-4">
+                    <button id="cancelModalClose" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-300 transition">
+                        Cancel
+                    </button>
+                    <button id="confirmCancel" class="px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-md hover:from-red-600 hover:to-red-800 transition">
+                        Confirm
+                    </button>
+                </div>
+            </div>
+        </div>
+
 
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
@@ -584,40 +585,29 @@
                 });
             });
 
-            document.addEventListener('DOMContentLoaded', function() {
-    const saveCategoryButton = document.getElementById('saveCategoryButton');
+            document.addEventListener('DOMContentLoaded', function () {
     const confirmationModal = document.getElementById('confirmationModal');
-    const cancelConfirmationButton = document.getElementById('cancelConfirmationButton');
-    const confirmSubmitButton = document.getElementById('confirmSubmitButton');
-    const createUserForm = document.getElementById('categorydel');
-
-    // Show confirmation modal when save button is clicked
-    saveCategoryButton.addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent the default form submission
-        confirmationModal.classList.remove('hidden');
-    });
-
-    // Close confirmation modal (cancel)
-    cancelConfirmationButton.addEventListener('click', function() {
-        confirmationModal.classList.add('hidden');
-    });
-
-    // Submit form on confirm
-    confirmSubmitButton.addEventListener('click', function() {
-        createUserForm.submit();
-    });
-
-    // Handle cancel modal logic
     const cancelModal = document.getElementById('cancelModal');
     const cancelModalClose = document.getElementById('cancelModalClose');
+    const confirmCancel = document.getElementById('confirmCancel');
+    const cancelconfirmationModal = document.getElementById('cancelconfirmationModal');
+    const createUserForm = document.getElementById('categorydel');
 
-    cancelModalClose.addEventListener('click', function() {
-        cancelModal.classList.add('hidden');
+    // Show cancel modal when "Delete" button is clicked
+    cancelconfirmationModal.addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent the default form submission
+        cancelModal.classList.remove('hidden'); // Show cancel modal
     });
 
-    document.getElementById('cancelconfirmationModal').addEventListener('click', function(event) {
-        event.preventDefault();
-        cancelModal.classList.remove('hidden');
+    // Close cancel modal (Cancel Button)
+    cancelModalClose.addEventListener('click', function () {
+        cancelModal.classList.add('hidden'); // Hide cancel modal
+    });
+
+    // Submit form when "Confirm" button in cancel modal is clicked
+    confirmCancel.addEventListener('click', function () {
+        console.log('Submitting form...');
+        createUserForm.submit(); // Submit the form
     });
 });
 
