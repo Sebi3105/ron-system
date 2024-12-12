@@ -68,7 +68,7 @@
 
                 .table {
                     width: 100%;
-                    table-layout: fixed;
+                    
                     color: #4a5568;
                     border-radius: 3px;
                     overflow: hidden;
@@ -77,7 +77,7 @@
 
                 th,
                 td {
-                    padding: 14px;
+                    padding: 10px;
                     font-size: 12px;
                     border-bottom: 1px solid #ddd;
                 }
@@ -229,6 +229,7 @@
                     cursor: pointer;
                     transition: background-color 0.3s;
                     background-color: #1A9945;
+                    margin-top: 20px;
                 }
 
                 .btn-primary:hover {
@@ -516,7 +517,7 @@
                                             </button>
                                         </form>
                                         <!-- Delete Permanently Button -->
-                                        <form action="{{ route('admin.techreport.forceDelete', $item->report_id) }}" id=techcategorydel" method="POST" style="display:inline;">
+                                        <form action="{{ route('admin.techreport.forceDelete', $item->report_id) }}" id=techcategorydel" method="POST" style="display:inline; margin-top:5px; margin-bottom:5px;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" id="cancelconfirmationModal" class="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded">
