@@ -587,4 +587,32 @@
             form.submit();
         });
     </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    const inventorySelect = document.getElementById('inventories');
+    const serialsSelect = document.getElementById('serials');
+
+    inventorySelect.addEventListener('change', function () {
+        const inventoryId = this.value;
+
+        // Clear previous serial numbers
+        serialsSelect.innerHTML = '<option value="" selected>Select Serial Number</option>';
+
+        if (inventoryId) {
+            fetch(`/get-serials/${inventoryId}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(serial => {
+                        const option = document.createElement('option');
+                        option.value = serial.sku_id; // Assuming sku_id is the identifier
+                        option.textContent = serial.serial_number; // Assuming serial_number is the display name
+                        serialsSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching serials:', error));
+        }
+    });
+});
+    </script>
 </x-app-layout>
