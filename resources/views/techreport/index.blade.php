@@ -68,16 +68,6 @@
                                 </select>
                             </div>
                             <div class="mb-4">
-                                <!-- Payment Method Filter -->
-                                <label for="payment_methodFilter" class="block text-sm font-medium text-gray-700">Select Payment Method</label>
-                                <select id="payment_methodFilter" class="w-full border rounded p-2">
-                                    <option value="">Select Payment Method</option>
-                                    @foreach($paymentmethod as $method)
-                                        <option value="{{ $method }}">{{ ucfirst($method) }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-4">
                                 <!-- Status Filter -->
                                 <label for="statusFilter" class="block text-sm font-medium text-gray-700">Select Status</label>
                                 <select id="statusFilter" class="w-full border rounded p-2">
@@ -109,15 +99,13 @@
             <table id="techreport" class="min-w-full tab le-auto bg-gray-200 text-gray-500">
                 <thead class="text-gray-500 bg-gray-200">
                     <tr class="text-center">
-                        <th class="w-12 p-1 border-r border-gray-200">#</th>
+                        <th class="w-10 p-1 border-r border-gray-200">#</th>
                         <th class="w-20 p-1 border-r border-gray-200">Technician</th>
                         <th class="w-20 p-1 border-r border-gray-200">Customer</th>
                         <th class="w-20 p-1 border-r border-gray-200">Serial No.</th>
                         <th class="w-16 p-1 border-r border-gray-200">Service</th>
                         <th class="w-16 p-1 border-r border-gray-200">Product</th>
-                        <th class="w-20 p-1 border-r border-gray-200">Completion Date</   th>
                         <th class="w-20 p-1 border-r border-gray-200">Payment Type</th>
-                        <th class="w-20 p-1 border-r border-gray-200">Payment Method</th>
                         <th class="w-20 p-1 border-r border-gray-200">Status</th>
                         <th class="w-18 p-1">Actions</th>
                     </tr>
@@ -274,12 +262,10 @@
         },
         { data: 'technician_name', name: 'technician_name' },
         { data: 'customer_name', name: 'customer_name' },
-        { data: 'service_name', name: 'service_name' },
+        { data: 'serial_number', name: 'serial_number' },
         { data: 'service_name', name: 'service_name' },
         { data: 'product_name', name: 'product_name' },
-        { data: 'date_of_completion', name: 'date_of_completion' },
         { data: 'payment_type', name: 'payment_type' },
-        { data: 'payment_method', name: 'payment_method' },
         { data: 'status', name: 'status' },
         {
             data: null,
