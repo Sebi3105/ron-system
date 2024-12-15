@@ -1,7 +1,7 @@
 <x-app-layout>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+
     <style>
     .dataTables_wrapper .row .col-sm-12 .dt-buttons {
         display: none !important;
@@ -478,7 +478,7 @@
         </div>
     </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script src="{{ asset('js/confirmation.js') }}"></script>
 <script>
 

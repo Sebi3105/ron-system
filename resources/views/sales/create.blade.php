@@ -58,7 +58,7 @@
                                 <select name="inventory_id" id="inventories" required>
                                     <option value="" selected>Select Product</option>
                                     @foreach($inventories as $inventory)
-                                    <option value="{{ $inventory->product_id }}">{{ $inventory->product_name }}</option>
+                                        <option value="{{ $inventory->product_id }}">{{ $inventory->product_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -190,7 +190,6 @@
             display: flex;
             flex-direction: column;
         }
-
 
         .form-group select,
         .form-group input {
@@ -487,11 +486,23 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
-
-
         #cancelCancel:hover {
             background-color: #D1D5DB;
         }
+
+        .select2-container .select2-selection{
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 0.9em;
+            width: 100%;
+            height: calc(2.75rem + 2px);
+        }
+
+        .select2-results__option{
+            font-size: 0.9em;
+        }
+
     </style>
 
     <script>
@@ -590,29 +601,36 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-    const inventorySelect = document.getElementById('inventories');
-    const serialsSelect = document.getElementById('serials');
+            const inventorySelect = document.getElementById('inventories');
+            const serialsSelect = document.getElementById('serials');
 
-    inventorySelect.addEventListener('change', function () {
-        const inventoryId = this.value;
+            inventorySelect.addEventListener('change', function () {
+                const inventoryId = this.value;
 
-        // Clear previous serial numbers
-        serialsSelect.innerHTML = '<option value="" selected>Select Serial Number</option>';
+                // Clear previous serial numbers
+                serialsSelect.innerHTML = '<option value="" selected>Select Serial Number</option>';
 
-        if (inventoryId) {
-            fetch(`/get-serials/${inventoryId}`)
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(serial => {
-                        const option = document.createElement('option');
-                        option.value = serial.sku_id; // Assuming sku_id is the identifier
-                        option.textContent = serial.serial_number; // Assuming serial_number is the display name
-                        serialsSelect.appendChild(option);
-                    });
-                })
-                .catch(error => console.error('Error fetching serials:', error));
-        }
-    });
-});
+                if (inventoryId) {
+                    fetch(`/get-serials/${inventoryId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            data.forEach(serial => {
+                                const option = document.createElement('option');
+                                option.value = serial.sku_id; // Assuming sku_id is the identifier
+                                option.textContent = serial.serial_number; // Assuming serial_number is the display name
+                                serialsSelect.appendChild(option);
+                            });
+                        })
+                        .catch(error => console.error('Error fetching serials:', error));
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            $('#inventories').select2({});
+            $('#customer_id').select2({});
+            $('#serials').select2({});
+        });
+
     </script>
 </x-app-layout>
