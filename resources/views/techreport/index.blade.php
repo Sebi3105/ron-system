@@ -68,16 +68,6 @@
                                 </select>
                             </div>
                             <div class="mb-4">
-                                <!-- Payment Method Filter -->
-                                <label for="payment_methodFilter" class="block text-sm font-medium text-gray-700">Select Payment Method</label>
-                                <select id="payment_methodFilter" class="w-full border rounded p-2">
-                                    <option value="">Select Payment Method</option>
-                                    @foreach($paymentmethod as $method)
-                                        <option value="{{ $method }}">{{ ucfirst($method) }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-4">
                                 <!-- Status Filter -->
                                 <label for="statusFilter" class="block text-sm font-medium text-gray-700">Select Status</label>
                                 <select id="statusFilter" class="w-full border rounded p-2">
@@ -109,15 +99,13 @@
             <table id="techreport" class="min-w-full tab le-auto bg-gray-200 text-gray-500">
                 <thead class="text-gray-500 bg-gray-200">
                     <tr class="text-center">
-                        <th class="w-12 p-1 border-r border-gray-200">#</th>
+                        <th class="w-10 p-1 border-r border-gray-200">#</th>
                         <th class="w-20 p-1 border-r border-gray-200">Technician</th>
                         <th class="w-20 p-1 border-r border-gray-200">Customer</th>
                         <th class="w-20 p-1 border-r border-gray-200">Serial No.</th>
                         <th class="w-16 p-1 border-r border-gray-200">Service</th>
                         <th class="w-16 p-1 border-r border-gray-200">Product</th>
-                        <th class="w-20 p-1 border-r border-gray-200">Completion Date</   th>
                         <th class="w-20 p-1 border-r border-gray-200">Payment Type</th>
-                        <th class="w-20 p-1 border-r border-gray-200">Payment Method</th>
                         <th class="w-20 p-1 border-r border-gray-200">Status</th>
                         <th class="w-18 p-1">Actions</th>
                     </tr>
@@ -156,7 +144,7 @@
                   @endforeach
                 </tbody>
              </table>
-        </div>
+            </div>
 
         <div class="table-container w-full bg-gray-200">
              <h3 class="text-2xl font-semibold mb-2 text-left text-gray-500">Services</h3>
@@ -182,28 +170,25 @@
     </div>    
 </div>           
                          
-        <!-- Confirmation Modal -->
-        <div id="confirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
-            <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
-                <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-red-500 to-red-700 p-4 rounded-t-lg">
-                    Confirmation
-                </h2>
-                <p class="text-gray-700 text-center mb-6">
-                    Are you sure you want to delete this item? 
-                </p>
-                <div class="flex justify-center gap-4">
-                    <button id="cancelDelete" class="px-6 py-3 bg-gray-400 text-white rounded-md hover:bg-gray-500 transition">
-                        Cancel
-                    </button>
-                    <button id="confirmDelete" class="px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-md hover:from-red-600 hover:to-red-800 transition">
-                        Delete
-                    </button>
-                </div>
-            </div>
+       <!-- Confirmation Modal -->
+<div id="confirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
+    <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
+        <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-red-500 to-red-700 p-4 rounded-t-lg">
+            Confirmation
+        </h2>
+        <p class="text-gray-700 text-center mb-6">
+            Are you sure you want to delete this item?
+        </p>
+        <div class="flex justify-center gap-4">
+            <button id="cancelDelete" class="px-6 py-3 bg-gray-400 text-white rounded-md hover:bg-gray-500 transition">
+                Cancel
+            </button>
+            <button id="confirmDelete" class="px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-md hover:from-red-600 hover:to-red-800 transition">
+                Delete
+            </button>
         </div>
     </div>
 </div>
-
 
 <!-- Edit Confirmation Modal -->
 <div id="editConfirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
@@ -225,26 +210,25 @@
     </div>
 </div>
 
-  <!-- view Confirmation Modal -->
-  <div id="viewConfirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
-                    <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
-                        <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-blue-500 to-blue-700 p-4 rounded-t-lg">
-                            Confirmation
-                        </h2>
-                        <p class="text-gray-700 text-center mb-6">
-                            Are you sure you want to view this item?
-                        </p>
-                        <div class="flex justify-center gap-4">
-                            <button id="cancelView" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-300 transition">
-                                Cancel
-                            </button>
-                            <button id="confirmView" class="px-6 py-3 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-md hover:from-green-600 hover:to-green-800 transition">
-                                Confirm
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
+<!-- View Confirmation Modal -->
+<div id="viewConfirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
+    <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
+        <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-blue-500 to-blue-700 p-4 rounded-t-lg">
+            Confirmation
+        </h2>
+        <p class="text-gray-700 text-center mb-6">
+            Are you sure you want to view this item?
+        </p>
+        <div class="flex justify-center gap-4">
+            <button id="cancelView" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-300 transition">
+                Cancel
+            </button>
+            <button id="confirmView" class="px-6 py-3 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-md hover:from-green-600 hover:to-green-800 transition">
+                Confirm
+            </button>
+        </div>
+    </div>
+</div>
 
 <script src="{{ asset('js/confirmation.js') }}"></script>
 <script>
@@ -278,12 +262,10 @@
         },
         { data: 'technician_name', name: 'technician_name' },
         { data: 'customer_name', name: 'customer_name' },
-        { data: 'service_name', name: 'service_name' },
+        { data: 'serial_number', name: 'serial_number' },
         { data: 'service_name', name: 'service_name' },
         { data: 'product_name', name: 'product_name' },
-        { data: 'date_of_completion', name: 'date_of_completion' },
         { data: 'payment_type', name: 'payment_type' },
-        { data: 'payment_method', name: 'payment_method' },
         { data: 'status', name: 'status' },
         {
             data: null,
