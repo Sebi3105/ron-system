@@ -156,7 +156,7 @@
                   @endforeach
                 </tbody>
              </table>
-        </div>
+            </div>
 
         <div class="table-container w-full bg-gray-200">
              <h3 class="text-2xl font-semibold mb-2 text-left text-gray-500">Services</h3>
@@ -182,28 +182,25 @@
     </div>    
 </div>           
                          
-        <!-- Confirmation Modal -->
-        <div id="confirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
-            <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
-                <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-red-500 to-red-700 p-4 rounded-t-lg">
-                    Confirmation
-                </h2>
-                <p class="text-gray-700 text-center mb-6">
-                    Are you sure you want to delete this item? 
-                </p>
-                <div class="flex justify-center gap-4">
-                    <button id="cancelDelete" class="px-6 py-3 bg-gray-400 text-white rounded-md hover:bg-gray-500 transition">
-                        Cancel
-                    </button>
-                    <button id="confirmDelete" class="px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-md hover:from-red-600 hover:to-red-800 transition">
-                        Delete
-                    </button>
-                </div>
-            </div>
+       <!-- Confirmation Modal -->
+<div id="confirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
+    <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
+        <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-red-500 to-red-700 p-4 rounded-t-lg">
+            Confirmation
+        </h2>
+        <p class="text-gray-700 text-center mb-6">
+            Are you sure you want to delete this item?
+        </p>
+        <div class="flex justify-center gap-4">
+            <button id="cancelDelete" class="px-6 py-3 bg-gray-400 text-white rounded-md hover:bg-gray-500 transition">
+                Cancel
+            </button>
+            <button id="confirmDelete" class="px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-md hover:from-red-600 hover:to-red-800 transition">
+                Delete
+            </button>
         </div>
     </div>
 </div>
-
 
 <!-- Edit Confirmation Modal -->
 <div id="editConfirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
@@ -225,26 +222,25 @@
     </div>
 </div>
 
-  <!-- view Confirmation Modal -->
-  <div id="viewConfirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
-                    <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
-                        <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-blue-500 to-blue-700 p-4 rounded-t-lg">
-                            Confirmation
-                        </h2>
-                        <p class="text-gray-700 text-center mb-6">
-                            Are you sure you want to view this item?
-                        </p>
-                        <div class="flex justify-center gap-4">
-                            <button id="cancelView" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-300 transition">
-                                Cancel
-                            </button>
-                            <button id="confirmView" class="px-6 py-3 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-md hover:from-green-600 hover:to-green-800 transition">
-                                Confirm
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
+<!-- View Confirmation Modal -->
+<div id="viewConfirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
+    <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
+        <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-blue-500 to-blue-700 p-4 rounded-t-lg">
+            Confirmation
+        </h2>
+        <p class="text-gray-700 text-center mb-6">
+            Are you sure you want to view this item?
+        </p>
+        <div class="flex justify-center gap-4">
+            <button id="cancelView" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-300 transition">
+                Cancel
+            </button>
+            <button id="confirmView" class="px-6 py-3 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-md hover:from-green-600 hover:to-green-800 transition">
+                Confirm
+            </button>
+        </div>
+    </div>
+</div>
 
 <script src="{{ asset('js/confirmation.js') }}"></script>
 <script>
