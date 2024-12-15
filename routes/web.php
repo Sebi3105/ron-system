@@ -200,8 +200,10 @@ Route::middleware('auth')->group(function () {
     //sales routes
     Route::resource('sales', SalesController::class);
     Route::delete('/sales/{sale}/delete', [SalesController::class, 'destroy'])->name('sales.delete'); // Custom delete route
-    Route::get('/sales/{id}', [SalesController::class, 'show'])->name('sales.show');
+    // Route::get('/sales/{id}', [SalesController::class, 'show'])->name('sales.show');
     Route::get('/sales/serials/{id}', [SalesController::class, 'getSerials'])->name('sales.serials');
+    Route::get('/sales/{sale}', [SalesController::class, 'show'])->name('sales.show');
+    Route::get('/sales/{sale}/edit', [SalesController::class, 'edit'])->name('sales.edit');
 
 
 

@@ -134,11 +134,6 @@ public function getSerials($id)
 
 public function show($id)
 {
-
-    // $sales = Sales::findOrFail($id);
-    // $skuId = $sales->sku_id;
-    // \Log::info('SKU ID from Sales:', ['sku_id' => $skuId]);
-
     // Fetch related technician reports
   
     

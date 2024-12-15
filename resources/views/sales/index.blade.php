@@ -58,8 +58,8 @@
                                         <th class="w-20 p-1 text-center bg-gray-100 border-b border-gray-300">Sale Date</th>
                                         <th class="w-20 p-1 text-center bg-gray-100 border-b border-gray-300">Amount</th>
                                         <th class="w-18 p-1 text-center bg-gray-100 border-b border-gray-300"">Actions</th>
-                    </tr>
-                </thead>
+                                    </tr>
+                                </thead>
                 <tbody class=" bg-gray-200">
                                             @foreach($sales as $key => $sale)
                                     <tr>
@@ -71,8 +71,8 @@
                                         <td class="p-2 border-b border-gray-400">{{ $sale->sale_date->format('Y-m-d') }}</td>
                                         <td class="p-2 border-b border-gray-400">{{ number_format($sale->amount, 2) }}</td>
                                         <td class="p-2 border-b border-gray-400">
-                                            <a data-url="{{ route('sales.show', $sale->sales_id) }}" class="bg-navy-blue text-white py-1 px-2 rounded view-btn">View</a>
-                                            <a href="{{ route('sales.edit', $sale->sales_id) }}" class="bg-green-500 text-white py-1  btn-primary px-2 rounded">Edit</a>
+                                            <a href="{{ route('sales.show', $sale->sales_id) }}" class="bg-navy-blue text-white py-1 px-2 rounded btn view-btn">View</a>
+                                            <a href="{{ route('sales.edit', $sale->sales_id) }}" class="bg-green-500 text-white py-1  btn-primary px-2 btn rounded">Edit</a>
 
                                             <!-- Delete Form -->
                                             <form id="deleteForm" action="{{ route('sales.destroy', $sale->sales_id) }}" method="POST" class="inline-flex items-center space-x-2">
@@ -112,48 +112,6 @@
                         </div>
                     </div>
                 </div>
-
-
-                <!-- Edit Confirmation Modal -->
-                <div id="editConfirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
-                    <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
-                        <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-green-500 to-green-700 p-4 rounded-t-lg text-center">
-                            Confirmation
-                        </h2>
-                        <p class="text-gray-700 text-center mb-6">
-                            Are you sure you want to edit this item?
-                        </p>
-                        <div class="flex justify-center gap-4">
-                            <button id="editcancelEdit" class="px-6 py-3 bg-gray-400 text-white rounded-md hover:bg-gray-500 transition">
-                                Cancel
-                            </button>
-                            <button id="editconfirmEdit" class="px-6 py-3 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-md hover:from-green-600 hover:to-green-800 transition">
-                                Confirm
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- view Confirmation Modal -->
-                <div id="viewConfirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
-                    <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
-                        <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-blue-500 to-blue-700 p-4 rounded-t-lg">
-                            Confirmation
-                        </h2>
-                        <p class="text-gray-700 text-center mb-6">
-                            Are you sure you want to view this item?
-                        </p>
-                        <div class="flex justify-center gap-4">
-                            <button id="cancelView" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-300 transition">
-                                Cancel
-                            </button>
-                            <button id="confirmView" class="px-6 py-3 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-md hover:from-green-600 hover:to-green-800 transition">
-                                Confirm
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
                 <script src="{{ asset('js/confirmation.js') }}"></script>
                 <script>
                     $(document).ready(function() {
@@ -171,25 +129,6 @@
                         // Custom search functionality linked to the search input field
                         $('#tableSearch').on('keyup', function() {
                             table.search(this.value).draw(); // Apply search to the DataTable
-                        });
-
-                        // Edit confirmation modal logic
-                        $('#sales tbody').on('click', '.btn-primary', function(e) {
-                            e.preventDefault();
-                            var editUrl = $(this).attr('href');
-
-                            // Show the confirmation modal
-                            $('#editConfirmationModal').removeClass('hidden');
-
-                            // Handle confirmation
-                            $('#editconfirmEdit').on('click', function() {
-                                window.location.href = editUrl;
-                            });
-
-                            // Handle cancellation
-                            $('#editcancelEdit').on('click', function() {
-                                $('#editConfirmationModal').addClass('hidden');
-                            });
                         });
 
 
@@ -210,21 +149,6 @@
                         // Cancel delete
                         $('#cancelDelete').on('click', function() {
                             $('#confirmationModal').addClass('hidden'); // Hide modal
-                        });
-                    });
-                    $('#sales tbody').on('click', '.view-btn', function(event) {
-                        event.preventDefault(); // Prevent default navigation
-                        var viewUrl = $(this).data('url'); // Get the URL from the data-url attribute
-                        $('#viewConfirmationModal').removeClass('hidden'); // Show the modal
-
-                        // Handle confirmation
-                        $('#confirmView').off('click').on('click', function() {
-                            window.location.href = viewUrl; // Navigate to the URL
-                        });
-
-                        // Handle cancellation
-                        $('#cancelView').on('click', function() {
-                            $('#viewConfirmationModal').addClass('hidden'); // Hide the modal
                         });
                     });
                 </script>
