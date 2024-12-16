@@ -3,11 +3,8 @@
 
 
 <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- <script src="{{ asset('js/select2.min.js') }}"></script> -->
     
-    
-
     <div class="flex flex-col md:flex-row h-screen">
         <!-- Sidebar (Navigation) -->
         <div class="w-full md:w-64 fixed top-0 left-0 z-10 h-screen bg-gray-900 md:block">
