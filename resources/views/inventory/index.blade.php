@@ -389,7 +389,7 @@
     <div class="p-4 sm:text-left bg-gray-200 grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Brand Table -->
         <div class="table-container w-full bg-gray-200">
-            <h3 class="text-2xl font-semibold text-left text-gray-500 mb-0">Brands</h3> <!-- Removed mb-4 -->
+            <h3 class="text-2xl font-semibold text-left text-gray-500 mb-3">Brands</h3> <!-- Removed mb-4 -->
             <table id="brandTable" class="min-w-full table-fixed bg-gray-200 text-gray-500">
                 <thead class="text-gray-500 bg-gray-200">
                     <tr>
@@ -404,7 +404,7 @@
 
         <!-- Category Table -->
         <div class="table-container w-full bg-gray-200">
-            <h3 class="text-2xl font-semibold text-left text-gray-500 mb-0">Categories</h3> <!-- Removed mb-4 -->
+            <h3 class="text-2xl font-semibold text-left text-gray-500 mb-3">Categories</h3> <!-- Removed mb-4 -->
             <table id="categoryTable" class="min-w-full mt-0 mb-0 table-fixed bg-gray-200 text-gray-500">
                 <thead class="text-gray-500 bg-gray-200">
                     <tr>

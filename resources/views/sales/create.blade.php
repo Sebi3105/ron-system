@@ -600,35 +600,47 @@
     </script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const inventorySelect = document.getElementById('inventories');
-            const serialsSelect = document.getElementById('serials');
-
-            inventorySelect.addEventListener('change', function () {
-                const inventoryId = this.value;
-
-                // Clear previous serial numbers
-                serialsSelect.innerHTML = '<option value="" selected>Select Serial Number</option>';
-
-                if (inventoryId) {
-                    fetch(`/get-serials/${inventoryId}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            data.forEach(serial => {
-                                const option = document.createElement('option');
-                                option.value = serial.sku_id; // Assuming sku_id is the identifier
-                                option.textContent = serial.serial_number; // Assuming serial_number is the display name
-                                serialsSelect.appendChild(option);
-                            });
-                        })
-                        .catch(error => console.error('Error fetching serials:', error));
-                }
-            });
-        });
-
         $(document).ready(function () {
             $('#inventories').select2({});
             $('#customer_id').select2({});
+            $('#serials').select2({});
+
+            $('#inventories').on('change', function () {
+                    const inventoryId = $(this).val(); // Get selected inventory ID
+                    const serialsSelect = $('#serials'); // jQuery object for #serials
+
+            // Clear previous options
+            serialsSelect.empty().append('<option value="" selected>Select Serial Number</option>');
+
+                if (inventoryId) {
+                    // Fetch serials for the selected inventory
+                    $.ajax({
+                        url: `/get-serials/${inventoryId}`,
+                        method: 'GET',
+                        dataType: 'json',
+                        success: function (data) {
+                            console.log('Fetched serials:', data); // Debugging API response
+                            if (data.length > 0) {
+                                data.forEach(serial => {
+                                    console.log(`Adding serial: ${serial.serial_number} (ID: ${serial.sku_id})`);
+                                    serialsSelect.append(
+                                        $('<option>', {
+                                            value: serial.sku_id, // Assuming sku_id is the identifier
+                                            text: serial.serial_number // Assuming serial_number is the display name
+                                        })
+                                    );
+                                });
+                            } else {
+                                console.warn('No serials found for this inventory ID.');
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error fetching serials:', error);
+                            alert('Failed to load serial numbers. Please try again later.');
+                        }
+                    });
+                }
+            });
             $('#serials').select2({});
         });
 

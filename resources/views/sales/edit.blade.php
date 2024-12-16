@@ -82,9 +82,16 @@
                                 </select>
                             </div>
 
+                            <!-- since hindi nababasa or same ng format para maidisplay -->
                             <div class="form-group">
                                 <label for="sale_date">Sale Date</label>
-                                <input type="date" name="sale_date" id="sale_date" value="{{ $sale->sale_date }}" required>
+                                <input 
+                                    type="date" 
+                                    name="sale_date" 
+                                    id="sale_date" 
+                                    value="{{ \Carbon\Carbon::parse($sale->sale_date)->format('Y-m-d') }}" 
+                                    required
+                                >
                             </div>
 
                             <div class="form-group">
@@ -493,7 +500,18 @@
     background-color: #D1D5DB;
 }
 
+        .select2-container .select2-selection{
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 0.9em;
+            width: 100%;
+            height: calc(2.75rem + 2px);
+        }
 
+        .select2-results__option{
+            font-size: 0.9em;
+        }
 
     </style>
 
@@ -551,6 +569,53 @@ document.addEventListener('DOMContentLoaded', function () {
         modal.classList.add('hidden');  // Hide the modal
         form.submit();  // Submit the form
     });
+
+    </script>
+
+<script>
+        $(document).ready(function () {
+            $('#inventories').select2({});
+            $('#customer_id').select2({});
+            $('#serials').select2({});
+
+            $('#inventories').on('change', function () {
+                    const inventoryId = $(this).val(); // Get selected inventory ID
+                    const serialsSelect = $('#serials'); // jQuery object for #serials
+
+            // Clear previous options
+            serialsSelect.empty().append('<option value="" selected>Select Serial Number</option>');
+
+                if (inventoryId) {
+                    // Fetch serials for the selected inventory
+                    $.ajax({
+                        url: `/get-serials/${inventoryId}`,
+                        method: 'GET',
+                        dataType: 'json',
+                        success: function (data) {
+                            console.log('Fetched serials:', data); // Debugging API response
+                            if (data.length > 0) {
+                                data.forEach(serial => {
+                                    console.log(`Adding serial: ${serial.serial_number} (ID: ${serial.sku_id})`);
+                                    serialsSelect.append(
+                                        $('<option>', {
+                                            value: serial.sku_id, // Assuming sku_id is the identifier
+                                            text: serial.serial_number // Assuming serial_number is the display name
+                                        })
+                                    );
+                                });
+                            } else {
+                                console.warn('No serials found for this inventory ID.');
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error fetching serials:', error);
+                            alert('Failed to load serial numbers. Please try again later.');
+                        }
+                    });
+                }
+            });
+            $('#serials').select2({});
+        });
 
     </script>
 </x-app-layout>
