@@ -157,7 +157,7 @@
                             return `
                 <div class="flex space-x-2 items-center justify-center">
                    
-                    <a href="javascript:void(0)" class="view-btn bg-navy-blue text-white py-1 px-1 btn-primary rounded" data-url="/customer/${row.customer_id}/customerphistory">View History</a>
+                    <a href="javascript:void(0)" class="view-btn bg-navy-blue text-white py-1 px-1 rounded" data-url="/customer/${row.customer_id}/customerphistory">View History</a>
 
                     <a href="/customer/${row.customer_id}/edit" class="bg-custom-green text-white py-1 px-1 rounded btn-primary">Edit</a>
                     <button class="bg-red-500 text-white py-1 px-1 rounded delete-btn" data-url="/customer/${row.customer_id}/delete">Delete</button>

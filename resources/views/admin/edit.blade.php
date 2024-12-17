@@ -25,7 +25,7 @@
 
             <!-- Form Container -->
             <div class="form-container mx-auto mt-24 md:mt-32">
-                <h1 class="font-bold" style="color: #4a628a;">Edit User</h1>
+                <h1 class="font-bold text-center" style="color: #4a628a;">USER NFORMATION</h1>
 
                 <!-- Error Checking -->
                 @if($errors->any())
@@ -73,49 +73,97 @@
         </div>
     </div>
 
-    <!-- Confirmation Modal -->
-    <div id="confirmationModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 hidden">
-        <div class="bg-white max-w-sm w-full">
-            <!-- Modal Header -->
-            <h2 class="text-lg font-bold">Confirmation</h2>
-
-            <!-- Modal Message -->
-            <p id="confirmationMessage">
-                Are you sure you want to save these changes?
-            </p>
-            <div class="flex">
-                <button id="confirmCancel">Cancel</button>
-                <button id="confirmSubmit">Confirm</button>
+     <!-- Confirmation Modal -->
+     <div id="confirmationModal" class="hidden fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+            <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
+                <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-red-500 to-red-700 p-4 rounded-t-lg">
+                    Confirmation
+                </h2>
+                <p class="text-gray-700 text-center mb-6">
+                    Are you sure you want to save this ?
+                </p>
+                <div class="flex justify-center gap-4">
+                    <button id="cancelConfirmationButton" class="px-6 py-3 bg-gray-400 text-white rounded-md hover:bg-gray-500 transition">
+                        Cancel
+                    </button>
+                    <button id="confirmSubmitButton" class="px-6 py-3 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-md hover:from-green-600 hover:to-green-800 transition">
+                        Confirm
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const modal = document.getElementById('confirmationModal');
-            const modalMessage = document.getElementById('confirmationMessage');
-            const confirmSubmitButton = document.getElementById('confirmSubmit');
-            const confirmCancelButton = document.getElementById('confirmCancel');
-            const form = document.getElementById('editUserForm');
-            const saveUserButton = document.getElementById('saveCustomerButton');
 
-            // Open modal when clicking the save button
-            saveUserButton.addEventListener('click', function() {
-                modalMessage.textContent = 'Are you sure you want to save this User?';
-                modal.classList.remove('hidden');
-            });
 
-            // Cancel button in modal
-            confirmCancelButton.addEventListener('click', function() {
-                modal.classList.add('hidden');
-            });
 
-            // Confirm button in modal
-            confirmSubmitButton.addEventListener('click', function() {
-                modal.classList.add('hidden');
-                form.submit();
-            });
+        <!-- Cancel Modal -->
+        <div id="cancelModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
+            <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
+                <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-yellow-500 to-yellow-700 p-4 rounded-t-lg">
+                    Confirmation
+                </h2>
+                <p class="text-gray-700 text-center mb-6">
+                    Are you sure you want to delete<br> this permanently?
+                </p>
+                <div class="flex justify-center gap-4">
+                    <button id="cancelModalClose" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-300 transition">
+                        Cancel
+                    </button>
+                    <button id="confirmCancel" class="px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-md hover:from-red-600 hover:to-red-800 transition">
+                        Confirm
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <script>
+       document.addEventListener('DOMContentLoaded', function () {
+        // Save Confirmation Modal
+        const saveModal = document.getElementById('confirmationModal');
+        const saveButton = document.getElementById('saveCustomerButton');
+        const confirmSaveButton = document.getElementById('confirmSubmitButton');
+        const cancelSaveButton = document.getElementById('cancelConfirmationButton');
+        const form = document.getElementById('editUserForm');
+
+        // Open Save Modal
+        saveButton.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent immediate form submission
+            saveModal.classList.remove('hidden'); // Show modal
         });
+
+        // Confirm Save
+        confirmSaveButton.addEventListener('click', function () {
+            form.submit(); // Submit the form
+        });
+
+        // Cancel Save Modal
+        cancelSaveButton.addEventListener('click', function () {
+            saveModal.classList.add('hidden'); // Hide modal
+        });
+
+        // Cancel Confirmation Modal
+        const cancelModal = document.getElementById('cancelModal');
+        const exitButton = document.querySelector('.exit-btn');
+        const confirmCancel = document.getElementById('confirmCancel');
+        const cancelModalClose = document.getElementById('cancelModalClose');
+
+        // Open Cancel Modal
+        exitButton.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent immediate navigation
+            cancelModal.classList.remove('hidden'); // Show cancel modal
+        });
+
+        // Confirm Cancel (Redirect to Dashboard)
+        confirmCancel.addEventListener('click', function () {
+            window.location.href = exitButton.href; // Redirect to dashboard
+        });
+
+        // Close Cancel Modal
+        cancelModalClose.addEventListener('click', function () {
+            cancelModal.classList.add('hidden'); // Hide modal
+        });
+    });
     </script>
 
     <style>
@@ -234,42 +282,146 @@
         }
 
         /* Modal Style */
-        #confirmationModal {
-            z-index: 50;
-            backdrop-filter: blur(5px);
-            animation: fadeInBackdrop 0.4s ease-out;
-        }
+    /* Confirmation Modal Styling */
+    #confirmationModal, #cancelModal {
+        z-index: 50;
+        backdrop-filter: blur(5px);
+        animation: fadeInBackdrop 0.4s ease-out;
+    }
 
-        @keyframes fadeInBackdrop {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+    @keyframes fadeInBackdrop {
+        from {
+            opacity: 0;
         }
+        to {
+            opacity: 1;
+        }
+    }
 
-        #confirmationModal .bg-white {
-            max-width: 350px;
-            padding: 2rem;
-            border-radius: 0.5rem;
-        }
+    /* Modal Content Styling */
+     #confirmationModal, #cancelModal {
+        z-index: 50;
+        backdrop-filter: blur(5px);
+        animation: fadeInBackdrop 0.4s ease-out;
+    }
 
-        #confirmationModal button {
-            padding: 8px 20px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
+    @keyframes fadeInBackdrop {
+        from {
+            opacity: 0;
         }
+        to {
+            opacity: 1;
+        }
+    }
 
-        #confirmationModal button#confirmSubmit {
-            background-color: #4CAF50;
-            color: white;
-        }
+    /* Modal Content Styling */
+    #confirmationModal .bg-white, #cancelModal .bg-white {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        animation: modalEntry 0.4s ease-out;
+    }
 
-        #confirmationModal button#confirmCancel {
-            background-color: #f44336;
-            color: white;
+    @keyframes modalEntry {
+        from {
+            opacity: 0;
+            transform: scale(0.9);
         }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    /* Header Style */
+    #confirmationModal h2, #cancelModal h2 {
+        font-size: 22px;
+        font-weight: bold;
+        color: #fff;
+        text-align: center;
+        padding: 12px;
+        margin: 0;
+    }
+
+    /* Confirmation Modal Header (Green) */
+    #confirmationModal h2 {
+        background: linear-gradient(90deg, #4CAF50, #2E7D32); /* Green Gradient */
+    }
+
+    /* Cancel Modal Header (Red) */
+    #cancelModal h2 {
+        background: linear-gradient(90deg, #FF4C4C, #C62828); /* Red Gradient */
+    }
+
+    /* Modal Text */
+    #confirmationModal p, #cancelModal p {
+        font-size: 15px;
+        color: #4B5563;
+        text-align: center;
+        margin: 16px 0 24px;
+        line-height: 1.6;
+    }
+
+    /* Button Styles */
+    #confirmationModal button, #cancelModal button {
+        border: none;
+        padding: 12px 20px;
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 3px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+    }
+
+    /* Button Hover Effects */
+    #confirmationModal button:hover, #cancelModal button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Cancel and Confirm Buttons (Gray for Cancel, Green for Confirm in Confirmation Modal) */
+    #cancelDelete, #cancelModalClose {
+        background-color: #E5E7EB;
+        color: #374151;
+        transition: background-color 0.3s ease;
+    }
+
+    #cancelDelete:hover, #cancelModalClose:hover {
+        background-color: #D1D5DB;
+    }
+
+    /* Confirm Button (Green for Confirmation Modal) */
+    #confirmSubmitButton {
+        background: linear-gradient(90deg, #4CAF50, #2E7D32); /* Green Gradient */
+        color: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    #confirmSubmitButton:hover {
+        background-color: #388E3C;
+    }
+
+    /* Confirm Button (Red for Cancel Modal) */
+    #confirmCancel {
+        background: linear-gradient(90deg, #FF4C4C, #C62828); /* Red Gradient */
+        color: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    #confirmCancel:hover {
+        background-color: #D32F2F;
+    }
+
+    /* Modal Flex Layout */
+    #confirmationModal .flex, #cancelModal .flex {
+        justify-content: center;
+        gap: 16px;
+        padding: 12px 0;
+    }
+
     </style>
 </x-app-layout>

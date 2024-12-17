@@ -581,16 +581,19 @@
             });
 
             document.addEventListener('DOMContentLoaded', function() {
-                const saveCategoryButton = document.getElementById('saveCategoryButton');
                 const confirmationModal = document.getElementById('confirmationModal');
                 const cancelConfirmationButton = document.getElementById('cancelConfirmationButton');
                 const confirmSubmitButton = document.getElementById('confirmSubmitButton');
-                const createUserForm = document.getElementById('branddel');
 
-                // Show confirmation modal when save button is clicked
-                saveCategoryButton.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    confirmationModal.classList.remove('hidden');
+                let activeForm; // Variable to store the form being submitted
+
+                // Delegate click event for all restore buttons
+                document.querySelectorAll('form#branddel button.bg-green-500').forEach(button => {
+                    button.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        activeForm = this.closest('form'); // Store the form being submitted
+                        confirmationModal.classList.remove('hidden');
+                    });
                 });
 
                 // Close confirmation modal (cancel)
@@ -598,9 +601,11 @@
                     confirmationModal.classList.add('hidden');
                 });
 
-                // Submit form on confirm
+                // Submit the stored form on confirm
                 confirmSubmitButton.addEventListener('click', function() {
-                    createUserForm.submit();
+                    if (activeForm) {
+                        activeForm.submit();
+                    }
                 });
 
                 // Handle cancel modal logic
@@ -611,9 +616,11 @@
                     cancelModal.classList.add('hidden');
                 });
 
-                document.getElementById('cancelconfirmationModal').addEventListener('click', function(event) {
-                    event.preventDefault();
-                    cancelModal.classList.remove('hidden');
+                document.querySelectorAll('form#branddel button.bg-red-500').forEach(button => {
+                    button.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        cancelModal.classList.remove('hidden');
+                    });
                 });
             });
         </script>
