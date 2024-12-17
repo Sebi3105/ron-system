@@ -22,7 +22,7 @@
     </head>
 
     <!-- BACKGROUND CSS-->
-    <body class="font-sans antialiased dark:bg-black dark:text-white/50">
+    <body class="font-sans antialiased dark:bg-black dark:text-white/50">   
     <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50" 
         style="position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; 
                 background-image: url('{{ asset('images/loginbg.png') }}');
@@ -30,7 +30,7 @@
     <!-- BACKGROUND CSS-->    
      
         <div class="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white">
-            <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
+            <div class="relative w-full max-w-4xl px-9 lg:max-w-7xl">
             </div>
             <div class="max-w-[calc(100%+25%)] mx-auto p-6 bg-white shadow-lg rounded-lg">
     @if (Route::has('login'))
@@ -43,22 +43,37 @@
                 <div class="flex justify-center mb-6">
                     <img src="{{ asset('images/ronlogo.png') }}" alt="Logo" class="h-16 w-auto">
                      </div>
-                <div class="mb-4">
-                    <label for="email" class="block text-sm font-medium text-gray-700">Username:</label>
-                    <input id="email" name="email" type="email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-gray-100 text-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                </div>
-                <div class="mb-6 relative">
+                     <div class="mb-4">
+                        <label for="email" class="block text-sm font-medium text-gray-700">Username:</label>
+                        <input id="email" name="email" type="email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white text-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    </div>
+                    <div class="mb-6 relative">
     <label for="password" class="block text-sm font-medium text-gray-700">Password:</label>
-    <input id="password" name="password" type="password" required class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-gray-100 text-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pr-10">
+    <input id="password" name="password" type="password" required class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white text-black rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pr-10">
     <!-- Eye Icon Positioned Inside the Textfield -->
     <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
         <i class="fas fa-eye"></i>
     </button>
 </div>
-                <div class="flex justify-center">
-                    <button type="submit" class="w-1/2 py-2 px-4 bg-[#16325b] text-white font-semibold rounded-lg shadow-md hover:bg-[#1e436f]">Login</button>
+
+        <!-- Remember Me -->
+        <div class="block mt-1">
+            <label for="remember_me" class="inline-flex items-center">
+                <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
+                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
+            </label>
+        </div>
+
+                <div class="flex justify-center mt-2">
+                    <button type="submit" class="w-1/2 py-2 px-4 bg-[#16325b] text-white font-semibold rounded-lg shadow-md hover:bg-[#1e436f]">Login
+                    </button>
                 </div>
             </form>
+             <div class="mt-2 text-center">
+                        <a href="{{ route('password.request') }}" class="text-sm text-blue-500 hover:text-blue-700">
+                            Forgot your password?
+                        </a>
+                    </div>
         @endauth
     @endif
 </div>
