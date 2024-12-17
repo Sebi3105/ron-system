@@ -1,9 +1,8 @@
 <x-app-layout>
     <!-- Include jQuery and DataTables -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    
 
     <div class="flex flex-col md:flex-row h-screen">
         <div class="flex-1 md:ml-48 lg:ml-64 mt-0 bg-gray-100 text-gray-800">
@@ -25,11 +24,10 @@
 
             <div class="flex justify-center px-12 py-4">
     <div class="overflow-hidden  shadow-md bg-white w-full max-w-5xl">
-        <table id="sales" class="min-w-full table-fixed">
+        <table id="history" class="min-w-full table-fixed">
             <thead class="bg-blue-500 text-white">
                 <tr>
                     <th class="py-2 px-4 text-left">#</th>
-                    <th class="py-2 px-4 text-left">Customer Name</th>
                     <th class="py-2 px-4 text-left">Product Name</th>
                     <th class="py-2 px-4 text-left">Serial Number</th>
                     <th class="py-2 px-4 text-left">State</th>
@@ -39,24 +37,7 @@
                 </tr>
             </thead>
             <tbody>
-                @if ($sales->isEmpty())
-                    <tr>
-                        <td colspan="8" class="py-2 px-4 text-center">No sales data available for this customer.</td>
-                    </tr>
-                @else
-                    @foreach($sales as $key => $sale)
-                        <tr class="hover:bg-gray-100 border-b border-gray-300">
-                            <td class="py-2 px-4">{{ $key + 1 }}</td>
-                            <td class="py-2 px-4">{{ $sale->customer->name }}</td>
-                            <td class="py-2 px-4">{{ $sale->inventory->product_name }}</td>
-                            <td class="py-2 px-4">{{ $sale->inventoryItem->serial_number }}</td>
-                            <td class="py-2 px-4">{{ $sale->state }}</td>
-                            <td class="py-2 px-4">{{ $sale->sale_date->format('Y-m-d') }}</td>
-                            <td class="py-2 px-4">{{ number_format($sale->amount, 2) }}</td>
-                            <td class="py-2 px-4">{{ ucfirst($sale->payment_type) }}</td>
-                        </tr>
-                    @endforeach
-                @endif
+
             </tbody>
         </table>
     </div>
@@ -147,4 +128,32 @@
             transform: translateX(-8px);
         }
     </style>
+
+
+<script>
+$(document).ready(function() {
+    $('#history').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: "{{ route('customer.history', $customer->id  }}",
+            type: "GET",
+        }
+        columns: [
+            { data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false, orderable: false },
+            { data: 'product_name', name: 'product_name' },
+            { data: 'serial_number', name: 'serial_number' },
+            { data: 'state', name: 'state' },
+            { data: 'sale_date', name: 'sale_date' },
+            { data: 'amount', name: 'amount' },
+            { data: 'payment_type', name: 'payment_type' },
+        ],
+        order: [[1, 'asc']], // Sort by product_name by default
+        language: {
+            emptyTable: "No sales history available for this customer.",
+        }
+    });
+});
+</script>
+
 </x-app-layout>

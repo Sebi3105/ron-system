@@ -44,7 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('brand/{brand}/delete', [BrandController::class, 'delete'])->name('brand.delete');
 
     Route::resource('customer',CustomerController::class);
-    Route::delete('customer/{customer}/delete', [CustomerController::class, 'delete'])->name('customer.delete');
+    // Route::delete('customer/{customer}/delete', [CustomerController::class, 'delete'])->name('customer.delete');
     Route::get('/customer/{customer}/customerphistory',[CustomerController::class, 'showHistory'])->name('customer.history');
 
     Route::resource('category',CategoryController::class);
@@ -158,7 +158,8 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('customer',CustomerController::class);
     Route::delete('customer/{customer}/delete', [CustomerController::class, 'delete'])->name('customer.delete');
-    Route::get('/customer/{customer}/customerphistory',[CustomerController::class, 'showHistory'])->name('customer.history');
+    Route::get('/customer/{customer}/history', [CustomerController::class, 'showHistory'])->name('customer.history');
+    
 
     Route::resource('category',CategoryController::class);
     Route::delete('/category/{category}/delete', [CategoryController::class, 'delete'])->name('category.delete');
@@ -202,6 +203,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/sales/{sale}/delete', [SalesController::class, 'destroy'])->name('sales.delete'); // Custom delete route
     // Route::get('/sales/{id}', [SalesController::class, 'show'])->name('sales.show');
     Route::get('/sales/serials/{id}', [SalesController::class, 'getSerials'])->name('sales.serials');
+    // Route::get('/sales/{sale}', [SalesController::class, 'getSalesData'])->name('sales.data');
     Route::get('/sales/{sale}', [SalesController::class, 'show'])->name('sales.show');
     Route::get('/sales/{sale}/edit', [SalesController::class, 'edit'])->name('sales.edit');
 

@@ -54,7 +54,7 @@
             $sale->update([
                 'customer_id' => $validatedData['customer_id'],
                 'product_id' => $validatedData['inventory_id'],
-         'serial_number' => $validatedData['serials'],
+                'serial_number' => $validatedData['serials'],
                 'state' => $validatedData['state'],
                 'sale_date' => $validatedData['sale_date'],
                 'amount' => $validatedData['amount'],
@@ -82,91 +82,88 @@
         return redirect()->route('sales.index')->with('success', 'Sale deleted successfully.');
     }
 
-        public function store(Request $request)
-{
-    // Validate the incoming request data
-    $validatedData = $request->validate([
-        'customer_id' => 'required|exists:customer,customer_id',
-        'inventory_id' => 'required|exists:inventory,product_id',
-        'serials' => 'required|exists:inventory_item,sku_id',
-        'state' => 'required|in:reserved,for_pickup,for_delivery',
-        'sale_date' => 'required|date',
-        'amount' => 'required|numeric|min:0',
-        'payment_method' => 'required|in:installment,full_payment',
-        'payment_type' => 'required|in:credit_card,cash,gcash,paymaya',
-    ]);
+    public function store(Request $request)
+    {
+        // Validate the incoming request data
+        $validatedData = $request->validate([
+            'customer_id' => 'required|exists:customer,customer_id',
+            'inventory_id' => 'required|exists:inventory,product_id',
+            'serials' => 'required|exists:inventory_item,sku_id',
+            'state' => 'required|in:reserved,for_pickup,for_delivery',
+            'sale_date' => 'required|date',
+            'amount' => 'required|numeric|min:0',
+            'payment_method' => 'required|in:installment,full_payment',
+            'payment_type' => 'required|in:credit_card,cash,gcash,paymaya',
+        ]);
 
-    // Create a new sale record
-    $sale = Sales::create([
-        'customer_id' => $validatedData['customer_id'],
-        'product_id' => $validatedData['inventory_id'],
-        'serial_number' => $validatedData['serials'], // Store sku_id as serial_number
-        'state' => $validatedData['state'],
-        'sale_date' => $validatedData['sale_date'],
-        'amount' => $validatedData['amount'],
-        'payment_method' => $validatedData['payment_method'],
-        'payment_type' => $validatedData['payment_type'],
-    ]);
+        // Create a new sale record
+        $sale = Sales::create([
+            'customer_id' => $validatedData['customer_id'],
+            'product_id' => $validatedData['inventory_id'],
+            'serial_number' => $validatedData['serials'], // Store sku_id as serial_number
+            'state' => $validatedData['state'],
+            'sale_date' => $validatedData['sale_date'],
+            'amount' => $validatedData['amount'],
+            'payment_method' => $validatedData['payment_method'],
+            'payment_type' => $validatedData['payment_type'],
+        ]);
 
-    // Decrease the quantity of the inventory item
-    $inventoryItem = InventoryItem::where('sku_id', $validatedData['serials'])->first();
-    if ($inventoryItem) {
-        $inventory = Inventory::find($validatedData['inventory_id']);
-        if ($inventory) {
-            $inventory->decrement('quantity'); // Decrease the quantity by 1
+        // Decrease the quantity of the inventory item
+        $inventoryItem = InventoryItem::where('sku_id', $validatedData['serials'])->first();
+        if ($inventoryItem) {
+            $inventory = Inventory::find($validatedData['inventory_id']);
+            if ($inventory) {
+                $inventory->decrement('quantity'); // Decrease the quantity by 1
+            }
         }
+
+        // Redirect to the sales index with a success message
+        return redirect()->route('sales.index')->with('success', 'Sale created successfully.');
     }
 
-    // Redirect to the sales index with a success message
-    return redirect()->route('sales.index')->with('success', 'Sale created successfully.');
-}
+    public function getSerials($id)
+    {
+        // Fetch serials based on the inventory item id, excluding those in sales
+        $serials = InventoryItem::where('product_id', $id)
+            ->whereDoesntHave('sales')
+            ->get();
 
-public function getSerials($id)
-{
-    // Fetch serials based on the inventory item id, excluding those in sales
-    $serials = InventoryItem::where('product_id', $id)
-        ->whereDoesntHave('sales')
-        ->get();
-
-    return response()->json($serials);
-}
-
-
-public function show($id)
-{
-    // Fetch related technician reports
-  
-    
-
-    
-    // \Log::info('Fetched Technician Reports:', $techreport->toArray());
-    $sale = Sales::with(['customer', 'inventory', 'inventoryItem'])->findOrFail($id);
-    $skuId = $sale->sku_id;
-    $techreport = TechReport::where('sku_id', $sale->inventoryItem->sku_id)->get();
-    return view('sales.show', compact('sale','techreport'));
-}
-public function softDeleted()
-{
-    // Eager load the relationships: customer, inventory, and inventoryItem
-    $softDeletedItems = Sales::with(['inventory', 'customer', 'inventoryitem'])->onlyTrashed()->get();
-
-    return view('admin.sales.soft_deleted', compact('softDeletedItems'));
-}
-
-public function restore($sales_id)
-{
-    $item = Sales::withTrashed()->findOrFail($sales_id);
-    $item->restore();
-
-    return redirect()->route('admin.sales.soft_deleted')->with('success', 'Sales restored successfully!');
-}
-
-public function forceDelete($sales_id)
-{
-    $item = Sales::withTrashed()->findOrFail($sales_id);
-    $item->forceDelete();
-
-    return redirect()->route('admin.sales.soft_deleted')->with('success', 'Sales deleted permanently!');
-}
-
+        return response()->json($serials);
     }
+
+
+    public function show($id)
+    {
+        // Fetch related technician reports
+        // \Log::info('Fetched Technician Reports:', $techreport->toArray());
+        $sale = Sales::with(['customer', 'inventory', 'inventoryItem'])->findOrFail($id);
+        $skuId = $sale->sku_id;
+        $techreport = TechReport::where('sku_id', $sale->inventoryItem->sku_id)->get();
+        return view('sales.show', compact('sale','techreport'));
+    }
+
+
+    public function softDeleted()
+    {
+        // Eager load the relationships: customer, inventory, and inventoryItem
+        $softDeletedItems = Sales::with(['inventory', 'customer', 'inventoryitem'])->onlyTrashed()->get();
+
+        return view('admin.sales.soft_deleted', compact('softDeletedItems'));
+    }
+
+    public function restore($sales_id)
+    {
+        $item = Sales::withTrashed()->findOrFail($sales_id);
+        $item->restore();
+
+        return redirect()->route('admin.sales.soft_deleted')->with('success', 'Sales restored successfully!');
+    }
+
+    public function forceDelete($sales_id)
+    {
+        $item = Sales::withTrashed()->findOrFail($sales_id);
+        $item->forceDelete();
+
+        return redirect()->route('admin.sales.soft_deleted')->with('success', 'Sales deleted permanently!');
+    }
+}

@@ -1,9 +1,8 @@
 <x-app-layout>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 
-    <div class="flex flex-col md:flex-row h-screen bg-gray-200">
+    <div class="flex flex-col md:flex-row bg-gray-200">
         <div class="flex-1 ml-64 mt-0 min-h-screen bg-gray-200">
             <!-- Content Section -->
             <div class="max-w-7xl mx-auto px-4 sm:text-left lg:px-8 mt-4 mb-6">
@@ -37,16 +36,16 @@
                     @endif
                 </div>
 
-                <div class="table-container py-4 max-h-[500px] max-w-7xl mx-auto px-4 sm:text-left lg:px-8">
+                <div class="table-container py-4 max-w-7xl mx-auto px-4 sm:text-left lg:px-8">
                     <div class="p-4 sm:text-left overflow-y-auto bg-gray-200">
                         <table id="customer" class="min-w-full table-fixed bg-gray-200 text-gray-500">
                             <thead class="text-gray-500 bg-gray-200">
                                 <tr>
-                                    <th class="w-20 p-1 bg-gray-100 border-b border-gray-300">#</th>
-                                    <th class="w-20 p-1 bg-gray-100 border-b border-gray-300 text-center">Customer Name</th>
-                                    <th class="w-20 p-1 bg-gray-100 border-b border-gray-300 text-center">Address</th>
-                                    <th class="w-20 p-1 bg-gray-100 border-b border-gray-300 text-center">Contact No.</th>
-                                    <th class="w-24 p-1 bg-gray-100 border-b border-gray-300 text-center">Actions</th>
+                                    <th class="w-12 p-1 bg-gray-100 border-b border-gray-300">#</th>
+                                    <th class="p-1 bg-gray-100 border-b border-gray-300 text-center">Customer Name</th>
+                                    <th class="p-1 bg-gray-100 border-b border-gray-300 text-center">Address</th>
+                                    <th class="w-32 p-1 bg-gray-100 border-b border-gray-300 text-center">Contact No.</th>
+                                    <th class="p-1 bg-gray-100 border-b border-gray-300 text-center">Actions</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-gray-200 text-center">
@@ -155,14 +154,14 @@
                         searchable: false,
                         render: function(data, type, row) {
                             return `
-                <div class="flex space-x-2 items-center justify-center">
-                   
-                    <a href="javascript:void(0)" class="view-btn bg-navy-blue text-white py-1 px-1 btn-primary rounded" data-url="/customer/${row.customer_id}/customerphistory">View History</a>
+                                <div class="flex space-x-2 items-center justify-center">
+                                
+                                    <a href="javascript:void(0)" class="view-btn bg-navy-blue text-white py-1 px-1 btn-primary rounded" data-url="/customer/${row.customer_id}/customerphistory">View History</a>
 
-                    <a href="/customer/${row.customer_id}/edit" class="bg-custom-green text-white py-1 px-1 rounded btn-primary">Edit</a>
-                    <button class="bg-red-500 text-white py-1 px-1 rounded delete-btn" data-url="/customer/${row.customer_id}/delete">Delete</button>
-                </div>
-            `;
+                                    <a href="/customer/${row.customer_id}/edit" class="bg-custom-green text-white py-1 px-1 rounded btn-primary">Edit</a>
+                                    <!--<button class="bg-red-500 text-white py-1 px-1 rounded delete-btn" data-url="/customer/${row.customer_id}/delete">Delete</button>-->
+                                </div>
+                            `;
                         }
                     },
                 ]
