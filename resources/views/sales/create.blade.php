@@ -58,7 +58,7 @@
                                 <select name="inventory_id" id="inventories" required>
                                     <option value="" selected>Select Product</option>
                                     @foreach($inventories as $inventory)
-                                    <option value="{{ $inventory->product_id }}">{{ $inventory->product_name }}</option>
+                                        <option value="{{ $inventory->product_id }}">{{ $inventory->product_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -190,7 +190,6 @@
             display: flex;
             flex-direction: column;
         }
-
 
         .form-group select,
         .form-group input {
@@ -487,11 +486,23 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
-
-
         #cancelCancel:hover {
             background-color: #D1D5DB;
         }
+
+        .select2-container .select2-selection{
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 0.9em;
+            width: 100%;
+            height: calc(2.75rem + 2px);
+        }
+
+        .select2-results__option{
+            font-size: 0.9em;
+        }
+
     </style>
 
     <script>
@@ -586,5 +597,52 @@
             modal.classList.add('hidden');
             form.submit();
         });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#inventories').select2({});
+            $('#customer_id').select2({});
+            $('#serials').select2({});
+
+            $('#inventories').on('change', function () {
+                    const inventoryId = $(this).val(); // Get selected inventory ID
+                    const serialsSelect = $('#serials'); // jQuery object for #serials
+
+            // Clear previous options
+            serialsSelect.empty().append('<option value="" selected>Select Serial Number</option>');
+
+                if (inventoryId) {
+                    // Fetch serials for the selected inventory
+                    $.ajax({
+                        url: `/get-serials/${inventoryId}`,
+                        method: 'GET',
+                        dataType: 'json',
+                        success: function (data) {
+                            console.log('Fetched serials:', data); // Debugging API response
+                            if (data.length > 0) {
+                                data.forEach(serial => {
+                                    console.log(`Adding serial: ${serial.serial_number} (ID: ${serial.sku_id})`);
+                                    serialsSelect.append(
+                                        $('<option>', {
+                                            value: serial.sku_id, // Assuming sku_id is the identifier
+                                            text: serial.serial_number // Assuming serial_number is the display name
+                                        })
+                                    );
+                                });
+                            } else {
+                                console.warn('No serials found for this inventory ID.');
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error fetching serials:', error);
+                            alert('Failed to load serial numbers. Please try again later.');
+                        }
+                    });
+                }
+            });
+            $('#serials').select2({});
+        });
+
     </script>
 </x-app-layout>
