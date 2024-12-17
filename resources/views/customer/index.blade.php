@@ -79,45 +79,7 @@
         </div>
     </div>
 
-    <!-- Edit Confirmation Modal -->
-    <div id="editConfirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
-        <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
-            <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-blue-500 to-blue-700 p-4 rounded-t-lg">
-                Confirmation
-            </h2>
-            <p class="text-gray-700 text-center mb-6">
-                Are you sure you want to edit this item?
-            </p>
-            <div class="flex justify-center gap-4">
-                <button id="editcancelEdit" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-300 transition">
-                    Cancel
-                </button>
-                <button id="editconfirmEdit" class="px-6 py-3 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-md hover:from-green-600 hover:to-green-800 transition">
-                    Confirm
-                </button>
-            </div>
-        </div>
-    </div>
 
-    <!-- view Confirmation Modal -->
-    <div id="viewConfirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
-        <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
-            <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-blue-500 to-blue-700 p-4 rounded-t-lg">
-                Confirmation
-            </h2>
-            <p class="text-gray-700 text-center mb-6">
-                Are you sure you want to view the history of this item?
-            </p>
-            <div class="flex justify-center gap-4">
-                <button id="cancelView" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-300 transition">
-                    Cancel
-                </button>
-                <button id="confirmView" class="px-6 py-3 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-md hover:from-green-600 hover:to-green-800 transition">
-                    Confirm
-                </button>
-            </div>
-        </div>
-    </div>
 
 
 
@@ -157,9 +119,9 @@
                             return `
                 <div class="flex space-x-2 items-center justify-center">
                    
-                    <a href="javascript:void(0)" class="view-btn bg-navy-blue text-white py-1 px-1 rounded" data-url="/customer/${row.customer_id}/customerphistory">View History</a>
+                    <a href="/customer/${row.customer_id}/customerphistory" class="view-btn bg-navy-blue text-white py-1 px-1 rounded">View History</a>
 
-                    <a href="/customer/${row.customer_id}/edit" class="bg-custom-green text-white py-1 px-1 rounded btn-primary">Edit</a>
+                    <a href="/customer/${row.customer_id}/edit" class="bg-custom-green text-white py-1 px-1 rounded">Edit</a>
                     <button class="bg-red-500 text-white py-1 px-1 rounded delete-btn" data-url="/customer/${row.customer_id}/delete">Delete</button>
                 </div>
             `;
@@ -173,64 +135,34 @@
                 table.search(this.value).draw();
             });
             // Handle Edit button click
-            $('#customer tbody').on('click', '.btn-primary', function(e) {
-                e.preventDefault();
-                var editUrl = $(this).attr('href');
 
-               
-                $('#editConfirmationModal').removeClass('hidden');
+            $('#customer tbody').on('click', '.delete-btn', function() {
+                var deleteUrl = $(this).data('url');
+                $('#confirmationModal').removeClass('hidden');
 
-              
-                $('#editconfirmEdit').on('click', function() {
-                    window.location.href = editUrl;
+                $('#confirmDelete').off('click').on('click', function() {
+                    $.ajax({
+                        url: deleteUrl,
+                        type: 'DELETE',
+                        data: {
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function() {
+                            alert('Item deleted successfully!');
+                            table.ajax.reload();
+                            $('#confirmationModal').addClass('hidden');
+                        },
+                        error: function(xhr) {
+                            console.error(xhr.responseText);
+                            alert('Error deleting item!');
+                            $('#confirmationModal').addClass('hidden');
+                        }
+                    });
                 });
 
-              
-                $('#editcancelEdit').on('click', function() {
-                    $('#editConfirmationModal').addClass('hidden');
+                $('#cancelDelete').on('click', function() {
+                    $('#confirmationModal').addClass('hidden');
                 });
-            });
-
-
-            $('#customer tbody').on('click', '.delete-btn', function () {
-            var deleteUrl = $(this).data('url');
-            $('#confirmationModal').removeClass('hidden');
-
-            $('#confirmDelete').off('click').on('click', function () {
-                $.ajax({
-                    url: deleteUrl,
-                    type: 'DELETE',
-                    data: { _token: '{{ csrf_token() }}' },
-                    success: function () {
-                        alert('Item deleted successfully!');
-                        table.ajax.reload();
-                        $('#confirmationModal').addClass('hidden');
-                    },
-                    error: function (xhr) {
-                        console.error(xhr.responseText);
-                        alert('Error deleting item!');
-                        $('#confirmationModal').addClass('hidden');
-                    }
-                });
-            });
-
-            $('#cancelDelete').on('click', function () {
-                $('#confirmationModal').addClass('hidden');
-            });
-        });
-    });
-    
-
-        $('#customer tbody').on('click', '.view-btn', function() {
-            var viewUrl = $(this).data('url');
-            $('#viewConfirmationModal').removeClass('hidden');
-
-            $('#confirmView').off('click').on('click', function() {
-                window.location.href = viewUrl; 
-            });
-
-            $('#cancelView').on('click', function() {
-                $('#viewConfirmationModal').addClass('hidden'); 
             });
         });
     </script>
@@ -393,9 +325,10 @@
 
         .btn-primary:hover {
             background-color: #15803d;
-            
+
         }
-        .view-btn{
+
+        .view-btn {
             text-decoration: none;
             color: #fff;
             padding: 6px 10px;
@@ -421,9 +354,7 @@
             background-color: darkred;
         }
 
-        #confirmationModal,
-        #editConfirmationModal,
-        #viewConfirmationModal {
+        #confirmationModal{
             z-index: 50;
             backdrop-filter: blur(5px);
             animation: fadeInBackdrop 0.4s ease-out;
@@ -439,9 +370,7 @@
             }
         }
 
-        #confirmationModal .bg-white,
-        #editConfirmationModal .bg-white,
-        #viewConfirmationModal .bg-white {
+        #confirmationModal .bg-white {
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
@@ -462,9 +391,7 @@
             }
         }
 
-        #confirmationModal h2,
-        #editConfirmationModal h2,
-        #viewConfirmationModal h2 {
+        #confirmationModal h2 {
             font-size: 18px;
             font-weight: bold;
             text-align: center;
@@ -477,19 +404,8 @@
             color: #fff;
         }
 
-        #editConfirmationModal h2 {
-            background: linear-gradient(90deg, #4CAF50, #2E7D32);
-            color: #fff;
-        }
-
-        #viewConfirmationModal h2 {
-            background: linear-gradient(90deg, #2196F3, #1976D2);
-            color: white;
-        }
-
-        #confirmationModal p,
-        #editConfirmationModal p,
-        #viewConfirmationModal p {
+        #confirmationModal p
+       {
             font-size: 16px;
             color: #4B5563;
             text-align: center;
@@ -497,17 +413,13 @@
             line-height: 1.4;
         }
 
-        #confirmationModal .flex,
-        #editConfirmationModal .flex,
-        #viewConfirmationModal .flex {
+        #confirmationModal .flex {
             justify-content: center;
             gap: 12px;
             padding: 0;
         }
 
-        #confirmationModal button,
-        #editConfirmationModal button,
-        #viewConfirmationModal button {
+        #confirmationModal button{
             border: none;
             padding: 8px 20px;
             font-size: 14px;
@@ -522,37 +434,29 @@
             margin-bottom: 1rem;
         }
 
-        #confirmationModal button:hover,
-        #editConfirmationModal button:hover,
-        #viewConfirmationModal button:hover {
+        #confirmationModal button:hove {
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
-        #cancelDelete,
-        #editconfirmCancel,
-        #viewConfirmationModal #cancelView {
+        #cancelDelete {
             background-color: #E5E7EB;
             color: #374151;
         }
 
-        #cancelDelete:hover,
-        #editconfirmCancel:hover,
-        #viewConfirmationModal #cancelView:hover {
+        #cancelDelete:hover {
             background-color: #D1D5DB;
         }
 
-      
-        #editconfirmSubmit,
-        #viewConfirmationModal #confirmView {
+
+        #editconfirmSubmit {
             background: linear-gradient(90deg, #2196F3, #1976D2);
             color: white;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         }
 
-      
-        #editconfirmSubmit:hover,
-        #viewConfirmationModal #confirmView:hover {
+
+        #editconfirmSubmit:hover {
             background: linear-gradient(90deg, #1976D2, #1565C0);
         }
     </style>

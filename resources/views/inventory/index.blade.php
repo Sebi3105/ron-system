@@ -126,10 +126,7 @@
     .flex-1 {
         flex-grow: 1;
     }
-
-    #confirmationModal,
-        #editConfirmationModal,
-        #viewConfirmationModal {
+    #confirmationModal{
             z-index: 50;
             backdrop-filter: blur(5px);
             animation: fadeInBackdrop 0.4s ease-out;
@@ -145,9 +142,7 @@
             }
         }
 
-        #confirmationModal .bg-white,
-        #editConfirmationModal .bg-white,
-        #viewConfirmationModal .bg-white {
+        #confirmationModal .bg-white {
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
@@ -168,9 +163,7 @@
             }
         }
 
-        #confirmationModal h2,
-        #editConfirmationModal h2,
-        #viewConfirmationModal h2 {
+        #confirmationModal h2 {
             font-size: 18px;
             font-weight: bold;
             text-align: center;
@@ -183,19 +176,8 @@
             color: #fff;
         }
 
-        #editConfirmationModal h2 {
-            background: linear-gradient(90deg, #4CAF50, #2E7D32);
-            color: #fff;
-        }
-
-        #viewConfirmationModal h2 {
-            background: linear-gradient(90deg, #2196F3, #1976D2);
-            color: white;
-        }
-
-        #confirmationModal p,
-        #editConfirmationModal p,
-        #viewConfirmationModal p {
+        #confirmationModal p
+       {
             font-size: 16px;
             color: #4B5563;
             text-align: center;
@@ -203,17 +185,13 @@
             line-height: 1.4;
         }
 
-        #confirmationModal .flex,
-        #editConfirmationModal .flex,
-        #viewConfirmationModal .flex {
+        #confirmationModal .flex {
             justify-content: center;
             gap: 12px;
             padding: 0;
         }
 
-        #confirmationModal button,
-        #editConfirmationModal button,
-        #viewConfirmationModal button {
+        #confirmationModal button{
             border: none;
             padding: 8px 20px;
             font-size: 14px;
@@ -228,37 +206,29 @@
             margin-bottom: 1rem;
         }
 
-        #confirmationModal button:hover,
-        #editConfirmationModal button:hover,
-        #viewConfirmationModal button:hover {
+        #confirmationModal button:hove {
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
-        #cancelDelete,
-        #editconfirmCancel,
-        #viewConfirmationModal #cancelView {
+        #cancelDelete {
             background-color: #E5E7EB;
             color: #374151;
         }
 
-        #cancelDelete:hover,
-        #editconfirmCancel:hover,
-        #viewConfirmationModal #cancelView:hover {
+        #cancelDelete:hover {
             background-color: #D1D5DB;
         }
 
-      
-        #editconfirmSubmit,
-        #viewConfirmationModal #confirmView {
+
+        #editconfirmSubmit {
             background: linear-gradient(90deg, #2196F3, #1976D2);
             color: white;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         }
 
-      
-        #editconfirmSubmit:hover,
-        #viewConfirmationModal #confirmView:hover {
+
+        #editconfirmSubmit:hover {
             background: linear-gradient(90deg, #1976D2, #1565C0);
         }
 </style>
@@ -439,44 +409,6 @@
     </div>
 </div>
 
-<div id="editConfirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
-    <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
-        <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-blue-500 to-blue-700 p-4 rounded-t-lg">
-            Confirmation
-        </h2>
-        <p class="text-gray-700 text-center mb-6">
-            Are you sure you want to edit this item?
-        </p>
-        <div class="flex justify-center gap-4">
-            <button id="editcancelEdit" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-200 transition">
-                Cancel
-            </button>
-            <button id="editconfirmEdit" class="px-6 py-3 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-md hover:from-green-600 hover:to-green-800 transition">
-                Confirm
-            </button>
-        </div>
-    </div>
-</div>
-
-           <!-- view Confirmation Modal -->
-           <div id="viewConfirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
-        <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
-            <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-blue-500 to-blue-700 p-4 rounded-t-lg">
-                Confirmation
-            </h2>
-            <p class="text-gray-700 text-center mb-6">
-                Are you sure you want to view this item?
-            </p>
-            <div class="flex justify-center gap-4">
-                <button id="cancelView" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-300 transition">
-                    Cancel
-                </button>
-                <button id="confirmView" class="px-6 py-3 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-md hover:from-green-600 hover:to-green-800 transition">
-                    Confirm
-                </button>
-            </div>
-        </div>
-    </div>
 
 
 <script src="{{ asset('js/confirmation.js') }}"></script>
@@ -586,9 +518,9 @@
                 render: function(data, type, row) {
                     return `
                         <div class="flex space-x-2 items-center justify-center">
-                           <a data-url="/inventory/${row.product_id}/serials" class="bg-navy-blue text-white py-1 px-2 rounded view-btn">View Serials</a>
+                           <a href="/inventory/${row.product_id}/serials" class="bg-navy-blue text-white py-1 px-2 rounded">View Serials</a>
 
-                            <a href="/inventory/${row.product_id}/edit" class="bg-custom-green text-white py-1 px-2 rounded btn-primary">Edit</a>
+                            <a href="/inventory/${row.product_id}/edit" class="bg-custom-green text-white py-1 px-2 rounded">Edit</a>
                             <button class="bg-red-500 text-white py-1 px-2 rounded delete-btn" data-url="/inventory/${row.product_id}">Delete</button>
                         </div>
                     `;
@@ -625,21 +557,7 @@
         table.search(this.value).draw();  // Apply search to the DataTable
     });
 
-    $('#inventory tbody').on('click', '.view-btn', function (event) {
-    event.preventDefault(); // Prevent default navigation
-    var viewUrl = $(this).data('url'); // Get the URL from the data-url attribute
-    $('#viewConfirmationModal').removeClass('hidden'); // Show the modal
-
-    // Handle confirmation
-    $('#confirmView').off('click').on('click', function () {
-        window.location.href = viewUrl; // Navigate to the URL
-    });
-
-    // Handle cancellation
-    $('#cancelView').on('click', function () {
-        $('#viewConfirmationModal').addClass('hidden'); // Hide the modal
-    });
-});
+   
 
 
         // Filter and reset functionality
@@ -683,44 +601,7 @@ $('#resetFilter').on('click', function() {
 });
 
 
-    $(document).ready(function () {
-        // Check if your script is loading and listening
-        console.log("Script Loaded");
-
-        // Event delegation for dynamically added `.btn-primary` buttons
-        $('#inventory tbody').on('click', '.btn-primary', function (e) {
-            e.preventDefault();
-            
-            // Log the clicked edit button to make sure it's working
-            console.log("Edit Button Clicked");
-
-            var editUrl = $(this).attr('href');
-            
-            // Show the confirmation modal
-            $('#editConfirmationModal').removeClass('hidden');
-            
-            // Store the editUrl temporarily in a data attribute
-            $('#editconfirmEdit').data('edit-url', editUrl);
-        });
-
-        // Handle confirmation (only bind this once)
-        $('#editconfirmEdit').off('click').on('click', function () {
-            var editUrl = $(this).data('edit-url');
-            if (editUrl) {
-                console.log("Redirecting to:", editUrl); // Log for debugging
-                window.location.href = editUrl;
-            }
-            // Hide the modal after confirmation
-            $('#editConfirmationModal').addClass('hidden');
-        });
-
-        // Handle cancellation (only bind this once)
-        $('#editcancelEdit').off('click').on('click', function () {
-            console.log("Modal Closed");
-            // Hide the modal on cancellation
-            $('#editConfirmationModal').addClass('hidden');
-        });
-    });
+   
 
     $('#inventory tbody').on('click', '.delete-btn', function () {
         var deleteUrl = $(this).data('url');

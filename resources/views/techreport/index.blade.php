@@ -137,7 +137,13 @@
                       <td class="p-2 text-center bg-gray-100 border-b border-gray-300">{{ $technician->name }}</td>
                       <td class="p-2 text-center bg-gray-100 border-b border-gray-300">{{ $technician->contact_no ? '+63 ' . $technician->contact_no : 'N/A' }}</td>
                       <td class="p-2 flex bg-gray-100 items-center justify-center border-b border-gray-300">
-                      <button id="editButton" class="bg-navy-blue text-white mr-2 py-1 px-2 rounded edit-techprofile" data-url="{{ route('techprofile.edit', $technician) }}">Edit</button>
+                      <button 
+    id="editButton" 
+    class="bg-navy-blue text-white mr-2 py-1 px-2 rounded edit-techprofile"
+    onclick="window.location.href='{{ route('techprofile.edit', $technician) }}'">
+    Edit
+</button>
+
                       <button class="bg-red-500 text-white py-1 px-2 rounded delete-techprofile" data-url="{{ route('techprofile.delete', $technician->technician_id) }}">Delete</button>
                       </td>
                     </tr>
@@ -190,45 +196,6 @@
     </div>
 </div>
 
-<!-- Edit Confirmation Modal -->
-<div id="editConfirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
-    <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
-        <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-blue-500 to-blue-700 p-4 rounded-t-lg">
-            Confirmation
-        </h2>
-        <p class="text-gray-700 text-center mb-6">
-            Are you sure you want to edit this item?
-        </p>
-        <div class="flex justify-center gap-4">
-            <button id="cancelEdit" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-300 transition">
-                Cancel
-            </button>
-            <button id="confirmEdit" class="px-6 py-3 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-md hover:from-green-600 hover:to-green-800 transition">
-                Confirm
-            </button>
-        </div>
-    </div>
-</div>
-
-<!-- View Confirmation Modal -->
-<div id="viewConfirmationModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
-    <div class="bg-white max-w-sm w-full rounded-md shadow-lg">
-        <h2 class="text-lg font-bold mb-4 text-white bg-gradient-to-r from-blue-500 to-blue-700 p-4 rounded-t-lg">
-            Confirmation
-        </h2>
-        <p class="text-gray-700 text-center mb-6">
-            Are you sure you want to view this item?
-        </p>
-        <div class="flex justify-center gap-4">
-            <button id="cancelView" class="px-6 py-3 bg-gray-200 text-black rounded-md hover:bg-gray-300 transition">
-                Cancel
-            </button>
-            <button id="confirmView" class="px-6 py-3 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-md hover:from-green-600 hover:to-green-800 transition">
-                Confirm
-            </button>
-        </div>
-    </div>
-</div>
 
 <script src="{{ asset('js/confirmation.js') }}"></script>
 <script>
@@ -274,8 +241,8 @@
             render: function(data, type, row) {
                 return `
                     <div class="flex space-x-2 items-center justify-center">
-                        <a href="javascript:void(0)"  data-url="/techreport/${row.report_id}/view"  class="bg-navy-blue text-white py-1 px-2 rounded view-btn">View</a>
-                        <a href="/techreport/${row.report_id}/edit" class="bg-custom-green text-white py-1 px-2 rounded btn-primary">Edit</a>
+                        <a href="/techreport/${row.report_id}/view"  class="bg-navy-blue text-white py-1 px-2 rounded">View</a>
+                        <a href="/techreport/${row.report_id}/edit" class="bg-custom-green text-white py-1 px-2 rounded">Edit</a>
                         <button class="bg-red-500 text-white py-1 px-2 rounded delete-btn" data-url="/techreport/${row.product_id}/delete">Delete</button>
                     </div>
                 `;
@@ -342,42 +309,6 @@
     });
 
 
-    $(document).ready(function () {
-    // Event delegation for edit buttons
-    $('#techreport tbody').on('click', '.btn-primary', function (e) {
-        e.preventDefault();
-        
-        console.log("Edit Button Clicked");
-
-        // Get the edit URL from the clicked button's href
-        var editUrl = $(this).attr('href');
-        
-        // Show the confirmation modal
-        $('#editConfirmationModal').removeClass('hidden');
-        
-        // Store the editUrl temporarily in a data attribute of the confirm button
-        $('#confirmEdit').data('edit-url', editUrl);
-    });
-
-    // Confirm action
-    $('#confirmEdit').on('click', function () {
-        var editUrl = $(this).data('edit-url');
-        if (editUrl) {
-            console.log("Redirecting to:", editUrl);
-            window.location.href = editUrl;
-        }
-        // Hide the modal after confirmation
-        $('#ConfirmationModal').addClass('hidden');
-    });
-
-    // Cancel action
-    $('#cancelEdit').on('click', function () {
-        console.log("Modal Closed");
-        // Hide the modal on cancellation
-        $('#editConfirmationModal').addClass('hidden');
-    });
-});
-
 
 
     $('#techreport tbody').on('click', '.delete-btn', function() {
@@ -413,30 +344,6 @@
     });
 });
 
-
-$(document).ready(function () {
-    let editUrl = null; // Placeholder for the URL to redirect to
-
-    // Show confirmation modal when edit button is clicked
-    $('#techprofile').on('click', '.edit-techprofile', function (e) {
-        e.preventDefault(); // Prevent default link behavior
-        editUrl = $(this).data('url'); // Capture the edit URL
-        $('#editConfirmationModal').removeClass('hidden'); // Show modal
-    });
-
-    // Cancel edit: Hide modal
-    $('#cancelEdit').click(function () {
-        $('#editConfirmationModal').addClass('hidden'); // Hide modal
-        editUrl = null; // Reset URL
-    });
-
-    // Confirm edit: Redirect to the edit page
-    $('#confirmEdit').click(function () {
-        if (editUrl) {
-            window.location.href = editUrl; // Redirect if URL exists
-        }
-    });
-});
 
     
     $('#techprofile').on('click', '.delete-techprofile', function() {
@@ -507,21 +414,7 @@ $(document).ready(function () {
 
 });
 
-$('#techreport tbody').on('click', '.view-btn', function(event) {
-                        event.preventDefault(); // Prevent default navigation
-                        var viewUrl = $(this).data('url'); // Get the URL from the data-url attribute
-                        $('#viewConfirmationModal').removeClass('hidden'); // Show the modal
 
-                        // Handle confirmation
-                        $('#confirmView').off('click').on('click', function() {
-                            window.location.href = viewUrl; // Navigate to the URL
-                        });
-
-                        // Handle cancellation
-                        $('#cancelView').on('click', function() {
-                            $('#viewConfirmationModal').addClass('hidden'); // Hide the modal
-                        });
-                    });
 
 $(document).ready(function () {
     // Initialize DataTable for Technician table
@@ -647,140 +540,111 @@ $(document).ready(function () {
             margin-top: -2px;
             width: 60px;
         }
-        #confirmationModal,
-                    #editConfirmationModal,
-                    #viewConfirmationModal {
-                        z-index: 50;
-                        backdrop-filter: blur(5px);
-                        animation: fadeInBackdrop 0.4s ease-out;
-                    }
+        #confirmationModal{
+            z-index: 50;
+            backdrop-filter: blur(5px);
+            animation: fadeInBackdrop 0.4s ease-out;
+        }
 
-                    @keyframes fadeInBackdrop {
-                        from {
-                            opacity: 0;
-                        }
+        @keyframes fadeInBackdrop {
+            from {
+                opacity: 0;
+            }
 
-                        to {
-                            opacity: 1;
-                        }
-                    }
+            to {
+                opacity: 1;
+            }
+        }
 
-                    #confirmationModal .bg-white,
-                    #editConfirmationModal .bg-white,
-                    #viewConfirmationModal .bg-white {
-                        border-radius: 12px;
-                        overflow: hidden;
-                        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-                        animation: modalEntry 0.4s ease-out;
-                        max-width: 400px;
-                        margin: 0 auto;
-                    }
+        #confirmationModal .bg-white {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            animation: modalEntry 0.4s ease-out;
+            max-width: 400px;
+            margin: 0 auto;
+        }
 
-                    @keyframes modalEntry {
-                        from {
-                            opacity: 0;
-                            transform: scale(0.9);
-                        }
+        @keyframes modalEntry {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
 
-                        to {
-                            opacity: 1;
-                            transform: scale(1);
-                        }
-                    }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
 
-                    #confirmationModal h2,
-                    #editConfirmationModal h2,
-                    #viewConfirmationModal h2 {
-                        font-size: 18px;
-                        font-weight: bold;
-                        text-align: center;
-                        padding: 12px;
-                        margin: 0;
-                    }
+        #confirmationModal h2 {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            padding: 12px;
+            margin: 0;
+        }
 
-                    #confirmationModal h2 {
-                        background: linear-gradient(90deg, #FF4C4C, #C62828);
-                        color: #fff;
-                    }
+        #confirmationModal h2 {
+            background: linear-gradient(90deg, #FF4C4C, #C62828);
+            color: #fff;
+        }
 
-                    #editConfirmationModal h2 {
-                        background: linear-gradient(90deg, #4CAF50, #2E7D32);
-                        color: #fff;
-                    }
+        #confirmationModal p
+       {
+            font-size: 16px;
+            color: #4B5563;
+            text-align: center;
+            margin: 20px 0;
+            line-height: 1.4;
+        }
 
-                    #viewConfirmationModal h2 {
-                        background: linear-gradient(90deg, #2196F3, #1976D2);
-                        color: white;
-                    }
+        #confirmationModal .flex {
+            justify-content: center;
+            gap: 12px;
+            padding: 0;
+        }
 
-                    #confirmationModal p,
-                    #editConfirmationModal p,
-                    #viewConfirmationModal p {
-                        font-size: 16px;
-                        color: #4B5563;
-                        text-align: center;
-                        margin: 20px 0;
-                        line-height: 1.4;
-                    }
+        #confirmationModal button{
+            border: none;
+            padding: 8px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 3px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
 
-                    #confirmationModal .flex,
-                    #editConfirmationModal .flex,
-                    #viewConfirmationModal .flex {
-                        justify-content: center;
-                        gap: 12px;
-                        padding: 0;
-                    }
+        #confirmationModal button:hove {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
 
-                    #confirmationModal button,
-                    #editConfirmationModal button,
-                    #viewConfirmationModal button {
-                        border: none;
-                        padding: 8px 20px;
-                        font-size: 14px;
-                        font-weight: bold;
-                        border-radius: 3px;
-                        cursor: pointer;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        gap: 8px;
-                        transition: all 0.3s ease;
-                        margin-bottom: 1rem;
-                    }
+        #cancelDelete {
+            background-color: #E5E7EB;
+            color: #374151;
+        }
 
-                    #confirmationModal button:hover,
-                    #editConfirmationModal button:hover,
-                    #viewConfirmationModal button:hover {
-                        transform: translateY(-2px);
-                        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-                    }
-
-                    #cancelDelete,
-                    #editconfirmCancel,
-                    #viewConfirmationModal #cancelView {
-                        background-color: #E5E7EB;
-                        color: #374151;
-                    }
-
-                    #cancelDelete:hover,
-                    #editconfirmCancel:hover,
-                    #viewConfirmationModal #cancelView:hover {
-                        background-color: #D1D5DB;
-                    }
+        #cancelDelete:hover {
+            background-color: #D1D5DB;
+        }
 
 
-                    #editconfirmSubmit,
-                    #viewConfirmationModal #confirmView {
-                        background: linear-gradient(90deg, #2196F3, #1976D2);
-                        color: white;
-                        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-                    }
+        #editconfirmSubmit {
+            background: linear-gradient(90deg, #2196F3, #1976D2);
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
 
 
-                    #editconfirmSubmit:hover,
-                    #viewConfirmationModal #confirmView:hover {
-                        background: linear-gradient(90deg, #1976D2, #1565C0);
-                    }
+        #editconfirmSubmit:hover {
+            background: linear-gradient(90deg, #1976D2, #1565C0);
+        }
 
     </style>
                         
