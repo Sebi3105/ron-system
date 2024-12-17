@@ -60,7 +60,7 @@
                                         <th class="w-18 p-1 text-center bg-gray-100 border-b border-gray-300"">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody class="bg-gray-200">
+                <tbody class=" bg-gray-200">
                                             @foreach($sales as $key => $sale)
                                     <tr>
                                         <td class="p-2 border-b border-gray-400">{{ $key + 1 }}</td>
