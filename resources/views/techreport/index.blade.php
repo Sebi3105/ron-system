@@ -243,7 +243,7 @@
                     <div class="flex space-x-2 items-center justify-center">
                         <a href="/techreport/${row.report_id}/view"  class="bg-navy-blue text-white py-1 px-2 rounded">View</a>
                         <a href="/techreport/${row.report_id}/edit" class="bg-custom-green text-white py-1 px-2 rounded">Edit</a>
-                        <button class="bg-red-500 text-white py-1 px-2 rounded delete-btn" data-url="/techreport/${row.report_id}/delete">Delete</button>
+                        <button class="bg-red-500 text-white py-1 px-2 rounded delete-btn" data-url="/techreport/${row.product_id}/delete">Delete</button>
                     </div>
                 `;
             }
@@ -310,19 +310,14 @@
 
 
 
-
     $('#techreport tbody').on('click', '.delete-btn', function() {
     var deleteUrl = $(this).data('url');
-    // Show the confirmation modal
+    console.log('Delete URL:', deleteUrl);
+
     $('#confirmationModal').removeClass('hidden');
 
-    // Cancel the delete operation
-    $('#cancelDelete').on('click', function() {
-        $('#confirmationModal').addClass('hidden');
-    });
-
-    // Confirm the delete operation
-    $('#confirmDelete').on('click', function() {
+    $('#confirmDelete').off('click').on('click', function () {
+        console.log('Confirm delete clicked');
         $.ajax({
             url: deleteUrl,
             type: 'DELETE',
@@ -330,18 +325,24 @@
                 _token: '{{ csrf_token() }}'
             },
             success: function(response) {
+                console.log('Delete success:', response);
                 alert('Item deleted successfully!');
                 // Reload the DataTable
-                $('#techreport').DataTable().ajax.reload();
+                location.reload(); // Consider reloading the table for simplicity
             },
             error: function(xhr) {
-                console.log('Error deleting item: ' + (xhr.responseJSON.message || 'An unexpected error occurred.'));
+                console.error('Error deleting item:', xhr.responseJSON || xhr.responseText);
             },
             complete: function() {
                 $('#confirmationModal').addClass('hidden');
             }
         });
     });
+});
+
+$('#cancelDelete').on('click', function() {
+    console.log('Cancel delete clicked');
+    $('#confirmationModal').addClass('hidden');
 });
 
 
