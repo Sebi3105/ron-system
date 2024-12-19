@@ -600,43 +600,40 @@ $('#resetFilter').on('click', function() {
     $('#filterDropdown').addClass('hidden'); // Hide the dropdown after resetting
 });
 
+$('#techreport tbody').on('click', '.delete-btn', function() {
+    var deleteUrl = $(this).data('url');
 
-   
+    // Show the confirmation modal
+    $('#confirmationModal').removeClass('hidden');
 
-    $('#inventory tbody').on('click', '.delete-btn', function () {
-        var deleteUrl = $(this).data('url');
+    // Handle cancel operation
+    $('#cancelDelete').off('click').on('click', function() {
+        $('#confirmationModal').addClass('hidden');
+    });
 
-        // Show the modal
-        $('#confirmationModal').removeClass('hidden');
-
-        // Handle the confirm button click
-        $('#confirmDelete').off('click').on('click', function () {
-            // Make the AJAX request to delete the item
-            $.ajax({
-                url: deleteUrl,
-                type: 'DELETE',
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function (response) {
-                    alert('Item deleted successfully!');
-                    table.ajax.reload(); // Reload the data table
-                },
-                error: function (xhr) {
-                    console.log('Error deleting item: ' + (xhr.responseJSON?.message || 'An unexpected error occurred.'));
-                }
-            });
-
-            // Hide the modal after confirmation
-            $('#confirmationModal').addClass('hidden');
-        });
-
-    // Handle the cancel button click
-    $('#cancelDelete').off('click').on('click', function () {
-            // Simply hide the modal
-            $('#confirmationModal').addClass('hidden');
+    // Handle confirm operation
+    $('#confirmDelete').off('click').on('click', function() {
+        $.ajax({
+            url: deleteUrl,
+            type: 'DELETE',
+            data: { _token: '{{ csrf_token() }}' },
+            success: function(response) {
+                alert('Item deleted successfully!');
+                // Reload the DataTable
+                $('#techreport').DataTable().ajax.reload();
+            },
+            error: function(xhr) {
+                console.log('Error deleting item: ' + (xhr.responseJSON.message || 'An unexpected error occurred.'));
+            },
+            complete: function() {
+                // Hide the confirmation modal
+                $('#confirmationModal').addClass('hidden');
+            }
         });
     });
+});
+
+
 
 
     // Delete category

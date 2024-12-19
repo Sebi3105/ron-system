@@ -291,10 +291,14 @@ class TechReportController extends Controller
 
         public function delete(TechReport $techreport)
         {
-            $techreport->delete();
-            return response()->json(['message' => 'TechReport Deleted Successfully'], 200); // Successful deletion response
+            try {
+                $techreport->delete();
+                return response()->json(['message' => 'TechReport Deleted Successfully'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['message' => 'Error deleting TechReport: ' . $e->getMessage()], 500);
+            }
         }
-
+        
         public function softDeleted()
         {
             // Eager load the relationships: customer, inventory, and inventoryItem
