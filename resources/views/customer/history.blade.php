@@ -12,7 +12,7 @@
                 <h1 class="text-lg font-bold">Purchased History for {{ $customer->name }}</h1>
             </header>
 
-            <!-- Back to Inventory Button -->
+            <!-- Back to Customer List Button -->
             <div class="flex justify-start mt-20 md:mt-24 px-4">
                 <a href="{{ route('customer.index') }}" class="back-btn flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5 mr-2">
@@ -23,51 +23,60 @@
                 </a>
             </div>
 
+            <!-- Customer Details Section -->
+            <div id="customerDetails" class="bg-white p-4 rounded shadow mb-4">
+                <h2 class="text-lg font-semibold">Customer Details</h2>
+                <p><strong>Name:</strong> {{ $customer->name }}</p>
+                <p><strong>Address:</strong> {{ $customer->address }}</p>
+                <p><strong>Contact No:</strong> {{ $customer->contact_no }}</p>
+            </div>
+
             <div class="flex justify-center px-12 py-4">
-    <div class="overflow-hidden  shadow-md bg-white w-full max-w-5xl">
-        <table id="sales" class="min-w-full table-fixed">
-            <thead class="bg-blue-500 text-white">
-                <tr>
-                    <th class="py-2 px-4 text-left">#</th>
-                    <th class="py-2 px-4 text-left">Customer Name</th>
-                    <th class="py-2 px-4 text-left">Product Name</th>
-                    <th class="py-2 px-4 text-left">Serial Number</th>
-                    <th class="py-2 px-4 text-left">State</th>
-                    <th class="py-2 px-4 text-left">Sale Date</th>
-                    <th class="py-2 px-4 text-left">Amount</th>
-                    <th class="py-2 px-4 text-left">Payment Type</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if ($sales->isEmpty())
-                    <tr>
-                        <td colspan="8" class="py-2 px-4 text-center">No sales data available for this customer.</td>
-                    </tr>
-                @else
-                    @foreach($sales as $key => $sale)
-                        <tr class="hover:bg-gray-100 border-b border-gray-300">
-                            <td class="py-2 px-4">{{ $key + 1 }}</td>
-                            <td class="py-2 px-4">{{ $sale->customer->name }}</td>
-                            <td class="py-2 px-4">{{ $sale->inventory->product_name }}</td>
-                            <td class="py-2 px-4">{{ $sale->inventoryItem->serial_number }}</td>
-                            <td class="py-2 px-4">{{ $sale->state }}</td>
-                            <td class="py-2 px-4">{{ $sale->sale_date->format('Y-m-d') }}</td>
-                            <td class="py-2 px-4">{{ number_format($sale->amount, 2) }}</td>
-                            <td class="py-2 px-4">{{ ucfirst($sale->payment_type) }}</td>
-                        </tr>
-                    @endforeach
-                @endif
-            </tbody>
-        </table>
+                <div class="overflow-hidden shadow-md bg-white w-full max-w-5xl">
+                    <table id="sales" class="min-w-full table-fixed">
+                        <thead class="bg-blue-500 text-white">
+                            <tr>
+                                <th class="py-2 px-4 text-left">#</th>
+                                <th class="py-2 px-4 text-left">Product Name</th>
+                                <th class="py-2 px-4 text-left">Serial Number</th>
+                                <th class="py-2 px-4 text-left">State</th>
+                                <th class="py-2 px-4 text-left">Sale Date</th>
+                                <th class="py-2 px-4 text-left">Amount</th>
+                                <th class="py-2 px-4 text-left">Payment Type</th>
+                                <th class="py-2 px-4 text-left">Payment Method</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if ($sales->isEmpty())
+                                <tr>
+                                    <td colspan="8" class="py-2 px-4 text-center">No sales data available for this customer.</td>
+                                </tr>
+                            @else
+                                @foreach($sales as $key => $sale)
+                                    <tr class="hover:bg-gray-100 border-b border-gray-300">
+                                        <td class="py-2 px-4">{{ $key + 1 }}</td>
+                                        <td class="py-2 px-4">{{ $sale->inventory->product_name }}</td>
+                                        <td class="py-2 px-4">{{ $sale->inventoryItem->serial_number }}</td>
+                                        <td class="py-2 px-4">{{ $sale->state }}</td>
+                                        <td class="py-2 px-4">{{ $sale->sale_date->format('Y-m-d') }}</td>
+                                        <td class="py-2 px-4">{{ number_format($sale->amount, 2) }}</td>
+                                        <td class="py-2 px-4">{{ ucfirst($sale->payment_type) }}</td>
+                                        <td class="py-2 px-4">{{ ucfirst($sale->payment_method) }}</td>
+
+                                    </tr>
+                                @endforeach
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-
-
 
     <style>
-      body{
-        background-color: #F3F4F6;
-      }
+        body {
+            background-color: #F3F4F6;
+        }
 
         @media (max-width: 768px) {
             .fixed {

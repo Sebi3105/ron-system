@@ -32,11 +32,9 @@ class CustomerController extends Controller
             ->addColumn('action', function($row) {
                 $viewUrl = route('customer.history',$row->customer_id);
                 $editUrl = route('customer.edit', $row->customer_id);
-                $deleteUrl = route('customer.delete', $row->customer_id);
                 
                 return '<a href="' . $viewUrl . '" class="btn btn-sm btn-secondary">View History</a><br>
-                        <a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>
-                        <button data-url="' . $deleteUrl . '" class="btn btn-sm btn-danger delete-btn">Delete</button>';
+                        <a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>';
             })
             ->rawColumns(['action'])
             ->make(true);

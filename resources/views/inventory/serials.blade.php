@@ -635,56 +635,38 @@
 
             ;
             $(document).ready(function() {
-                var deleteUrl = '';
+    let deleteUrl = '';
 
-                // Show modal when delete button is clicked
-                $('#serials tbody').on('click', '.delete-btn', function() {
-                    deleteUrl = $(this).data('url'); // Kunin ang URL mula sa button
-                    $('#confirmationModal').removeClass('hidden');
-                });
+    // Show modal when delete button is clicked
+    $('#serials tbody').on('click', '.delete-btn', function() {
+        deleteUrl = $(this).data('url'); // Get the URL from the button
+        $('#confirmationModal').removeClass('hidden'); // Show the modal
+    });
 
-                // Handle cancel button
-                $('#cancelDelete').on('click', function() {
-                    $('#confirmationModal').addClass('hidden');
-                });
+    // Handle cancel button
+    $('#cancelDelete').on('click', function() {
+        $('#confirmationModal').addClass('hidden'); // Hide the modal
+    });
 
-                // Handle confirm button
-                $('#confirmDelete').on('click', function() {
-                    $.ajax({
-                        url: deleteUrl,
-                        type: 'DELETE',
-                        data: {
-                            _token: '{{ csrf_token() }}'
-                        },
-                        success: function(response) {
-                            alert('Item deleted successfully!');
-                            $('#serials').DataTable().ajax.reload();
-                            $('#confirmationModal').addClass('hidden');
-                        },
-                        error: function(xhr) {
-                            console.log('Error deleting item:', xhr.responseText);
-                            alert('An error occurred while deleting the item.');
-                            $('#confirmationModal').addClass('hidden');
-                        }
+    // Handle confirm button
+    $('#confirmDelete').on('click', function() {
+        $.ajax({
+            url: deleteUrl, // Use the stored URL
+            type: 'DELETE',
+            data: {
+                _token: '{{ csrf_token() }}' // Include CSRF token for security
+            },
+            success: function(response) {
+                alert('Item deleted successfully!'); // Notify user of success
+                table.ajax.reload(); // Reload the DataTable
+                $('#confirmationModal').addClass('hidden'); // Hide the modal
+            },
+            error: function(xhr) {
+                console.log('Error deleting item:', xhr.responseText); // Log error
+                alert('An error occurred while deleting the item.'); // Notify user of error
+                $('#confirmationModal').addClass('hidden'); // Hide the modal
+            }
                     });
-                });
-            });
-
-
-            $('#confirmDelete').on('click', function() {
-                $.ajax({
-                    url: deleteUrl,
-                    type: 'DELETE',
-                    data: {
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function() {
-                        $('#toast-success').removeClass('hidden').delay(3000).fadeOut();
-                        table.ajax.reload();
-                    },
-                    error: function() {
-                        alert('An error occurred while deleting the item.');
-                    }
                 });
             });
 

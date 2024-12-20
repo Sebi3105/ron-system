@@ -82,44 +82,55 @@
         return redirect()->route('sales.index')->with('success', 'Sale deleted successfully.');
     }
 
-        public function store(Request $request)
-{
-    // Validate the incoming request data
-    $validatedData = $request->validate([
-        'customer_id' => 'required|exists:customer,customer_id',
-        'inventory_id' => 'required|exists:inventory,product_id',
-        'serials' => 'required|exists:inventory_item,sku_id',
-        'state' => 'required|in:reserved,for_pickup,for_delivery',
-        'sale_date' => 'required|date',
-        'amount' => 'required|numeric|min:0',
-        'payment_method' => 'required|in:installment,full_payment',
-        'payment_type' => 'required|in:credit_card,cash,gcash,paymaya',
-    ]);
-
-    // Create a new sale record
-    $sale = Sales::create([
-        'customer_id' => $validatedData['customer_id'],
-        'product_id' => $validatedData['inventory_id'],
-        'serial_number' => $validatedData['serials'], // Store sku_id as serial_number
-        'state' => $validatedData['state'],
-        'sale_date' => $validatedData['sale_date'],
-        'amount' => $validatedData['amount'],
-        'payment_method' => $validatedData['payment_method'],
-        'payment_type' => $validatedData['payment_type'],
-    ]);
-
-    // Decrease the quantity of the inventory item
-    $inventoryItem = InventoryItem::where('sku_id', $validatedData['serials'])->first();
-    if ($inventoryItem) {
-        $inventory = Inventory::find($validatedData['inventory_id']);
-        if ($inventory) {
-            $inventory->decrement('quantity'); // Decrease the quantity by 1
+    public function store(Request $request)
+    {
+        // Validate the incoming request data
+        $validatedData = $request->validate([
+            'customer_id' => 'required|exists:customer,customer_id',
+            'inventory_id' => 'required|exists:inventory,product_id',
+            'serials' => 'required|exists:inventory_item,sku_id',
+            'state' => 'required|in:reserved,for_pickup,for_delivery',
+            'sale_date' => 'required|date',
+            'amount' => 'required|numeric|min:0',
+            'payment_method' => 'required|in:installment,full_payment',
+            'payment_type' => 'required|in:credit_card,cash,gcash,paymaya',
+        ]);
+    
+        // Create a new sale record
+        $sale = Sales::create([
+            'customer_id' => $validatedData['customer_id'],
+            'product_id' => $validatedData['inventory_id'],
+            'serial_number' => $validatedData['serials'], // Store sku_id as serial_number
+            'state' => $validatedData['state'],
+            'sale_date' => $validatedData['sale_date'],
+            'amount' => $validatedData['amount'],
+            'payment_method' => $validatedData['payment_method'],
+            'payment_type' => $validatedData['payment_type'],
+        ]);
+    
+        // Decrease the quantity of the inventory item
+        $inventoryItem = InventoryItem::where('sku_id', $validatedData['serials'])->first();
+        if ($inventoryItem) {
+            $inventory = Inventory::find($validatedData['inventory_id']);
+            if ($inventory) {
+                $inventory->decrement('quantity'); // Decrease the quantity by 1
+    
+                // Check the new quantity and update the status
+                if ($inventory->quantity <= 0) {
+                    $inventory->status = 'out_of_stock';
+                } elseif ($inventory->quantity <= 3) {
+                    $inventory->status = 'low_stock';
+                } else {
+                    $inventory->status = 'in_stock'; // Assuming you have a status for in stock
+                }
+                $inventory->save(); // Save the updated inventory status
+            }
         }
+    
+        // Redirect to the sales index with a success message
+        return redirect()->route('sales.index')->with('success', 'Sale created successfully.');
     }
-
-    // Redirect to the sales index with a success message
-    return redirect()->route('sales.index')->with('success', 'Sale created successfully.');
-}
+    
 
 public function getSerials($id)
 {
@@ -136,8 +147,6 @@ public function show($id)
 {
     // Fetch related technician reports
   
-    
-
     
     // \Log::info('Fetched Technician Reports:', $techreport->toArray());
     $sale = Sales::with(['customer', 'inventory', 'inventoryItem'])->findOrFail($id);

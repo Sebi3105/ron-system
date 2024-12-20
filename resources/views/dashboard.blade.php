@@ -33,36 +33,48 @@
                     <!-- Box 1 -->
                     <div class="bg-white shadow-lg rounded-md p-6 h-48 flex items-center justify-center">
                         <div class="flex flex-col items-center">
-                            <i class="fas fa-shopping-bag text-4xl text-gray-500 mb-2"></i>
-                            <h3 class="text-xl font-semibold">Total Inventory: {{ $inventoryCount }}</h3>
+                            <a href="{{ route('inventory.index') }}" class="flex flex-col items-center">
+                                <i class="fas fa-shopping-bag text-4xl text-gray-500 mb-2"></i>
+                                <h3 class="text-xl font-semibold">Total Inventory: {{ $inventoryCount }}</h3>
+                            </a>
                         </div>
                     </div>
+
 
                     <!-- Box 2 -->
                     <div class="bg-white shadow-lg rounded-md p-6 h-48 flex items-center justify-center">
                         <div class="flex flex-col items-center">
-                            <i class="fas fa-users text-4xl text-gray-500 mb-2"></i>
-                            <h3 class="text-xl font-semibold">Total Customers: {{ $customerCount }}</h3>
+                            <a href="{{ route('customer.index') }}" class="flex flex-col items-center">
+                                <i class="fas fa-users text-4xl text-gray-500 mb-2"></i>
+                                <h3 class="text-xl font-semibold">Total Customers: {{ $customerCount }}</h3>
+                            </a>
                         </div>
                     </div>
+
 
                     <!-- Box 3 -->
                     <div class="bg-white shadow-lg rounded-md p-6 h-48 flex items-center justify-center">
                         <div class="flex flex-col items-center">
-                            <i class="fas fa-dollar-sign text-4xl text-blue-500 mb-2"></i>
-                            <h3 class="text-xl font-semibold">Total Sales: {{ $totalSales }}</h3>
+                            <a href="{{ route('sales.index') }}" class="flex flex-col items-center">
+                                <i class="fas fa-dollar-sign text-4xl text-blue-500 mb-2"></i>
+                                <h3 class="text-xl font-semibold">Total Sales: {{ $totalSales }}</h3>
+                            </a>
                         </div>
                     </div>
+
                     <!-- Box 4 -->
-                <div class="bg-white shadow-lg rounded-md p-6 h-48 flex items-center justify-center">
-                    <div class="flex flex-col items-center">
-                        <div class="flex items-center">
-                            <i class="fas fa-hard-hat text-4xl text-gray-500 mr-2"></i>
-                            <i class="fas fa-wrench text-4xl text-gray-500"></i>
+                    <div class="bg-white shadow-lg rounded-md p-6 h-48 flex items-center justify-center">
+                        <div class="flex flex-col items-center">
+                            <a href="{{ route('techreport.index') }}" class="flex flex-col items-center">
+                                <div class="flex items-center">
+                                    <i class="fas fa-hard-hat text-4xl text-gray-500 mr-2"></i>
+                                    <i class="fas fa-wrench text-4xl text-gray-500"></i>
+                                </div>
+                                <h3 class="text-xl font-semibold">Total Reports: {{ $technicianReportCount }}</h3>
+                            </a>
                         </div>
-                        <h3 class="text-xl font-semibold">Total Reports: {{ $technicianReportCount }}</h3>
                     </div>
-                </div>
+
                 </div>
             </div>
         </div>

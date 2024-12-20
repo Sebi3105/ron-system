@@ -528,7 +528,7 @@
             },
         ],
         rowCallback: function(row, data) {
-            if (data.quantity <= 4) {
+            if (data.quantity <= 3) {
                 $(row).css('background-color', '#fff3cd'); // Light yellow
             }
             if (data.quantity <= 1) {

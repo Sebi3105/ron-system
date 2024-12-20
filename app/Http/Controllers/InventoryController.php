@@ -147,7 +147,7 @@ class InventoryController extends Controller
     {
         if ($quantity <= 0) {
             return 'out_of_stock';
-        } elseif ($quantity <= 4) {
+        } elseif ($quantity <= 3) {
             return 'low_stock';
         }
         return 'available';

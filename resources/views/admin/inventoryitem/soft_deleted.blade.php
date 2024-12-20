@@ -455,6 +455,13 @@
                     background-color: #D1D5DB;
                 }
             </style>
+                        <div class="success_pop mb-4">
+                    @if(session()->has('success'))
+                    <div class="bg-green-500 text-white p-2 rounded">
+                        {{ session('success') }}
+                    </div>
+                    @endif
+                </div>
             <div class="container mx-auto p-4">
                 <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
                     <div class="relative w-full md:w-1/2">
@@ -590,12 +597,13 @@
     const cancelModal = document.getElementById('cancelModal');
     const cancelModalClose = document.getElementById('cancelModalClose');
     const confirmCancel = document.getElementById('confirmCancel');
-    const cancelconfirmationModal = document.getElementById('cancelconfirmationModal');
-    const createUserForm = document.getElementById('categorydel');
+    const deleteButton = document.getElementById('cancelconfirmationModal');
+    let formToSubmit; // Variable to hold the form to submit
 
     // Show cancel modal when "Delete" button is clicked
-    cancelconfirmationModal.addEventListener('click', function (event) {
+    deleteButton.addEventListener('click', function (event) {
         event.preventDefault(); // Prevent the default form submission
+        formToSubmit = event.target.closest('form'); // Get the closest form
         cancelModal.classList.remove('hidden'); // Show cancel modal
     });
 
@@ -606,11 +614,11 @@
 
     // Submit form when "Confirm" button in cancel modal is clicked
     confirmCancel.addEventListener('click', function () {
-        console.log('Submitting form...');
-        createUserForm.submit(); // Submit the form
+        if (formToSubmit) {
+            formToSubmit.submit(); // Submit the form
+        }
     });
 });
-
         </script>
 
 </x-app-layout>

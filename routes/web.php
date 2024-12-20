@@ -58,7 +58,7 @@ Route::middleware('auth')->group(function () {
     Route::get('inventoryitem/create/{product_id}', [InventoryitemController::class, 'create'])->name('inventoryitem.create');
     Route::get('inventory/{product_id}/serials', [InventoryitemController::class, 'search'])->name('inventoryitem.serials');
     Route::get('/inventory/{product_id}/serials', [InventoryitemController::class, 'showSerials'])->name('inventoryitem.serials');
-    Route::delete('/inventoryitem/{inventoryitem}/delete', [InventoryitemController::class, 'delete'])->name('inventoryitem.delete');
+    Route::delete('/inventoryitem/{inventoryitem}', [InventoryitemController::class, 'delete'])->name('inventoryitem.delete');
 
 
     //service routes

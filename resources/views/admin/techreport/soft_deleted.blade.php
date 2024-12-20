@@ -459,6 +459,13 @@
                     background-color: #D1D5DB;
                 }
             </style>
+                        <div class="success_pop mb-4">
+                    @if(session()->has('success'))
+                    <div class="bg-green-500 text-white p-2 rounded">
+                        {{ session('success') }}
+                    </div>
+                    @endif
+                </div>
             <div class="container mx-auto p-4">
                 <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
                     <div class="relative w-full md:w-1/2">

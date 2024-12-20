@@ -118,9 +118,32 @@ public function store(Request $request)
 
     public function delete(InventoryItem $inventoryitem)
     {
+        $inventory = Inventory::findOrFail($inventoryitem->product_id);
+    
+        // Check if the quantity is greater than zero before decrementing
+        if ($inventory->quantity > 0) {
+            // Decrement the quantity
+            $inventory->quantity--;
+    
+            // Update the status based on the new quantity
+            if ($inventory->quantity == 0) {
+                $inventory->status = 'out_of_stock';
+            } elseif ($inventory->quantity <= 3) {
+                $inventory->status = 'low_stock';
+            } else {
+                $inventory->status = 'available'; // Optional: reset to in_stock if above 3
+            }
+    
+            // Save the updated quantity and status
+            $inventory->save();
+        }
+    
+        // Delete the inventory item
         $inventoryitem->delete();
+        
         return response()->json(['message' => 'Product Deleted Successfully'], 200); // Successful deletion response
     }
+    
 
     // public function showSerials(Request $request, $product_id)
     // {
@@ -130,44 +153,35 @@ public function store(Request $request)
     //     return view('inventory.serials', compact('inventoryitem'));
     // }
     
-   public function showSerials(Request $request, $product_id)
-{
-    // Fetch the inventory item with its associated inventoryItems
-    $inventoryitem = Inventory::with('inventoryItems')->findOrFail($product_id);
-
-    if ($request->ajax()) {
-        // Get sold serial numbers for the specific product
-        $soldSerialNumbers = Sales::where('product_id', $product_id)
-            ->pluck('serial_number') // Get the serial numbers that have been sold
-            ->toArray();
-
-        // Fetch available inventory items that are not sold
-        $data = InventoryItem::where('product_id', $product_id)
-            ->whereNotIn('sku_id', $soldSerialNumbers) // Exclude sold items
-            ->get();
-
-        // Apply status filter if provided
-        if ($request->has('status') && $request->status != '') {
-            $data = $data->where('condition', $request->status); // Filter by condition (status)
+    public function showSerials(Request $request, $product_id)
+    {
+        $inventoryitem = Inventory::with('inventoryItems')->findOrFail($product_id);
+    
+        if ($request->ajax()) {
+            $soldSerialNumbers = Sales::where('product_id', $product_id)
+                ->pluck('serial_number')
+                ->toArray();
+    
+            $data = InventoryItem::where('product_id', $product_id)
+                ->whereNotIn('sku_id', $soldSerialNumbers)
+                ->get();
+    
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $deleteUrl = route('inventoryitem.delete', $row);
+                    $editUrl = route('inventoryitem.edit', $row);
+    
+                    return '
+                        <a href="'.$editUrl.'" class="btn btn-sm btn-primary">Edit</a>
+            <button data-url="'.$deleteUrl.'" class="btn btn-sm btn-danger delete-btn">Delete</button>';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
         }
-
-        return DataTables::of($data)
-            ->addIndexColumn()  // Add an index column
-            ->addColumn('action', function ($row) {
-                $deleteUrl = route('inventoryitem.delete', $row);  
-                $editUrl = route('inventoryitem.edit', $row);
-
-                return '
-                    <a href="'.$editUrl.'" class="btn btn-sm btn-primary">Edit</a>
-                    <button data-url="'.$deleteUrl.'" class="btn btn-sm btn-danger delete-btn">Delete</button>';
-            })
-            ->rawColumns(['action'])  
-            ->make(true);  
+    
+        return view('inventory.serials', compact('inventoryitem', 'product_id'));
     }
-
-    // If it's not an AJAX request, simply return the view with the inventory item data
-    return view('inventory.serials', compact('inventoryitem', 'product_id'));
-}
     
     public function softDeletedItems()
 {
@@ -177,10 +191,35 @@ public function store(Request $request)
 
 public function restoreItem($sku_id)
 {
+    // Retrieve the item including soft-deleted items
     $item = InventoryItem::withTrashed()->findOrFail($sku_id);
+
+    // Find the associated Inventory record
+    $inventory = Inventory::findOrFail($item->product_id);
+
+    // Increment the quantity of the associated Inventory record
+    $inventory->increment('quantity', 1); // Increment the quantity by 1
+
+    // Get the updated quantity
+    $quantity = $inventory->quantity;
+
+    // Determine stock status
+    if ($quantity <= 0) {
+        $inventory->status = 'out_of_stock';
+    } elseif ($quantity <= 3) {
+        $inventory->status = 'low_stock';
+    } else {
+        $inventory->status = 'available'; // Reset to available if above 3
+    }
+
+    // Save the updated status
+    $inventory->save();
+
+    // Restore the soft-deleted item
     $item->restore();
 
-    return redirect()->route('admin.inventoryitem.softDeleted')->with('success', 'Item restored successfully!');
+    // Redirect back with a success message
+    return redirect()->route('admin.inventoryitem.softDeleted')->with('success', 'Item restored successfully and quantity incremented!');
 }
 
 public function forceDeleteItem($sku_id)
