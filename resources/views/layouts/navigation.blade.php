@@ -5,7 +5,7 @@
         <!-- Logo -->
         <div class="shrink-0 p-4 flex justify-center">
             <a href="{{ url('/dashboard') }}">
-            <img src="{{ asset('storage/images/ronlogo.png') }}" alt="Logo" class="block h-20 w-20">
+            <img src="{{ asset('/images/ronlogo.png') }}" alt="Logo" class="block h-20 w-20">
 
             </a>
         </div>
