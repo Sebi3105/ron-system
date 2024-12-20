@@ -23,13 +23,15 @@
                 </a>
             </div>
 
-            <!-- Customer Details Section -->
-            <div id="customerDetails" class="bg-white p-4 rounded shadow mb-4">
-                <h2 class="text-lg font-semibold">Customer Details</h2>
-                <p><strong>Name:</strong> {{ $customer->name }}</p>
-                <p><strong>Address:</strong> {{ $customer->address }}</p>
-                <p><strong>Contact No:</strong> {{ $customer->contact_no }}</p>
-            </div>
+            <div class="container mx-auto px-4 py-6">
+    <!-- Customer Details Section -->
+    <div id="customerDetails" class="bg-white p-4 rounded shadow mb-4">
+        <h2 class="text-lg font-semibold">Customer Details</h2>
+        <p><strong>Name:</strong> {{ $customer->name }}</p>
+        <p><strong>Address:</strong> {{ $customer->address }}</p>
+        <p><strong>Contact No:</strong> {{ $customer->contact_no }}</p>
+    </div>
+</div>
 
             <div class="flex justify-center px-12 py-4">
                 <div class="overflow-hidden shadow-md bg-white w-full max-w-5xl">
@@ -72,6 +74,36 @@
             </div>
         </div>
     </div>
+    <style>
+       
+    
+    #customerDetails {
+        background-color: #ffffff !important;
+        padding: 1rem !important;
+        border-radius: 0.5rem !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
+        margin-bottom: 1rem !important;
+    }
+
+    #customerDetails h2 {
+        font-size: 1.125rem !important; /* Text-lg */
+        font-weight: 600 !important; /* Font-semibold */
+        margin-bottom: 0.75rem !important;
+        color: #2d3748 !important; /* Gray-800 */
+    }
+
+    #customerDetails p {
+        margin: 0.5rem 0 !important;
+        font-size: 0.875rem !important; /* Text-sm */
+        color: #4a5568 !important; /* Gray-600 */
+    }
+
+    #customerDetails p strong {
+        font-weight: 600 !important; /* Font-semibold */
+        color: #1a202c !important; /* Gray-900 */
+    }
+</style>
+
 
     <style>
         body {
@@ -154,6 +186,8 @@
 
         .back-btn:hover svg {
             transform: translateX(-8px);
+
+            
         }
     </style>
 </x-app-layout>

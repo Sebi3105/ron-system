@@ -93,7 +93,7 @@
                 </div>
             </div>        
             <!-- Tables -->
-<div class="table-container py-4 max-h-[500px] max-w-7xl mx-auto px-4 sm:text-left lg:px-8 bg-gray-200">
+<div class="table-container py-4  max-w-7xl mx-auto px-4 sm:text-left lg:px-8 bg-gray-200">
     <div class="p-4 sm:text-left bg-gray-200">
         <div>
             <table id="techreport" class="min-w-full tab le-auto bg-gray-200 text-gray-500">
@@ -243,7 +243,7 @@
                     <div class="flex space-x-2 items-center justify-center">
                         <a href="/techreport/${row.report_id}/view"  class="bg-navy-blue text-white py-1 px-2 rounded">View</a>
                         <a href="/techreport/${row.report_id}/edit" class="bg-custom-green text-white py-1 px-2 rounded">Edit</a>
-                        <button class="bg-red-500 text-white py-1 px-2 rounded delete-btn" data-url="/techreport/${row.product_id}/delete">Delete</button>
+                        <button class="bg-red-500 text-white py-1 px-2 rounded delete-btn" data-url="/techreport/${row.report_id}/delete">Delete</button>
                     </div>
                 `;
             }
@@ -310,14 +310,19 @@
 
 
 
+
     $('#techreport tbody').on('click', '.delete-btn', function() {
     var deleteUrl = $(this).data('url');
-    console.log('Delete URL:', deleteUrl);
-
+    // Show the confirmation modal
     $('#confirmationModal').removeClass('hidden');
 
-    $('#confirmDelete').off('click').on('click', function () {
-        console.log('Confirm delete clicked');
+    // Cancel the delete operation
+    $('#cancelDelete').on('click', function() {
+        $('#confirmationModal').addClass('hidden');
+    });
+
+    // Confirm the delete operation
+    $('#confirmDelete').on('click', function() {
         $.ajax({
             url: deleteUrl,
             type: 'DELETE',
@@ -325,24 +330,18 @@
                 _token: '{{ csrf_token() }}'
             },
             success: function(response) {
-                console.log('Delete success:', response);
                 alert('Item deleted successfully!');
                 // Reload the DataTable
-                location.reload(); // Consider reloading the table for simplicity
+                $('#techreport').DataTable().ajax.reload();
             },
             error: function(xhr) {
-                console.error('Error deleting item:', xhr.responseJSON || xhr.responseText);
+                console.log('Error deleting item: ' + (xhr.responseJSON.message || 'An unexpected error occurred.'));
             },
             complete: function() {
                 $('#confirmationModal').addClass('hidden');
             }
         });
     });
-});
-
-$('#cancelDelete').on('click', function() {
-    console.log('Cancel delete clicked');
-    $('#confirmationModal').addClass('hidden');
 });
 
 
@@ -649,4 +648,4 @@ $(document).ready(function () {
 
     </style>
                         
-</x-app-layout>
+</x-app-layout> 
