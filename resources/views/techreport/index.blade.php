@@ -91,7 +91,16 @@
                         <a href="{{ route('techreport.create') }}" class="bg-navy-blue text-white py-2 px-4 rounded hover:bg-navyblue">+ Add New Report</a>
                     </div>
                 </div>
-            </div>        
+            </div>    
+            
+            
+            <div class="success_pop mb-4">
+                    @if(session()->has('success'))
+                    <div class="bg-green-500 text-white p-2 rounded">
+                        {{ session('success') }}
+                    </div>
+                    @endif
+                </div>
             <!-- Tables -->
 <div class="table-container py-4  max-w-7xl mx-auto px-4 sm:text-left lg:px-8 bg-gray-200">
     <div class="p-4 sm:text-left bg-gray-200">

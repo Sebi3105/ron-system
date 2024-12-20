@@ -56,8 +56,10 @@ class ServicesController extends Controller
         ]);
         
         $new_service = Services::create($data);
+        session()->flash('success', 'Services created successfully!');
 
-        return redirect(route('techreport.index'))->with('success', 'Report Created Successfully');
+
+        return redirect(route('techreport.index'));
     }
 
     public function edit(Services $service){

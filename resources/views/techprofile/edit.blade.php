@@ -36,9 +36,12 @@
                         </ul>
                     @endif
                 </div>
-<form id="EditTechnicianForm" method="post" action="{{ route('techprofile.store') }}">
+               
+<form id="EditTechnicianForm" method="post" action="{{ route('techprofile.update', ['techprofile' => $techprofile]) }}">
     @csrf
-    <label class="block text-gray-700">Technicina Name</label>
+    @method('put')
+
+    <label class="block text-gray-700">Technician Name</label>
     <div class="name">  
         <input 
             type="text" 

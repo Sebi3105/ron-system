@@ -70,7 +70,7 @@ class TechProfileController extends Controller
     public function update(TechProfile $techprofile, Request $request){
         $data = $request->validate([
             'name' => 'required', // Ensure name is unique in the tech_profiles table
-            'contact_no' => 'required|unique:technician,contact_no', // Ensure
+            'contact_no' => 'required' // Ensure
         ]);
         $techprofile->update($data);
 

@@ -200,9 +200,10 @@ class TechReportController extends Controller
     ]);
   
       TechReport::create($data); // Make sure TechnicianReport is the correct model name
-  
+      session()->flash('success', ' created successfully!');
+
       
-      return redirect(route('techreport.index'))->with('success', 'Report Created Successfully');
+      return redirect(route('techreport.index'));
   }
 
         
